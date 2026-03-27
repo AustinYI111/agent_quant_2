@@ -49,6 +49,10 @@ CORS(app)   # allow all origins so the HTML file can call us directly
 _latest_result: Optional[Dict[str, Any]] = None
 _SAMPLE_PATH = _ROOT / "data" / "sample-trades.json"
 
+# Maximum calendar-day gap allowed between requested end_date and the last
+# available data point (accounts for weekends and holidays at period end).
+_MAX_DATA_GAP_DAYS = 45
+
 
 # ════════════════════════════════════════════════════════════════════════════
 #  Backtest helpers
@@ -280,8 +284,8 @@ def run_backtest(params: Dict[str, Any]) -> Dict[str, Any]:
     # Warn if the data coverage ends significantly earlier than the requested end_date
     actual_end = df.index[-1]
     requested_end = pd.to_datetime(end_date, format="%Y%m%d")
-    # Allow up to 45 calendar days gap (weekends/holidays at period end)
-    if (requested_end - actual_end).days > 45:
+    # Allow up to _MAX_DATA_GAP_DAYS calendar days gap (weekends/holidays at period end)
+    if (requested_end - actual_end).days > _MAX_DATA_GAP_DAYS:
         print(
             f"[run_backtest] WARNING: data for {symbol} only covers up to "
             f"{actual_end.date()}, but {end_date} was requested. "

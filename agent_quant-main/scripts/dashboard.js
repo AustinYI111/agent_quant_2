@@ -234,8 +234,11 @@
       { key: 'Fusion(+ML-veto)', label: 'Fusion(+ML-veto)', color: COLORS.fusionML },
     ].filter(d => ec[d.key] && ec[d.key].length).map(d => {
       const rawData = ec[d.key] || [];
-      // Align dataset length to labels length to prevent chart misalignment
-      const alignedData = labels.map((_, i) => rawData[i] != null ? +rawData[i].toFixed(2) : null);
+      // Align dataset length to labels length to prevent chart misalignment;
+      // when lengths already match and there are no nulls, take the fast path.
+      const alignedData = (rawData.length === labels.length && rawData.every(v => v != null))
+        ? rawData.map(v => +v.toFixed(2))
+        : labels.map((_, i) => rawData[i] != null ? +rawData[i].toFixed(2) : null);
       return {
         label: d.label,
         data: alignedData,
