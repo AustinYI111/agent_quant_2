@@ -751,3 +751,134 @@ tbody td.td-main { color: var(--text); font-weight: 500; }
 
 /* ===== API status dot dynamic colour ===== */
 .status-dot { background: #64748b; }
+
+/* ===== Progress bar ===== */
+.progress-bar-container {
+  width: 100%;
+  height: 8px;
+  background: var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.75rem;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), #60a5fa);
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+/* ===== Date preset buttons ===== */
+.date-preset-row {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.4rem;
+  flex-wrap: wrap;
+}
+.preset-btn {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  background: var(--surface2);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.preset-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+
+/* ===== Risk metrics grid ===== */
+.risk-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+.risk-metric-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.risk-metric-icon { font-size: 1.5rem; line-height: 1; }
+.risk-metric-body { flex: 1; min-width: 0; }
+.risk-metric-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.risk-metric-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.risk-metric-desc {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  margin-top: 0.2rem;
+}
+.risk-metric-value.positive { color: #4ade80; }
+.risk-metric-value.neutral  { color: var(--text-muted); }
+.risk-metric-value.negative { color: #f87171; }
+
+/* ===== Monthly returns heatmap ===== */
+.heatmap-wrapper {
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+.heatmap-strategy-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+.heatmap-table {
+  border-collapse: collapse;
+  min-width: 600px;
+  width: 100%;
+  font-size: 0.78rem;
+}
+.heatmap-table th {
+  padding: 0.4rem 0.5rem;
+  background: var(--surface2);
+  color: var(--text-dim);
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+.heatmap-cell {
+  padding: 0.3rem 0.5rem;
+  text-align: center;
+  border: 1px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: default;
+}
+.heatmap-year {
+  padding: 0.3rem 0.6rem;
+  background: var(--surface2);
+  color: var(--text-muted);
+  font-weight: 600;
+  border: 1px solid var(--border);
+  text-align: center;
+  white-space: nowrap;
+}
+.heatmap-empty    { color: var(--text-dim); background: var(--surface); }
+.heatmap-strong-pos { background: rgba(74,222,128,0.45); color: #16a34a; }
+.heatmap-pos        { background: rgba(74,222,128,0.18); color: #4ade80; }
+.heatmap-neg        { background: rgba(248,113,113,0.18); color: #f87171; }
+.heatmap-strong-neg { background: rgba(248,113,113,0.45); color: #dc2626; }
+.heatmap-year-total { font-weight: 700; }
+.heatmap-year-pos   { color: #4ade80; }
+.heatmap-year-neg   { color: #f87171; }

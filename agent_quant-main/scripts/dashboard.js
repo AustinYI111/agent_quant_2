@@ -42,6 +42,7 @@
     refreshTimer: null,
     activePage: 'dashboard',
     apiAvailable: false,
+    backtestPollTimer: null,
   };
 
   // ── DOM helpers ──────────────────────────────────────────────────────────
@@ -149,9 +150,10 @@
 
     // Render page-specific charts that may not have been initialised yet
     if (state.data) {
-      if (pageId === 'analysis') renderAnalysisCharts(state.data);
-      if (pageId === 'strategy') renderStrategyCards(state.data);
-      if (pageId === 'trades')   renderTradesTable(state.data);
+      if (pageId === 'analysis')  { renderAnalysisCharts(state.data); renderMonthlyHeatmap(state.data); }
+      if (pageId === 'strategy')  { renderStrategyCards(state.data); renderStrategyComparisonChart(state.data); }
+      if (pageId === 'trades')    { renderTradesTable(state.data); renderTradeStatsChart(state.data); }
+      if (pageId === 'dashboard') renderRiskMetrics(state.data);
     }
   }
 
@@ -544,9 +546,10 @@
     renderKPIs(data);
     renderEquityChart(data);
     renderWinLossChart(data);
-    if (state.activePage === 'analysis')  renderAnalysisCharts(data);
-    if (state.activePage === 'strategy')  renderStrategyCards(data);
-    if (state.activePage === 'trades')    renderTradesTable(data);
+    renderRiskMetrics(data);
+    if (state.activePage === 'analysis')  { renderAnalysisCharts(data); renderMonthlyHeatmap(data); }
+    if (state.activePage === 'strategy')  { renderStrategyCards(data); renderStrategyComparisonChart(data); }
+    if (state.activePage === 'trades')    { renderTradesTable(data); renderTradeStatsChart(data); }
     renderStrategyCards(data);
     $('#last-update').textContent = new Date().toLocaleTimeString('zh-CN');
   }
@@ -574,6 +577,282 @@
     } else {
       if (!silent) showToast('数据加载失败，显示缓存', 'error');
     }
+  }
+
+  // ── Risk Metrics ─────────────────────────────────────────────────────
+  function renderRiskMetrics(data) {
+    const container = $('#risk-metrics-grid');
+    if (!container) return;
+    const active = getActiveStrategy(data);
+    if (!active) return;
+
+    const metrics = [
+      {
+        label: 'Sortino 比率',
+        value: active.sortino != null ? fmt(active.sortino, 3) : '—',
+        cls:   (active.sortino || 0) >= 1 ? 'positive' : (active.sortino || 0) >= 0 ? 'neutral' : 'negative',
+        icon:  '📐',
+        desc:  '下行风险调整后年化收益',
+      },
+      {
+        label: 'Calmar 比率',
+        value: active.calmar != null ? fmt(active.calmar, 3) : '—',
+        cls:   (active.calmar || 0) >= 0.5 ? 'positive' : 'neutral',
+        icon:  '⚡',
+        desc:  '年化收益 / 最大回撤',
+      },
+      {
+        label: '最大连亏笔数',
+        value: active.maxConsecutiveLosses != null ? active.maxConsecutiveLosses : '—',
+        cls:   (active.maxConsecutiveLosses || 0) <= 3 ? 'positive'
+                : (active.maxConsecutiveLosses || 0) <= 5 ? 'neutral' : 'negative',
+        icon:  '📛',
+        desc:  '最长连续亏损交易笔数',
+      },
+    ];
+
+    container.innerHTML = metrics.map(m => `
+      <div class="risk-metric-card">
+        <div class="risk-metric-icon">${m.icon}</div>
+        <div class="risk-metric-body">
+          <div class="risk-metric-label">${m.label}</div>
+          <div class="risk-metric-value ${m.cls}">${m.value}</div>
+          <div class="risk-metric-desc">${m.desc}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  // ── Monthly Returns Heatmap ─────────────────────────────────────────
+  function computeMonthlyReturns(data) {
+    const labels = data.equityCurves.labels || [];
+    const result = {};
+    ['Trend-only', 'MeanRev-only', 'Fusion(no-ML)', 'Fusion(+ML-veto)'].forEach(key => {
+      const equity = data.equityCurves[key];
+      if (!equity || !equity.length) return;
+      const monthly = {}; // {YYYY-MM: [firstVal, lastVal]}
+      labels.forEach((label, i) => {
+        if (equity[i] == null) return;
+        const ym = label.substring(0, 7);
+        if (!monthly[ym]) monthly[ym] = [equity[i], equity[i]];
+        else monthly[ym][1] = equity[i];
+      });
+      result[key] = {};
+      Object.entries(monthly).forEach(([ym, [start, end]]) => {
+        result[key][ym] = start > 0 ? (end - start) / start : 0;
+      });
+    });
+    return result;
+  }
+
+  function renderMonthlyHeatmap(data) {
+    const container = $('#monthly-heatmap');
+    if (!container) return;
+
+    const strategyKey = state.activeStrategy === 'all'
+      ? data.summary.strategies.reduce((a, b) => a.totalReturn > b.totalReturn ? a : b).name
+      : state.activeStrategy;
+
+    const allMonthly = computeMonthlyReturns(data);
+    const returns    = allMonthly[strategyKey];
+
+    if (!returns || !Object.keys(returns).length) {
+      container.innerHTML = '<p style="color:var(--text-dim);text-align:center;padding:2rem">暂无月度收益数据</p>';
+      return;
+    }
+
+    const years = [...new Set(Object.keys(returns).map(ym => ym.substring(0, 4)))].sort();
+    const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+    let html = `<div class="heatmap-wrapper">
+      <div class="heatmap-strategy-label">${strategyKey} — 月度收益</div>
+      <table class="heatmap-table"><thead><tr>
+        <th>年份</th>${monthNames.map(m => `<th>${m}</th>`).join('')}<th>全年合计</th>
+      </tr></thead><tbody>`;
+
+    years.forEach(year => {
+      let compounded = 1;
+      const cells = Array.from({ length: 12 }, (_, i) => {
+        const month = String(i + 1).padStart(2, '0');
+        const ret   = returns[`${year}-${month}`];
+        if (ret === undefined) return '<td class="heatmap-cell heatmap-empty">—</td>';
+        compounded *= (1 + ret);
+        const pct = (ret * 100).toFixed(1);
+        const cls = ret > 0.03  ? 'heatmap-strong-pos'
+                  : ret > 0     ? 'heatmap-pos'
+                  : ret > -0.03 ? 'heatmap-neg'
+                  :               'heatmap-strong-neg';
+        return `<td class="heatmap-cell ${cls}" title="${year}-${month}: ${pct}%">${pct > 0 ? '+' : ''}${pct}%</td>`;
+      });
+      const yearRet = compounded - 1;
+      const yearPct = (yearRet * 100).toFixed(1);
+      const yearCls = yearRet >= 0 ? 'heatmap-year-pos' : 'heatmap-year-neg';
+      html += `<tr><td class="heatmap-year">${year}</td>${cells.join('')}
+        <td class="heatmap-cell heatmap-year-total ${yearCls}">${yearRet >= 0 ? '+' : ''}${yearPct}%</td></tr>`;
+    });
+
+    html += '</tbody></table></div>';
+    container.innerHTML = html;
+  }
+
+  // ── Trade P&L Distribution Chart ────────────────────────────────────
+  function renderTradeStatsChart(data) {
+    const ctx = $('#trade-pnl-chart');
+    if (!ctx) return;
+
+    const trades = filterTrades(data.trades).filter(t => t.status === '已平仓' && t.pnl != null && t.pnl !== 0);
+    if (!trades.length) {
+      if (state.charts.tradePnl) { state.charts.tradePnl.destroy(); delete state.charts.tradePnl; }
+      return;
+    }
+
+    const pnls   = trades.map(t => t.pnl);
+    const minVal = Math.min(...pnls);
+    const maxVal = Math.max(...pnls);
+    const range  = maxVal - minVal || 1;
+    const BINS   = 12;
+    const step   = range / BINS;
+
+    const counts = Array(BINS).fill(0);
+    const labels = [];
+    for (let i = 0; i < BINS; i++) {
+      const lo = minVal + i * step;
+      const hi = minVal + (i + 1) * step;
+      labels.push(Math.abs(lo) >= 10000 ? `${(lo / 10000).toFixed(1)}万` : lo.toFixed(0));
+      counts[i] = pnls.filter(p => p >= lo && (i === BINS - 1 ? p <= hi : p < hi)).length;
+    }
+    const colors = Array.from({ length: BINS }, (_, i) =>
+      (minVal + (i + 0.5) * step) >= 0 ? 'rgba(74,222,128,0.75)' : 'rgba(248,113,113,0.75)'
+    );
+
+    if (state.charts.tradePnl) {
+      state.charts.tradePnl.data.labels = labels;
+      state.charts.tradePnl.data.datasets[0].data   = counts;
+      state.charts.tradePnl.data.datasets[0].backgroundColor = colors;
+      state.charts.tradePnl.update('active');
+      return;
+    }
+    state.charts.tradePnl = new Chart(ctx, {
+      type: 'bar',
+      data: { labels, datasets: [{ label: '交易次数', data: counts, backgroundColor: colors, borderRadius: 3 }] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1e293b', borderColor: '#334155', borderWidth: 1,
+            titleColor: '#f1f5f9', bodyColor: '#94a3b8',
+            callbacks: { label: item => ` ${item.raw} 笔交易` },
+          },
+        },
+        scales: {
+          x: { grid: { color: '#1e293b' }, ticks: { color: '#64748b' } },
+          y: { grid: { color: '#1e293b' }, ticks: { color: '#64748b', stepSize: 1 } },
+        },
+      },
+    });
+  }
+
+  // ── Strategy Comparison Bar Chart ────────────────────────────────────
+  function renderStrategyComparisonChart(data) {
+    const ctx = $('#strategy-comparison-chart');
+    if (!ctx) return;
+
+    const strategies = data.summary.strategies;
+    const labels     = strategies.map(s => s.name);
+
+    const datasets = [
+      {
+        label: '总收益率 (%)',
+        data: strategies.map(s => +((s.totalReturn || 0) * 100).toFixed(2)),
+        backgroundColor: 'rgba(59,130,246,0.75)',
+      },
+      {
+        label: '夏普比率',
+        data: strategies.map(s => +(s.sharpe || 0).toFixed(3)),
+        backgroundColor: 'rgba(16,185,129,0.75)',
+      },
+      {
+        label: '最大回撤 (%)',
+        data: strategies.map(s => +((s.maxDrawdown || 0) * 100).toFixed(2)),
+        backgroundColor: 'rgba(248,113,113,0.75)',
+      },
+    ];
+
+    if (state.charts.stratComparison) {
+      state.charts.stratComparison.data.labels = labels;
+      state.charts.stratComparison.data.datasets = datasets;
+      state.charts.stratComparison.update('active');
+      return;
+    }
+    state.charts.stratComparison = new Chart(ctx, {
+      type: 'bar',
+      data: { labels, datasets },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'top', labels: { color: '#94a3b8', boxWidth: 12, padding: 14 } },
+          tooltip: {
+            backgroundColor: '#1e293b', borderColor: '#334155', borderWidth: 1,
+            titleColor: '#f1f5f9', bodyColor: '#94a3b8',
+          },
+        },
+        scales: {
+          x: { grid: { color: '#1e293b' }, ticks: { color: '#64748b' } },
+          y: { grid: { color: '#1e293b' }, ticks: { color: '#64748b' } },
+        },
+      },
+    });
+  }
+
+  // ── CSV Export ───────────────────────────────────────────────────────
+  function exportTradesToCSV() {
+    if (!state.data) { showToast('暂无数据可导出', 'error'); return; }
+    const trades = filterTrades(state.data.trades);
+    const headers = ['序号','时间','入场时间','品种','策略','方向','数量','入场价','出场价','盈亏(¥)','收益率','状态'];
+    const rows = trades.map(t => [
+      t.id, t.time, t.entryTime || t.time, t.symbol, t.strategy,
+      t.direction, t.quantity, t.entryPrice,
+      t.exitPrice != null ? t.exitPrice : '',
+      t.pnl != null ? t.pnl.toFixed(2) : '',
+      t.returnPct != null ? (t.returnPct * 100).toFixed(4) + '%' : '',
+      t.status,
+    ]);
+    const csv = [headers, ...rows]
+      .map(row => row.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(','))
+      .join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = `trades_${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ 交易记录已导出 CSV', 'success');
+  }
+
+  // ── Date Range Presets ───────────────────────────────────────────────
+  function initDatePresets() {
+    $$('.preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const preset  = btn.dataset.preset;
+        const endEl   = $('#f-end-date');
+        const startEl = $('#f-start-date');
+        if (!endEl || !startEl) return;
+
+        const endDate = endEl.value ? new Date(endEl.value) : new Date();
+        if (isNaN(endDate)) return;
+
+        let startDate;
+        if (preset === '1y')  { startDate = new Date(endDate); startDate.setFullYear(endDate.getFullYear() - 1); }
+        if (preset === '3y')  { startDate = new Date(endDate); startDate.setFullYear(endDate.getFullYear() - 3); }
+        if (preset === '5y')  { startDate = new Date(endDate); startDate.setFullYear(endDate.getFullYear() - 5); }
+        if (preset === 'all') { startDate = new Date('2000-01-01'); }
+
+        if (startDate) {
+          startEl.value = startDate.toISOString().slice(0, 10);
+        }
+      });
+    });
   }
 
   // ── Backtest Form ────────────────────────────────────────────────────
@@ -680,39 +959,73 @@
         strategies,
       };
 
-      const btn    = $('#run-backtest-btn');
-      const status = $('#backtest-status');
-      btn.disabled = true;
+      const btn          = $('#run-backtest-btn');
+      const statusEl     = $('#backtest-status');
+      const progressWrap = $('#backtest-progress');
+      const progressBar  = $('#backtest-progress-bar');
+      const progressText = $('#backtest-progress-text');
+
+      btn.disabled    = true;
       btn.textContent = '⏳ 运行中…';
-      if (status) status.textContent = '正在运行回测，可能需要 10~60 秒…';
+      if (statusEl)     statusEl.textContent = '正在启动回测…';
+      if (progressWrap) progressWrap.classList.remove('hidden');
+      if (progressBar)  progressBar.style.width = '0%';
+      if (progressText) progressText.textContent = '等待开始…';
+
+      if (state.backtestPollTimer) { clearTimeout(state.backtestPollTimer); state.backtestPollTimer = null; }
 
       try {
-        const res = await fetch(CONFIG.apiBase + '/api/backtest', {
-          method:  'POST',
+        // 1. POST to start background task; returns immediately with task_id
+        const startRes  = await fetch(CONFIG.apiBase + '/api/backtest', {
+          method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify(params),
+          body: JSON.stringify(params),
         });
-        const json = await res.json();
-        if (!res.ok || json.error) throw new Error(json.error || `HTTP ${res.status}`);
+        const startJson = await startRes.json();
+        if (!startRes.ok || startJson.error) throw new Error(startJson.error || `HTTP ${startRes.status}`);
 
-        state.data = json;
-        Object.values(state.charts).forEach(c => {
-          try { if (c && c.destroy) c.destroy(); } catch (_) { }
+        const taskId = startJson.task_id;
+
+        // 2. Poll status until done or error
+        await new Promise((resolve, reject) => {
+          async function poll() {
+            try {
+              const r = await fetch(`${CONFIG.apiBase}/api/backtest-status/${taskId}`);
+              const j = await r.json();
+              const pct = j.progress || 0;
+              if (progressBar)  progressBar.style.width = pct + '%';
+              if (progressText) progressText.textContent = j.message || '运行中…';
+              if (statusEl)     statusEl.textContent = `${pct}% — ${j.message || ''}`;
+
+              if (j.status === 'done') {
+                state.data = j.result;
+                resolve();
+              } else if (j.status === 'error') {
+                reject(new Error(j.error || '回测失败'));
+              } else {
+                state.backtestPollTimer = setTimeout(poll, 2000);
+              }
+            } catch (err) { reject(err); }
+          }
+          poll();
         });
+
+        // 3. Render results
+        Object.values(state.charts).forEach(c => { try { if (c && c.destroy) c.destroy(); } catch (_) {} });
         state.charts = {};
-
         render(state.data);
-        if (status) status.textContent = '✅ 回测完成！';
+        if (statusEl) statusEl.textContent = '✅ 回测完成！';
         showToast('✅ 回测完成，数据已更新', 'success');
         switchPage('dashboard');
 
       } catch (err) {
         console.error(err);
-        if (status) status.textContent = '❌ ' + err.message;
+        if (statusEl) statusEl.textContent = '❌ ' + err.message;
         showToast('❌ 回测失败：' + err.message, 'error');
       } finally {
-        btn.disabled = false;
+        btn.disabled    = false;
         btn.textContent = '🚀 运行回测';
+        if (progressWrap) progressWrap.classList.add('hidden');
       }
     });
   }
@@ -744,6 +1057,11 @@
     initSidebar();
     initTableSort();
     initBacktestForm();
+    initDatePresets();
+
+    // Export CSV button
+    const exportBtn = $('#export-csv-btn');
+    if (exportBtn) exportBtn.addEventListener('click', exportTradesToCSV);
 
     const apiUrlEl = $('#api-base-url');
     if (apiUrlEl) apiUrlEl.textContent = CONFIG.apiBase;

@@ -114,7 +114,13 @@
             </div>
           </div>
 
-          <div class="section-header">
+          <!-- Risk Metrics Row -->
+          <div class="section-header" style="margin-top:1.5rem">
+            <div class="section-title"><span class="icon">🛡️</span>风险指标</div>
+          </div>
+          <div id="risk-metrics-grid" class="risk-metrics-grid"></div>
+
+          <div class="section-header" style="margin-top:1.5rem">
             <div class="section-title"><span class="icon">📈</span>收益曲线</div>
             <div class="chart-legend" id="equity-legend">
               <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Trend-only</div>
@@ -153,9 +159,18 @@
           <div class="section-header">
             <div class="section-title"><span class="icon">📉</span>回撤分析</div>
           </div>
-          <div class="chart-card">
+          <div class="chart-card" style="margin-bottom:1.5rem">
             <div class="chart-header"><div class="chart-title">回撤曲线</div></div>
             <div class="chart-container" style="height:300px"><canvas id="drawdown-chart"></canvas></div>
+          </div>
+          <div class="section-header">
+            <div class="section-title"><span class="icon">🗓️</span>月度收益热力图</div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-header">
+              <div class="chart-title">月度收益分布（当前所选策略）</div>
+            </div>
+            <div id="monthly-heatmap" style="overflow-x:auto;padding:0.5rem 0"></div>
           </div>
         </section>
 
@@ -163,6 +178,10 @@
         <section class="page-section hidden" id="page-strategy">
           <div class="section-header">
             <div class="section-title"><span class="icon">🤖</span>策略对比</div>
+          </div>
+          <div class="chart-card" style="margin-bottom:1.5rem">
+            <div class="chart-header"><div class="chart-title">策略绩效对比（多指标）</div></div>
+            <div class="chart-container" style="height:300px"><canvas id="strategy-comparison-chart"></canvas></div>
           </div>
           <div class="strategies-grid" id="strategy-cards"></div>
         </section>
@@ -172,13 +191,20 @@
           <div class="section-header">
             <div class="section-title"><span class="icon">📋</span>历史交易记录</div>
           </div>
+          <div class="chart-card" style="margin-bottom:1.5rem">
+            <div class="chart-header"><div class="chart-title">盈亏分布图</div></div>
+            <div class="chart-container" style="height:220px"><canvas id="trade-pnl-chart"></canvas></div>
+          </div>
           <div class="table-card">
             <div class="table-toolbar">
               <div class="search-box">
                 <span>🔍</span>
                 <input type="text" id="trade-search" placeholder="搜索品种、策略…" autocomplete="off" />
               </div>
-              <div style="font-size:0.8rem;color:var(--text-muted)">点击表头可排序</div>
+              <div style="display:flex;align-items:center;gap:0.75rem">
+                <div style="font-size:0.8rem;color:var(--text-muted)">点击表头可排序</div>
+                <button class="btn btn-ghost" id="export-csv-btn" style="font-size:0.8rem;padding:0.3rem 0.75rem">📥 导出 CSV</button>
+              </div>
             </div>
             <div class="table-wrapper">
               <table>
@@ -222,6 +248,12 @@
               </div>
               <div class="form-group">
                 <label class="form-label">开始日期</label>
+                <div class="date-preset-row">
+                  <button type="button" class="preset-btn" data-preset="1y">1年</button>
+                  <button type="button" class="preset-btn" data-preset="3y">3年</button>
+                  <button type="button" class="preset-btn" data-preset="5y">5年</button>
+                  <button type="button" class="preset-btn" data-preset="all">全部</button>
+                </div>
                 <input class="form-input" type="date" id="f-start-date" value="2020-01-01" />
               </div>
               <div class="form-group">
@@ -273,9 +305,16 @@
                   <label class="checkbox-label"><input type="checkbox" id="f-s-fusionml" checked /> Fusion(+ML-veto)</label>
                 </div>
               </div>
-              <div style="grid-column:1/-1;display:flex;align-items:center;gap:1rem;padding-top:0.5rem">
+              <div style="grid-column:1/-1;display:flex;align-items:center;gap:1rem;padding-top:0.5rem;flex-wrap:wrap">
                 <button type="submit" class="btn btn-primary" id="run-backtest-btn">🚀 运行回测</button>
                 <div id="backtest-status" style="font-size:0.85rem;color:var(--text-muted)"></div>
+              </div>
+              <!-- Progress bar (hidden until running) -->
+              <div style="grid-column:1/-1" id="backtest-progress" class="hidden">
+                <div class="progress-bar-container">
+                  <div class="progress-bar" id="backtest-progress-bar" style="width:0%"></div>
+                </div>
+                <div id="backtest-progress-text" style="font-size:0.8rem;color:var(--text-muted);margin-top:0.4rem">等待开始…</div>
               </div>
             </form>
           </div>
