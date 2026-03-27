@@ -100,7 +100,7 @@ def _compute_sortino(equity: list) -> float:
     avg = sum(rets) / len(rets) * 252
     neg = [r for r in rets if r < 0]
     if not neg:
-        return 10.0  # arbitrarily high when no downside
+        return 10.0  # no downside observed during this period
     downside_var = sum(r ** 2 for r in neg) / len(rets)
     downside_std = math.sqrt(downside_var) * math.sqrt(252)
     return round(avg / downside_std, 4) if downside_std > 0 else 0.0
@@ -506,7 +506,7 @@ def _cleanup_old_tasks() -> None:
     now = time.time()
     with _tasks_lock:
         stale = [k for k, v in _tasks.items()
-                 if now - v.get("created_at", now) > _TASK_TTL_SECONDS]
+                 if now - v.get("created_at", 0) > _TASK_TTL_SECONDS]
         for k in stale:
             del _tasks[k]
 

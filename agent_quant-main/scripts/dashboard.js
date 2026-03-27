@@ -4,10 +4,11 @@
 
   // ── Configuration ────────────────────────────────────────────────────
   const CONFIG = {
-    apiBase:         'http://localhost:5000',
-    staticDataUrl:   './data/sample-trades.json',
-    refreshInterval: 60000,  // 60 sec polling interval (ms)
-    pageSize: 8,
+    apiBase:                 'http://localhost:5000',
+    staticDataUrl:           './data/sample-trades.json',
+    refreshInterval:         60000,  // 60 sec polling interval (ms)
+    pageSize:                8,
+    backtestPollIntervalMs:  2000,   // ms between backtest status polls
   };
 
   // Chart.js colour palette
@@ -550,7 +551,7 @@
     if (state.activePage === 'analysis')  { renderAnalysisCharts(data); renderMonthlyHeatmap(data); }
     if (state.activePage === 'strategy')  { renderStrategyCards(data); renderStrategyComparisonChart(data); }
     if (state.activePage === 'trades')    { renderTradesTable(data); renderTradeStatsChart(data); }
-    renderStrategyCards(data);
+    if (state.activePage !== 'strategy')  renderStrategyCards(data);
     $('#last-update').textContent = new Date().toLocaleTimeString('zh-CN');
   }
 
@@ -649,13 +650,15 @@
     if (!container) return;
 
     const strategyKey = state.activeStrategy === 'all'
-      ? data.summary.strategies.reduce((a, b) => a.totalReturn > b.totalReturn ? a : b).name
+      ? (data.summary.strategies.length
+          ? data.summary.strategies.reduce((a, b) => a.totalReturn > b.totalReturn ? a : b).name
+          : null)
       : state.activeStrategy;
 
     const allMonthly = computeMonthlyReturns(data);
     const returns    = allMonthly[strategyKey];
 
-    if (!returns || !Object.keys(returns).length) {
+    if (!returns || !Object.keys(returns).length || !strategyKey) {
       container.innerHTML = '<p style="color:var(--text-dim);text-align:center;padding:2rem">暂无月度收益数据</p>';
       return;
     }
@@ -1003,7 +1006,7 @@
               } else if (j.status === 'error') {
                 reject(new Error(j.error || '回测失败'));
               } else {
-                state.backtestPollTimer = setTimeout(poll, 2000);
+                state.backtestPollTimer = setTimeout(poll, CONFIG.backtestPollIntervalMs);
               }
             } catch (err) { reject(err); }
           }
