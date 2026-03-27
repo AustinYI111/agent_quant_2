@@ -55,11 +55,19 @@ _SAMPLE_PATH = _ROOT / "data" / "sample-trades.json"
 # ════════════════════════════════════════════════════════════════════════════
 
 def _slice_df(df: pd.DataFrame, start_date: str, end_date: str) -> pd.DataFrame:
+    """Slice df to [start_date, end_date] and log the resulting coverage."""
     if df is None or len(df) == 0:
         return df
     s = pd.to_datetime(start_date, format="%Y%m%d")
     e = pd.to_datetime(end_date,   format="%Y%m%d")
-    return df.sort_index().loc[s:e]
+    result = df.sort_index().loc[s:e]
+    if len(result) > 0:
+        print(f"[_slice_df] requested {start_date}~{end_date}, "
+              f"got {result.index[0].date()}~{result.index[-1].date()} "
+              f"({len(result)} rows)")
+    else:
+        print(f"[_slice_df] WARNING: no rows in {start_date}~{end_date}")
+    return result
 
 
 def _pair_trades(raw_trades: list, strategy: str, symbol: str) -> List[Dict[str, Any]]:
@@ -136,7 +144,10 @@ def _build_response(
     strategies_summary = []
     equity_curves: Dict[str, Any] = {}
     all_trades: List[Dict[str, Any]] = []
-    common_labels: Optional[List[str]] = None
+
+    # Build per-strategy date→equity mappings first
+    strategy_labels: Dict[str, List[str]] = {}
+    strategy_ec: Dict[str, List[float]] = {}
 
     for name, (metrics, trades) in strategy_results.items():
         strategies_summary.append({
@@ -153,12 +164,28 @@ def _build_response(
         labels = [d.strftime("%Y-%m-%d") if hasattr(d, "strftime") else str(d)[:10]
                   for d in dates]
 
-        if common_labels is None:
-            common_labels = labels
-        equity_curves[name] = [round(float(v), 2) for v in ec]
+        strategy_labels[name] = labels
+        strategy_ec[name]     = [round(float(v), 2) for v in ec]
 
         paired = _pair_trades(trades, name, symbol)
         all_trades.extend(paired)
+
+    # Use the longest date list as the common labels axis so all strategies
+    # share the same x-axis regardless of minor length differences
+    common_labels: List[str] = max(strategy_labels.values(), key=len) if strategy_labels else []
+
+    for name in strategy_labels:
+        labels = strategy_labels[name]
+        ec     = strategy_ec[name]
+        if labels == common_labels:
+            equity_curves[name] = ec
+        else:
+            # Align this strategy's curve to common_labels by date lookup;
+            # missing dates get None which JSON-serialises to null (Chart.js renders as a gap)
+            ec_dict = dict(zip(labels, ec))
+            equity_curves[name] = [
+                ec_dict.get(lbl) for lbl in common_labels
+            ]
 
     # Re-number ids after merging all strategies
     for idx, tr in enumerate(all_trades, start=1):
@@ -173,7 +200,7 @@ def _build_response(
             "strategies": strategies_summary,
         },
         "equityCurves": {
-            "labels": common_labels or [],
+            "labels": common_labels,
             **equity_curves,
         },
         "trades": all_trades,
@@ -249,6 +276,17 @@ def run_backtest(params: Dict[str, Any]) -> Dict[str, Any]:
 
     if df is None or len(df) == 0:
         raise ValueError(f"No data returned for symbol={symbol} {start_date}~{end_date}")
+
+    # Warn if the data coverage ends significantly earlier than the requested end_date
+    actual_end = df.index[-1]
+    requested_end = pd.to_datetime(end_date, format="%Y%m%d")
+    # Allow up to 45 calendar days gap (weekends/holidays at period end)
+    if (requested_end - actual_end).days > 45:
+        print(
+            f"[run_backtest] WARNING: data for {symbol} only covers up to "
+            f"{actual_end.date()}, but {end_date} was requested. "
+            f"The equity curve will be shorter than expected."
+        )
 
     # ── Agents ──────────────────────────────────────────────────────────
     trend_agent = TrendAgent(trend_short, trend_long)
