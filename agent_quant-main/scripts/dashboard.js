@@ -207,9 +207,12 @@
     if (state.charts.equity) {
       state.charts.equity.data.labels = labels;
       state.charts.equity.data.datasets = ds;
-      state.charts.equity.update('active');
+      state.charts.equity.update('none');
       return;
     }
+    // Destroy any stale Chart.js instance registered on this canvas
+    const existing = Chart.getChart(ctx);
+    if (existing) existing.destroy();
     state.charts.equity = new Chart(ctx, {
       type: 'line',
       data: { labels, datasets: ds },
@@ -258,6 +261,7 @@
       },
       scales: {
         x: { 
+          type: 'category',
           grid: { color: '#1e293b', drawBorder: false },
           ticks: { color: '#64748b', maxTicksLimit: 12 }
         },
@@ -284,9 +288,12 @@
     if (state.charts.equityFull) {
       state.charts.equityFull.data.labels = labels;
       state.charts.equityFull.data.datasets = ds;
-      state.charts.equityFull.update('active');
+      state.charts.equityFull.update('none');
       return;
     }
+    // Destroy any stale Chart.js instance registered on this canvas
+    const existing = Chart.getChart(ctx);
+    if (existing) existing.destroy();
     const opts = equityChartOptions();
     opts.maintainAspectRatio = false;
     opts.plugins.legend = {
@@ -323,9 +330,12 @@
     if (state.charts.drawdown) {
       state.charts.drawdown.data.labels = labels;
       state.charts.drawdown.data.datasets = datasets;
-      state.charts.drawdown.update('active');
+      state.charts.drawdown.update('none');
       return;
     }
+    // Destroy any stale Chart.js instance registered on this canvas
+    const existingDd = Chart.getChart(ctx);
+    if (existingDd) existingDd.destroy();
     state.charts.drawdown = new Chart(ctx, {
       type: 'line',
       data: { labels, datasets },
@@ -341,7 +351,7 @@
           },
         },
         scales: {
-          x: { grid: { color: '#1e293b' }, ticks: { color: '#64748b', maxTicksLimit: 8 } },
+          x: { type: 'category', grid: { color: '#1e293b' }, ticks: { color: '#64748b', maxTicksLimit: 8 } },
           y: {
             grid: { color: '#1e293b' },
             ticks: { color: '#64748b', callback: v => v + '%' },
@@ -366,9 +376,12 @@
 
     if (state.charts.winloss) {
       state.charts.winloss.data.datasets[0].data = [wins, losses];
-      state.charts.winloss.update('active');
+      state.charts.winloss.update('none');
       return;
     }
+    // Destroy any stale Chart.js instance registered on this canvas
+    const existingWl = Chart.getChart(ctx);
+    if (existingWl) existingWl.destroy();
     state.charts.winloss = new Chart(ctx, {
       type: 'doughnut',
       data: {
@@ -613,12 +626,28 @@
         return;
       }
       
-      // ✅ 验证年份（允许 1990-2100）
+      // ✅ 验证年份（允许 1990 至今）
+      const today = new Date();
+      const todayYear = today.getFullYear();
+      const todayStr = todayYear.toString() +
+        String(today.getMonth() + 1).padStart(2, '0') +
+        String(today.getDate()).padStart(2, '0');
+      const todayDisplay = `${todayYear}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
       const startYear = parseInt(rawStart.substring(0, 4), 10);
       const endYear = parseInt(rawEnd.substring(0, 4), 10);
-      if (startYear < 1990 || startYear > 2100 || endYear < 1990 || endYear > 2100) {
+      if (startYear < 1990 || startYear > todayYear || endYear < 1990 || endYear > todayYear) {
         showToast(
-          `⚠️ 年份必须在 1990-2100 年之间 (开始: ${startYear}, 结束: ${endYear})`,
+          `⚠️ 年份必须在 1990-${todayYear} 之间 (开始: ${startYear}, 结束: ${endYear})`,
+          'error'
+        );
+        return;
+      }
+
+      // ✅ 验证结束日期不能超过今天（无未来市场数据）
+      if (rawEnd > todayStr) {
+        showToast(
+          `⚠️ 结束日期不能超过今天 (${todayDisplay})，市场数据尚未产生`,
           'error'
         );
         return;
@@ -728,6 +757,13 @@
     initSidebar();
     initTableSort();
     initBacktestForm();
+
+    // Restrict date pickers to today at the latest (no future market data)
+    const todayIso = new Date().toISOString().slice(0, 10);
+    const startEl = $('#f-start-date');
+    const endEl   = $('#f-end-date');
+    if (startEl) startEl.setAttribute('max', todayIso);
+    if (endEl)   { endEl.setAttribute('max', todayIso); if (endEl.value > todayIso) endEl.value = todayIso; }
 
     const apiUrlEl = $('#api-base-url');
     if (apiUrlEl) apiUrlEl.textContent = CONFIG.apiBase;
