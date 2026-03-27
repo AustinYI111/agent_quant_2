@@ -148,6 +148,13 @@ class BacktestEngine:
             for name, ag in agents.items():
                 agent_outputs[name] = ag.generate_signal(window_df)
 
+            if verbose:
+                dt_str = str(row.name.date()) if hasattr(row.name, "date") else str(row.name)[:10]
+                for name, out in agent_outputs.items():
+                    ag_sig = out.get("signal", "hold")
+                    ag_conf = float(out.get("confidence", 0.0))
+                    print(f"  [{dt_str}] AGENT {name:20s}: signal={ag_sig:<6} conf={ag_conf:.4f}")
+
             ctx["_agent_outputs"] = agent_outputs
 
             market_state = ctx.get("market_state", "range")
@@ -155,6 +162,20 @@ class BacktestEngine:
                 fused = coordinator.aggregate(agent_outputs, market_state=market_state)
             except TypeError:
                 fused = coordinator.aggregate(agent_outputs)
+
+            if verbose:
+                dt_str = str(row.name.date()) if hasattr(row.name, "date") else str(row.name)[:10]
+                fused_meta = fused.get("meta", {}) or {}
+                score = fused_meta.get("score", {})
+                edge = fused_meta.get("edge", 0.0)
+                veto = fused_meta.get("ml_veto", {})
+                fused_sig = fused.get("signal", "hold")
+                fused_conf = float(fused.get("confidence", 0.0))
+                print(
+                    f"  [{dt_str}] COORDINATOR: sig={fused_sig:<6} conf={fused_conf:.4f} "
+                    f"score_buy={score.get('buy', 0.0):.4f} score_sell={score.get('sell', 0.0):.4f} "
+                    f"edge={edge:.4f} veto={veto.get('applied', False)} market={market_state}"
+                )
 
             fused = dict(fused or {})
             fused.setdefault("meta", {})
@@ -244,6 +265,16 @@ class BacktestEngine:
         equity_curve: List[float] = []
         dates: List[pd.Timestamp] = []
 
+        if verbose:
+            print(
+                f"[{strategy_name}] Data range: {df.index[0].date()} ~ {df.index[-1].date()} "
+                f"| {len(df)} rows"
+            )
+            null_counts = df.isnull().sum()
+            missing = null_counts[null_counts > 0]
+            if len(missing) > 0:
+                print(f"[{strategy_name}] WARNING: missing values detected — {missing.to_dict()}")
+
         ctx: Dict[str, Any] = {
             "cash": cash,
             "position": position,
@@ -254,6 +285,7 @@ class BacktestEngine:
 
         prev_price_for_feedback: Optional[float] = None
         prev_agent_outputs_for_feedback: Optional[Dict[str, Dict[str, Any]]] = None
+        bar_count = 0
 
         for i, (dt, row) in enumerate(df.iterrows()):
             ctx["_i"] = i
@@ -281,18 +313,25 @@ class BacktestEngine:
 
             tr: Optional[Trade] = None
 
+            if verbose and signal != "hold":
+                print(f"[{dt.date()}] SIGNAL {signal.upper():<5} conf={confidence:.4f} market={market_state}")
+
             if signal == "buy":
-                cash, position, tr = self._execute_buy(dt, price, cash, position, confidence, meta)
+                cash, position, tr, skip_reason = self._execute_buy(dt, price, cash, position, confidence, meta)
                 if tr:
                     trades.append(tr)
                     if verbose:
                         print(f"[{dt.date()}] BUY  price={price:.4f} size={tr.size} cash={cash:.2f} pos={position}")
+                elif verbose:
+                    print(f"[{dt.date()}] BUY SKIPPED: {skip_reason}")
             elif signal == "sell":
                 cash, position, tr = self._execute_sell(dt, price, cash, position, confidence, meta)
                 if tr:
                     trades.append(tr)
                     if verbose:
                         print(f"[{dt.date()}] SELL price={price:.4f} size={tr.size} cash={cash:.2f} pos={position}")
+                elif verbose:
+                    print(f"[{dt.date()}] SELL SKIPPED: no position to sell")
 
             if tr is not None and coordinator is not None and hasattr(coordinator, "on_trade_executed"):
                 try:
@@ -331,6 +370,10 @@ class BacktestEngine:
             equity = cash + position * price
             equity_curve.append(equity)
             dates.append(dt)
+            bar_count += 1
+
+            if verbose and bar_count % 50 == 0:
+                print(f"[{dt.date()}] EQUITY SNAPSHOT (bar {bar_count}): equity={equity:.2f} cash={cash:.2f} pos={position:.4f}")
 
             # 旧反馈逻辑（保留兼容）
             if ctx.get("_agent_outputs", None) is None:
@@ -355,6 +398,16 @@ class BacktestEngine:
         metrics["strategy"] = strategy_name
         metrics["equity_curve"] = equity_curve
         metrics["dates"] = dates
+
+        if verbose:
+            print(
+                f"[{strategy_name}] DONE: trades={metrics['num_trades']} "
+                f"total_return={metrics['total_return']:.4f} "
+                f"annual_return={metrics['annual_return']:.4f} "
+                f"max_drawdown={metrics['max_drawdown']:.4f} "
+                f"sharpe={metrics['sharpe']:.4f}"
+            )
+
         return metrics, trades
 
     def _execute_buy(
@@ -365,16 +418,16 @@ class BacktestEngine:
         position: float,
         confidence: float,
         meta: Dict[str, Any],
-    ) -> Tuple[float, float, Optional[Trade]]:
+    ) -> Tuple[float, float, Optional[Trade], Optional[str]]:
         target_value = self.init_cash * self.max_position_pct * confidence
         current_value = position * price
 
         if current_value >= target_value:
-            return cash, position, None
+            return cash, position, None, f"already at target (curr={current_value:.2f} >= target={target_value:.2f})"
 
         need_value = target_value - current_value
         if need_value < self.min_order_value:
-            return cash, position, None
+            return cash, position, None, f"need_value={need_value:.2f} < min_order_value={self.min_order_value}"
 
         exec_price = price * (1.0 + self.slippage_bps / 10000.0)
         shares = need_value / exec_price
@@ -383,7 +436,7 @@ class BacktestEngine:
             shares = (shares // self.lot_size) * self.lot_size
 
         if shares <= 0:
-            return cash, position, None
+            return cash, position, None, "shares rounded to 0 (lot_size constraint)"
 
         gross = shares * exec_price
         fee = gross * self.fee_rate
@@ -395,7 +448,7 @@ class BacktestEngine:
             if not self.allow_fractional:
                 shares = (shares // self.lot_size) * self.lot_size
             if shares <= 0:
-                return cash, position, None
+                return cash, position, None, f"insufficient cash (cash={cash:.2f} need={total_cost:.2f})"
 
             gross = shares * exec_price
             fee = gross * self.fee_rate
@@ -416,7 +469,7 @@ class BacktestEngine:
             position_after=float(position_after),
             meta=meta,
         )
-        return cash_after, position_after, tr
+        return cash_after, position_after, tr, None
 
     def _execute_sell(
         self,

@@ -281,6 +281,18 @@ def run_backtest(params: Dict[str, Any]) -> Dict[str, Any]:
     if df is None or len(df) == 0:
         raise ValueError(f"No data returned for symbol={symbol} {start_date}~{end_date}")
 
+    # Log data validation details
+    print(
+        f"[run_backtest] Data loaded: symbol={symbol} | "
+        f"{df.index[0].date()} ~ {df.index[-1].date()} | {len(df)} rows"
+    )
+    null_counts = df.isnull().sum()
+    missing = null_counts[null_counts > 0]
+    if len(missing) > 0:
+        print(f"[run_backtest] WARNING: missing values detected: {missing.to_dict()}")
+    else:
+        print(f"[run_backtest] Data completeness: OK (no missing values)")
+
     # Warn if the data coverage ends significantly earlier than the requested end_date
     actual_end = df.index[-1]
     requested_end = pd.to_datetime(end_date, format="%Y%m%d")
@@ -302,6 +314,8 @@ def run_backtest(params: Dict[str, Any]) -> Dict[str, Any]:
         fee_rate=fee_rate,
         slippage_bps=slippage_bps,
     )
+
+    print(f"[run_backtest] Running strategies: {run_strategies}")
 
     results: Dict[str, Tuple[Dict[str, Any], list]] = {}
 
