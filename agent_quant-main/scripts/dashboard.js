@@ -48,6 +48,13 @@
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => [...ctx.querySelectorAll(sel)];
 
+  // ── Date Validation ──────────────────────────────────────────────────────
+  function isValidDate(year, month, day) {
+    if (month < 1 || month > 12 || day < 1 || day > 31) return false;
+    const d = new Date(year, month - 1, day);
+    return d.getFullYear() === year && d.getMonth() === month - 1 && d.getDate() === day;
+  }
+
   function fmt(val, decimals = 2) {
     if (val == null) return '—';
     return Number(val).toLocaleString('zh-CN', {
@@ -219,22 +226,31 @@
 
   function buildEquityDatasets(data) {
     const ec = data.equityCurves;
+    const labels = ec.labels || [];
     return [
       { key: 'Trend-only',       label: 'Trend-only',       color: COLORS.trend },
       { key: 'MeanRev-only',     label: 'MeanRev-only',     color: COLORS.meanrev },
       { key: 'Fusion(no-ML)',    label: 'Fusion(no-ML)',    color: COLORS.fusion },
       { key: 'Fusion(+ML-veto)', label: 'Fusion(+ML-veto)', color: COLORS.fusionML },
-    ].filter(d => ec[d.key] && ec[d.key].length).map(d => ({
-      label: d.label,
-      data: (ec[d.key] || []).map(v => +v.toFixed(2)),
-      borderColor: d.color,
-      backgroundColor: d.color + '18',
-      borderWidth: 2.5,
-      pointRadius: 0,
-      pointHoverRadius: 5,
-      tension: 0.2,
-      fill: false,
-    }));
+    ].filter(d => ec[d.key] && ec[d.key].length).map(d => {
+      const rawData = ec[d.key] || [];
+      // Align dataset length to labels length to prevent chart misalignment;
+      // when lengths already match and there are no nulls, take the fast path.
+      const alignedData = (rawData.length === labels.length && rawData.every(v => v != null))
+        ? rawData.map(v => +v.toFixed(2))
+        : labels.map((_, i) => rawData[i] != null ? +rawData[i].toFixed(2) : null);
+      return {
+        label: d.label,
+        data: alignedData,
+        borderColor: d.color,
+        backgroundColor: d.color + '18',
+        borderWidth: 2.5,
+        pointRadius: 0,
+        pointHoverRadius: 5,
+        tension: 0.2,
+        fill: false,
+      };
+    });
   }
 
   function equityChartOptions() {
@@ -624,22 +640,22 @@
         return;
       }
       
-      // ✅ 验证月份和日期
+      // ✅ 验证月份和日期（真实有效性检查，可检测如 2024-02-31 等非法日期）
       const startMonth = parseInt(rawStart.substring(4, 6), 10);
-      const startDay = parseInt(rawStart.substring(6, 8), 10);
-      const endMonth = parseInt(rawEnd.substring(4, 6), 10);
-      const endDay = parseInt(rawEnd.substring(6, 8), 10);
-      
-      if (startMonth < 1 || startMonth > 12 || startDay < 1 || startDay > 31) {
+      const startDay   = parseInt(rawStart.substring(6, 8), 10);
+      const endMonth   = parseInt(rawEnd.substring(4, 6), 10);
+      const endDay     = parseInt(rawEnd.substring(6, 8), 10);
+
+      if (!isValidDate(startYear, startMonth, startDay)) {
         showToast(
-          `⚠️ 开始日期不合法 (月: ${startMonth}, 日: ${startDay})`,
+          `⚠️ 开始日期不合法：${rawStart.substring(0,4)}-${rawStart.substring(4,6)}-${rawStart.substring(6,8)}`,
           'error'
         );
         return;
       }
-      if (endMonth < 1 || endMonth > 12 || endDay < 1 || endDay > 31) {
+      if (!isValidDate(endYear, endMonth, endDay)) {
         showToast(
-          `⚠️ 结束日期不合法 (月: ${endMonth}, 日: ${endDay})`,
+          `⚠️ 结束日期不合法：${rawEnd.substring(0,4)}-${rawEnd.substring(4,6)}-${rawEnd.substring(6,8)}`,
           'error'
         );
         return;
