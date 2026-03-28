@@ -134,12 +134,18 @@
 
     // Update nav items
     $$('.nav-item').forEach(item => {
-      item.classList.toggle('active', item.dataset.page === pageId);
+      const isActive = item.dataset.page === pageId;
+      item.classList.toggle('active', isActive);
+      item.setAttribute('aria-current', isActive ? 'page' : 'false');
     });
 
-    // Show/hide page sections
+    // Show/hide page sections with entrance animation
     $$('.page-section').forEach(sec => {
-      sec.classList.toggle('hidden', sec.id !== 'page-' + pageId);
+      const isTarget = sec.id === 'page-' + pageId;
+      sec.classList.toggle('hidden', !isTarget);
+      if (isTarget && window.AQUi && window.AQUi.pageEnter) {
+        window.AQUi.pageEnter(sec);
+      }
     });
 
     // Update header
@@ -193,10 +199,17 @@
   function setKPI(id, value, cls, sub) {
     const el = $('#' + id);
     if (!el) return;
-    el.querySelector('.kpi-value').textContent = value;
+    const valEl = el.querySelector('.kpi-value');
+    if (window.AQUi && window.AQUi.animateNumber && valEl && valEl.textContent.trim() && valEl.textContent !== '—') {
+      window.AQUi.animateNumber(valEl, value);
+    } else {
+      if (valEl) valEl.textContent = value;
+    }
     const delta = el.querySelector('.kpi-delta');
-    delta.textContent = sub;
-    delta.className = 'kpi-delta ' + cls;
+    if (delta) {
+      delta.textContent = sub;
+      delta.className = 'kpi-delta ' + cls;
+    }
   }
 
   function getActiveStrategy(data) {
@@ -553,10 +566,21 @@
     if (state.activePage === 'trades')    { renderTradesTable(data); renderTradeStatsChart(data); }
     if (state.activePage !== 'strategy')  renderStrategyCards(data);
     $('#last-update').textContent = new Date().toLocaleTimeString('zh-CN');
+
+    // Stagger KPI cards for entrance animation
+    if (window.AQUi && window.AQUi.staggerChildren) {
+      const kpiGrid = $('#kpi-grid');
+      if (kpiGrid) window.AQUi.staggerChildren(kpiGrid, 'animate-slide-in-up', 60);
+    }
   }
 
   // ── Toast ────────────────────────────────────────────────────────────
   function showToast(msg, type = 'success') {
+    // Prefer the richer AQUi.ToastManager when available
+    if (window.AQUi && window.AQUi.ToastManager) {
+      window.AQUi.ToastManager.show({ type, message: msg });
+      return;
+    }
     const container = $('#toast-container');
     if (!container) return;
     const el = document.createElement('div');
@@ -568,13 +592,14 @@
 
   // ── Refresh ──────────────────────────────────────────────────────────
   async function refresh(silent = false) {
-    if (!silent) showToast('正在刷新数据…', 'success');
+    if (!silent) showToast('正在刷新数据…', 'info');
     await detectApi();
     const fresh = await loadData();
     if (fresh) {
       state.data = fresh;
       render(state.data);
       if (!silent) showToast('数据已更新', 'success');
+      else if (window.AQUi && window.AQUi.UpdateBadge) window.AQUi.UpdateBadge.show('数据已自动更新');
     } else {
       if (!silent) showToast('数据加载失败，显示缓存', 'error');
     }
@@ -967,12 +992,18 @@
       const progressWrap = $('#backtest-progress');
       const progressBar  = $('#backtest-progress-bar');
       const progressText = $('#backtest-progress-text');
+      const progressContainer = progressWrap ? progressWrap.querySelector('.progress-bar-container') : null;
+
+      function setProgress(pct) {
+        if (progressBar) progressBar.style.width = pct + '%';
+        if (progressContainer) progressContainer.setAttribute('aria-valuenow', pct);
+      }
 
       btn.disabled    = true;
       btn.textContent = '⏳ 运行中…';
       if (statusEl)     statusEl.textContent = '正在启动回测…';
       if (progressWrap) progressWrap.classList.remove('hidden');
-      if (progressBar)  progressBar.style.width = '0%';
+      setProgress(0);
       if (progressText) progressText.textContent = '等待开始…';
 
       if (state.backtestPollTimer) { clearTimeout(state.backtestPollTimer); state.backtestPollTimer = null; }
@@ -996,7 +1027,7 @@
               const r = await fetch(`${CONFIG.apiBase}/api/backtest-status/${taskId}`);
               const j = await r.json();
               const pct = j.progress || 0;
-              if (progressBar)  progressBar.style.width = pct + '%';
+              setProgress(pct);
               if (progressText) progressText.textContent = j.message || '运行中…';
               if (statusEl)     statusEl.textContent = `${pct}% — ${j.message || ''}`;
 
@@ -1040,23 +1071,55 @@
     const backdrop  = $('#sidebar-backdrop');
     if (!hamburger || !sidebar || !backdrop) return;
 
-    function open()  { sidebar.classList.add('open');    backdrop.classList.add('visible'); }
-    function close() { sidebar.classList.remove('open'); backdrop.classList.remove('visible'); }
+    function open()  {
+      sidebar.classList.add('open');
+      backdrop.classList.add('visible');
+      hamburger.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+    }
+    function close() {
+      sidebar.classList.remove('open');
+      backdrop.classList.remove('visible');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    }
 
     hamburger.addEventListener('click', open);
     backdrop.addEventListener('click', close);
 
+    // Keyboard support for nav items
     $$('.nav-item').forEach(item => {
       item.addEventListener('click', () => {
         const page = item.dataset.page;
         if (page) switchPage(page);
         if (window.innerWidth < 768) close();
       });
+      item.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          item.click();
+        }
+      });
     });
   }
 
   // ── Init ─────────────────────────────────────────────────────────────
   async function init() {
+    // Initialise theme (must happen before any rendering)
+    if (window.AQUi && window.AQUi.ThemeManager) {
+      window.AQUi.ThemeManager.init();
+    }
+
+    // Wire up theme toggle button
+    const themeBtn = $('#theme-toggle-btn');
+    if (themeBtn) {
+      themeBtn.addEventListener('click', () => {
+        if (window.AQUi && window.AQUi.ThemeManager) {
+          window.AQUi.ThemeManager.toggle();
+        }
+      });
+    }
+
     initSidebar();
     initTableSort();
     initBacktestForm();
@@ -1104,7 +1167,7 @@
     if (state.data) {
       render(state.data);
     } else {
-      showToast('无��加载数据文件', 'error');
+      showToast('无法加载数据文件', 'error');
     }
 
     state.refreshTimer = setInterval(() => refresh(true), CONFIG.refreshInterval);

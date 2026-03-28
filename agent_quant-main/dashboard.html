@@ -10,21 +10,28 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
 
   <script src="./scripts/vendor/chart.umd.js"></script>
+  <!-- Design tokens must load first -->
+  <link rel="stylesheet" href="./styles/variables.css" />
+  <link rel="stylesheet" href="./styles/animations.css" />
   <link rel="stylesheet" href="./styles/dashboard.css" />
+  <link rel="stylesheet" href="./styles/responsive.css" />
 </head>
 
 <body>
-  <div id="loading-overlay">
+  <!-- Loading overlay -->
+  <div id="loading-overlay" role="status" aria-label="加载中">
+    <div class="loading-logo">📈</div>
     <div class="spinner"></div>
-    <span style="color:var(--text-muted);font-size:0.875rem">加载数据中…</span>
+    <span class="loading-text">加载数据中…</span>
+    <div class="loading-bar"><div class="loading-bar-fill"></div></div>
   </div>
 
-  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+  <div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
 
   <div class="app-wrapper">
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar" role="navigation" aria-label="主导航">
       <div class="sidebar-logo">
-        <div class="logo-icon">📈</div>
+        <div class="logo-icon" aria-hidden="true">📈</div>
         <div>
           <div class="logo-text">Agent Quant</div>
           <div class="logo-sub">量化交易系统</div>
@@ -33,37 +40,40 @@
 
       <nav class="sidebar-nav">
         <div class="nav-section-title">主菜单</div>
-        <div class="nav-item active" data-page="dashboard">
-          <span class="nav-icon">🏠</span><span>仪表板</span>
+        <div class="nav-item active" data-page="dashboard" role="button" tabindex="0" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">🏠</span><span>仪表板</span>
         </div>
-        <div class="nav-item" data-page="analysis">
-          <span class="nav-icon">📊</span><span>收益分析</span>
+        <div class="nav-item" data-page="analysis" role="button" tabindex="0">
+          <span class="nav-icon" aria-hidden="true">📊</span><span>收益分析</span>
         </div>
-        <div class="nav-item" data-page="strategy">
-          <span class="nav-icon">🤖</span><span>策略对比</span>
+        <div class="nav-item" data-page="strategy" role="button" tabindex="0">
+          <span class="nav-icon" aria-hidden="true">🤖</span><span>策略对比</span>
         </div>
-        <div class="nav-item" data-page="trades">
-          <span class="nav-icon">📋</span><span>交易记录</span>
+        <div class="nav-item" data-page="trades" role="button" tabindex="0">
+          <span class="nav-icon" aria-hidden="true">📋</span><span>交易记录</span>
         </div>
         <div class="nav-section-title">系统</div>
-        <div class="nav-item" data-page="config">
-          <span class="nav-icon">⚙️</span><span>回测配置</span>
+        <div class="nav-item" data-page="config" role="button" tabindex="0">
+          <span class="nav-icon" aria-hidden="true">⚙️</span><span>回测配置</span>
         </div>
       </nav>
 
       <div class="sidebar-footer">
-        <span class="status-dot" id="api-status-dot"></span><span id="api-status-text">检测 API…</span>
+        <div>
+          <span class="status-dot animate-pulse" id="api-status-dot" aria-hidden="true"></span>
+          <span id="api-status-text">检测 API…</span>
+        </div>
         <div style="margin-top:6px;color:var(--text-dim)">最后更新：<span id="last-update">—</span></div>
       </div>
     </aside>
 
     <div class="main-content">
-      <header class="topbar">
-        <div style="display:flex;align-items:center;gap:14px">
-          <div class="hamburger" id="hamburger-btn" aria-label="打开菜单">
+      <header class="topbar" role="banner">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0">
+          <button class="hamburger" id="hamburger-btn" aria-label="打开菜单" aria-expanded="false" aria-controls="sidebar">
             <span></span><span></span><span></span>
-          </div>
-          <div class="topbar-left">
+          </button>
+          <div class="topbar-left" style="min-width:0">
             <h1 id="page-title">交易仪表板</h1>
             <p id="page-subtitle">多策略量化回测结果概览</p>
           </div>
@@ -76,53 +86,60 @@
             <option value="Fusion(no-ML)">Fusion(no-ML)</option>
             <option value="Fusion(+ML-veto)">Fusion(+ML-veto)</option>
           </select>
-          <button class="btn btn-ghost" id="refresh-btn" aria-label="刷新数据">🔄 刷新</button>
+          <button class="btn btn-ghost" id="refresh-btn" aria-label="刷新数据" data-tooltip="刷新数据">
+            🔄 <span>刷新</span>
+          </button>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" aria-label="切换主题" data-tooltip="切换主题">
+            <span class="theme-icon">☀️</span>
+            <span class="theme-toggle-label">亮色</span>
+          </button>
         </div>
       </header>
 
-      <main class="dashboard-body">
+      <main class="dashboard-body" role="main">
 
         <!-- PAGE: dashboard -->
-        <section class="page-section" id="page-dashboard">
+        <section class="page-section" id="page-dashboard" aria-labelledby="dashboard-heading">
+          <h2 id="dashboard-heading" class="sr-only">仪表板</h2>
           <div class="section-header">
-            <div class="section-title"><span class="icon">💡</span>关键指标</div>
+            <div class="section-title"><span class="icon" aria-hidden="true">💡</span>关键指标</div>
           </div>
-          <div class="kpi-grid">
+          <div class="kpi-grid" id="kpi-grid">
             <div class="kpi-card" id="kpi-total-return">
               <div class="kpi-label">总收益率</div><div class="kpi-value">—</div>
-              <div class="kpi-icon">💰</div><div class="kpi-delta neutral">加载中…</div>
+              <div class="kpi-icon" aria-hidden="true">💰</div><div class="kpi-delta neutral">加载中…</div>
             </div>
             <div class="kpi-card" id="kpi-annual-return">
               <div class="kpi-label">年化收益率</div><div class="kpi-value">—</div>
-              <div class="kpi-icon">📅</div><div class="kpi-delta neutral">加载中…</div>
+              <div class="kpi-icon" aria-hidden="true">📅</div><div class="kpi-delta neutral">加载中…</div>
             </div>
             <div class="kpi-card" id="kpi-max-drawdown">
               <div class="kpi-label">最大回撤</div><div class="kpi-value">—</div>
-              <div class="kpi-icon">📉</div><div class="kpi-delta neutral">加载中…</div>
+              <div class="kpi-icon" aria-hidden="true">📉</div><div class="kpi-delta neutral">加载中…</div>
             </div>
             <div class="kpi-card" id="kpi-sharpe">
               <div class="kpi-label">夏普比率</div><div class="kpi-value">—</div>
-              <div class="kpi-icon">⚖️</div><div class="kpi-delta neutral">加载中…</div>
+              <div class="kpi-icon" aria-hidden="true">⚖️</div><div class="kpi-delta neutral">加载中…</div>
             </div>
             <div class="kpi-card" id="kpi-pnl">
               <div class="kpi-label">总盈亏</div><div class="kpi-value">—</div>
-              <div class="kpi-icon">💵</div><div class="kpi-delta neutral">加载中…</div>
+              <div class="kpi-icon" aria-hidden="true">💵</div><div class="kpi-delta neutral">加载中…</div>
             </div>
             <div class="kpi-card" id="kpi-trades">
               <div class="kpi-label">交易笔数</div><div class="kpi-value">—</div>
-              <div class="kpi-icon">🔢</div><div class="kpi-delta neutral">加载中…</div>
+              <div class="kpi-icon" aria-hidden="true">🔢</div><div class="kpi-delta neutral">加载中…</div>
             </div>
           </div>
 
           <!-- Risk Metrics Row -->
           <div class="section-header" style="margin-top:1.5rem">
-            <div class="section-title"><span class="icon">🛡️</span>风险指标</div>
+            <div class="section-title"><span class="icon" aria-hidden="true">🛡️</span>风险指标</div>
           </div>
           <div id="risk-metrics-grid" class="risk-metrics-grid"></div>
 
           <div class="section-header" style="margin-top:1.5rem">
-            <div class="section-title"><span class="icon">📈</span>收益曲线</div>
-            <div class="chart-legend" id="equity-legend">
+            <div class="section-title"><span class="icon" aria-hidden="true">📈</span>收益曲线</div>
+            <div class="chart-legend" id="equity-legend" aria-label="图表图例">
               <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Trend-only</div>
               <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>MeanRev-only</div>
               <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Fusion(no-ML)</div>
@@ -132,12 +149,12 @@
           <div class="charts-grid">
             <div class="chart-card">
               <div class="chart-header"><div class="chart-title">资产净值曲线（初始资金 ¥100,000）</div></div>
-              <div class="chart-container"><canvas id="equity-chart"></canvas></div>
+              <div class="chart-container"><canvas id="equity-chart" role="img" aria-label="资产净值曲线图表"></canvas></div>
             </div>
             <div class="chart-card">
               <div class="chart-header"><div class="chart-title">胜负比</div></div>
               <div style="position:relative;display:flex;align-items:center;justify-content:center">
-                <div class="chart-container" style="max-width:260px"><canvas id="winloss-chart"></canvas></div>
+                <div class="chart-container" style="max-width:260px"><canvas id="winloss-chart" role="img" aria-label="胜负比图表"></canvas></div>
                 <div style="position:absolute;text-align:center;pointer-events:none">
                   <div style="font-size:1.6rem;font-weight:700;color:var(--text)" id="winrate-label">—</div>
                   <div style="font-size:0.75rem;color:var(--text-muted)">胜率</div>
@@ -148,23 +165,24 @@
         </section>
 
         <!-- PAGE: analysis -->
-        <section class="page-section hidden" id="page-analysis">
+        <section class="page-section hidden" id="page-analysis" aria-labelledby="analysis-heading">
+          <h2 id="analysis-heading" class="sr-only">收益分析</h2>
           <div class="section-header">
-            <div class="section-title"><span class="icon">📊</span>收益分析</div>
+            <div class="section-title"><span class="icon" aria-hidden="true">📊</span>收益分析</div>
           </div>
           <div class="chart-card" style="margin-bottom:1.5rem">
             <div class="chart-header"><div class="chart-title">资产净值曲线（完整视图）</div></div>
-            <div class="chart-container" style="height:420px"><canvas id="equity-chart-full"></canvas></div>
+            <div class="chart-container" style="height:420px"><canvas id="equity-chart-full" role="img" aria-label="完整资产净值曲线图表"></canvas></div>
           </div>
           <div class="section-header">
-            <div class="section-title"><span class="icon">📉</span>回撤分析</div>
+            <div class="section-title"><span class="icon" aria-hidden="true">📉</span>回撤分析</div>
           </div>
           <div class="chart-card" style="margin-bottom:1.5rem">
             <div class="chart-header"><div class="chart-title">回撤曲线</div></div>
-            <div class="chart-container" style="height:300px"><canvas id="drawdown-chart"></canvas></div>
+            <div class="chart-container" style="height:300px"><canvas id="drawdown-chart" role="img" aria-label="回撤曲线图表"></canvas></div>
           </div>
           <div class="section-header">
-            <div class="section-title"><span class="icon">🗓️</span>月度收益热力图</div>
+            <div class="section-title"><span class="icon" aria-hidden="true">🗓️</span>月度收益热力图</div>
           </div>
           <div class="chart-card">
             <div class="chart-header">
@@ -175,51 +193,53 @@
         </section>
 
         <!-- PAGE: strategy -->
-        <section class="page-section hidden" id="page-strategy">
+        <section class="page-section hidden" id="page-strategy" aria-labelledby="strategy-heading">
+          <h2 id="strategy-heading" class="sr-only">策略对比</h2>
           <div class="section-header">
-            <div class="section-title"><span class="icon">🤖</span>策略对比</div>
+            <div class="section-title"><span class="icon" aria-hidden="true">🤖</span>策略对比</div>
           </div>
           <div class="chart-card" style="margin-bottom:1.5rem">
             <div class="chart-header"><div class="chart-title">策略绩效对比（多指标）</div></div>
-            <div class="chart-container" style="height:300px"><canvas id="strategy-comparison-chart"></canvas></div>
+            <div class="chart-container" style="height:300px"><canvas id="strategy-comparison-chart" role="img" aria-label="策略绩效对比图表"></canvas></div>
           </div>
           <div class="strategies-grid" id="strategy-cards"></div>
         </section>
 
         <!-- PAGE: trades -->
-        <section class="page-section hidden" id="page-trades">
+        <section class="page-section hidden" id="page-trades" aria-labelledby="trades-heading">
+          <h2 id="trades-heading" class="sr-only">历史交易记录</h2>
           <div class="section-header">
-            <div class="section-title"><span class="icon">📋</span>历史交易记录</div>
+            <div class="section-title"><span class="icon" aria-hidden="true">📋</span>历史交易记录</div>
           </div>
           <div class="chart-card" style="margin-bottom:1.5rem">
             <div class="chart-header"><div class="chart-title">盈亏分布图</div></div>
-            <div class="chart-container" style="height:220px"><canvas id="trade-pnl-chart"></canvas></div>
+            <div class="chart-container" style="height:220px"><canvas id="trade-pnl-chart" role="img" aria-label="盈亏分布图表"></canvas></div>
           </div>
           <div class="table-card">
             <div class="table-toolbar">
-              <div class="search-box">
-                <span>🔍</span>
-                <input type="text" id="trade-search" placeholder="搜索品种、策略…" autocomplete="off" />
+              <div class="search-box" role="search">
+                <span aria-hidden="true">🔍</span>
+                <input type="text" id="trade-search" placeholder="搜索品种、策略…" autocomplete="off" aria-label="搜索交易记录" />
               </div>
               <div style="display:flex;align-items:center;gap:0.75rem">
                 <div style="font-size:0.8rem;color:var(--text-muted)">点击表头可排序</div>
-                <button class="btn btn-ghost" id="export-csv-btn" style="font-size:0.8rem;padding:0.3rem 0.75rem">📥 导出 CSV</button>
+                <button class="btn btn-ghost" id="export-csv-btn" style="font-size:0.8rem;padding:0.3rem 0.75rem" aria-label="导出为 CSV">📥 导出 CSV</button>
               </div>
             </div>
-            <div class="table-wrapper">
+            <div class="table-wrapper" role="region" aria-label="交易记录表格">
               <table>
                 <thead>
                   <tr>
-                    <th data-sort="time">时间</th>
-                    <th data-sort="symbol">品种</th>
-                    <th data-sort="strategy">策略</th>
-                    <th data-sort="direction">方向</th>
-                    <th data-sort="quantity">数量</th>
-                    <th data-sort="entryPrice">入场价</th>
-                    <th data-sort="exitPrice">出场价</th>
-                    <th data-sort="pnl">盈亏 (¥)</th>
-                    <th data-sort="returnPct">收益率</th>
-                    <th>状态</th>
+                    <th data-sort="time" scope="col">时间</th>
+                    <th data-sort="symbol" scope="col">品种</th>
+                    <th data-sort="strategy" scope="col">策略</th>
+                    <th data-sort="direction" scope="col">方向</th>
+                    <th data-sort="quantity" scope="col">数量</th>
+                    <th data-sort="entryPrice" scope="col">入场价</th>
+                    <th data-sort="exitPrice" scope="col">出场价</th>
+                    <th data-sort="pnl" scope="col">盈亏 (¥)</th>
+                    <th data-sort="returnPct" scope="col">收益率</th>
+                    <th scope="col">状态</th>
                   </tr>
                 </thead>
                 <tbody id="trades-tbody">
@@ -227,28 +247,29 @@
                 </tbody>
               </table>
             </div>
-            <div class="table-pagination">
-              <span id="trades-info">—</span>
+            <div class="table-pagination" role="navigation" aria-label="分页">
+              <span id="trades-info" aria-live="polite">—</span>
               <div class="pagination-btns" id="pagination-btns"></div>
             </div>
           </div>
         </section>
 
         <!-- PAGE: config -->
-        <section class="page-section hidden" id="page-config">
+        <section class="page-section hidden" id="page-config" aria-labelledby="config-heading">
+          <h2 id="config-heading" class="sr-only">回测配置</h2>
           <div class="section-header">
-            <div class="section-title"><span class="icon">⚙️</span>回测参数配置</div>
+            <div class="section-title"><span class="icon" aria-hidden="true">⚙️</span>回测参数配置</div>
           </div>
           <div class="chart-card">
-            <form id="backtest-form" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;padding:0.5rem 0">
+            <form id="backtest-form" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;padding:0.5rem 0" novalidate>
               <div class="form-group">
-                <label class="form-label">股票代码</label>
-                <input class="form-input" type="text" id="f-symbol" value="600519" placeholder="如 600519" />
+                <label class="form-label" for="f-symbol">股票代码</label>
+                <input class="form-input" type="text" id="f-symbol" value="600519" placeholder="如 600519" autocomplete="off" />
                 <small class="form-hint">沪市前缀6，深市前缀0/3</small>
               </div>
               <div class="form-group">
-                <label class="form-label">开始日期</label>
-                <div class="date-preset-row">
+                <label class="form-label" for="f-start-date">开始日期</label>
+                <div class="date-preset-row" role="group" aria-label="快速选择日期范围">
                   <button type="button" class="preset-btn" data-preset="1y">1年</button>
                   <button type="button" class="preset-btn" data-preset="3y">3年</button>
                   <button type="button" class="preset-btn" data-preset="5y">5年</button>
@@ -257,48 +278,48 @@
                 <input class="form-input" type="date" id="f-start-date" value="2020-01-01" />
               </div>
               <div class="form-group">
-                <label class="form-label">结束日期</label>
+                <label class="form-label" for="f-end-date">结束日期</label>
                 <input class="form-input" type="date" id="f-end-date" value="2024-12-31" />
               </div>
               <div class="form-group">
-                <label class="form-label">初始资金 (¥)</label>
+                <label class="form-label" for="f-init-cash">初始资金 (¥)</label>
                 <input class="form-input" type="number" id="f-init-cash" value="100000" min="10000" step="10000" />
               </div>
               <div class="form-group">
-                <label class="form-label">手续费率 (‰)</label>
+                <label class="form-label" for="f-fee-rate">手续费率 (‰)</label>
                 <input class="form-input" type="number" id="f-fee-rate" value="0.3" min="0" step="0.1" />
               </div>
               <div class="form-group">
-                <label class="form-label">滑点 (bps)</label>
+                <label class="form-label" for="f-slippage">滑点 (bps)</label>
                 <input class="form-input" type="number" id="f-slippage" value="5" min="0" step="1" />
               </div>
               <div class="form-group">
-                <label class="form-label">趋势 — 短期均线 (天)</label>
+                <label class="form-label" for="f-trend-short">趋势 — 短期均线 (天)</label>
                 <input class="form-input" type="number" id="f-trend-short" value="5" min="2" max="50" />
               </div>
               <div class="form-group">
-                <label class="form-label">趋势 — 长期均线 (天)</label>
+                <label class="form-label" for="f-trend-long">趋势 — 长期均线 (天)</label>
                 <input class="form-input" type="number" id="f-trend-long" value="20" min="5" max="200" />
               </div>
               <div class="form-group">
-                <label class="form-label">均值回归 — 窗口 (天)</label>
+                <label class="form-label" for="f-mr-window">均值回归 — 窗口 (天)</label>
                 <input class="form-input" type="number" id="f-mr-window" value="20" min="5" max="100" />
               </div>
               <div class="form-group">
-                <label class="form-label">均值回归 — 布林带倍数</label>
+                <label class="form-label" for="f-mr-std">均值回归 — 布林带倍数</label>
                 <input class="form-input" type="number" id="f-mr-std" value="1.2" min="0.5" max="4" step="0.1" />
               </div>
               <div class="form-group">
-                <label class="form-label">ML — 回看窗口 (天)</label>
+                <label class="form-label" for="f-ml-lookback">ML — 回看窗口 (天)</label>
                 <input class="form-input" type="number" id="f-ml-lookback" value="10" min="3" max="30" />
               </div>
               <div class="form-group">
-                <label class="form-label">ML — 最小训练样本</label>
+                <label class="form-label" for="f-ml-train">ML — 最小训练样本</label>
                 <input class="form-input" type="number" id="f-ml-train" value="60" min="20" max="500" />
               </div>
               <div class="form-group" style="grid-column:1/-1">
                 <label class="form-label">运行策略</label>
-                <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:0.4rem">
+                <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:0.4rem" role="group" aria-label="选择运行的策略">
                   <label class="checkbox-label"><input type="checkbox" id="f-s-trend" checked /> Trend-only</label>
                   <label class="checkbox-label"><input type="checkbox" id="f-s-mr" checked /> MeanRev-only</label>
                   <label class="checkbox-label"><input type="checkbox" id="f-s-fusion" checked /> Fusion(no-ML)</label>
@@ -307,26 +328,26 @@
               </div>
               <div style="grid-column:1/-1;display:flex;align-items:center;gap:1rem;padding-top:0.5rem;flex-wrap:wrap">
                 <button type="submit" class="btn btn-primary" id="run-backtest-btn">🚀 运行回测</button>
-                <div id="backtest-status" style="font-size:0.85rem;color:var(--text-muted)"></div>
+                <div id="backtest-status" style="font-size:0.85rem;color:var(--text-muted)" aria-live="polite"></div>
               </div>
               <!-- Progress bar (hidden until running) -->
               <div style="grid-column:1/-1" id="backtest-progress" class="hidden">
-                <div class="progress-bar-container">
+                <div class="progress-bar-container" role="progressbar" aria-label="回测进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                   <div class="progress-bar" id="backtest-progress-bar" style="width:0%"></div>
                 </div>
-                <div id="backtest-progress-text" style="font-size:0.8rem;color:var(--text-muted);margin-top:0.4rem">等待开始…</div>
+                <div id="backtest-progress-text" style="font-size:0.8rem;color:var(--text-muted);margin-top:0.4rem" aria-live="polite">等待开始…</div>
               </div>
             </form>
           </div>
           <div class="section-header" style="margin-top:1.5rem">
-            <div class="section-title"><span class="icon">🔌</span>API 状态</div>
+            <div class="section-title"><span class="icon" aria-hidden="true">🔌</span>API 状态</div>
           </div>
           <div class="chart-card" style="padding:1rem 1.25rem">
             <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:0.5rem">
-              后端地址：<code id="api-base-url" style="color:var(--primary)"></code>
+              后端地址：<code id="api-base-url"></code>
             </p>
             <p style="color:var(--text-dim);font-size:0.8rem">
-              启动后端：<code style="color:var(--text-muted)">python api_server.py</code>
+              启动后端：<code>python api_server.py</code>
             </p>
           </div>
         </section>
@@ -335,7 +356,10 @@
     </div>
   </div>
 
-  <div id="toast-container"></div>
+  <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+  <!-- UI utilities must load before main dashboard script -->
+  <script src="./scripts/ui-utils.js"></script>
   <script src="./scripts/dashboard.js"></script>
 </body>
 </html>
