@@ -896,27 +896,27 @@
     const trades = filterTrades(data.trades).filter(t => t.status === '已平仓');
     if (!trades.length) { container.style.display = 'none'; return; }
 
-    const pnls    = trades.map(t => t.pnl || 0);
-    const rets    = trades.map(t => t.returnPct || 0);
-    const wins    = trades.filter(t => (t.pnl || 0) > 0);
-    const losses  = trades.filter(t => (t.pnl || 0) <= 0);
-    const avgPnl  = pnls.reduce((a, b) => a + b, 0) / pnls.length;
-    const avgWin  = wins.length  ? wins.map(t => t.pnl).reduce((a, b) => a + b, 0) / wins.length : 0;
-    const avgLoss = losses.length ? losses.map(t => t.pnl).reduce((a, b) => a + b, 0) / losses.length : 0;
+    const pnls     = trades.map(t => t.pnl || 0);
+    const wins     = trades.filter(t => (t.pnl || 0) > 0);
+    const losses   = trades.filter(t => (t.pnl || 0) <= 0);
     const totalPnl = pnls.reduce((a, b) => a + b, 0);
-    const profitFactor = losses.length && avgLoss !== 0
-      ? Math.abs(wins.map(t => t.pnl).reduce((a, b) => a + b, 0) / losses.map(t => t.pnl).reduce((a, b) => a + b, 0))
-      : Infinity;
+    const avgPnl   = totalPnl / pnls.length;
+    const totalWin = wins.length   ? wins.map(t => t.pnl).reduce((a, b) => a + b, 0)   : 0;
+    const totalLoss= losses.length ? losses.map(t => t.pnl).reduce((a, b) => a + b, 0) : 0;
+    const avgWin   = wins.length   ? totalWin  / wins.length   : 0;
+    const avgLoss  = losses.length ? totalLoss / losses.length : 0;  // negative value
+    const profitFactor = totalLoss !== 0 ? Math.abs(totalWin / totalLoss) : Infinity;
 
+    // avgLoss is already negative; fmt() will render it with a minus sign
     const stats = [
-      { label: '已平仓笔数',   value: trades.length,                         neutral: true },
-      { label: '胜率',         value: fmtPct(wins.length / trades.length),    cls: wins.length / trades.length >= 0.5 ? 'positive' : 'negative' },
-      { label: '总盈亏',       value: (totalPnl >= 0 ? '+' : '') + fmt(totalPnl), cls: totalPnl >= 0 ? 'positive' : 'negative' },
-      { label: '平均盈亏/笔',  value: (avgPnl >= 0 ? '+' : '') + fmt(avgPnl),  cls: avgPnl >= 0 ? 'positive' : 'negative' },
-      { label: '平均盈利/笔',  value: '+' + fmt(avgWin),  cls: 'positive' },
-      { label: '平均亏损/笔',  value: fmt(avgLoss),        cls: 'negative' },
+      { label: '已平仓笔数',   value: trades.length,                                    neutral: true },
+      { label: '胜率',         value: fmtPct(wins.length / trades.length),               cls: wins.length / trades.length >= 0.5 ? 'positive' : 'negative' },
+      { label: '总盈亏',       value: (totalPnl >= 0 ? '+' : '') + fmt(totalPnl),         cls: totalPnl >= 0 ? 'positive' : 'negative' },
+      { label: '平均盈亏/笔',  value: (avgPnl >= 0 ? '+' : '') + fmt(avgPnl),             cls: avgPnl >= 0 ? 'positive' : 'negative' },
+      { label: '平均盈利/笔',  value: wins.length   ? '+' + fmt(avgWin)  : '—',           cls: 'positive' },
+      { label: '平均亏损/笔',  value: losses.length ? fmt(avgLoss)        : '—',           cls: 'negative' },
       { label: '盈亏比',       value: avgLoss !== 0 ? fmt(Math.abs(avgWin / avgLoss), 2) : '∞', cls: Math.abs(avgWin) >= Math.abs(avgLoss) ? 'positive' : 'negative' },
-      { label: 'Profit Factor', value: isFinite(profitFactor) ? fmt(profitFactor, 2) : '∞',   cls: profitFactor >= 1 ? 'positive' : 'negative' },
+      { label: 'Profit Factor', value: isFinite(profitFactor) ? fmt(profitFactor, 2) : '∞', cls: profitFactor >= 1 ? 'positive' : 'negative' },
     ];
 
     container.style.display = 'grid';
@@ -1004,17 +1004,19 @@
     lines.push('');
     lines.push('─────────────────── Ⅲ. 交易统计摘要 ────────────────────');
     if (closedTrades.length) {
-      const pnls   = closedTrades.map(t => t.pnl || 0);
-      const wins   = closedTrades.filter(t => (t.pnl || 0) > 0);
-      const losses = closedTrades.filter(t => (t.pnl || 0) <= 0);
-      const totalPnl = pnls.reduce((a, b) => a + b, 0);
-      const avgPnl   = totalPnl / pnls.length;
-      const avgWin   = wins.length  ? wins.map(t => t.pnl).reduce((a, b) => a + b, 0) / wins.length : 0;
-      const avgLoss  = losses.length ? losses.map(t => t.pnl).reduce((a, b) => a + b, 0) / losses.length : 0;
+      const pnls      = closedTrades.map(t => t.pnl || 0);
+      const wins      = closedTrades.filter(t => (t.pnl || 0) > 0);
+      const losses    = closedTrades.filter(t => (t.pnl || 0) <= 0);
+      const totalPnl  = pnls.reduce((a, b) => a + b, 0);
+      const avgPnl    = totalPnl / pnls.length;
+      const totalWin  = wins.length   ? wins.map(t => t.pnl).reduce((a, b) => a + b, 0)   : 0;
+      const totalLoss = losses.length ? losses.map(t => t.pnl).reduce((a, b) => a + b, 0) : 0;
+      const avgWin    = wins.length   ? totalWin  / wins.length   : 0;
+      const avgLoss   = losses.length ? totalLoss / losses.length : 0;  // negative
       lines.push(`总交易笔数：${closedTrades.length}   胜率：${fmtPct(wins.length / closedTrades.length)}`);
       lines.push(`总盈亏：¥${totalPnl.toFixed(2)}   平均盈亏/笔：¥${avgPnl.toFixed(2)}`);
       lines.push(`平均盈利：¥${avgWin.toFixed(2)}   平均亏损：¥${avgLoss.toFixed(2)}`);
-      if (avgLoss !== 0) lines.push(`盈亏比（Profit Factor）：${fmt(Math.abs(wins.map(t=>t.pnl).reduce((a,b)=>a+b,0) / losses.map(t=>t.pnl).reduce((a,b)=>a+b,0)), 2)}`);
+      if (totalLoss !== 0) lines.push(`Profit Factor：${fmt(Math.abs(totalWin / totalLoss), 2)}`);
     } else {
       lines.push('无已平仓交易记录');
     }

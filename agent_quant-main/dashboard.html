@@ -163,10 +163,10 @@
               <div>
                 <div class="overview-strategy-name">趋势跟踪策略 (Trend-only)</div>
                 <div class="overview-strategy-desc">
-                  基于双均线交叉信号（短期MA⁵ / 长期MA²⁰）。当短期均线上穿长期均线时买入，
+                  基于双均线交叉信号（短期MA(5) / 长期MA(20)）。当短期均线上穿长期均线时买入，
                   下穿时卖出。捕捉中长期价格动量趋势，适合趋势明显的行情。
                 </div>
-                <div class="overview-strategy-formula">信号 = sign(MA_short − MA_long)</div>
+                <div class="overview-strategy-formula">信号 = sign(MA_short - MA_long)</div>
               </div>
             </div>
             <div class="overview-strategy-card">
@@ -174,10 +174,10 @@
               <div>
                 <div class="overview-strategy-name">均值回归策略 (MeanRev-only)</div>
                 <div class="overview-strategy-desc">
-                  基于布林带（Bollinger Bands）的反转策略。价格跌破下轨（μ − 1.2σ）时买入，
+                  基于布林带（Bollinger Bands）的反转策略。价格跌破下轨（mu - 1.2*sigma）时买入，
                   回归均线时卖出。适合震荡行情，利用价格均值回复特性。
                 </div>
-                <div class="overview-strategy-formula">信号 = 1 if P &lt; μ − 1.2σ else (−1 if P &gt; MA)</div>
+                <div class="overview-strategy-formula">信号 = 1 if P &lt; mu - 1.2*sigma else (-1 if P &gt; MA)</div>
               </div>
             </div>
             <div class="overview-strategy-card">
@@ -188,7 +188,7 @@
                   加权融合趋势信号与均值回归信号（默认权重 0.6 : 0.4）。
                   通过 CoordinatorAgent 综合两种策略的置信度分数，当综合信号强度超过阈值时触发交易。
                 </div>
-                <div class="overview-strategy-formula">Score = 0.6·trend + 0.4·meanrev；买入 if Score &gt; θ</div>
+                <div class="overview-strategy-formula">Score = 0.6*trend + 0.4*meanrev; 买入 if Score &gt; theta</div>
               </div>
             </div>
             <div class="overview-strategy-card">

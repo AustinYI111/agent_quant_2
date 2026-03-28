@@ -314,8 +314,12 @@ def run_backtest(
     end_date    = str(params.get("end_date",   "20241231")).strip()
     adjust      = str(params.get("adjust",     "qfq"))
 
-    print(f"[run_backtest] Received params: symbol={symbol!r}, "
-          f"start_date={start_date!r}, end_date={end_date!r}, adjust={adjust!r}")
+    # Sanitize values for safe logging (strip control characters, truncate)
+    def _safe(v: str, max_len: int = 32) -> str:
+        return repr(v[:max_len].encode('ascii', errors='replace').decode())
+
+    print(f"[run_backtest] Received params: symbol={_safe(symbol)}, "
+          f"start_date={_safe(start_date)}, end_date={_safe(end_date)}, adjust={_safe(adjust)}")
     print(f"[run_backtest] Strategies requested: {params.get('strategies', ['all (default)'])}")
 
     _p(5, "正在验证参数…")
@@ -323,15 +327,15 @@ def run_backtest(
     # ── Server-side input validation ──────────────────────────────────────
     import re
     if not re.match(r"^\d{6}$", symbol):
-        msg = f"股票代码格式错误：期望6位纯数字（收到 '{symbol}'）"
+        msg = f"股票代码格式错误：期望6位纯数字（收到 {_safe(symbol)}）"
         print(f"[run_backtest] ERROR: {msg}")
         raise ValueError(msg)
     if not re.match(r"^\d{8}$", start_date):
-        msg = f"开始日期格式错误：期望 YYYYMMDD 格式（收到 '{start_date}'）。请检查前端日期转换是否正确。"
+        msg = f"开始日期格式错误：期望 YYYYMMDD 格式（收到 {_safe(start_date)}）。请检查前端日期转换是否正确。"
         print(f"[run_backtest] ERROR: {msg}")
         raise ValueError(msg)
     if not re.match(r"^\d{8}$", end_date):
-        msg = f"结束日期格式错误：期望 YYYYMMDD 格式（收到 '{end_date}'）。请检查前端日期转换是否正确。"
+        msg = f"结束日期格式错误：期望 YYYYMMDD 格式（收到 {_safe(end_date)}）。请检查前端日期转换是否正确。"
         print(f"[run_backtest] ERROR: {msg}")
         raise ValueError(msg)
     if start_date >= end_date:
