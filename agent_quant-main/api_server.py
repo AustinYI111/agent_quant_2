@@ -19,9 +19,12 @@ from __future__ import annotations
 import json
 import os
 import sys
+import threading
+import time
 import traceback
+import uuid
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
 import pandas as pd
 
@@ -49,9 +52,77 @@ CORS(app)   # allow all origins so the HTML file can call us directly
 _latest_result: Optional[Dict[str, Any]] = None
 _SAMPLE_PATH = _ROOT / "data" / "sample-trades.json"
 
+# ── Background task queue ─────────────────────────────────────────────────
+_tasks: Dict[str, Dict[str, Any]] = {}
+_tasks_lock = threading.Lock()
+_TASK_TTL_SECONDS = 3600  # clean up tasks older than 1 hour
+
 # Maximum calendar-day gap allowed between requested end_date and the last
 # available data point (accounts for weekends and holidays at period end).
 _MAX_DATA_GAP_DAYS = 45
+
+
+# ════════════════════════════════════════════════════════════════════════════
+#  Advanced metrics helpers
+# ════════════════════════════════════════════════════════════════════════════
+
+def _compute_monthly_returns(dates: list, equity: list) -> Dict[str, float]:
+    """Return {YYYY-MM: monthly_return} using first/last equity in each month."""
+    if not dates or not equity or len(dates) < 2:
+        return {}
+    monthly: Dict[str, List[float]] = {}
+    for dt, val in zip(dates, equity):
+        if val is None:
+            continue
+        ym = dt.strftime("%Y-%m") if hasattr(dt, "strftime") else str(dt)[:7]
+        monthly.setdefault(ym, []).append(float(val))
+    result: Dict[str, float] = {}
+    for ym, vals in monthly.items():
+        if vals[0] > 0:
+            result[ym] = round((vals[-1] - vals[0]) / vals[0], 6)
+        else:
+            result[ym] = 0.0
+    return result
+
+
+def _compute_sortino(equity: list) -> float:
+    """Annualised Sortino ratio (downside deviation, MAR = 0)."""
+    if len(equity) < 2:
+        return 0.0
+    import math
+    rets = []
+    for i in range(1, len(equity)):
+        prev = equity[i - 1]
+        if prev and prev > 0:
+            rets.append((equity[i] - prev) / prev)
+    if not rets:
+        return 0.0
+    avg = sum(rets) / len(rets) * 252
+    neg = [r for r in rets if r < 0]
+    if not neg:
+        return 10.0  # no downside observed during this period
+    downside_var = sum(r ** 2 for r in neg) / len(rets)
+    downside_std = math.sqrt(downside_var) * math.sqrt(252)
+    return round(avg / downside_std, 4) if downside_std > 0 else 0.0
+
+
+def _compute_calmar(annual_return: float, max_drawdown: float) -> float:
+    """Calmar ratio = annualised return / abs(max drawdown)."""
+    if max_drawdown == 0:
+        return 0.0
+    return round(annual_return / abs(max_drawdown), 4)
+
+
+def _compute_max_consecutive_losses(paired_trades: List[Dict[str, Any]]) -> int:
+    """Count maximum consecutive losing (closed) trades."""
+    max_c = cur = 0
+    for tr in paired_trades:
+        if tr.get("status") == "已平仓" and (tr.get("pnl") or 0) < 0:
+            cur += 1
+            max_c = max(max_c, cur)
+        elif tr.get("status") == "已平仓":
+            cur = 0
+    return max_c
 
 
 # ════════════════════════════════════════════════════════════════════════════
@@ -104,6 +175,7 @@ def _pair_trades(raw_trades: list, strategy: str, symbol: str) -> List[Dict[str,
             paired.append({
                 "id":          len(paired) + 1,
                 "time":        tr.dt.strftime("%Y-%m-%d"),
+                "entryTime":   pending_buys[0].dt.strftime("%Y-%m-%d"),
                 "symbol":      symbol,
                 "strategy":    strategy,
                 "direction":   "买入",          # round-trip = bought then sold
@@ -121,6 +193,7 @@ def _pair_trades(raw_trades: list, strategy: str, symbol: str) -> List[Dict[str,
         paired.append({
             "id":          len(paired) + 1,
             "time":        tr.dt.strftime("%Y-%m-%d"),
+            "entryTime":   tr.dt.strftime("%Y-%m-%d"),
             "symbol":      symbol,
             "strategy":    strategy,
             "direction":   "买入",
@@ -154,25 +227,40 @@ def _build_response(
     strategy_ec: Dict[str, List[float]] = {}
 
     for name, (metrics, trades) in strategy_results.items():
-        strategies_summary.append({
-            "name":        name,
-            "totalReturn": round(metrics.get("total_return", 0.0), 6),
-            "annualReturn": round(metrics.get("annual_return", 0.0), 6),
-            "maxDrawdown": round(metrics.get("max_drawdown", 0.0), 6),
-            "sharpe":      round(metrics.get("sharpe", 0.0), 6),
-            "numTrades":   int(metrics.get("num_trades", 0)),
-        })
-
         dates = metrics.get("dates", [])
         ec    = metrics.get("equity_curve", [])
+        ec_floats = [float(v) for v in ec]
+
+        # Compute advanced metrics
+        paired_trades_tmp = _pair_trades(trades, name, symbol)
+        sortino = _compute_sortino(ec_floats)
+        calmar  = _compute_calmar(
+            metrics.get("annual_return", 0.0),
+            metrics.get("max_drawdown",  0.0),
+        )
+        max_consec = _compute_max_consecutive_losses(paired_trades_tmp)
+        monthly_rets = _compute_monthly_returns(dates, ec_floats)
+
+        strategies_summary.append({
+            "name":                  name,
+            "totalReturn":           round(metrics.get("total_return",  0.0), 6),
+            "annualReturn":          round(metrics.get("annual_return", 0.0), 6),
+            "maxDrawdown":           round(metrics.get("max_drawdown",  0.0), 6),
+            "sharpe":                round(metrics.get("sharpe",        0.0), 6),
+            "numTrades":             int(metrics.get("num_trades", 0)),
+            "sortino":               sortino,
+            "calmar":                calmar,
+            "maxConsecutiveLosses":  max_consec,
+            "monthlyReturns":        monthly_rets,
+        })
+
         labels = [d.strftime("%Y-%m-%d") if hasattr(d, "strftime") else str(d)[:10]
                   for d in dates]
 
         strategy_labels[name] = labels
-        strategy_ec[name]     = [round(float(v), 2) for v in ec]
+        strategy_ec[name]     = [round(v, 2) for v in ec_floats]
 
-        paired = _pair_trades(trades, name, symbol)
-        all_trades.extend(paired)
+        all_trades.extend(paired_trades_tmp)
 
     # Use the longest date list as the common labels axis so all strategies
     # share the same x-axis regardless of minor length differences
@@ -211,12 +299,22 @@ def _build_response(
     }
 
 
-def run_backtest(params: Dict[str, Any]) -> Dict[str, Any]:
+def run_backtest(
+    params: Dict[str, Any],
+    progress_cb: Optional[Callable[[int, str], None]] = None,
+) -> Dict[str, Any]:
     """Execute a full backtest using the quantitative agents."""
+
+    def _p(pct: int, msg: str) -> None:
+        if progress_cb:
+            progress_cb(pct, msg)
+
     symbol      = str(params.get("symbol",     "600519")).strip()
     start_date  = str(params.get("start_date", "20200101")).strip()
     end_date    = str(params.get("end_date",   "20241231")).strip()
     adjust      = str(params.get("adjust",     "qfq"))
+
+    _p(5, "正在验证参数…")
 
     # ── Server-side input validation ──────────────────────────────────────
     import re
@@ -267,6 +365,7 @@ def run_backtest(params: Dict[str, Any]) -> Dict[str, Any]:
         raise ValueError("No valid strategies specified")
 
     # ── Data ────────────────────────────────────────────────────────────
+    _p(10, "正在获取市场数据…")
     data_dir = str(_MAQ / "data" / "raw")
     da = DataAgent(
         symbol=symbol,
@@ -280,6 +379,8 @@ def run_backtest(params: Dict[str, Any]) -> Dict[str, Any]:
 
     if df is None or len(df) == 0:
         raise ValueError(f"No data returned for symbol={symbol} {start_date}~{end_date}")
+
+    _p(25, f"数据加载完成：{len(df)} 行")
 
     # Log data validation details
     print(
@@ -316,18 +417,22 @@ def run_backtest(params: Dict[str, Any]) -> Dict[str, Any]:
     )
 
     print(f"[run_backtest] Running strategies: {run_strategies}")
+    _p(35, f"开始运行策略：{run_strategies}")
 
     results: Dict[str, Tuple[Dict[str, Any], list]] = {}
 
     if "Trend-only" in run_strategies:
+        _p(40, "运行趋势策略（Trend-only）…")
         m, t = engine.run_single_agent(df, trend_agent, "Trend-only")
         results["Trend-only"] = (m, t)
 
     if "MeanRev-only" in run_strategies:
+        _p(55, "运行均值回归策略（MeanRev-only）…")
         m, t = engine.run_single_agent(df, mr_agent, "MeanRev-only")
         results["MeanRev-only"] = (m, t)
 
     if "Fusion(no-ML)" in run_strategies:
+        _p(68, "运行融合策略（Fusion no-ML）…")
         coord_no_ml = CoordinatorAgent(
             agent_weights={"trend": w_trend, "mean_reversion": w_mr},
             ml_veto_enabled=False,
@@ -342,6 +447,7 @@ def run_backtest(params: Dict[str, Any]) -> Dict[str, Any]:
         results["Fusion(no-ML)"] = (m, t)
 
     if "Fusion(+ML-veto)" in run_strategies:
+        _p(80, "运行 ML 融合策略（Fusion +ML-veto）…")
         coord_ml = CoordinatorAgent(
             agent_weights={"trend": w_trend, "mean_reversion": w_mr, "ml": w_ml},
             ml_veto_enabled=True,
@@ -355,12 +461,54 @@ def run_backtest(params: Dict[str, Any]) -> Dict[str, Any]:
         )
         results["Fusion(+ML-veto)"] = (m, t)
 
-    return _build_response(symbol, start_date, end_date, results)
+    _p(95, "正在整合结果…")
+    response = _build_response(symbol, start_date, end_date, results)
+    _p(100, "回测完成")
+    return response
 
 
 # ════════════════════════════════════════════════════════════════════════════
 #  Flask routes
 # ════════════════════════════════════════════════════════════════════════════
+
+def _run_task(task_id: str, params: Dict[str, Any]) -> None:
+    """Execute a backtest in a background thread and store results in _tasks."""
+    global _latest_result
+
+    def progress_cb(pct: int, msg: str) -> None:
+        with _tasks_lock:
+            if task_id in _tasks:
+                _tasks[task_id]["progress"] = pct
+                _tasks[task_id]["message"]  = msg
+
+    with _tasks_lock:
+        _tasks[task_id]["status"] = "running"
+        _tasks[task_id]["message"] = "正在初始化…"
+
+    try:
+        result = run_backtest(params, progress_cb=progress_cb)
+        _latest_result = result
+        with _tasks_lock:
+            _tasks[task_id]["status"]   = "done"
+            _tasks[task_id]["progress"] = 100
+            _tasks[task_id]["message"]  = "回测完成"
+            _tasks[task_id]["result"]   = result
+    except Exception as exc:
+        traceback.print_exc()
+        with _tasks_lock:
+            _tasks[task_id]["status"]  = "error"
+            _tasks[task_id]["message"] = f"错误：{exc}"
+            _tasks[task_id]["error"]   = str(exc)
+
+
+def _cleanup_old_tasks() -> None:
+    """Remove tasks older than _TASK_TTL_SECONDS."""
+    now = time.time()
+    with _tasks_lock:
+        stale = [k for k, v in _tasks.items()
+                 if now - v.get("created_at", 0) > _TASK_TTL_SECONDS]
+        for k in stale:
+            del _tasks[k]
 
 @app.route("/", methods=["GET"])
 def index():
@@ -404,16 +552,48 @@ def health():
 
 @app.route("/api/backtest", methods=["POST"])
 def api_backtest():
-    """Run a backtest with the given parameters"""
-    global _latest_result
-    params = request.get_json(silent=True) or {}
-    try:
-        result = run_backtest(params)
-        _latest_result = result
-        return jsonify(result)
-    except Exception as exc:
-        traceback.print_exc()
-        return jsonify({"error": str(exc)}), 500
+    """Start a backtest as a background task; returns task_id immediately."""
+    _cleanup_old_tasks()
+    params  = request.get_json(silent=True) or {}
+    task_id = uuid.uuid4().hex[:12]
+
+    with _tasks_lock:
+        _tasks[task_id] = {
+            "status":     "pending",
+            "progress":   0,
+            "message":    "等待开始…",
+            "result":     None,
+            "error":      None,
+            "created_at": time.time(),
+        }
+
+    thread = threading.Thread(target=_run_task, args=(task_id, params), daemon=True)
+    thread.start()
+
+    return jsonify({"task_id": task_id, "status": "pending"})
+
+
+@app.route("/api/backtest-status/<task_id>", methods=["GET"])
+def api_backtest_status(task_id: str):
+    """Poll the status of a background backtest task."""
+    with _tasks_lock:
+        task = _tasks.get(task_id)
+
+    if task is None:
+        return jsonify({"error": "Task not found"}), 404
+
+    response: Dict[str, Any] = {
+        "task_id":  task_id,
+        "status":   task["status"],
+        "progress": task["progress"],
+        "message":  task["message"],
+    }
+    if task["status"] == "done":
+        response["result"] = task["result"]
+    elif task["status"] == "error":
+        response["error"] = task["error"]
+
+    return jsonify(response)
 
 
 @app.route("/api/results", methods=["GET"])
@@ -450,4 +630,4 @@ if __name__ == "__main__":
 ╚════════════════════════════════════════════════════════════════╝
     """)
     
-    app.run(host=args.host, port=args.port, debug=args.debug)
+    app.run(host=args.host, port=args.port, debug=args.debug, threaded=True)
