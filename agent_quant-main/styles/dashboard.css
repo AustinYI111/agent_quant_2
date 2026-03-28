@@ -490,6 +490,7 @@ code {
 .chart-container {
   position: relative;
   width: 100%;
+  margin: 0 auto;
 }
 .chart-container canvas { width: 100% !important; }
 
