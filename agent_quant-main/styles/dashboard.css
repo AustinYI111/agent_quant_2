@@ -1349,3 +1349,42 @@ tbody td.td-main { color: var(--text); font-weight: 500; }
   color: var(--text-dim);
   line-height: 1.4;
 }
+
+/* ─────────────────────────────────────────────────────────────────
+   Win/Loss Doughnut – centered overlay label
+   ─────────────────────────────────────────────────────────────────── */
+.winrate-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
+}
+.winrate-chart-wrapper {
+  max-width: 260px;
+  width: 100%;
+}
+.winrate-label-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+  z-index: 10;
+  white-space: nowrap;
+}
+.winrate-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+.winrate-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  line-height: 1;
+}
