@@ -1,9 +1,25 @@
-function animateNumber(targetStr) {
+function animateNumber(targetStr, duration) {
+    // Type checking to ensure targetStr is a string
     if (typeof targetStr !== 'string') {
-        console.error('Invalid targetStr: must be a string.');
-        return;
+        throw new TypeError('Expected targetStr to be a string');
     }
-    // Existing function logic...
-    targetStr = targetStr.replace(/\D/g, ''); // Example modification
-    // Animate number logic...
+
+    const start = parseFloat(targetStr.replace(/[^0-9.]/g, ''));
+    const end = parseFloat(targetStr.replace(/[^0-9.]/g, ''));
+    const startTime = performance.now();
+
+    function update() {
+        const currentTime = performance.now();
+        const timeElapsed = currentTime - startTime;
+        const progress = Math.min(timeElapsed / duration, 1);
+        const animatedValue = start + (end - start) * progress;
+
+        // Update your UI with animatedValue here
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+
+    requestAnimationFrame(update);
 }
