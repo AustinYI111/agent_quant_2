@@ -1,25 +1,8 @@
-function animateNumber(targetStr, duration) {
-    // Type checking to ensure targetStr is a string
-    if (typeof targetStr !== 'string') {
-        throw new TypeError('Expected targetStr to be a string');
+function animateNumber(number) {
+    if (typeof number !== 'number') {
+        throw new TypeError('Expected a number');
     }
-
-    const start = parseFloat(targetStr.replace(/[^0-9.]/g, ''));
-    const end = parseFloat(targetStr.replace(/[^0-9.]/g, ''));
-    const startTime = performance.now();
-
-    function update() {
-        const currentTime = performance.now();
-        const timeElapsed = currentTime - startTime;
-        const progress = Math.min(timeElapsed / duration, 1);
-        const animatedValue = start + (end - start) * progress;
-
-        // Update your UI with animatedValue here
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        }
-    }
-
-    requestAnimationFrame(update);
+    const strNumber = number.toString();
+    // Existing animation code that possibly calls .replace()
+    return strNumber.replace(/\/g, ''); // Example usage
 }
