@@ -1353,11 +1353,16 @@ tbody td.td-main { color: var(--text); font-weight: 500; }
 /* ─────────────────────────────────────────────────────────────────
    Win/Loss Doughnut – centered overlay label
    ─────────────────────────────────────────────────────────────────── */
+.winrate-card {
+  display: flex;
+  flex-direction: column;
+}
 .winrate-container {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
   min-height: 280px;
 }
 .winrate-chart-wrapper {
