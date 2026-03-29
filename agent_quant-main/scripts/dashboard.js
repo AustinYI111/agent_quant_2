@@ -24,6 +24,7 @@
   };
 
   const PAGE_META = {
+    overview:  { title: '系统概述',        subtitle: '多智能体量化交易系统架构与策略说明' },
     dashboard: { title: '交易仪表板',    subtitle: '多策略量化回测结果概览' },
     analysis:  { title: '收益分析',      subtitle: '收益曲线与回撤详情' },
     strategy:  { title: '策略对比',      subtitle: '各策略绩效指标横向对比' },
@@ -77,6 +78,21 @@
     return fmt(val, 2);
   }
 
+  // ── Fetch with timeout helper ────────────────────────────────────────
+  function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
+    let signal = options.signal;
+    if (!signal) {
+      if (typeof AbortSignal.timeout === 'function') {
+        signal = AbortSignal.timeout(timeoutMs);
+      } else {
+        const controller = new AbortController();
+        setTimeout(() => controller.abort(), timeoutMs);
+        signal = controller.signal;
+      }
+    }
+    return fetch(url, { ...options, signal });
+  }
+
   // ── API Detection ────────────────────────────────────────────────────────
   async function detectApi() {
     const dot  = $('#api-status-dot');
@@ -85,15 +101,7 @@
     if (urlEl) urlEl.textContent = CONFIG.apiBase;
 
     try {
-      let signal;
-      if (typeof AbortSignal.timeout === 'function') {
-        signal = AbortSignal.timeout(2000);
-      } else {
-        const controller = new AbortController();
-        setTimeout(() => controller.abort(), 2000);
-        signal = controller.signal;
-      }
-      const res = await fetch(CONFIG.apiBase + '/api/health', { signal });
+      const res = await fetchWithTimeout(CONFIG.apiBase + '/api/health', {}, 2000);
       if (res.ok) {
         state.apiAvailable = true;
         if (dot)  dot.style.background = '#4ade80';
@@ -112,13 +120,13 @@
     // 1. Try API /api/results
     if (state.apiAvailable) {
       try {
-        const res = await fetch(CONFIG.apiBase + '/api/results');
+        const res = await fetchWithTimeout(CONFIG.apiBase + '/api/results', {}, 10000);
         if (res.ok) return await res.json();
       } catch (_) { /* fall through */ }
     }
     // 2. Fall back to static sample file
     try {
-      const res = await fetch(CONFIG.staticDataUrl);
+      const res = await fetchWithTimeout(CONFIG.staticDataUrl, {}, 5000);
       if (!res.ok) throw new Error('HTTP ' + res.status);
       return await res.json();
     } catch (e) {
@@ -157,9 +165,10 @@
 
     // Render page-specific charts that may not have been initialised yet
     if (state.data) {
+      if (pageId === 'overview')  renderOverview(state.data);
       if (pageId === 'analysis')  { renderAnalysisCharts(state.data); renderMonthlyHeatmap(state.data); }
       if (pageId === 'strategy')  { renderStrategyCards(state.data); renderStrategyComparisonChart(state.data); }
-      if (pageId === 'trades')    { renderTradesTable(state.data); renderTradeStatsChart(state.data); }
+      if (pageId === 'trades')    { renderTradesTable(state.data); renderTradeStatsChart(state.data); renderTradeSummary(state.data); }
       if (pageId === 'dashboard') renderRiskMetrics(state.data);
     }
   }
@@ -561,11 +570,15 @@
     renderEquityChart(data);
     renderWinLossChart(data);
     renderRiskMetrics(data);
+    if (state.activePage === 'overview')  renderOverview(data);
     if (state.activePage === 'analysis')  { renderAnalysisCharts(data); renderMonthlyHeatmap(data); }
     if (state.activePage === 'strategy')  { renderStrategyCards(data); renderStrategyComparisonChart(data); }
-    if (state.activePage === 'trades')    { renderTradesTable(data); renderTradeStatsChart(data); }
+    if (state.activePage === 'trades')    { renderTradesTable(data); renderTradeStatsChart(data); renderTradeSummary(data); }
     if (state.activePage !== 'strategy')  renderStrategyCards(data);
-    $('#last-update').textContent = new Date().toLocaleTimeString('zh-CN');
+    const nowStr = new Date().toLocaleTimeString('zh-CN');
+    $('#last-update').textContent = nowStr;
+    const overviewUpdate = $('#overview-last-update');
+    if (overviewUpdate) overviewUpdate.textContent = nowStr;
 
     // Stagger KPI cards for entrance animation
     if (window.AQUi && window.AQUi.staggerChildren) {
@@ -858,6 +871,172 @@
     showToast('✅ 交易记录已导出 CSV', 'success');
   }
 
+  // ── Chart PNG Export ─────────────────────────────────────────────────
+  function exportChartAsPng(chartKey) {
+    const chart = state.charts[chartKey];
+    if (!chart) { showToast('图表尚未加载，请先查看对应页面', 'error'); return; }
+    const url = chart.toBase64Image('image/png', 1.0);
+    const a   = document.createElement('a');
+    a.href     = url;
+    a.download = `chart_${chartKey}_${new Date().toISOString().slice(0, 10)}.png`;
+    a.click();
+    showToast('✅ 图表已导出 PNG', 'success');
+  }
+
+  function initChartExportButtons() {
+    $$('.chart-export-btn').forEach(btn => {
+      btn.addEventListener('click', () => exportChartAsPng(btn.dataset.chart));
+    });
+  }
+
+  // ── Trade Summary Statistics ─────────────────────────────────────────
+  function renderTradeSummary(data) {
+    const container = $('#trade-stats-summary');
+    if (!container) return;
+    const trades = filterTrades(data.trades).filter(t => t.status === '已平仓');
+    if (!trades.length) { container.style.display = 'none'; return; }
+
+    const pnls     = trades.map(t => t.pnl || 0);
+    const wins     = trades.filter(t => (t.pnl || 0) > 0);
+    const losses   = trades.filter(t => (t.pnl || 0) <= 0);
+    const totalPnl = pnls.reduce((a, b) => a + b, 0);
+    const avgPnl   = totalPnl / pnls.length;
+    const totalWin = wins.length   ? wins.map(t => t.pnl).reduce((a, b) => a + b, 0)   : 0;
+    const totalLoss= losses.length ? losses.map(t => t.pnl).reduce((a, b) => a + b, 0) : 0;
+    const avgWin   = wins.length   ? totalWin  / wins.length   : 0;
+    const avgLoss  = losses.length ? totalLoss / losses.length : 0;  // negative value
+    const profitFactor = totalLoss !== 0 ? Math.abs(totalWin / totalLoss) : Infinity;
+
+    // avgLoss is already negative; fmt() will render it with a minus sign
+    const stats = [
+      { label: '已平仓笔数',   value: trades.length,                                    neutral: true },
+      { label: '胜率',         value: fmtPct(wins.length / trades.length),               cls: wins.length / trades.length >= 0.5 ? 'positive' : 'negative' },
+      { label: '总盈亏',       value: (totalPnl >= 0 ? '+' : '') + fmt(totalPnl),         cls: totalPnl >= 0 ? 'positive' : 'negative' },
+      { label: '平均盈亏/笔',  value: (avgPnl >= 0 ? '+' : '') + fmt(avgPnl),             cls: avgPnl >= 0 ? 'positive' : 'negative' },
+      { label: '平均盈利/笔',  value: wins.length   ? '+' + fmt(avgWin)  : '—',           cls: 'positive' },
+      { label: '平均亏损/笔',  value: losses.length ? fmt(avgLoss)        : '—',           cls: 'negative' },
+      { label: '盈亏比',       value: avgLoss !== 0 ? fmt(Math.abs(avgWin / avgLoss), 2) : '∞', cls: Math.abs(avgWin) >= Math.abs(avgLoss) ? 'positive' : 'negative' },
+      { label: 'Profit Factor', value: isFinite(profitFactor) ? fmt(profitFactor, 2) : '∞', cls: profitFactor >= 1 ? 'positive' : 'negative' },
+    ];
+
+    container.style.display = 'grid';
+    container.innerHTML = stats.map(s => `
+      <div class="trade-stat-item">
+        <div class="trade-stat-label">${s.label}</div>
+        <div class="trade-stat-value ${s.neutral ? '' : s.cls || ''}">${s.value}</div>
+      </div>`).join('');
+  }
+
+  // ── Overview Page ────────────────────────────────────────────────────
+  function renderOverview(data) {
+    const grid = $('#overview-summary-grid');
+    if (!grid || !data) return;
+
+    const strats = data.summary.strategies;
+    if (!strats || !strats.length) return;
+
+    const best = strats.reduce((a, b) => a.totalReturn > b.totalReturn ? a : b);
+
+    grid.innerHTML = strats.map(s => {
+      const retCls = s.totalReturn >= 0 ? 'positive' : 'negative';
+      const shCls  = s.sharpe >= 0.5 ? 'positive' : s.sharpe >= 0 ? 'neutral' : 'negative';
+      const isBest = s.name === best.name;
+      return `
+        <div class="overview-result-card ${isBest ? 'best' : ''}">
+          <div class="overview-result-name">
+            ${s.name}
+            ${isBest ? '<span class="badge badge-success">最优</span>' : ''}
+          </div>
+          <div class="overview-result-metrics">
+            <div><span class="overview-result-label">总收益</span><span class="overview-result-val ${retCls}">${fmtPct(s.totalReturn)}</span></div>
+            <div><span class="overview-result-label">年化</span><span class="overview-result-val ${retCls}">${fmtPct(s.annualReturn)}</span></div>
+            <div><span class="overview-result-label">最大回撤</span><span class="overview-result-val negative">${fmtPct(s.maxDrawdown)}</span></div>
+            <div><span class="overview-result-label">夏普</span><span class="overview-result-val ${shCls}">${fmt(s.sharpe, 3)}</span></div>
+            <div><span class="overview-result-label">交易笔数</span><span class="overview-result-val neutral">${s.numTrades}</span></div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Backtest Report Generation ────────────────────────────────────────
+  function generateBacktestReport() {
+    if (!state.data) { showToast('暂无数据，请先运行回测', 'error'); return; }
+    const data      = state.data;
+    const summary   = data.summary;
+    const strats    = summary.strategies;
+    const best      = strats.reduce((a, b) => a.totalReturn > b.totalReturn ? a : b);
+    const allTrades = data.trades || [];
+    const closedTrades = allTrades.filter(t => t.status === '已平仓');
+    const now       = new Date().toLocaleString('zh-CN');
+    const symbol    = (closedTrades[0] && closedTrades[0].symbol) || summary.symbol || '—';
+
+    const lines = [];
+    lines.push('═══════════════════════════════════════════════════════════');
+    lines.push('        Agent Quant — 量化交易系统回测分析报告');
+    lines.push('═══════════════════════════════════════════════════════════');
+    lines.push('');
+    lines.push(`生成时间：${now}`);
+    lines.push(`回测标的：${symbol}   数据范围：${summary.startDate || '—'} ~ ${summary.endDate || '—'}`);
+    lines.push(`初始资金：¥${(summary.initialCapital || 0).toLocaleString('zh-CN')}`);
+    lines.push('');
+    lines.push('───────────────────── Ⅰ. 执行摘要 ─────────────────────');
+    lines.push(`最优策略：${best.name}`);
+    lines.push(`总收益率：${fmtPct(best.totalReturn)}`);
+    lines.push(`年化收益：${fmtPct(best.annualReturn)}`);
+    lines.push(`最大回撤：${fmtPct(best.maxDrawdown)}`);
+    lines.push(`夏普比率：${fmt(best.sharpe, 3)}`);
+    lines.push('');
+    lines.push('───────────────── Ⅱ. 各策略绩效汇总 ────────────────────');
+    const hdr = ['策略名称','总收益率','年化收益','最大回撤','夏普比率','交易笔数'].map(s => s.padEnd(16)).join('');
+    lines.push(hdr);
+    lines.push('─'.repeat(hdr.length));
+    strats.forEach(s => {
+      const row = [
+        s.name.padEnd(16),
+        fmtPct(s.totalReturn).padEnd(16),
+        fmtPct(s.annualReturn).padEnd(16),
+        fmtPct(s.maxDrawdown).padEnd(16),
+        fmt(s.sharpe, 3).padEnd(16),
+        String(s.numTrades).padEnd(16),
+      ].join('');
+      lines.push(row);
+    });
+    lines.push('');
+    lines.push('─────────────────── Ⅲ. 交易统计摘要 ────────────────────');
+    if (closedTrades.length) {
+      const pnls      = closedTrades.map(t => t.pnl || 0);
+      const wins      = closedTrades.filter(t => (t.pnl || 0) > 0);
+      const losses    = closedTrades.filter(t => (t.pnl || 0) <= 0);
+      const totalPnl  = pnls.reduce((a, b) => a + b, 0);
+      const avgPnl    = totalPnl / pnls.length;
+      const totalWin  = wins.length   ? wins.map(t => t.pnl).reduce((a, b) => a + b, 0)   : 0;
+      const totalLoss = losses.length ? losses.map(t => t.pnl).reduce((a, b) => a + b, 0) : 0;
+      const avgWin    = wins.length   ? totalWin  / wins.length   : 0;
+      const avgLoss   = losses.length ? totalLoss / losses.length : 0;  // negative
+      lines.push(`总交易笔数：${closedTrades.length}   胜率：${fmtPct(wins.length / closedTrades.length)}`);
+      lines.push(`总盈亏：¥${totalPnl.toFixed(2)}   平均盈亏/笔：¥${avgPnl.toFixed(2)}`);
+      lines.push(`平均盈利：¥${avgWin.toFixed(2)}   平均亏损：¥${avgLoss.toFixed(2)}`);
+      if (totalLoss !== 0) lines.push(`Profit Factor：${fmt(Math.abs(totalWin / totalLoss), 2)}`);
+    } else {
+      lines.push('无已平仓交易记录');
+    }
+    lines.push('');
+    lines.push('─────────────────────── Ⅳ. 声明 ─────────────────────────');
+    lines.push('本报告由 Agent Quant 系统自动生成，仅供学术研究和毕业设计展示使用。');
+    lines.push('回测结果不代表实际投资收益，历史表现不预示未来表现。');
+    lines.push('═══════════════════════════════════════════════════════════');
+
+    const text = lines.join('\n');
+    const blob = new Blob([text], { type: 'text/plain;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `backtest_report_${new Date().toISOString().slice(0, 10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('✅ 回测报告已生成', 'success');
+  }
+
   // ── Date Range Presets ───────────────────────────────────────────────
   function initDatePresets() {
     $$('.preset-btn').forEach(btn => {
@@ -1010,11 +1189,11 @@
 
       try {
         // 1. POST to start background task; returns immediately with task_id
-        const startRes  = await fetch(CONFIG.apiBase + '/api/backtest', {
+        const startRes  = await fetchWithTimeout(CONFIG.apiBase + '/api/backtest', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(params),
-        });
+        }, 15000);
         const startJson = await startRes.json();
         if (!startRes.ok || startJson.error) throw new Error(startJson.error || `HTTP ${startRes.status}`);
 
@@ -1024,7 +1203,7 @@
         await new Promise((resolve, reject) => {
           async function poll() {
             try {
-              const r = await fetch(`${CONFIG.apiBase}/api/backtest-status/${taskId}`);
+              const r = await fetchWithTimeout(`${CONFIG.apiBase}/api/backtest-status/${taskId}`, {}, 10000);
               const j = await r.json();
               const pct = j.progress || 0;
               setProgress(pct);
@@ -1124,10 +1303,19 @@
     initTableSort();
     initBacktestForm();
     initDatePresets();
+    initChartExportButtons();
 
     // Export CSV button
     const exportBtn = $('#export-csv-btn');
     if (exportBtn) exportBtn.addEventListener('click', exportTradesToCSV);
+
+    // Generate report button
+    const reportBtn = $('#generate-report-btn');
+    if (reportBtn) reportBtn.addEventListener('click', generateBacktestReport);
+
+    // Overview quick-run button
+    const overviewRunBtn = $('#overview-run-btn');
+    if (overviewRunBtn) overviewRunBtn.addEventListener('click', () => switchPage('config'));
 
     const apiUrlEl = $('#api-base-url');
     if (apiUrlEl) apiUrlEl.textContent = CONFIG.apiBase;

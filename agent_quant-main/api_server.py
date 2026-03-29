@@ -314,18 +314,34 @@ def run_backtest(
     end_date    = str(params.get("end_date",   "20241231")).strip()
     adjust      = str(params.get("adjust",     "qfq"))
 
+    # Sanitize values for safe logging (strip control characters, truncate)
+    def _safe(v: str, max_len: int = 32) -> str:
+        return repr(v[:max_len].encode('ascii', errors='replace').decode())
+
+    print(f"[run_backtest] Received params: symbol={_safe(symbol)}, "
+          f"start_date={_safe(start_date)}, end_date={_safe(end_date)}, adjust={_safe(adjust)}")
+    print(f"[run_backtest] Strategies requested: {params.get('strategies', ['all (default)'])}")
+
     _p(5, "正在验证参数…")
 
     # ── Server-side input validation ──────────────────────────────────────
     import re
     if not re.match(r"^\d{6}$", symbol):
-        raise ValueError(f"Invalid symbol '{symbol}': expected 6-digit code")
+        msg = f"股票代码格式错误：期望6位纯数字（收到 {_safe(symbol)}）"
+        print(f"[run_backtest] ERROR: {msg}")
+        raise ValueError(msg)
     if not re.match(r"^\d{8}$", start_date):
-        raise ValueError(f"Invalid start_date '{start_date}': expected YYYYMMDD")
+        msg = f"开始日期格式错误：期望 YYYYMMDD 格式（收到 {_safe(start_date)}）。请检查前端日期转换是否正确。"
+        print(f"[run_backtest] ERROR: {msg}")
+        raise ValueError(msg)
     if not re.match(r"^\d{8}$", end_date):
-        raise ValueError(f"Invalid end_date '{end_date}': expected YYYYMMDD")
+        msg = f"结束日期格式错误：期望 YYYYMMDD 格式（收到 {_safe(end_date)}）。请检查前端日期转换是否正确。"
+        print(f"[run_backtest] ERROR: {msg}")
+        raise ValueError(msg)
     if start_date >= end_date:
-        raise ValueError("start_date must be before end_date")
+        msg = f"开始日期 ({start_date}) 必须早于结束日期 ({end_date})"
+        print(f"[run_backtest] ERROR: {msg}")
+        raise ValueError(msg)
     if adjust not in ("", "qfq", "hfq"):
         adjust = "qfq"
 
