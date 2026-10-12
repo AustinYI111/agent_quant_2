@@ -206,7 +206,7 @@ def _finite_mean(series):
     return float(value) if pd.notna(value) and np.isfinite(value) else None
 
 
-def run(data, out, config=Config(), asof=None):
+def run(data, out, config=Config(), asof=None, library=None):
     data = validate(data)
     path = Path(out)
     if path.exists() and any(path.iterdir()):
@@ -222,7 +222,7 @@ def run(data, out, config=Config(), asof=None):
                       data.calendar[data.calendar <= asof], data.metadata)
     dates = completed_months.union(pd.DatetimeIndex([asof]))
     path.mkdir(parents=True, exist_ok=True)
-    samples, labels, features = build_samples(data, config, dates)
+    samples, labels, features = build_samples(data, config, dates, library)
     picks, audit, importance = rolling_rank(samples, features, data.calendar, config, path / "models")
     # The arbitrary asof score is published separately; rebalance only month ends.
     monthly = picks[picks.date.isin(completed_months)]

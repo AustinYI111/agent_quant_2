@@ -19,7 +19,7 @@ def make_demo(seed=42, stocks=40, periods=1512):
         returns = market + rng.normal(0.00012 * quality, 0.012, periods)
         close = (20 + i) * np.exp(np.cumsum(returns))
         opens = np.r_[close[0], close[:-1]] * np.exp(rng.normal(0, 0.001, periods))
-        prices.append(pd.DataFrame(dict(date=calendar, symbol=symbol, close=close,
+        prices.append(pd.DataFrame(dict(date=calendar, symbol=symbol, close=close, raw_close=close,
                                        total_return_open=opens, volume=rng.lognormal(13, 0.3, periods),
                                        market_cap=close * 1e8, is_st=False, eligible=True,
                                        can_buy=True, can_sell=True, listing_date=pd.Timestamp("2010-01-01"))))

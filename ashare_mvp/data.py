@@ -53,6 +53,11 @@ def validate(data: Dataset) -> Dataset:
         p[col] = pd.to_numeric(p[col], errors="raise")
         if not np.isfinite(p[col]).all() or (p[col] < 0).any():
             raise ValueError(f"invalid {col}")
+    if "raw_close" in p:
+        p["raw_close"] = pd.to_numeric(p.raw_close, errors="raise")
+        known = p.raw_close.dropna()
+        if not np.isfinite(known).all() or (known < 0).any():
+            raise ValueError("invalid raw_close")
     if ((p.close <= 0) & p.eligible.astype(bool)).any():
         raise ValueError("eligible close must be positive")
     for col in ["is_st", "eligible", "can_buy", "can_sell"]:
