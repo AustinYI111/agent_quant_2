@@ -1,0 +1,118 @@
+"""Reconcile full-market distribution plans against sealed payment evidence."""
+from pathlib import Path
+import hashlib
+import json
+import re
+
+import numpy as np
+import pandas as pd
+
+from .dividend_normalization import _terms
+from .public_data import is_ashare
+
+
+def reconcile_dividend_sources(market_data, payment_data, calendar_path, out):
+    market, payments, target = Path(market_data), Path(payment_data), Path(out)
+    if target.exists() and any(target.iterdir()):
+        raise ValueError("dividend reconciliation output must be empty")
+    manifest_bytes = (market / "manifest.json").read_bytes()
+    manifest = json.loads(manifest_bytes)
+    if manifest.get("schema") != "market_dividend_plans_v1":
+        raise ValueError("market dividend source schema mismatch")
+    payment_summary_bytes = (payments / "summary.json").read_bytes()
+    payment_summary = json.loads(payment_summary_bytes)
+    action_bytes = (payments / "actions.csv").read_bytes()
+    if hashlib.sha256(action_bytes).hexdigest() != payment_summary.get("actions_sha256"):
+        raise ValueError("normalized payment event hash mismatch")
+    actions = pd.read_csv(payments / "actions.csv", dtype={"symbol": str},
+                          parse_dates=["ex_date", "available_date", "pay_date", "announcement_date"])
+    if actions.duplicated(["symbol", "ex_date"]).any():
+        raise ValueError("ambiguous payment events")
+    if actions[["symbol", "ex_date", "available_date", "pay_date", "announcement_date"]].isna().any().any():
+        raise ValueError("missing payment event clock/security")
+    lookup = actions.set_index(["symbol", "ex_date"])
+    calendar_bytes = Path(calendar_path).read_bytes()
+    calendar = pd.read_csv(calendar_path, dtype=str)
+    dates = calendar.loc[calendar.is_trading_day == "1", "calendar_date"] if {"calendar_date", "is_trading_day"}.issubset(calendar) else calendar["date"]
+    cal = pd.DatetimeIndex(pd.to_datetime(dates))
+    if cal.empty or cal.has_duplicates or cal.hasnans or not cal.is_monotonic_increasing or cal.tz is not None or not cal.equals(cal.normalize()):
+        raise ValueError("invalid dividend reconciliation calendar")
+    frames = []
+    for period, info in manifest["periods"].items():
+        if info.get("status") != "ok":
+            continue
+        day = pd.Timestamp(period)
+        directory = market / f"{day.year}Q{day.quarter}"
+        for name, digest in info["hashes"].items():
+            if Path(name).name != name or hashlib.sha256((directory / name).read_bytes()).hexdigest() != digest:
+                raise ValueError("market dividend evidence hash mismatch")
+        frame = pd.read_csv(directory / "records.csv", dtype={"SECUCODE": str})
+        if len(frame) != info["rows"] or frame.duplicated(["SECUCODE", "REPORT_DATE"]).any():
+            raise ValueError("market dividend row/key mismatch")
+        if not pd.to_datetime(frame.REPORT_DATE).dt.normalize().eq(day).all():
+            raise ValueError("market dividend period mismatch")
+        frame["source_period"] = period
+        frames.append(frame)
+    if not frames:
+        raise ValueError("no verified market dividend periods")
+    raw = pd.concat(frames, ignore_index=True)
+    classified, matched = [], []
+    for row in raw.itertuples(index=False):
+        record = dict(security=row.SECUCODE, report_date=row.REPORT_DATE, source_period=row.source_period,
+                      progress=row.ASSIGN_PROGRESS, ex_date=row.EX_DIVIDEND_DATE,
+                      status="not_implemented", reason="provider does not mark plan implemented")
+        if row.ASSIGN_PROGRESS == "实施分配":
+            try:
+                code = re.fullmatch(r"(\d{6})\.(SH|SZ|BJ)", str(row.SECUCODE))
+                symbol = f"{code[2].lower()}.{code[1]}" if code else ""
+                if not is_ashare(symbol):
+                    raise ValueError("unsupported historical security identity/exchange")
+                terms = _terms(pd.Series(dict(dividCashStock=row.IMPL_PLAN_PROFILE,
+                    dividCashPsBeforeTax=row.PRETAX_BONUS_RMB / 10 if pd.notna(row.PRETAX_BONUS_RMB) else np.nan,
+                    dividStocksPs=row.BONUS_RATIO / 10 if pd.notna(row.BONUS_RATIO) else np.nan,
+                    dividReserveToStockPs=row.IT_RATIO / 10 if pd.notna(row.IT_RATIO) else np.nan)))
+                ex_date, notice = pd.Timestamp(row.EX_DIVIDEND_DATE), pd.Timestamp(row.NOTICE_DATE)
+                if pd.isna(ex_date) or pd.isna(notice) or ex_date not in cal:
+                    raise ValueError("missing or out-of-calendar execution/notice date")
+                position = cal.searchsorted(notice, side="right")
+                if position >= len(cal) or cal[position] > ex_date:
+                    raise ValueError("latest notice not visible before execution")
+                record.update(symbol=symbol, ex_date=str(ex_date.date()), cash_per_share=terms["dividCashPsBeforeTax"],
+                              share_multiplier=1 + terms["dividStocksPs"] + terms["dividReserveToStockPs"],
+                              available_date=str(cal[position].date()), status="missing_payment_evidence",
+                              reason="no independently normalized payment event for security/ex-date")
+                if (symbol, ex_date) in lookup.index:
+                    payment = lookup.loc[(symbol, ex_date)]
+                    if not np.isclose(payment.cash_per_share, record["cash_per_share"], atol=1e-6, rtol=1e-6) or not np.isclose(payment.share_multiplier, record["share_multiplier"], atol=1e-6, rtol=1e-6):
+                        raise ValueError("sources disagree on cash/share terms")
+                    if payment.pay_date < ex_date or payment.available_date > ex_date:
+                        raise ValueError("invalid independent payment clock")
+                    record.update(status="matched_payment_evidence", reason="terms/ex-date agree; original vintages remain unverified")
+                    matched.append(dict(symbol=symbol, ex_date=ex_date, available_date=max(cal[position], payment.available_date),
+                                        pay_date=payment.pay_date, cash_per_share=record["cash_per_share"],
+                                        share_multiplier=record["share_multiplier"], stock_market_date=payment.get("stock_market_date", ""),
+                                        source_period=row.source_period, event_vintage_certified=False))
+            except (ValueError, TypeError, KeyError) as exc:
+                record.update(status="unresolved", reason=str(exc))
+        classified.append(record)
+    result = pd.DataFrame(classified)
+    output = pd.DataFrame(matched, columns=["symbol", "ex_date", "available_date", "pay_date", "cash_per_share",
+                                           "share_multiplier", "stock_market_date", "source_period", "event_vintage_certified"])
+    if output.duplicated(["symbol", "ex_date"]).any():
+        raise ValueError("multiple implemented report periods map to one payment event")
+    target.mkdir(parents=True, exist_ok=True)
+    result.to_csv(target / "coverage.csv", index=False)
+    output.to_csv(target / "actions.csv", index=False)
+    (target / "input_market_manifest.json").write_bytes(manifest_bytes)
+    (target / "input_payment_summary.json").write_bytes(payment_summary_bytes)
+    (target / "input_payment_actions.csv").write_bytes(action_bytes)
+    (target / "input_calendar.csv").write_bytes(calendar_bytes)
+    summary = dict(records=len(raw), status_counts=result.status.value_counts().to_dict(), matched_events=len(output),
+                   partial_market_source=manifest.get("status") != "downloaded_raw", certified=False, model_ready=False,
+                   market_manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
+                   payment_actions_sha256=hashlib.sha256(action_bytes).hexdigest(),
+                   actions_sha256=hashlib.sha256((target / "actions.csv").read_bytes()).hexdigest(),
+                   limitations=["unmatched plans never receive assumed payment dates", "matched subset is not a complete market event history",
+                                "original event vintages unverified; economic entitlement is not tradable share settlement"])
+    (target / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
+    return summary

@@ -75,6 +75,11 @@ def main():
     market_actions.add_argument("--end", required=True)
     market_actions.add_argument("--out", required=True)
     market_actions.add_argument("--resume", action="store_true")
+    join_actions = sub.add_parser("reconcile-dividends", help="match market plans to independently normalized payment events")
+    join_actions.add_argument("--market", required=True)
+    join_actions.add_argument("--payments", required=True)
+    join_actions.add_argument("--calendar", required=True)
+    join_actions.add_argument("--out", required=True)
     report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
     report.add_argument("--data", required=True)
     report.add_argument("--predictions", required=True)
@@ -171,6 +176,9 @@ def main():
         print(json.dumps({k: v for k, v in result.items() if k != "periods"}, ensure_ascii=False, indent=2))
         if result["status"] != "downloaded_raw":
             raise SystemExit(1)
+    elif args.command == "reconcile-dividends":
+        from .dividend_reconciliation import reconcile_dividend_sources
+        print(json.dumps(reconcile_dividend_sources(args.market, args.payments, args.calendar, args.out), ensure_ascii=False, indent=2))
     elif args.command == "report":
         import pandas as pd
         from .research import daily_report, load_holdings

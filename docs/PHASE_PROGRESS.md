@@ -170,3 +170,17 @@ python -m ashare_mvp.cli download-market-dividends --start 2017-03-31 --end 2023
 ```
 
 本轮完整92项离线测试通过（34.95秒）。新增批量测试覆盖尾页缺行、重复证券、总行数跨页变化、缓存篡改和连续失败停止。真实批量采集会话本轮确认仍在运行，已完成11/28期；这与尚在运行的全市场行情采集分别跟踪，不能依据文件中的running状态擅自重启。
+
+## 全量方案与支付事件的覆盖核对
+
+分红方案采集进程现已成功结束：28/28期，共23369条原始记录。新增`reconcile-dividends`逐个验证封存的原始文件及规范化支付事件哈希，按证券/除息日匹配，仅允许已实施、条款一致且支付时点有效的记录进入actions.csv。来自方案接口的每十股金额除以10，与独立支付事件的每股金额核对；缺失支付日期不能默认用除息日代替。取消或未实施方案保留在coverage.csv中。
+
+真实完整方案与现有4条支付事件核对结果：4条匹配、18219条缺少独立支付证据、5116条未解决、30条未实施。未解决项包括3746条缺少或超出给定日历的日期、1365条未支持历史身份/交易所、4条数值与文字条款不一致、1条最新公告过晚。此分类并不把所有未解决记录都解释为数据错误，例如2017年或2024年实施事件可能处于当前日历区间外；需要按目标行情区间进一步核对。
+
+结果位于artifacts/market_dividend_payment_coverage/，封存输入manifest、支付事件和日历。原始方案采集完成，不等于支付覆盖完成；输出仍为certified=false及model_ready=false，不能拿仅4条匹配事件过滤股票池后声称完成全市场回测。
+
+```powershell
+python -m ashare_mvp.cli reconcile-dividends --market artifacts/market_dividend_history --payments artifacts/normalized_dividends --calendar artifacts/market_history/calendar.csv --out artifacts/dividend_coverage
+```
+
+本轮完整95项离线测试通过（32.91秒），新增测试确认未实施和缺支付记录不导出现金事件、条款矛盾拒绝及支付证据篡改拒绝。全市场行情采集会话本轮确认仍在运行，输出达到148/1479个交易日、520045行原始记录。下一步需补齐目标区间的支付日期及未支持证券身份，继续事件与价格核验、原始财报版本验证及真实训练。
