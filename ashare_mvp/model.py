@@ -16,7 +16,7 @@ class Config:
     oneil: bool = False
     commission_bps: float = 3.0
     slippage_bps: float = 5.0
-    sell_tax_bps: float = 5.0  # research assumption; user must supply dated rates
+    sell_tax_bps: float | None = None  # None applies the dated A-share schedule.
     n_estimators: int = 60
     seed: int = 42
 
@@ -29,7 +29,7 @@ class Config:
                 raise ValueError(f"{name} must be a positive integer")
         if not isinstance(self.embargo_sessions, int) or isinstance(self.embargo_sessions, bool) or self.embargo_sessions < 0:
             raise ValueError("embargo must be a nonnegative integer")
-        costs = [self.commission_bps, self.slippage_bps, self.sell_tax_bps]
+        costs = [self.commission_bps, self.slippage_bps, 10 if self.sell_tax_bps is None else self.sell_tax_bps]
         if not np.isfinite(costs).all() or min(costs) < 0 or sum(costs) >= 10000:
             raise ValueError("costs must be finite, nonnegative and total below 10000 bps")
 

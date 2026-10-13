@@ -9,6 +9,7 @@ import pandas as pd
 from .data import validate, month_ends
 from .factors import default_library, technical_panel, snapshot
 from .model import Config, training_slice, fit_ranker
+from .costs import stamp_duty_rate, stamp_duty_policy
 
 
 def forward_labels(data, dates, horizons=(3, 6, 12)):
@@ -93,13 +94,15 @@ def cohort_performance(picks, labels, samples, data, config):
     """Overlapping buy-and-hold cohorts, NOT a compounded NAV series."""
     rows = []
     buy_rate = (config.commission_bps + config.slippage_bps) / 10000
-    sell_rate = buy_rate + config.sell_tax_bps / 10000
     for date, selected in picks.groupby("date", sort=True):
         eligible = samples.loc[samples.date == date, "symbol"]
         for h in [3, 6, 12]:
             all_labels = labels[(labels.date == date) & (labels.horizon == h)].set_index("symbol")
             s = all_labels.reindex(selected.symbol)
             bench = all_labels.reindex(eligible)
+            exit_date = s.label_end.iloc[0] if len(s) else pd.NaT
+            tax_rate = stamp_duty_rate(exit_date, config.sell_tax_bps) if pd.notna(exit_date) else np.nan
+            sell_rate = buy_rate + tax_rate
             complete = len(s) == config.top_k and s.target.notna().all()
             benchmark_complete = len(bench) > 0 and bench.target.notna().all()
             gross = float(s.target.mean()) if complete else np.nan
@@ -111,10 +114,11 @@ def cohort_performance(picks, labels, samples, data, config):
                 end_flags = data.prices[data.prices.date == end].set_index("symbol").reindex(selected.symbol)
                 executable = bool(start_flags.can_buy.all() and end_flags.can_sell.all())
             rows.append(dict(date=date, horizon_months=h, selected=len(s), observed=int(s.target.notna().sum()),
+                             exit_date=exit_date, sell_tax_bps=tax_rate * 10000,
                              complete=complete, executable_at_endpoints=executable,
                              gross_return=gross, indicative_net_return=(1 + gross) * (1 - sell_rate) / (1 + buy_rate) - 1,
                              universe_return=benchmark, excess_return=gross - benchmark))
-    return pd.DataFrame(rows, columns=["date", "horizon_months", "selected", "observed", "complete",
+    return pd.DataFrame(rows, columns=["date", "horizon_months", "selected", "observed", "exit_date", "sell_tax_bps", "complete",
                                        "executable_at_endpoints", "gross_return", "indicative_net_return",
                                        "universe_return", "excess_return"])
 
@@ -137,10 +141,11 @@ def simulate_monthly(data, picks, config):
     cash, holdings = 1.0, {}
     nav, trades = [], []
     buy_rate = (config.commission_bps + config.slippage_bps) / 10000
-    sell_rate = buy_rate + config.sell_tax_bps / 10000
     for date, daily in data.prices.groupby("date", sort=True):
         if date < min(orders):
             continue
+        tax_rate = stamp_duty_rate(date, config.sell_tax_bps)
+        sell_rate = buy_rate + tax_rate
         bars = daily.set_index("symbol")
         prices = bars.total_return_open
         equity = cash + sum(q * prices[s] for s, q in holdings.items())
@@ -155,9 +160,11 @@ def simulate_monthly(data, picks, config):
                         holdings[symbol] -= sale / price
                         cash += sale * (1 - sell_rate)
                         trades.append(dict(date=date, symbol=symbol, side="sell", notional=sale,
+                                           stamp_duty_bps=tax_rate * 10000, stamp_duty=sale * tax_rate,
                                            cost=sale * sell_rate, status="filled"))
                     else:
                         trades.append(dict(date=date, symbol=symbol, side="sell", notional=sale,
+                                           stamp_duty_bps=tax_rate * 10000, stamp_duty=0.0,
                                            cost=0.0, status="blocked"))
             buys = {}
             for symbol, weight in targets.items():
@@ -168,6 +175,7 @@ def simulate_monthly(data, picks, config):
                         buys[symbol] = amount
                     else:
                         trades.append(dict(date=date, symbol=symbol, side="buy", notional=amount,
+                                           stamp_duty_bps=0.0, stamp_duty=0.0,
                                            cost=0.0, status="blocked"))
             scale = min(1.0, cash / (sum(buys.values()) * (1 + buy_rate))) if buys else 0.0
             for symbol, amount in buys.items():
@@ -175,6 +183,7 @@ def simulate_monthly(data, picks, config):
                 holdings[symbol] = holdings.get(symbol, 0.0) + amount / prices[symbol]
                 cash -= amount * (1 + buy_rate)
                 trades.append(dict(date=date, symbol=symbol, side="buy", notional=amount,
+                                   stamp_duty_bps=0.0, stamp_duty=0.0,
                                    cost=amount * buy_rate, status="filled"))
         if cash < -1e-9:
             raise AssertionError("negative cash")
@@ -233,6 +242,7 @@ def run(data, out, config=Config(), asof=None, library=None):
                         ("daily_nav", nav), ("orders", trades), ("factor_importance", importance)]:
         frame.to_csv(path / f"{name}.csv", index=False)
     summary = {"data": data.metadata, "config": asdict(config), "asof": str(asof.date()),
+               "sell_stamp_duty_policy": stamp_duty_policy(config.sell_tax_bps),
                "features": features, "monthly_predictions": int(monthly.date.nunique()),
                "latest_selection_count": int((picks.date == asof).sum()), "nav": nav_metrics(nav),
                "cohorts": {str(h): {"complete_cohorts": int(g.complete.sum()),
@@ -240,7 +250,7 @@ def run(data, out, config=Config(), asof=None, library=None):
                                      "mean_excess_return": _finite_mean(g.excess_return)}
                            for h, g in cohort.groupby("horizon_months")},
                "limitations": ["Fractional adjusted shares; no lot rounding/minimum commission/T+1 order engine",
-                               "Constant cost assumptions; supply historical dated fees for production",
+                               "Constant commission/slippage; stamp duty dated unless overridden; excludes dividend tax/transfer charges",
                                "Overlapping cohorts are not independent and must not be compounded",
                                "Universe and availability provenance are provider assertions requiring external audit"]}
     hashes = {}

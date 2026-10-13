@@ -116,7 +116,7 @@ def main():
     backtest.add_argument("--min-train-groups", type=int, default=12)
     backtest.add_argument("--commission-bps", type=float, default=3)
     backtest.add_argument("--slippage-bps", type=float, default=5)
-    backtest.add_argument("--sell-tax-bps", type=float, default=5)
+    backtest.add_argument("--sell-tax-bps", type=float, default=None, help="constant research override; default uses historical dated A-share rates")
     args = parser.parse_args()
     if args.command == "demo":
         save(make_demo(args.seed, args.stocks, args.sessions), args.out)
