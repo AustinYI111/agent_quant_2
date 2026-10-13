@@ -340,3 +340,15 @@ python -m ashare_mvp.cli download-balances --symbols sh.600000 sh.600519 --start
 ```powershell
 python -m ashare_mvp.cli normalize-balances --data artifacts/balances --calendar artifacts/market_history/calendar.csv --out artifacts/balance_panel
 ```
+
+## 同报告期财务依赖按可见日期连接
+
+新增combine-financials，合并业绩与资产负债表的事件日期，再按证券及同一报告期向后查找当时已知版本。未到业绩发布日期不生成记录；负债率未可见时保持NaN；晚到的较旧报告更新仍由现有financial_events过滤，不替换当前最新报告期。保存earnings_available_date和balance_available_date核验每项依赖不晚于联合事件日期。文件入口核验两方panel哈希和来源摘要，产物可供已有align-market读取，仍标记model_ready=false。
+
+真实artifacts/financial_dependencies_progress1/生成106819条事件、5555个有可见业绩的证券，其中816条具备同报告期可见负债率。112031条业绩源记录、72条负债源记录因无支持身份或不在给定日历可见区间而未作为已知事件，明确计数；缺负债率保留，不替代原数据或认证完整市场。相关12项测试通过（1.74秒），验证晚到依赖、修订、旧报告不覆盖新报告、重复版本拒绝及不可见记录隔离。
+
+资产负债表采集句柄7116本轮确认终止，完成50个证券后partial，sh.600068/600069/600070响应缺data而连续失败。保留原响应和已成功缓存，下一步检查供应商错误结构与接口适用范围后恢复，不无依据认定网络失败。行情句柄14423仍运行。
+
+```powershell
+python -m ashare_mvp.cli combine-financials --earnings artifacts/financial_panel --balances artifacts/balance_panel --out artifacts/combined_financials
+```

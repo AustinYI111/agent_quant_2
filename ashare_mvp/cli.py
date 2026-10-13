@@ -57,6 +57,10 @@ def main():
     master.add_argument("--targets", required=True)
     master.add_argument("--out", required=True)
     master.add_argument("--resume", action="store_true")
+    dependencies = sub.add_parser("combine-financials", help="combine same-period visible earnings and balance dependencies")
+    dependencies.add_argument("--earnings", required=True)
+    dependencies.add_argument("--balances", required=True)
+    dependencies.add_argument("--out", required=True)
     balance_panel = sub.add_parser("normalize-balances", help="verify issuer batches and publish dated balance ratios")
     balance_panel.add_argument("--data", required=True)
     balance_panel.add_argument("--calendar", required=True)
@@ -184,6 +188,10 @@ def main():
         print(json.dumps({key: value for key, value in result.items() if key != "queries"}, ensure_ascii=False, indent=2))
         if result["status"] != "downloaded_raw":
             raise SystemExit(1)
+    elif args.command == "combine-financials":
+        from .financial_dependencies import combine_financial_files
+        result = combine_financial_files(args.earnings, args.balances, args.out)
+        print(json.dumps({k:v for k,v in result.items() if k != "sources"}, ensure_ascii=False, indent=2))
     elif args.command == "normalize-balances":
         from .balance_sheet import normalize_balance_download
         print(json.dumps(normalize_balance_download(args.data, args.calendar, args.out), ensure_ascii=False, indent=2))
