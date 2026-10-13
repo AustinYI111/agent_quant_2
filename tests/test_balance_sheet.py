@@ -21,3 +21,27 @@ def test_missing_debt_not_zero_and_wrong_identity_rejected():
     assert pd.isna(result.debt_ratio.iloc[0])
     with pytest.raises(ValueError,match="identity"):
         normalize_balance_records([row], "sz.000001", pd.bdate_range("2020-01-01", "2021-04-02"))
+
+
+def test_download_panel_verifies_all_raw_cache_and_preserves_clock(tmp_path):
+    import json
+    from ashare_mvp.balance_download import download_balance_sheets
+    from ashare_mvp.balance_sheet import normalize_balance_download
+    row=record()
+    def fetch(endpoint,params):
+        if endpoint=='Index': return b'<input id="hidctype" value="4">'
+        if endpoint=='zcfzbDateAjaxNew': return json.dumps({'data':[{'REPORT_DATE':row['REPORT_DATE']}]}).encode()
+        return json.dumps({'data':[row]}).encode()
+    source=tmp_path/'raw'
+    download_balance_sheets(['sh.600519'],'2019-01-01','2020-12-31',source,fetch=fetch,delay=0)
+    calendar=tmp_path/'calendar.csv'
+    pd.DataFrame({'calendar_date':pd.bdate_range('2020-01-01','2021-04-02'), 'is_trading_day':1}).to_csv(calendar,index=False)
+    summary=normalize_balance_download(source,calendar,tmp_path/'panel')
+    assert summary['records']==1 and summary['visible_records']==1 and not summary['model_ready']
+    frame=pd.read_csv(tmp_path/'panel/balance_panel.csv')
+    assert frame.available_date.iloc[0]=='2021-04-01'
+    meta=json.loads((source/'manifest.json').read_text())
+    index_request=next(q for q in meta['queries'].values() if q['endpoint']=='Index')
+    (source/index_request['file']).write_bytes(b'changed')
+    with pytest.raises(ValueError,match='raw hash mismatch'):
+        normalize_balance_download(source,calendar,tmp_path/'tampered')

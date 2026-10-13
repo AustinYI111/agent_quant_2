@@ -328,3 +328,15 @@ python -m ashare_mvp.cli download-balances --symbols sh.600000 sh.600519 --start
 ```
 
 根据封存master_union1目标表启动5471代码采集，输入来源存于artifacts/balance_targets1/，原始产物artifacts/balance_history_2017_2023/。本轮确认采集句柄7116仍运行，已尝试7只；不是全市场完成。采集完成后仍需规范化全部批次，与业绩记录按每项依赖的可见日期连接，再核对行情连续性、公司行动和终值；当前不报告真实模型收益。
+
+## 批次资产负债表规范化快照
+
+新增normalize-balances，读取封存manifest字节并核验每个已缓存请求的物理哈希（含尚未完成发行人的缓存及公司类型/日期目录响应），再次校验各报告批次的身份和请求日期，再接受完整发行人请求。原响应gzip解压只用于解析，哈希仍覆盖原字节。规范化输出独立目录，保存输入manifest、交易日历和panel哈希；失败证券隔离，区间外修订不成为历史可见值。
+
+两证券完整56期规范化结果：52条在给定交易日历内可见，4条区间外，无缺失负债率；artifacts/balance_normalized_probe1/。批量任务当前封存快照artifacts/balance_normalized_progress1/含36个证券、997条记录，925条可见、负债率缺失0；partial_source=true、model_ready=false。未查询的其余目标不因快照成功而视为完成，也未声称通过原始版本认证。
+
+相关6项测试通过（1.14秒），新增验证来源所有缓存哈希、实际修订可见日期及非训练就绪标志。采集句柄7116确认仍运行。下一步按证券/同一报告期连接业绩与资产负债表依赖，更新发布时点由实际已知记录驱动，不用未来的负债率填充较早样本。
+
+```powershell
+python -m ashare_mvp.cli normalize-balances --data artifacts/balances --calendar artifacts/market_history/calendar.csv --out artifacts/balance_panel
+```

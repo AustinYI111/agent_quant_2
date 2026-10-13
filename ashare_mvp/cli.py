@@ -57,6 +57,10 @@ def main():
     master.add_argument("--targets", required=True)
     master.add_argument("--out", required=True)
     master.add_argument("--resume", action="store_true")
+    balance_panel = sub.add_parser("normalize-balances", help="verify issuer batches and publish dated balance ratios")
+    balance_panel.add_argument("--data", required=True)
+    balance_panel.add_argument("--calendar", required=True)
+    balance_panel.add_argument("--out", required=True)
     balance = sub.add_parser("download-balances", help="resumable issuer balance sheets")
     balance.add_argument("--symbols", nargs="+", required=True)
     balance.add_argument("--start", required=True)
@@ -180,6 +184,9 @@ def main():
         print(json.dumps({key: value for key, value in result.items() if key != "queries"}, ensure_ascii=False, indent=2))
         if result["status"] != "downloaded_raw":
             raise SystemExit(1)
+    elif args.command == "normalize-balances":
+        from .balance_sheet import normalize_balance_download
+        print(json.dumps(normalize_balance_download(args.data, args.calendar, args.out), ensure_ascii=False, indent=2))
     elif args.command == "download-balances":
         from .balance_download import download_balance_sheets
         result = download_balance_sheets(args.symbols, args.start, args.end, args.out, args.resume)

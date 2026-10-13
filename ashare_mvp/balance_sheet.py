@@ -34,3 +34,82 @@ def normalize_balance_records(records, symbol, calendar):
     if result.duplicated(["symbol", "report_date", "available_date"]).any():
         raise ValueError("ambiguous balance versions")
     return result
+
+
+def normalize_balance_download(directory, calendar_path, out):
+    """Verify a frozen raw acquisition and publish a separate ratio panel."""
+    from pathlib import Path
+    from io import BytesIO
+    import gzip
+    import hashlib
+    import json
+    source, target = Path(directory), Path(out)
+    if target.exists() and any(target.iterdir()):
+        raise ValueError("balance panel output must be empty")
+    manifest_bytes = (source / "manifest.json").read_bytes()
+    manifest = json.loads(manifest_bytes)
+    if manifest.get("schema") != "issuer_balance_raw_v1":
+        raise ValueError("raw issuer balance schema required")
+    calendar_bytes = Path(calendar_path).read_bytes()
+    calendar = pd.read_csv(BytesIO(calendar_bytes), dtype=str)
+    if not {"calendar_date", "is_trading_day"}.issubset(calendar):
+        raise ValueError("provider exchange calendar required")
+    sessions = pd.to_datetime(calendar.loc[calendar.is_trading_day.eq("1"), "calendar_date"])
+    records = {}
+    # Hash every cached request, including unfinished issuers, before selection.
+    for query in manifest["queries"].values():
+        if query.get("status") != "ok":
+            continue
+        filename = query["file"]
+        if Path(filename).name != filename:
+            raise ValueError("invalid balance raw filename")
+        raw = (source / filename).read_bytes()
+        if hashlib.sha256(raw).hexdigest() != query["sha256"]:
+            raise ValueError("balance raw hash mismatch")
+        if query["endpoint"] != "zcfzbAjaxNew":
+            continue
+        raw = gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
+        rows = json.loads(raw)["data"]
+        code = query["params"]["code"]
+        symbol = code[:2].lower() + "." + code[2:]
+        dates = pd.to_datetime(query["params"]["dates"].split(","))
+        frame = pd.DataFrame(rows)
+        if frame.empty or not frame.SECURITY_CODE.astype(str).eq(code[2:]).all():
+            raise ValueError("balance raw security identity mismatch")
+        observed = pd.to_datetime(frame.REPORT_DATE).dt.normalize()
+        if observed.duplicated().any() or set(observed) != set(dates):
+            raise ValueError("balance raw report scope mismatch")
+        records.setdefault(symbol, []).extend(rows)
+    panels, rejected = [], []
+    for symbol, info in manifest["securities"].items():
+        if info.get("status") != "ok":
+            rejected.append(dict(symbol=symbol, reason="unfinished raw acquisition"))
+            continue
+        rows = records.get(symbol, [])
+        if len(rows) != info["records"]:
+            raise ValueError("balance issuer record count mismatch")
+        if not rows:
+            rejected.append(dict(symbol=symbol, reason="no advertised reports in requested interval"))
+            continue
+        try:
+            panels.append(normalize_balance_records(rows, symbol, sessions))
+        except (ValueError, TypeError) as exc:
+            rejected.append(dict(symbol=symbol, reason=str(exc)))
+    if not panels:
+        raise ValueError("no verified usable balance records")
+    panel = pd.concat(panels, ignore_index=True).sort_values(["symbol", "report_date", "available_date"])
+    target.mkdir(parents=True, exist_ok=True)
+    panel.to_csv(target / "balance_panel.csv", index=False)
+    pd.DataFrame(rejected, columns=["symbol", "reason"]).to_csv(target / "rejected_securities.csv", index=False)
+    (target / "input_manifest.json").write_bytes(manifest_bytes)
+    (target / "input_calendar.csv").write_bytes(calendar_bytes)
+    result = dict(records=len(panel), symbols=int(panel.symbol.nunique()), visible_records=int(panel.available_date.notna().sum()),
+                  missing_debt_ratio=int(panel.debt_ratio.isna().sum()), rejected_securities=len(rejected),
+                  partial_source=manifest["status"] != "downloaded_raw", certified=False, model_ready=False,
+                  input_manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
+                  calendar_sha256=hashlib.sha256(calendar_bytes).hexdigest(),
+                  panel_sha256=hashlib.sha256((target / "balance_panel.csv").read_bytes()).hexdigest(),
+                  limitations=["Current provider revisions, not archived original financial statements",
+                               "Only complete issuer requests used; missing historical statements remain unverified"])
+    (target / "summary.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    return result
