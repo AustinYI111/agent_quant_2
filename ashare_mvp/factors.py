@@ -51,7 +51,7 @@ def default_library():
     lib.register("low_volatility", "risk", lambda x: -x.volatility_63)
     lib.register("near_high_252", "oneil", lambda x: x.close / x.high_252)
     lib.register("volume_expansion", "oneil", lambda x: x.volume / x.volume_ma50)
-    lib.register("growth_acceleration", "oneil", lambda x: x.earnings_growth - x.revenue_growth)
+    lib.register("earnings_revenue_growth_spread", "oneil", lambda x: x.earnings_growth - x.revenue_growth)
     return lib
 
 

@@ -24,3 +24,6 @@ jobs:
         env:
           PYTHONPATH: agent_quant-main/multi_agent_quant
         run: python -m pytest -q agent_quant-main/multi_agent_quant/tests --ignore=agent_quant-main/multi_agent_quant/tests/test_data_agent.py
+
+      - name: Offline end-to-end release check
+        run: python -m ashare_mvp.release_check --out artifacts/release_check
