@@ -6,7 +6,7 @@ def fetch(endpoint, params):
     if endpoint == 'Index':
         return b'<input id="hidctype" value="4">'
     if endpoint == 'zcfzbDateAjaxNew':
-        return json.dumps({'data':[{'REPORT_DATE':'2020-03-31'}]}).encode()
+        return json.dumps({'data':[{'REPORT_DATE':'2020-03-31','NOTICE_DATE':'2020-04-30','UPDATE_DATE':'2020-04-30','TOTAL_ASSETS':100,'TOTAL_LIABILITIES':20}]}).encode()
     return json.dumps({'data':[{'SECURITY_CODE':'600519','REPORT_DATE':'2020-03-31','TOTAL_ASSETS':100,'TOTAL_LIABILITIES':20}]}).encode()
 
 
@@ -47,3 +47,26 @@ def test_cached_unusable_response_is_refreshed_and_original_retained(tmp_path):
     original=meta['queries']['sh.600519:dates']['file']
     assert download_balance_sheets(*args,resume=True,fetch=fetch,delay=0)['status']=='downloaded_raw'
     assert (tmp_path/original).read_bytes()==b'{"$type":"1"}'
+
+
+def test_fallback_count_identity_and_truncation(tmp_path):
+    def fallback(endpoint,params):
+        if endpoint=='zcfzbDateAjaxNew': return b'{"$type":"1"}'
+        if endpoint=='legacyBalances':
+            return json.dumps({'success':True,'result':{'count':1,'pages':1,'data':[{'SECURITY_CODE':'600519','SECUCODE':'600519.SH','REPORT_DATE':'2020-03-31','NOTICE_DATE':'2020-04-30','UPDATE_DATE':'2020-04-30','TOTAL_ASSETS':100,'TOTAL_LIABILITIES':20}]}}).encode()
+        return fetch(endpoint,params)
+    args=(['sh.600519'],'2020-01-01','2020-12-31',tmp_path/'good')
+    result=download_balance_sheets(*args,fetch=fallback,delay=0)
+    assert result['status']=='downloaded_raw' and result['securities']['sh.600519']['source_endpoint']=='legacyBalances'
+    import pandas as pd
+    from ashare_mvp.balance_sheet import normalize_balance_download
+    calendar=tmp_path/'calendar.csv'
+    pd.DataFrame({'calendar_date':pd.bdate_range('2020-01-01','2020-12-31'),'is_trading_day':1}).to_csv(calendar,index=False)
+    assert normalize_balance_download(tmp_path/'good',calendar,tmp_path/'panel')['records']==1
+    def truncated(endpoint,params):
+        raw=fallback(endpoint,params)
+        if endpoint=='legacyBalances':
+            payload=json.loads(raw); payload['result']['count']=2; return json.dumps(payload).encode()
+        return raw
+    result=download_balance_sheets(['sh.600519'],'2020-01-01','2020-12-31',tmp_path/'bad',fetch=truncated,delay=0)
+    assert result['status']=='partial' and 'truncated' in result['securities']['sh.600519']['error']

@@ -56,20 +56,45 @@ def normalize_balance_download(directory, calendar_path, out):
         raise ValueError("provider exchange calendar required")
     sessions = pd.to_datetime(calendar.loc[calendar.is_trading_day.eq("1"), "calendar_date"])
     records = {}
+    import re
+    for entry in manifest.get("superseded_responses", []):
+        query = entry["query"]
+        filename = query["file"]
+        if Path(filename).name != filename or hashlib.sha256((source / filename).read_bytes()).hexdigest() != query["sha256"]:
+            raise ValueError("superseded balance raw hash mismatch")
     # Hash every cached request, including unfinished issuers, before selection.
     for query in manifest["queries"].values():
-        if query.get("status") != "ok":
-            continue
         filename = query["file"]
         if Path(filename).name != filename:
             raise ValueError("invalid balance raw filename")
         raw = (source / filename).read_bytes()
         if hashlib.sha256(raw).hexdigest() != query["sha256"]:
             raise ValueError("balance raw hash mismatch")
-        if query["endpoint"] != "zcfzbAjaxNew":
+        if query.get("status") != "ok" or query["endpoint"] not in ["zcfzbAjaxNew", "legacyBalances"]:
             continue
         raw = gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
-        rows = json.loads(raw)["data"]
+        payload = json.loads(raw)
+        if query["endpoint"] == "legacyBalances":
+            match = re.search(r'SECUCODE="(\d{6})\.(SH|SZ)"', query["params"]["filter"])
+            if not match or payload.get("success") is not True:
+                raise ValueError("invalid legacy balance identity/response")
+            code = match[2] + match[1]
+            result = payload["result"]
+            rows = result["data"]
+            page, total = int(query["params"]["p"]), int(result["count"])
+            if int(result["pages"]) != (total + 199) // 200 or len(rows) != min(200, total - (page-1)*200):
+                raise ValueError("legacy balance page count mismatch")
+            symbol = code[:2].lower() + "." + code[2:]
+            if total != manifest["securities"].get(symbol, {}).get("records"):
+                raise ValueError("legacy balance total count mismatch")
+            frame = pd.DataFrame(rows)
+            observed = pd.to_datetime(frame.REPORT_DATE).dt.normalize()
+            allowed = pd.date_range(manifest["request"]["start"], manifest["request"]["end"], freq="QE")
+            if not frame.SECURITY_CODE.astype(str).eq(code[2:]).all() or not frame.SECUCODE.eq(code[2:] + "." + code[:2]).all() or observed.duplicated().any() or not observed.isin(allowed).all():
+                raise ValueError("legacy balance identity/report scope mismatch")
+            records.setdefault(symbol, []).extend(rows)
+            continue
+        rows = payload["data"]
         code = query["params"]["code"]
         symbol = code[:2].lower() + "." + code[2:]
         dates = pd.to_datetime(query["params"]["dates"].split(","))

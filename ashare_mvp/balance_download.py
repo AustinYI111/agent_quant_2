@@ -15,7 +15,8 @@ BASE = "https://emweb.securities.eastmoney.com/PC_HSF10/NewFinanceAnalysis/"
 
 
 def fetch_balance(endpoint, params):
-    request = Request(BASE + endpoint + "?" + urlencode(params), headers={"User-Agent": "Mozilla/5.0"})
+    url = "https://datacenter.eastmoney.com/securities/api/data/get" if endpoint == "legacyBalances" else BASE + endpoint
+    request = Request(url + "?" + urlencode(params), headers={"User-Agent": "Mozilla/5.0"})
     with urlopen(request, timeout=25) as response:
         return response.read()
 
@@ -50,7 +51,7 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
             if Path(prior["file"]).name != prior["file"] or hashlib.sha256(raw).hexdigest() != prior["sha256"]:
                 raise ValueError("balance cache hash mismatch")
             decoded = gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
-            if endpoint == "Index" or isinstance(json.loads(decoded).get("data"), list):
+            if endpoint == "Index" or valid_payload(endpoint, decoded):
                 return decoded
             meta.setdefault("superseded_responses", []).append(dict(key=key, query=prior, reason="cached response has no report data list"))
         if prior and prior.get("status") == "unusable_response":
@@ -59,7 +60,7 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
         filename = hashlib.sha256(key.encode() + raw).hexdigest() + ".raw"
         (path / filename).write_bytes(raw)
         decoded = gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
-        valid = endpoint == "Index" or isinstance(json.loads(decoded).get("data"), list)
+        valid = endpoint == "Index" or valid_payload(endpoint, decoded)
         meta["queries"][key] = dict(status="ok" if valid else "unusable_response", endpoint=endpoint, params=params, file=filename, sha256=hashlib.sha256(raw).hexdigest())
         checkpoint(); time.sleep(delay)
         return gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
@@ -73,6 +74,12 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
                 raise ValueError("company type unavailable")
             params = dict(companyType=match[1], reportDateType="0", code=code)
             listing = json.loads(query(symbol+":dates", "zcfzbDateAjaxNew", params))
+            if not isinstance(listing.get("data"), list):
+                rows = legacy_records(query, symbol, code, start, end)
+                meta["securities"][symbol] = dict(status="ok", records=len(rows), source_endpoint="legacyBalances", note="provider record count; original versions unverified")
+                failures = 0
+                checkpoint()
+                continue
             advertised = pd.to_datetime(pd.DataFrame(listing["data"]).REPORT_DATE).dt.normalize()
             if advertised.isna().any() or advertised.duplicated().any():
                 raise ValueError("ambiguous advertised report dates")
@@ -101,3 +108,45 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
     meta["status"] = "downloaded_raw" if meta["completed_securities"] == len(symbols) else "partial"
     checkpoint()
     return meta
+
+
+def valid_payload(endpoint, raw):
+    data = json.loads(raw)
+    if endpoint == "legacyBalances":
+        return data.get("success") is True and isinstance((data.get("result") or {}).get("data"), list)
+    return isinstance(data.get("data"), list)
+
+
+def legacy_records(query, symbol, code, start, end):
+    dates = pd.date_range(start, end, freq="QE")
+    date_filter = ",".join("'" + str(d.date()) + "'" for d in dates)
+    sql = '(SECUCODE="' + code[2:] + '.' + code[:2] + '")(REPORT_DATE in (' + date_filter + '))'
+    rows, total, pages = [], None, None
+    page = 1
+    while True:
+        params = dict(type="RPT_F10_FINANCE_GBALANCE", sty="F10_FINANCE_GBALANCE", filter=sql,
+                      p=str(page), ps="200", sr="-1", st="REPORT_DATE", source="HSF10", client="PC")
+        payload = json.loads(query(symbol + ":legacy:" + str(page), "legacyBalances", params))
+        if payload.get("success") is not True or not isinstance(payload.get("result"), dict):
+            raise ValueError("legacy balance provider response unsuccessful")
+        result = payload["result"]
+        if total is None:
+            total, pages = int(result["count"]), int(result["pages"])
+            if total < 1 or pages != (total + 199) // 200:
+                raise ValueError("legacy balance count/pages inconsistent")
+        if int(result["count"]) != total or int(result["pages"]) != pages:
+            raise ValueError("legacy balance pagination changed")
+        batch = result["data"]
+        if len(batch) != min(200, total - len(rows)):
+            raise ValueError("legacy balance page truncated")
+        rows.extend(batch)
+        if page == pages:
+            break
+        page += 1
+    frame = pd.DataFrame(rows)
+    observed = pd.to_datetime(frame.REPORT_DATE).dt.normalize()
+    if not frame.SECURITY_CODE.astype(str).eq(code[2:]).all() or not frame.SECUCODE.eq(code[2:] + "." + code[:2]).all():
+        raise ValueError("legacy balance identity mismatch")
+    if observed.duplicated().any() or not observed.isin(dates).all():
+        raise ValueError("legacy balance report scope mismatch")
+    return rows

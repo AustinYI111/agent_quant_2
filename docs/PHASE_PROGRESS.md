@@ -358,3 +358,12 @@ python -m ashare_mvp.cli combine-financials --earnings artifacts/financial_panel
 发现sh.600068/600069/600070报告日期接口返回只有$type/$types的对象，无data；原采集将成功HTTP响应当成可复用有效缓存，导致恢复重复使用坏响应。修复缓存有效性：JSON数据响应必须含list型data，否则记unusable_response；旧版无效ok缓存或无效响应恢复时重新查询。文件名加入响应内容哈希，更新响应不覆盖原字节，替换记录保留superseded_responses来源。相关7项测试通过（包含无效响应恢复后原始缓存仍保留）。
 
 按[AKShare官方退市报表实现](https://raw.githubusercontent.com/akfamily/akshare/main/akshare/stock_feature/stock_three_report_em.py)验证RPT_F10_FINANCE_GBALANCE备用公开接口。初次日期范围过滤格式错误返回code9501；更正为单引号报告日期列表后，三个证券分别返回27/26/28条，总计81条，pages=1，count与实际记录数一致。原始两次测试独立保存在artifacts/balance_legacy_probe/与balance_legacy_probe2/。备用接口尚未接入生产恢复器，不把该验证当作5471目标请求已完成。
+
+## 备用资产负债表接口接入恢复与规范化
+
+报告目录缺data时改用已验证的RPT_F10_FINANCE_GBALANCE接口，按请求区间季度日期列表查询并严格核验success、pages/count稳定、每页数量、证券代码及交易所、报告期唯一键和请求范围。任何截断或身份冲突仍失败，不因备用接口返回HTTP成功而认证覆盖。规范化器也支持该来源，再次核验身份/范围/页数，并验证无效和被替换原始响应的哈希。
+
+恢复后的sh.600068/600069/600070分别成功取得27/26/28期，与先前独立探测一致。新快照artifacts/balance_normalized_progress2/封存65个证券、1796条记录，1660条可见，负债率缺失0；仍partial_source=true、model_ready=false。原失败响应保留，备用接口未认证原报告版本。
+
+相关11项测试通过（1.35秒），涵盖备用来源截断拒绝及其规范化路径；全套测试本轮另行执行。恢复后的采集句柄63230确认仍运行，原50只成功缓存复验后复用，不重采或删除。下一步扩大资产负债表覆盖并更新财务依赖快照，继续处理行情连续性、公司行动和退市终值；真实全市场模型结果仍未完成。
+完整133项测试通过（39.28秒）。
