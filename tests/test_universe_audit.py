@@ -39,3 +39,21 @@ def test_input_mutation_rejected(tmp_path, which):
     path.write_text("changed")
     with pytest.raises(ValueError, match="hash mismatch"):
         audit_market_universe(master, market, tmp_path / "out")
+
+
+def test_terminal_nontrading_quote_is_not_an_executable_exit(tmp_path):
+    master, market = fixture(tmp_path)
+    path = market / "daily_20220105.csv"
+    frame = pd.read_csv(path)
+    frame["tradestatus"] = "0"
+    frame["close"] = 12  # a positive stale price still is not a tradable quote
+    frame.to_csv(path, index=False)
+    manifest = market / "manifest.json"
+    meta = json.loads(manifest.read_text())
+    meta["files"][path.name]["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    manifest.write_text(json.dumps(meta))
+    result = audit_market_universe(master, market, tmp_path / "out")
+    assert result["discrepancy_counts"]["terminal_nontrading_record"] == 1
+    coverage = pd.read_csv(tmp_path / "out/session_coverage.csv")
+    assert coverage.iloc[-1].expected == 0 and coverage.iloc[-1].terminal_nontrading == 1
+    assert not result["model_ready"]

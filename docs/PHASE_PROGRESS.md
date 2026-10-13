@@ -294,3 +294,9 @@ python -m ashare_mvp.cli audit-market-universe --master artifacts/requested_secu
 原审计20条outside_lifetime均恰在供应商outDate当天。保留原始报价及差异，不把outDate等同最后可成交日，也不自动改股票池边界。需核实退市整理、吸收合并或代码迁移条款，才能决定账户退出和终值。
 
 新的artifacts/universe_coverage_audit2/封存571个已取得交易日，unknown_master差异归零，总差异由85降至20，仍全部为outDate当天报价。这是修复特定漏列证券的证据，不代表1479个日期或全A股市场已完整。
+
+## 退市当日非交易记录的实际状态
+
+检查原始20条outDate当天报价：全部tradestatus=0，成交量缺失；18条保留旧价格，sz.000022和sz.000043价格也为空。正价格不能作为当天可卖出的证据。审计新增terminal_nontrading_record，要求代码恰在outDate且明确非交易状态，才与未知身份/其他区间外报价区分；不扩张当天选股资格，也不认证现金清算或自动卖出。
+
+新快照artifacts/universe_coverage_audit3/包含578个已取得交易日，20条差异全部为terminal_nontrading_record，无未知代码或其他区间外记录。保留全部原记录，不据此认定退市终值已解决。相关10项测试通过（1.26秒），新增验证正的旧价格且非交易状态不能进入期末选股资格。行情原采集进程仍在运行。
