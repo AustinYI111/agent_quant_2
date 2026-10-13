@@ -44,8 +44,8 @@ def default_library():
     for name in ["roe", "revenue_growth", "earnings_growth"]:
         lib.register(name, "fundamental", lambda x, n=name: x[n])
     lib.register("low_debt", "fundamental", lambda x: -x.debt_ratio)
-    lib.register("earnings_yield", "valuation", lambda x: x.earnings_ttm / x.market_cap)
-    lib.register("book_yield", "valuation", lambda x: x.book_equity / x.market_cap)
+    lib.register("earnings_yield", "valuation", lambda x: x.earnings_yield if "earnings_yield" in x else x.earnings_ttm / x.market_cap)
+    lib.register("book_yield", "valuation", lambda x: x.book_yield if "book_yield" in x else x.book_equity / x.market_cap)
     for name in ["momentum_63", "momentum_126", "momentum_252_skip21"]:
         lib.register(name, "momentum", lambda x, n=name: x[n])
     lib.register("low_volatility", "risk", lambda x: -x.volatility_63)

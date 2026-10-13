@@ -27,6 +27,21 @@ def main():
     universe = sub.add_parser("build-universe", help="build verified dated public A-share universe")
     universe.add_argument("--data", required=True)
     universe.add_argument("--out", required=True)
+    conversion = sub.add_parser("convert-public", help="convert verified raw public inputs with unverified-vintage flags")
+    conversion.add_argument("--data", required=True)
+    conversion.add_argument("--out", required=True)
+    research = sub.add_parser("run-public", help="explicitly exploratory public-data walk-forward")
+    research.add_argument("--data", required=True)
+    research.add_argument("--out", required=True)
+    research.add_argument("--asof")
+    research.add_argument("--horizon", choices=[3, 6, 12], type=int, default=6)
+    research.add_argument("--oneil", action="store_true")
+    research.add_argument("--exploratory", action="store_true")
+    market = sub.add_parser("download-market", help="resumable daily full-cross-section raw-price acquisition")
+    market.add_argument("--out", required=True)
+    market.add_argument("--start", required=True)
+    market.add_argument("--end", required=True)
+    market.add_argument("--resume", action="store_true")
     report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
     report.add_argument("--data", required=True)
     report.add_argument("--predictions", required=True)
@@ -69,6 +84,19 @@ def main():
     elif args.command == "build-universe":
         from .universe import build_public_universe
         print(json.dumps(build_public_universe(args.data, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "convert-public":
+        from .public_conversion import convert_public
+        print(json.dumps(convert_public(args.data, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "run-public":
+        from .public_conversion import run_public_research
+        print(json.dumps(run_public_research(args.data, args.out, Config(train_horizon=args.horizon, oneil=args.oneil),
+                                             args.asof, args.exploratory), ensure_ascii=False, indent=2))
+    elif args.command == "download-market":
+        from .market_download import download_market_daily
+        result = download_market_daily(args.out, args.start, args.end, args.resume)
+        print(json.dumps({k: v for k, v in result.items() if k not in ["files", "queries"]}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
     elif args.command == "report":
         import pandas as pd
         from .research import daily_report, load_holdings

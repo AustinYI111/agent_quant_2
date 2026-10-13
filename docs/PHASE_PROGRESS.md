@@ -62,3 +62,25 @@ python -m ashare_mvp.cli report --data artifacts/demo_data --predictions artifac
 新增`build-universe --data <公开采集目录> --out <新目录>`，逐文件验证哈希、唯一证券键及交易状态，保留停牌成员，不将缺失日期自动前向填充。若有完整生命周期主表，会对照上市/退市日期与历史快照，输出差异。主表实测疑似分页截断，因此拒绝接受，未报告已经完成生命周期对账。北交所和完整每日历史覆盖仍待接入。
 
 新增股票池逻辑测试包含历史退市、上市前排除、快照差异、生命周期倒置、停牌保留、文件篡改拒绝。只证明这些边界和已采集快照，不能据此宣称真实全市场中长期回测完成。
+
+## 公开数据转换与批量行情采集
+
+新增`convert-public`：对原始文件哈希、日历覆盖、股票代码和财务日期进行检查，直接使用历史PE/PB倒数作为估值比率，不伪造缺失的总市值或账面权益。收入增长只能由同报告期上一年收入计算，不用利润增长替代；缺失值保留。财务可用日期取所有依赖发布日期之后的下一个已提供交易日，输入窗口之前的旧财报保守从窗口首日开始可用。转换后的行情、财务和日历再次以哈希封存。
+
+浦发银行22个实际历史交易日与3份窗口内可见财报已成功转换，产物位于artifacts/public_normalized1/。由于仅一个月行情，不能训练中长期排序。财报原始/修订版本和调整价格的总回报方法仍未验证，metadata明确certified=false；不得把该结果当作已验证的无泄漏数据。
+
+新增`run-public --exploratory`专用研究入口，默认拒绝未明确启用探索模式的公开数据。使用同一滚动训练、标签成熟日清除和次交易日调仓逻辑，输出缺失特征覆盖率、训练审计和结果；探索运行不声明财报原始版本、实盘可成交性或完整全市场范围。实际LightGBM端到端测试目前使用明确标记的合成公共格式夹具，而非真实市场收益证据。
+
+已实际验证BaoStock 0.9.4的`query_daily_history_k_AStock`批量接口：2018-01-03返回3471条日线，2024-01-31返回5105条日线，均记录字段和哈希，位于artifacts/daily_market_probe/。这允许以交易日而非逐证券采集市场截面。
+
+新增`download-market`逐日原始数据采集：原子保存每个文件和进度、验证已缓存文件哈希、参数一致的断点恢复、错误留档。后续运行连续3次查询失败会停止并保留缓存，避免无限失败请求。2018-01-02至2024-01-31的1479个交易日采集已启动，产物位于artifacts/market_history_2018_2024/；必须检查进程会话及manifest的实际进度，不能仅凭running字样认定仍活跃，也不能在会话存活时重启同一任务。
+
+```powershell
+python -m ashare_mvp.cli convert-public --data artifacts/public_sample --out artifacts/public_prepared
+python -m ashare_mvp.cli run-public --data artifacts/public_prepared --out artifacts/public_research --horizon 6 --exploratory
+python -m ashare_mvp.cli download-market --start 2018-01-02 --end 2024-01-31 --out artifacts/market_history
+# 仅在已确认旧采集进程结束后恢复同一任务
+python -m ashare_mvp.cli download-market --start 2018-01-02 --end 2024-01-31 --out artifacts/market_history --resume
+```
+
+全量原始行情仍在采集，批量财务及原始版本验证、原始价格的公司行动与退市清算、全市场真实样本外训练仍未完成。本轮全套64项测试通过；随后补充的采集停止条件另外验证。真实源采集与合成夹具验证分别报告，不能混称。

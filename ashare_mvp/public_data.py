@@ -98,7 +98,7 @@ class _BoundedClient:
             process.start()
             sender.close()
             try:
-                large = method in ["query_all_stock", "query_stock_industry"] or (method == "query_stock_basic" and not kwargs.get("code"))
+                large = method in ["query_all_stock", "query_stock_industry", "query_daily_history_k_AStock"] or (method == "query_stock_basic" and not kwargs.get("code"))
                 deadline = time.monotonic() + (max(self.timeout, 90) if large else self.timeout) + 5
                 columns, rows = None, []
                 while True:
