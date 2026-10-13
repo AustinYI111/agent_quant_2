@@ -154,3 +154,19 @@ python -m ashare_mvp.cli reconcile-prices --prices raw_prices.csv --actions arti
 这完成了原始事件到经济收益指数的小范围真实连接，不是完整市场收益数据集。全市场事件采集、退市终值、原始财报版本和真实样本外模型仍未完成。
 
 本轮完整89项离线测试通过（37.40秒），新增条款矛盾、未证实金额、配股、迟到公告、源文件篡改、送转权益与可交易日区分及未来档案不改变过去指数的验证。行情会话仍在运行，本轮输出达到129/1479个交易日、452809行原始记录。
+
+## 全市场分红方案批量采集
+
+逐股/逐年接口不足以高效覆盖历史成员，新增`download-market-dividends`，依照[AKShare官方分红接口源码](https://raw.githubusercontent.com/akfamily/akshare/main/akshare/stock_feature/stock_fhps_em.py)请求公开RPT_SHAREBONUS_DET数据。按报告期检索全部页面，核验固定总页数/行数、每页预期数量、证券/报告期唯一键、请求期一致；保存原始JSON和records.csv及哈希，支持验证缓存后恢复，三次连续失败停止。
+
+实际2017-12-31报告期返回2794条、6页，完整采集后状态统计为实施分配2788、取消分配3、股东大会否决2、股东大会决议通过1。浦发银行对应2018-07-13除息、每十股1元，平安银行对应2018-07-12除息、每十股1.36元，与之前独立BaoStock样本的日期及每股金额一致。此批量源按报告期而非实施年份归属，不能按报告年份过滤而漏掉下一年发生的事件。
+
+该接口没有派息到账日，包含取消和未实施方案，当前不直接转换为可再投资现金事件。原始版本与全市场成员覆盖也仍未认证。2017Q1—2023Q4共28期批量采集已启动，产物artifacts/market_dividend_history_2017_2023/；后续需核对支付日期、只接受实施事件，并与原始价格及完整成员历史连接。
+
+```powershell
+python -m ashare_mvp.cli download-market-dividends --start 2017-03-31 --end 2023-12-31 --out artifacts/market_dividend_history
+# 确认原采集进程终止后才恢复
+python -m ashare_mvp.cli download-market-dividends --start 2017-03-31 --end 2023-12-31 --out artifacts/market_dividend_history --resume
+```
+
+本轮完整92项离线测试通过（34.95秒）。新增批量测试覆盖尾页缺行、重复证券、总行数跨页变化、缓存篡改和连续失败停止。真实批量采集会话本轮确认仍在运行，已完成11/28期；这与尚在运行的全市场行情采集分别跟踪，不能依据文件中的running状态擅自重启。

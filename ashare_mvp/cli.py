@@ -70,6 +70,11 @@ def main():
     normalize_actions.add_argument("--data", required=True)
     normalize_actions.add_argument("--calendar", required=True)
     normalize_actions.add_argument("--out", required=True)
+    market_actions = sub.add_parser("download-market-dividends", help="complete paginated dividend plans by report period")
+    market_actions.add_argument("--start", required=True)
+    market_actions.add_argument("--end", required=True)
+    market_actions.add_argument("--out", required=True)
+    market_actions.add_argument("--resume", action="store_true")
     report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
     report.add_argument("--data", required=True)
     report.add_argument("--predictions", required=True)
@@ -159,6 +164,12 @@ def main():
         result = normalize_dividends(args.data, args.calendar, args.out)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         if result["status"] != "normalized":
+            raise SystemExit(1)
+    elif args.command == "download-market-dividends":
+        from .dividend_market import download_dividend_market
+        result = download_dividend_market(args.out, args.start, args.end, args.resume)
+        print(json.dumps({k: v for k, v in result.items() if k != "periods"}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
             raise SystemExit(1)
     elif args.command == "report":
         import pandas as pd
