@@ -5,6 +5,9 @@ next tradable session. This is a research index, not a broker share ledger.
 """
 import numpy as np
 import pandas as pd
+from pathlib import Path
+import hashlib
+import json
 
 
 def economic_return_prices(prices, actions, calendar):
@@ -19,6 +22,10 @@ def economic_return_prices(prices, actions, calendar):
     cal = pd.DatetimeIndex(calendar)
     if cal.has_duplicates or cal.hasnans or not cal.is_monotonic_increasing:
         raise ValueError("invalid corporate-action calendar")
+    if p.empty or p[["date", "symbol"]].isna().any().any() or a.symbol.isna().any():
+        raise ValueError("empty prices or missing security/date key")
+    if p.symbol.astype(str).str.strip().eq("").any() or a.symbol.astype(str).str.strip().eq("").any():
+        raise ValueError("empty security key")
     if p.duplicated(["date", "symbol"]).any() or a.duplicated(["symbol", "ex_date"]).any():
         raise ValueError("ambiguous price/action key")
     for field in ["open", "close", "preclose"]:
@@ -80,3 +87,42 @@ def economic_return_prices(prices, actions, calendar):
             result.append(record)
             previous_close = row.close
     return pd.DataFrame(result).sort_values(["date", "symbol"]).reset_index(drop=True)
+
+
+def reconcile_price_files(prices_path, actions_path, calendar_path, out):
+    """Seal supplied CSV evidence and export a research index, never readiness."""
+    target = Path(out)
+    if target.exists() and any(target.iterdir()):
+        raise ValueError("reconciliation output must be empty")
+    sources = {"prices": Path(prices_path), "actions": Path(actions_path), "calendar": Path(calendar_path)}
+    contents = {key: path.read_bytes() for key, path in sources.items()}
+    from io import BytesIO
+    prices = pd.read_csv(BytesIO(contents["prices"]), dtype={"symbol": str, "code": str, "tradestatus": str})
+    if "code" in prices and "symbol" not in prices:
+        prices = prices.rename(columns={"code": "symbol"})
+    actions = pd.read_csv(BytesIO(contents["actions"]), dtype={"symbol": str})
+    calendar = pd.read_csv(BytesIO(contents["calendar"]), dtype=str)
+    if {"calendar_date", "is_trading_day"}.issubset(calendar):
+        dates = calendar.loc[calendar.is_trading_day == "1", "calendar_date"]
+    elif "date" in calendar:
+        dates = calendar.date
+    else:
+        raise ValueError("calendar requires date or calendar_date/is_trading_day")
+    # Calendar defines the requested interval; never silently truncate at last price.
+    index = economic_return_prices(prices, actions, pd.to_datetime(dates))
+    target.mkdir(parents=True, exist_ok=True)
+    hashes = {}
+    for key, data in contents.items():
+        (target / f"input_{key}.csv").write_bytes(data)
+        hashes[key] = hashlib.sha256(data).hexdigest()
+    output = target / "economic_prices.csv"
+    index.to_csv(output, index=False)
+    summary = {"rows": len(index), "symbols": int(index.symbol.nunique()),
+               "start": str(index.date.min().date()), "end": str(index.date.max().date()),
+               "input_sha256": hashes, "output_sha256": hashlib.sha256(output.read_bytes()).hexdigest(),
+               "certified": False, "model_ready": False,
+               "method": "gross_entitlement_index_reinvest_after_payment",
+               "limitations": ["supplied event vintage not independently certified", "no dividend tax or reinvestment fees",
+                               "share entitlements are not a broker tradability ledger", "rights and unresolved terminal values rejected"]}
+    (target / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
+    return summary

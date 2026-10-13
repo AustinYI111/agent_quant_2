@@ -55,6 +55,11 @@ def main():
     alignment.add_argument("--market", required=True)
     alignment.add_argument("--financials", required=True)
     alignment.add_argument("--out", required=True)
+    reconciliation = sub.add_parser("reconcile-prices", help="reconcile supplied raw prices and known cash/share events")
+    reconciliation.add_argument("--prices", required=True)
+    reconciliation.add_argument("--actions", required=True)
+    reconciliation.add_argument("--calendar", required=True)
+    reconciliation.add_argument("--out", required=True)
     report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
     report.add_argument("--data", required=True)
     report.add_argument("--predictions", required=True)
@@ -130,6 +135,9 @@ def main():
     elif args.command == "align-market":
         from .market_alignment import align_market_financials
         print(json.dumps(align_market_financials(args.market, args.financials, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "reconcile-prices":
+        from .corporate_actions import reconcile_price_files
+        print(json.dumps(reconcile_price_files(args.prices, args.actions, args.calendar, args.out), ensure_ascii=False, indent=2))
     elif args.command == "report":
         import pandas as pd
         from .research import daily_report, load_holdings

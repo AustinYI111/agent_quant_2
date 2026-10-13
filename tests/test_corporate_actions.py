@@ -2,6 +2,7 @@ import pandas as pd
 import pytest
 
 from ashare_mvp.corporate_actions import economic_return_prices
+from ashare_mvp.corporate_actions import reconcile_price_files
 
 
 def inputs():
@@ -61,3 +62,21 @@ def test_late_disclosure_and_rights_capital_rejected():
     a["rights_cash_required"] = 1
     with pytest.raises(ValueError, match="external capital"):
         economic_return_prices(p, a, dates)
+
+
+def test_file_reconciliation_seals_evidence_and_rejects_truncated_history(tmp_path):
+    import hashlib
+    p, a, dates = inputs()
+    p.rename(columns={"symbol": "code"}).to_csv(tmp_path / "prices.csv", index=False)
+    a.to_csv(tmp_path / "actions.csv", index=False)
+    pd.DataFrame({"calendar_date": dates, "is_trading_day": "1"}).to_csv(tmp_path / "calendar.csv", index=False)
+    args = [tmp_path / "prices.csv", tmp_path / "actions.csv", tmp_path / "calendar.csv"]
+    result = reconcile_price_files(*args, tmp_path / "out")
+    assert result["rows"] == 4 and result["certified"] is False and result["model_ready"] is False
+    assert result["input_sha256"]["prices"] == hashlib.sha256(args[0].read_bytes()).hexdigest()
+    pd.testing.assert_series_equal(pd.read_csv(tmp_path / "out/economic_prices.csv").total_return_open,
+                                   pd.Series([10.] * 4, name="total_return_open"))
+    p.iloc[:-1].to_csv(args[0], index=False)
+    with pytest.raises(ValueError, match="terminal valuation"):
+        reconcile_price_files(*args, tmp_path / "bad")
+    assert not (tmp_path / "bad").exists()

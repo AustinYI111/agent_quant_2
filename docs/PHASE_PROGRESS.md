@@ -112,3 +112,13 @@ python -m ashare_mvp.cli align-market --market artifacts/market_history --financ
 实际抓取浦发银行2018-07-11至2018-07-20共8个交易日原始行情，核对2018-07-13每股0.1元现金分红：除息日原始开盘9.57元，含应收股息的经济开盘9.67元。产物位于artifacts/real_dividend_reconciliation/；这里只验证现金分红样本，不据此认证全市场收益。最新全套77项离线测试通过（40.88秒），涵盖分红、拆股、缺失事件、时点和未来价格扰动。
 
 历史行情采集仍在运行。Git凭据管理器当前没有列出已登录账户，远程推送尚未完成。持仓按用户“稍后填写”处理，保留录入入口，不生成个人持仓建议。
+
+新增可重跑入口`reconcile-prices`，封存原始价格、事件和交易日历的输入字节及哈希，导出economic_prices.csv及限制说明。给定日历定义核验区间，不能按最后一条价格自动截短而掩盖停牌或退市缺口。输入code列可转换为symbol，但不会将未知事件版本认证为历史真实版本，输出仍标记model_ready=false。独立交易日历截取2018-07-11至2018-07-20后，真实现金分红样本端到端运行通过，结果位于artifacts/dividend_cli_exchange_verified/。
+
+```powershell
+python -m ashare_mvp.cli reconcile-prices --prices raw_prices.csv --actions actions.csv --calendar exchange_calendar.csv --out reconciled_prices
+```
+
+该命令是模型数据准备中的收益核对步骤，尚未完成全市场公司行动采集及向训练数据转换。完整日历、分红事件及退市终值都仍须分别取得证据，不允许由已存在价格行推导日历后宣称完整覆盖。
+
+本轮完整78项离线测试通过（38.61秒），包括证据封存与交易日缺口拒绝的文件级流程测试。
