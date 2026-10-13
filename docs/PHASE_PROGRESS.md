@@ -137,3 +137,20 @@ python -m ashare_mvp.cli download-dividends --symbols sh.600000 sz.000001 --star
 此步骤补充真实收益计算所需的事件来源。下一步仍须把事件规范化连接到原始价格，按历史可投资成员扩大全市场覆盖，处理不能由该接口证明的公司行动和退市终值，并完成真实样本外训练，而非只扩大合成测试。
 
 最新完整81项离线测试通过（38.24秒），新增测试覆盖缓存篡改拒绝、错误实施年份、连续失败停止及恢复后的缺失请求补采。行情采集会话本轮确认仍在运行；最近封存进度122/1479个交易日、428055行原始行情，不代表已完成完整价格或事件覆盖。
+
+## 分红条款规范化与真实价格连接
+
+新增`normalize-dividends`，先核验完整请求范围和原始文件哈希，再将实施公告的下一交易日作为保守可用日。每股税前现金、送股和资本转增分别与明确的每十股文字条款交叉核对；仅当说明明确没有对应条款时才将缺失比例视为零。配股、未知描述、数值与说明矛盾、缺失金额、公告晚于可用时点等记录进入rejected.csv；存在拒绝记录时命令返回失败状态，避免把不完整事件表宣称为完成。
+
+输出actions.csv保留原始文件和行号、实施公告及红股上市日期。送转比例形成经济权益股数，不代表红股在除权日可卖出；真实账户执行仍需独立处理可交易日期。证券/除息日重复键直接拒绝。源事件版本和完整市场公司行动覆盖仍未认证。
+
+真实两证券两年共4条事件全部规范化，产物位于artifacts/dividend_batch_normalized/；直接使用该产物连接浦发银行8个真实交易日价格成功，结果位于artifacts/dividend_normalized_reconciled/，输出哈希与先前手工核对样本一致。收益核对允许档案包含区间之外的事件，但区间内除息日仍须匹配交易日历，未来档案不得影响过去指数。
+
+```powershell
+python -m ashare_mvp.cli normalize-dividends --data artifacts/dividends --calendar artifacts/market_history/calendar.csv --out artifacts/normalized_dividends
+python -m ashare_mvp.cli reconcile-prices --prices raw_prices.csv --actions artifacts/normalized_dividends/actions.csv --calendar exchange_calendar.csv --out reconciled_prices
+```
+
+这完成了原始事件到经济收益指数的小范围真实连接，不是完整市场收益数据集。全市场事件采集、退市终值、原始财报版本和真实样本外模型仍未完成。
+
+本轮完整89项离线测试通过（37.40秒），新增条款矛盾、未证实金额、配股、迟到公告、源文件篡改、送转权益与可交易日区分及未来档案不改变过去指数的验证。行情会话仍在运行，本轮输出达到129/1479个交易日、452809行原始记录。

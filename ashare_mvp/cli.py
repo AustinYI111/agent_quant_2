@@ -66,6 +66,10 @@ def main():
     dividends.add_argument("--start-year", type=int, required=True)
     dividends.add_argument("--end-year", type=int, required=True)
     dividends.add_argument("--resume", action="store_true")
+    normalize_actions = sub.add_parser("normalize-dividends", help="normalize verified cash/share event records with visibility dates")
+    normalize_actions.add_argument("--data", required=True)
+    normalize_actions.add_argument("--calendar", required=True)
+    normalize_actions.add_argument("--out", required=True)
     report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
     report.add_argument("--data", required=True)
     report.add_argument("--predictions", required=True)
@@ -149,6 +153,12 @@ def main():
         result = download_dividends(args.out, args.symbols, args.start_year, args.end_year, args.resume)
         print(json.dumps({k: v for k, v in result.items() if k not in ["files", "queries"]}, ensure_ascii=False, indent=2))
         if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "normalize-dividends":
+        from .dividend_normalization import normalize_dividends
+        result = normalize_dividends(args.data, args.calendar, args.out)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        if result["status"] != "normalized":
             raise SystemExit(1)
     elif args.command == "report":
         import pandas as pd

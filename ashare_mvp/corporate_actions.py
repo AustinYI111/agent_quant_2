@@ -20,7 +20,7 @@ def economic_return_prices(prices, actions, calendar):
     for field in ["ex_date", "available_date", "pay_date"]:
         a[field] = pd.to_datetime(a[field])
     cal = pd.DatetimeIndex(calendar)
-    if cal.has_duplicates or cal.hasnans or not cal.is_monotonic_increasing:
+    if cal.empty or cal.has_duplicates or cal.hasnans or not cal.is_monotonic_increasing:
         raise ValueError("invalid corporate-action calendar")
     if p.empty or p[["date", "symbol"]].isna().any().any() or a.symbol.isna().any():
         raise ValueError("empty prices or missing security/date key")
@@ -40,7 +40,8 @@ def economic_return_prices(prices, actions, calendar):
         raise ValueError("invalid cash/share multiplier")
     if a[["ex_date", "available_date", "pay_date"]].isna().any().any() or (a.available_date > a.ex_date).any() or (a.pay_date < a.ex_date).any():
         raise ValueError("action not known at ex-date or invalid payment date")
-    if not p.date.isin(cal).all() or not a.ex_date.isin(cal).all() or not p.tradestatus.astype(str).isin(["0", "1"]).all():
+    within_interval = a.ex_date.between(cal.min(), cal.max())
+    if not p.date.isin(cal).all() or not a.loc[within_interval, "ex_date"].isin(cal).all() or not p.tradestatus.astype(str).isin(["0", "1"]).all():
         raise ValueError("session/state not consistent with calendar")
     if "rights_cash_required" in a and a.rights_cash_required.fillna(0).ne(0).any():
         raise ValueError("rights subscription requires external capital; explicit account handling required")

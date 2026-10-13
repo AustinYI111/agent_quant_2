@@ -47,6 +47,17 @@ def test_future_action_record_does_not_change_past_index():
     pd.testing.assert_frame_equal(before.iloc[:3], after.iloc[:3])
 
 
+def test_action_archive_outside_evaluation_interval_does_not_change_index():
+    p, a, dates = inputs()
+    before = economic_return_prices(p, a, dates)
+    future = a.copy()
+    future["ex_date"] = pd.Timestamp("2025-01-02")
+    future["pay_date"] = pd.Timestamp("2025-01-02")
+    future["available_date"] = pd.Timestamp("2024-12-31")
+    after = economic_return_prices(p, pd.concat([a, future]), dates)
+    pd.testing.assert_frame_equal(before, after)
+
+
 def test_incomplete_security_history_rejected():
     p, a, dates = inputs()
     with pytest.raises(ValueError, match="terminal valuation"):
