@@ -60,6 +60,12 @@ def main():
     reconciliation.add_argument("--actions", required=True)
     reconciliation.add_argument("--calendar", required=True)
     reconciliation.add_argument("--out", required=True)
+    dividends = sub.add_parser("download-dividends", help="resumable raw dividend evidence by security and execution year")
+    dividends.add_argument("--out", required=True)
+    dividends.add_argument("--symbols", nargs="+", required=True)
+    dividends.add_argument("--start-year", type=int, required=True)
+    dividends.add_argument("--end-year", type=int, required=True)
+    dividends.add_argument("--resume", action="store_true")
     report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
     report.add_argument("--data", required=True)
     report.add_argument("--predictions", required=True)
@@ -138,6 +144,12 @@ def main():
     elif args.command == "reconcile-prices":
         from .corporate_actions import reconcile_price_files
         print(json.dumps(reconcile_price_files(args.prices, args.actions, args.calendar, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "download-dividends":
+        from .dividend_download import download_dividends
+        result = download_dividends(args.out, args.symbols, args.start_year, args.end_year, args.resume)
+        print(json.dumps({k: v for k, v in result.items() if k not in ["files", "queries"]}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
     elif args.command == "report":
         import pandas as pd
         from .research import daily_report, load_holdings

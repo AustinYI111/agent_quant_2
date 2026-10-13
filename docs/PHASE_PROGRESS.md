@@ -122,3 +122,18 @@ python -m ashare_mvp.cli reconcile-prices --prices raw_prices.csv --actions acti
 该命令是模型数据准备中的收益核对步骤，尚未完成全市场公司行动采集及向训练数据转换。完整日历、分红事件及退市终值都仍须分别取得证据，不允许由已存在价格行推导日历后宣称完整覆盖。
 
 本轮完整78项离线测试通过（38.61秒），包括证据封存与交易日缺口拒绝的文件级流程测试。
+
+## 可恢复的公司行动证据采集
+
+新增`download-dividends`，按明确证券与除权除息年份采集原始事件；字段依据[BaoStock接口文档](https://github.com/zxygithub/baostock/blob/master/docs/pythonAPI.md)，使用yearType=operate，保存实施公告、除息、派息、红股上市日期及现金/送转比例。暂不把不完整方案转换为已执行事件，也不将空响应作为无公司行动的独立证明。
+
+按证券/年份写入原始CSV、检索时间及哈希；恢复时验证参数和已缓存文件，跳过完成查询，连续三次失败停止。代码拒绝错误证券、错误实施年份及同日重复事件，避免接口截面混淆。真实采集sh.600000和sz.000001在2018、2019年的4个查询全部成功，得到4条原始记录；同一任务恢复运行成功，结果保存在artifacts/dividend_batch_real/。未据此声明全市场分红、配股、合并或退市结算覆盖；事件原始版本也未认证。
+
+```powershell
+python -m ashare_mvp.cli download-dividends --symbols sh.600000 sz.000001 --start-year 2018 --end-year 2019 --out artifacts/dividends
+python -m ashare_mvp.cli download-dividends --symbols sh.600000 sz.000001 --start-year 2018 --end-year 2019 --out artifacts/dividends --resume
+```
+
+此步骤补充真实收益计算所需的事件来源。下一步仍须把事件规范化连接到原始价格，按历史可投资成员扩大全市场覆盖，处理不能由该接口证明的公司行动和退市终值，并完成真实样本外训练，而非只扩大合成测试。
+
+最新完整81项离线测试通过（38.24秒），新增测试覆盖缓存篡改拒绝、错误实施年份、连续失败停止及恢复后的缺失请求补采。行情采集会话本轮确认仍在运行；最近封存进度122/1479个交易日、428055行原始行情，不代表已完成完整价格或事件覆盖。
