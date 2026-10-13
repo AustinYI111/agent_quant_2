@@ -300,3 +300,11 @@ python -m ashare_mvp.cli audit-market-universe --master artifacts/requested_secu
 检查原始20条outDate当天报价：全部tradestatus=0，成交量缺失；18条保留旧价格，sz.000022和sz.000043价格也为空。正价格不能作为当天可卖出的证据。审计新增terminal_nontrading_record，要求代码恰在outDate且明确非交易状态，才与未知身份/其他区间外报价区分；不扩张当天选股资格，也不认证现金清算或自动卖出。
 
 新快照artifacts/universe_coverage_audit3/包含578个已取得交易日，20条差异全部为terminal_nontrading_record，无未知代码或其他区间外记录。保留全部原记录，不据此认定退市终值已解决。相关10项测试通过（1.26秒），新增验证正的旧价格且非交易状态不能进入期末选股资格。行情原采集进程仍在运行。
+
+## 当前真实行情与财报连接及负债率来源验证
+
+artifacts/aligned_market_progress2/封存2113947行行情、3882个证券，日期2018-01-02至2020-06-11；927650行匹配到不晚于报价日的财报。字段实测非空数：ROE917302、营收增速895555、利润增速895893、资产负债率0。PE/PB字段2113947行非空仅证明值可读，不认证有效估值范围。匹配不修复日历缺口、公司行动、退市终值或报告原始版本，因此model_ready=false。
+
+按[AKShare官方实现](https://raw.githubusercontent.com/akfamily/akshare/main/akshare/stock_feature/stock_three_report_em.py)核查东方财富资产负债表参数并查询SH600519两期报告，取得总资产、总负债、归母净资产及公告/更新日期。产物artifacts/balance_source_probe/，原始返回保留。2020Q1公告和更新均2020-04-28；2019FY公告2020-04-22但更新2021-03-31，证明不能将当前修订值回填原公告日。下一步采集并规范化资产负债表，按每个依赖的最晚可见时点连接，缺失值仍原生保留，不以零补齐。
+
+本轮未修改模型、成本或选股规则，未运行或报告真实选股收益；真实连接与字段检查是数据准备证据。全市场资产负债表请求尚未实现，单股两期验证不代表完成覆盖。
