@@ -352,3 +352,9 @@ python -m ashare_mvp.cli normalize-balances --data artifacts/balances --calendar
 ```powershell
 python -m ashare_mvp.cli combine-financials --earnings artifacts/financial_panel --balances artifacts/balance_panel --out artifacts/combined_financials
 ```
+
+## 无效响应缓存修复及退市接口验证
+
+发现sh.600068/600069/600070报告日期接口返回只有$type/$types的对象，无data；原采集将成功HTTP响应当成可复用有效缓存，导致恢复重复使用坏响应。修复缓存有效性：JSON数据响应必须含list型data，否则记unusable_response；旧版无效ok缓存或无效响应恢复时重新查询。文件名加入响应内容哈希，更新响应不覆盖原字节，替换记录保留superseded_responses来源。相关7项测试通过（包含无效响应恢复后原始缓存仍保留）。
+
+按[AKShare官方退市报表实现](https://raw.githubusercontent.com/akfamily/akshare/main/akshare/stock_feature/stock_three_report_em.py)验证RPT_F10_FINANCE_GBALANCE备用公开接口。初次日期范围过滤格式错误返回code9501；更正为单引号报告日期列表后，三个证券分别返回27/26/28条，总计81条，pages=1，count与实际记录数一致。原始两次测试独立保存在artifacts/balance_legacy_probe/与balance_legacy_probe2/。备用接口尚未接入生产恢复器，不把该验证当作5471目标请求已完成。

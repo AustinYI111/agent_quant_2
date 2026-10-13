@@ -49,11 +49,18 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
             raw = (path / prior["file"]).read_bytes()
             if Path(prior["file"]).name != prior["file"] or hashlib.sha256(raw).hexdigest() != prior["sha256"]:
                 raise ValueError("balance cache hash mismatch")
-            return gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
+            decoded = gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
+            if endpoint == "Index" or isinstance(json.loads(decoded).get("data"), list):
+                return decoded
+            meta.setdefault("superseded_responses", []).append(dict(key=key, query=prior, reason="cached response has no report data list"))
+        if prior and prior.get("status") == "unusable_response":
+            meta.setdefault("superseded_responses", []).append(dict(key=key, query=prior, reason="retry unusable provider response"))
         raw = fetch(endpoint, params)
-        filename = hashlib.sha256(key.encode()).hexdigest() + ".raw"
+        filename = hashlib.sha256(key.encode() + raw).hexdigest() + ".raw"
         (path / filename).write_bytes(raw)
-        meta["queries"][key] = dict(status="ok", endpoint=endpoint, params=params, file=filename, sha256=hashlib.sha256(raw).hexdigest())
+        decoded = gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
+        valid = endpoint == "Index" or isinstance(json.loads(decoded).get("data"), list)
+        meta["queries"][key] = dict(status="ok" if valid else "unusable_response", endpoint=endpoint, params=params, file=filename, sha256=hashlib.sha256(raw).hexdigest())
         checkpoint(); time.sleep(delay)
         return gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
     meta["status"] = "running"; checkpoint(); failures = 0

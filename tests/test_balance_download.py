@@ -36,3 +36,14 @@ def test_gzip_response_and_cached_resume(tmp_path):
     args=(['sh.600519'],'2020-01-01','2020-12-31',tmp_path)
     assert download_balance_sheets(*args,fetch=compressed,delay=0)['status']=='downloaded_raw'
     assert download_balance_sheets(*args,resume=True,fetch=compressed,delay=0)['status']=='downloaded_raw'
+
+
+def test_cached_unusable_response_is_refreshed_and_original_retained(tmp_path):
+    def invalid(endpoint,params):
+        return b'{"$type":"1"}' if endpoint=='zcfzbDateAjaxNew' else fetch(endpoint,params)
+    args=(['sh.600519'],'2020-01-01','2020-12-31',tmp_path)
+    assert download_balance_sheets(*args,fetch=invalid,delay=0)['status']=='partial'
+    meta=json.loads((tmp_path/'manifest.json').read_text())
+    original=meta['queries']['sh.600519:dates']['file']
+    assert download_balance_sheets(*args,resume=True,fetch=fetch,delay=0)['status']=='downloaded_raw'
+    assert (tmp_path/original).read_bytes()==b'{"$type":"1"}'
