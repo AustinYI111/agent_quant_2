@@ -57,6 +57,12 @@ def main():
     master.add_argument("--targets", required=True)
     master.add_argument("--out", required=True)
     master.add_argument("--resume", action="store_true")
+    balance = sub.add_parser("download-balances", help="resumable issuer balance sheets")
+    balance.add_argument("--symbols", nargs="+", required=True)
+    balance.add_argument("--start", required=True)
+    balance.add_argument("--end", required=True)
+    balance.add_argument("--out", required=True)
+    balance.add_argument("--resume", action="store_true")
     finance = sub.add_parser("download-financials", help="resumable public quarterly financial cross-sections")
     finance.add_argument("--out", required=True)
     finance.add_argument("--start", required=True)
@@ -172,6 +178,12 @@ def main():
         from .security_master import download_security_master
         result = download_security_master(args.targets, args.out, args.resume)
         print(json.dumps({key: value for key, value in result.items() if key != "queries"}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "download-balances":
+        from .balance_download import download_balance_sheets
+        result = download_balance_sheets(args.symbols, args.start, args.end, args.out, args.resume)
+        print(json.dumps({k:v for k,v in result.items() if k not in ["queries", "securities"]}, ensure_ascii=False, indent=2))
         if result["status"] != "downloaded_raw":
             raise SystemExit(1)
     elif args.command == "download-financials":
