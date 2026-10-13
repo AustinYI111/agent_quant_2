@@ -6,6 +6,7 @@ import json
 import re
 import socket
 import multiprocessing
+import time
 from types import SimpleNamespace
 
 import pandas as pd
@@ -35,13 +36,26 @@ def _worker(connection, method, args, kwargs, timeout):
     socket.setdefaulttimeout(timeout)
     try:
         import baostock as bs
+        # Smaller metadata pages avoid large default responses and keep paging
+        # within an individual socket deadline. Patch only this isolated worker.
+        if method in ["query_all_stock", "query_stock_basic"]:
+            import baostock.common.contants as constants
+            constants.BAOSTOCK_PER_PAGE_COUNT = 500
         login = bs.login()
         if login.error_code != "0":
             raise RuntimeError(f"login {login.error_code}: {login.error_msg}")
         frame = _result_frame(getattr(bs, method)(*args, **kwargs))
-        connection.send((True, frame))
+        # Large Windows pipe messages can stall until the receiver closes.
+        # Send schema and bounded row chunks instead of pickling one whole table.
+        connection.send(("schema", list(frame.columns)))
+        for start in range(0, len(frame), 100):
+            connection.send(("rows", frame.iloc[start:start + 100].values.tolist()))
+        connection.send(("done", None))
     except Exception as exc:
-        connection.send((False, str(exc)))
+        try:
+            connection.send(("error", str(exc)))
+        except (BrokenPipeError, EOFError, OSError):
+            pass  # parent has already recorded a timeout and closed the pipe
     finally:
         connection.close()
 
@@ -85,13 +99,23 @@ class _BoundedClient:
             sender.close()
             try:
                 large = method in ["query_all_stock", "query_stock_industry"] or (method == "query_stock_basic" and not kwargs.get("code"))
-                deadline = max(self.timeout, 45) if large else self.timeout
-                if not receiver.poll(deadline + 5):
-                    raise TimeoutError(f"{method}: hard deadline exceeded")
-                ok, value = receiver.recv()
-                if not ok:
-                    raise RuntimeError(value)
-                return _FrameResult(value)
+                deadline = time.monotonic() + (max(self.timeout, 90) if large else self.timeout) + 5
+                columns, rows = None, []
+                while True:
+                    remaining = max(0, deadline - time.monotonic())
+                    if not receiver.poll(remaining):
+                        raise TimeoutError(f"{method}: hard deadline exceeded")
+                    kind, value = receiver.recv()
+                    if kind == "error":
+                        raise RuntimeError(value)
+                    if kind == "schema":
+                        columns = value
+                    elif kind == "rows":
+                        rows.extend(value)
+                    elif kind == "done":
+                        if columns is None:
+                            raise RuntimeError("provider worker returned no schema")
+                        return _FrameResult(pd.DataFrame(rows, columns=columns))
             finally:
                 receiver.close()
                 process.join(1)

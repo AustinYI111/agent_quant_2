@@ -24,6 +24,9 @@ def main():
     public.add_argument("--all-symbols", action="store_true")
     audit = sub.add_parser("audit-public", help="inspect raw public download hashes, fields and dates")
     audit.add_argument("--data", required=True)
+    universe = sub.add_parser("build-universe", help="build verified dated public A-share universe")
+    universe.add_argument("--data", required=True)
+    universe.add_argument("--out", required=True)
     report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
     report.add_argument("--data", required=True)
     report.add_argument("--predictions", required=True)
@@ -63,6 +66,9 @@ def main():
     elif args.command == "audit-public":
         from .public_data import readiness_audit
         print(json.dumps(readiness_audit(args.data), ensure_ascii=False, indent=2))
+    elif args.command == "build-universe":
+        from .universe import build_public_universe
+        print(json.dumps(build_public_universe(args.data, args.out), ensure_ascii=False, indent=2))
     elif args.command == "report":
         import pandas as pd
         from .research import daily_report, load_holdings
