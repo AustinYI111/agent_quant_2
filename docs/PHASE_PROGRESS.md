@@ -84,3 +84,21 @@ python -m ashare_mvp.cli download-market --start 2018-01-02 --end 2024-01-31 --o
 ```
 
 全量原始行情仍在采集，批量财务及原始版本验证、原始价格的公司行动与退市清算、全市场真实样本外训练仍未完成。本轮全套64项测试通过；随后补充的采集停止条件另外验证。真实源采集与合成夹具验证分别报告，不能混称。
+
+## 全市场季度财报与时点连接
+
+按[AKShare官方源码中的公开请求结构](https://raw.githubusercontent.com/akfamily/akshare/main/akshare/stock_feature/stock_yjbb_em.py)实测季度报表接口。2023-09-30返回5936条、12页；原始首条记录公告日期为2023-10-27，但UPDATE_DATE已到2026-08-06。不能直接将当前返回值视为2023年的原始财报版本。
+
+新增`download-financials`，完整核对总页数、总行数、重复证券/报告期、缓存文件哈希，保存逐页JSON与原始records.csv，并可断点恢复。2017Q1至2023Q4共28期采集已启动，产物位于artifacts/financial_history_2017_2023/。连续三期失败后停止而非持续失败请求。
+
+新增`normalize-financials`保留公告、更新及入库日期，按其最晚日期的下一交易日作为可用上界；百分比按官方单位转换为小数，季度收益不冒充TTM收益。本接口不提供资产负债率，明确保留缺失，不由其他指标拼造。每次规范化封存输入manifest快照和输出哈希，后续采集追加不会改变已有产物的证据边界。
+
+新增`align-market`，按证券与可用日向后连接，只使用当天及之前记录；晚到的旧报告修订不能覆盖已可见的新报告。使用真实采集数据运行连接，输出205961条、3508个价格代码，行情范围2018-01-02至2018-04-10；这次财报快照最早可用日期为2019-04-30，所以2018年连接结果没有财报记录。该结果是时间门槛生效的证据，不是财报覆盖完成或模型准备就绪。原始版本证据仍未解决。
+
+```powershell
+python -m ashare_mvp.cli download-financials --start 2017-03-31 --end 2023-12-31 --out artifacts/financial_history
+python -m ashare_mvp.cli normalize-financials --data artifacts/financial_history --calendar artifacts/market_history/calendar.csv --out artifacts/financial_panel
+python -m ashare_mvp.cli align-market --market artifacts/market_history --financials artifacts/financial_panel --out artifacts/aligned
+```
+
+本轮全套71项测试通过，时点连接与新日期校验相关6项另行通过。采集任务仍需依据实际会话与进度核验。用户选择稍后填写真实持仓；不能把空模板当作无持仓确认。整体目标仍包括真实训练/回测、原始财报版本核验、公司行动与退市处理及真实持仓日报，未以这轮数据接入代替完成。

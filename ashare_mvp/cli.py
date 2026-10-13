@@ -42,6 +42,19 @@ def main():
     market.add_argument("--start", required=True)
     market.add_argument("--end", required=True)
     market.add_argument("--resume", action="store_true")
+    finance = sub.add_parser("download-financials", help="resumable public quarterly financial cross-sections")
+    finance.add_argument("--out", required=True)
+    finance.add_argument("--start", required=True)
+    finance.add_argument("--end", required=True)
+    finance.add_argument("--resume", action="store_true")
+    normalize_finance = sub.add_parser("normalize-financials", help="normalize quarterly records with publication/update visibility clocks")
+    normalize_finance.add_argument("--data", required=True)
+    normalize_finance.add_argument("--calendar", required=True)
+    normalize_finance.add_argument("--out", required=True)
+    alignment = sub.add_parser("align-market", help="join verified daily prices and visible financial events")
+    alignment.add_argument("--market", required=True)
+    alignment.add_argument("--financials", required=True)
+    alignment.add_argument("--out", required=True)
     report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
     report.add_argument("--data", required=True)
     report.add_argument("--predictions", required=True)
@@ -97,6 +110,26 @@ def main():
         print(json.dumps({k: v for k, v in result.items() if k not in ["files", "queries"]}, ensure_ascii=False, indent=2))
         if result["status"] != "downloaded_raw":
             raise SystemExit(1)
+    elif args.command == "download-financials":
+        from .financial_batch import download_financials
+        result = download_financials(args.out, args.start, args.end, args.resume)
+        print(json.dumps({k: v for k, v in result.items() if k != "quarters"}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "normalize-financials":
+        import pandas as pd
+        from .financial_batch import normalize_financial_batch
+        frame = pd.read_csv(args.calendar, dtype=str)
+        if {"calendar_date", "is_trading_day"}.issubset(frame):
+            dates = frame.loc[frame.is_trading_day == "1", "calendar_date"]
+        elif "date" in frame:
+            dates = frame.date
+        else:
+            raise ValueError("calendar requires date or calendar_date/is_trading_day")
+        print(json.dumps(normalize_financial_batch(args.data, pd.to_datetime(dates), args.out), ensure_ascii=False, indent=2))
+    elif args.command == "align-market":
+        from .market_alignment import align_market_financials
+        print(json.dumps(align_market_financials(args.market, args.financials, args.out), ensure_ascii=False, indent=2))
     elif args.command == "report":
         import pandas as pd
         from .research import daily_report, load_holdings
