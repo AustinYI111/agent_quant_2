@@ -56,3 +56,37 @@ def test_cached_master_query_tamper_rejected(tmp_path):
     file.write_text("changed", encoding="utf-8")
     with pytest.raises(ValueError, match="hash mismatch"):
         download_security_master(targets, tmp_path / "out", resume=True, client=client, delay=0)
+
+
+def test_master_union_sealed_and_conflicting_lifetimes_rejected(tmp_path):
+    import hashlib
+    import json
+    from ashare_mvp.security_master import merge_security_masters
+    targets = tmp_path / "targets.csv"
+    pd.DataFrame({"code": ["sh.600000"], "code_name": [""]}).to_csv(targets, index=False)
+    for name in ["a", "b"]:
+        download_security_master(targets, tmp_path / name, client=Client(), delay=0)
+    result = merge_security_masters([tmp_path / "a", tmp_path / "b"], tmp_path / "merged")
+    assert result["resolved_securities"] == 1 and result["read_only_snapshot"]
+    with pytest.raises(ValueError, match="resume request changed"):
+        download_security_master(targets, tmp_path / "merged", resume=True, client=Client(), delay=0)
+    file = tmp_path / "b/security_master.csv"
+    frame = pd.read_csv(file)
+    frame["ipoDate"] = "2000-01-01"
+    frame.to_csv(file, index=False)
+    manifest = tmp_path / "b/manifest.json"
+    meta = json.loads(manifest.read_text())
+    meta["master_sha256"] = hashlib.sha256(file.read_bytes()).hexdigest()
+    manifest.write_text(json.dumps(meta))
+    with pytest.raises(ValueError, match="conflicting lifetime"):
+        merge_security_masters([tmp_path / "a", tmp_path / "b"], tmp_path / "conflict")
+
+
+def test_master_union_missing_target_seal_rejected(tmp_path):
+    from ashare_mvp.security_master import merge_security_masters
+    targets = tmp_path / "targets.csv"
+    pd.DataFrame({"code": ["sh.600000"], "code_name": [""]}).to_csv(targets, index=False)
+    download_security_master(targets, tmp_path / "a", client=Client(), delay=0)
+    (tmp_path / "a/input_targets.csv").write_text("changed")
+    with pytest.raises(ValueError, match="source hash mismatch"):
+        merge_security_masters([tmp_path / "a"], tmp_path / "merged")

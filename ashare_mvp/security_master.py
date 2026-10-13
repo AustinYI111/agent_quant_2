@@ -132,3 +132,51 @@ def download_security_master(targets_path, out, resume=False, client=None, delay
         client.logout()
         checkpoint()
     return manifest
+
+
+def merge_security_masters(directories, out):
+    """Seal compatible requested masters; never prefer one conflicting lifetime."""
+    path = Path(out)
+    if path.exists() and any(path.iterdir()):
+        raise ValueError("merged master output must be empty")
+    sources, frames, targets = [], [], []
+    for directory in directories:
+        source = Path(directory)
+        manifest_bytes = (source / "manifest.json").read_bytes()
+        meta = json.loads(manifest_bytes)
+        if meta.get("schema") not in ["requested_security_master_v1", "requested_security_master_snapshot_v1"]:
+            raise ValueError("requested security master required")
+        loaded = {}
+        for name, key in [("security_master.csv", "master_sha256"), ("input_targets.csv", "targets_sha256"), ("coverage.csv", "coverage_sha256")]:
+            raw = (source / name).read_bytes()
+            if hashlib.sha256(raw).hexdigest() != meta.get(key):
+                raise ValueError(f"master source hash mismatch: {name}")
+            loaded[name] = pd.read_csv(BytesIO(raw), dtype=str).fillna("")
+        frame, requested = loaded["security_master.csv"], loaded["input_targets.csv"]
+        if frame.code.duplicated().any() or requested.code.duplicated().any() or not frame.code.isin(requested.code).all():
+            raise ValueError("ambiguous master source keys")
+        frames.append(frame); targets.append(requested)
+        sources.append(dict(directory=str(source), manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(), manifest=meta))
+    if not sources:
+        raise ValueError("at least one source required")
+    combined = pd.concat(frames, ignore_index=True)
+    core = combined[["code", "ipoDate", "outDate", "type"]].drop_duplicates()
+    if core.code.duplicated().any():
+        raise ValueError("conflicting lifetime records across sources")
+    requested = pd.concat(targets, ignore_index=True).drop_duplicates("code", keep="first").sort_values("code")
+    resolved = combined.drop_duplicates("code", keep="first").sort_values("code")
+    from .universe import historical_universe
+    historical_universe(resolved, pd.DatetimeIndex([]))
+    coverage = pd.DataFrame({"code": requested.code})
+    coverage["status"] = coverage.code.isin(resolved.code).map({True: "resolved", False: "unresolved"})
+    coverage["reason"] = "sealed source union; unresolved source records are not fabricated"
+    path.mkdir(parents=True, exist_ok=True)
+    for name, frame in [("security_master.csv", resolved), ("input_targets.csv", requested), ("coverage.csv", coverage)]:
+        frame.to_csv(path / name, index=False)
+    result = dict(schema="requested_security_master_snapshot_v1", source="sealed requested master union", read_only_snapshot=True,
+                  requested_securities=len(requested), resolved_securities=len(resolved), certified=False, model_ready=False,
+                  status="downloaded_raw" if len(requested) == len(resolved) else "partial", sources=sources)
+    for name, key in [("security_master.csv", "master_sha256"), ("input_targets.csv", "targets_sha256"), ("coverage.csv", "coverage_sha256")]:
+        result[key] = hashlib.sha256((path / name).read_bytes()).hexdigest()
+    (path / "manifest.json").write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+    return result

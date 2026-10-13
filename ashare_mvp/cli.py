@@ -46,6 +46,9 @@ def main():
     merge_market.add_argument("--data", required=True)
     merge_market.add_argument("--repairs", nargs="+", required=True)
     merge_market.add_argument("--out", required=True)
+    merge_master = sub.add_parser("merge-security-masters", help="seal compatible requested lifecycle sources")
+    merge_master.add_argument("--data", nargs="+", required=True)
+    merge_master.add_argument("--out", required=True)
     membership = sub.add_parser("audit-market-universe", help="reconcile daily quotes with verified security lifetimes")
     membership.add_argument("--master", required=True)
     membership.add_argument("--market", required=True)
@@ -158,6 +161,10 @@ def main():
     elif args.command == "merge-market":
         from .market_merge import merge_market_snapshots
         print(json.dumps(merge_market_snapshots(args.data, args.repairs, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "merge-security-masters":
+        from .security_master import merge_security_masters
+        result = merge_security_masters(args.data, args.out)
+        print(json.dumps({k:v for k,v in result.items() if k != "sources"}, ensure_ascii=False, indent=2))
     elif args.command == "audit-market-universe":
         from .universe_audit import audit_market_universe
         print(json.dumps(audit_market_universe(args.master, args.market, args.out), ensure_ascii=False, indent=2))

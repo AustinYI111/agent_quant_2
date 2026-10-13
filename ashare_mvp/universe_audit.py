@@ -17,7 +17,7 @@ def audit_market_universe(master_directory, market_directory, out):
     master_bytes = (master_dir / "manifest.json").read_bytes()
     market_bytes = (market_dir / "manifest.json").read_bytes()
     master_meta, market_meta = json.loads(master_bytes), json.loads(market_bytes)
-    if master_meta.get("schema") != "requested_security_master_v1":
+    if master_meta.get("schema") not in ["requested_security_master_v1", "requested_security_master_snapshot_v1"]:
         raise ValueError("verified requested security master required")
     master_raw = (master_dir / "security_master.csv").read_bytes()
     if hashlib.sha256(master_raw).hexdigest() != master_meta.get("master_sha256"):

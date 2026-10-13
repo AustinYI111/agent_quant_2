@@ -284,3 +284,13 @@ python -m ashare_mvp.cli merge-market --data artifacts/market_history --repairs 
 ```powershell
 python -m ashare_mvp.cli audit-market-universe --master artifacts/requested_security_master1 --market artifacts/market_history_2018_2024 --out artifacts/universe_audit
 ```
+
+## 缺失生命周期补查与封存合并
+
+公开源精确查询sh.688086成功：IPO 2020-02-26、outDate 2023-07-07、当前名称退市紫晶。当前退市状态不能把它从2020年历史池删除。独立请求产物artifacts/master_missing_688086/data/，与原总表合并至artifacts/master_union1/，5461/5471目标有生命周期记录，仍有10个原目标未解析。
+
+新增merge-security-masters，核验每个源的总表、输入目标及覆盖文件哈希；相同代码IPO/outDate/type冲突直接拒绝。合并产物采用独立只读快照schema，禁止作为采集目录恢复写入。来源manifest保存在输出中；已有原始缓存不变。证券资料、历史池与审计相关14项测试通过（1.35秒），包括冲突来源、目标篡改及只读快照拒绝恢复写入。
+
+原审计20条outside_lifetime均恰在供应商outDate当天。保留原始报价及差异，不把outDate等同最后可成交日，也不自动改股票池边界。需核实退市整理、吸收合并或代码迁移条款，才能决定账户退出和终值。
+
+新的artifacts/universe_coverage_audit2/封存571个已取得交易日，unknown_master差异归零，总差异由85降至20，仍全部为outDate当天报价。这是修复特定漏列证券的证据，不代表1479个日期或全A股市场已完整。
