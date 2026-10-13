@@ -46,6 +46,10 @@ def main():
     merge_market.add_argument("--data", required=True)
     merge_market.add_argument("--repairs", nargs="+", required=True)
     merge_market.add_argument("--out", required=True)
+    master = sub.add_parser("download-security-master", help="requested lifetimes via name groups and exact-code fallback")
+    master.add_argument("--targets", required=True)
+    master.add_argument("--out", required=True)
+    master.add_argument("--resume", action="store_true")
     finance = sub.add_parser("download-financials", help="resumable public quarterly financial cross-sections")
     finance.add_argument("--out", required=True)
     finance.add_argument("--start", required=True)
@@ -150,6 +154,12 @@ def main():
     elif args.command == "merge-market":
         from .market_merge import merge_market_snapshots
         print(json.dumps(merge_market_snapshots(args.data, args.repairs, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "download-security-master":
+        from .security_master import download_security_master
+        result = download_security_master(args.targets, args.out, args.resume)
+        print(json.dumps({key: value for key, value in result.items() if key != "queries"}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
     elif args.command == "download-financials":
         from .financial_batch import download_financials
         result = download_financials(args.out, args.start, args.end, args.resume)
