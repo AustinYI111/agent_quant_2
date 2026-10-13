@@ -38,6 +38,14 @@ def economic_return_prices(prices, actions, calendar):
             raise ValueError("invalid corporate-action amount")
     if (a.cash_per_share < 0).any() or (a.share_multiplier <= 0).any():
         raise ValueError("invalid cash/share multiplier")
+    # Differential distributions can pay public holders more than the exchange
+    # reference-price deduction. An explicit notice-backed value is required.
+    if "reference_cash_per_share" in a:
+        a["reference_cash_per_share"] = pd.to_numeric(a.reference_cash_per_share, errors="raise").fillna(a.cash_per_share)
+        if not np.isfinite(a.reference_cash_per_share).all() or (a.reference_cash_per_share < 0).any():
+            raise ValueError("invalid reference-price dividend")
+    else:
+        a["reference_cash_per_share"] = a.cash_per_share
     if a[["ex_date", "available_date", "pay_date"]].isna().any().any() or (a.available_date > a.ex_date).any() or (a.pay_date < a.ex_date).any():
         raise ValueError("action not known at ex-date or invalid payment date")
     within_interval = a.ex_date.between(cal.min(), cal.max())
@@ -62,7 +70,7 @@ def economic_return_prices(prices, actions, calendar):
             if previous_close is not None:
                 expected_preclose = previous_close
                 if event is not None:
-                    expected_preclose = (previous_close - event.cash_per_share) / event.share_multiplier
+                    expected_preclose = (previous_close - event.reference_cash_per_share) / event.share_multiplier
                 if not np.isclose(row.preclose, expected_preclose, rtol=1e-5, atol=1e-4):
                     raise ValueError(f"{symbol} {row.date.date()}: unreconciled price adjustment/corporate action")
             if event is not None:

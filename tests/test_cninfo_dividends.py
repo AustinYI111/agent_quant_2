@@ -1,5 +1,6 @@
 import pytest
 from ashare_mvp.cninfo_dividends import download_cninfo_dividends
+from ashare_mvp.cninfo_dividends import normalize_cninfo_dividends
 
 
 def payload(symbol):
@@ -41,3 +42,52 @@ def test_outage_stops_after_three_failures(tmp_path):
         return dict(resultcode=500)
     result = download_cninfo_dividends(tmp_path, [f"sh.60000{x}" for x in range(5)], fetch=fetch, delay=0)
     assert result["status"] == "partial" and len(calls) == 3
+
+
+def normalize_fixture(tmp_path, changes):
+    import pandas as pd
+    data = payload("sh.600000")
+    data["records"][0].update(changes)
+    source = tmp_path / "raw"
+    download_cninfo_dividends(source, ["sh.600000"], fetch=lambda symbol: data, delay=0)
+    calendar = tmp_path / "calendar.csv"
+    pd.DataFrame({"date": pd.bdate_range("2018-07-02", "2018-07-20")}).to_csv(calendar, index=False)
+    return source, calendar, tmp_path / "normalized"
+
+
+def test_normalization_preserves_real_payment_and_credit_without_inventing_tradability(tmp_path):
+    import pandas as pd
+    args = normalize_fixture(tmp_path, dict(F010N=2, F011N=3, F007V="10送2转3派1元", F025D="2018-07-17"))
+    result = normalize_cninfo_dividends(*args)
+    assert result["accepted"] == 1 and result["rejected"] == 0
+    row = pd.read_csv(args[2] / "actions.csv").iloc[0]
+    assert row.cash_per_share == 0.1 and row.share_multiplier == 1.5
+    assert row.pay_date == "2018-07-16" and row.share_credit_date == "2018-07-17"
+    assert pd.isna(row.stock_market_date)
+
+
+@pytest.mark.parametrize("changes", [dict(F023D=None), dict(F012N=2), dict(F006D="2018-07-13")])
+def test_unproven_payments_or_terms_are_quarantined(tmp_path, changes):
+    args = normalize_fixture(tmp_path, changes)
+    result = normalize_cninfo_dividends(*args)
+    assert result["accepted"] == 0 and result["rejected"] == 1 and result["status"] == "partial"
+
+
+def test_irrelevant_history_classified_outside_calendar(tmp_path):
+    args = normalize_fixture(tmp_path, dict(F020D="2017-07-13"))
+    result = normalize_cninfo_dividends(*args)
+    assert result["outside_calendar"] == 1 and result["accepted"] == 0 and result["rejected"] == 0
+
+
+def test_competing_same_date_events_all_quarantined_not_arbitrarily_selected(tmp_path):
+    import pandas as pd
+    data = payload("sh.600000")
+    data["records"] += [dict(data["records"][0], F044V="另一方案")]
+    data["count"] = data["total"] = 2
+    source = tmp_path / "raw"
+    download_cninfo_dividends(source, ["sh.600000"], fetch=lambda symbol: data, delay=0)
+    calendar = tmp_path / "calendar.csv"
+    pd.DataFrame({"date": pd.bdate_range("2018-07-02", "2018-07-20")}).to_csv(calendar, index=False)
+    result = normalize_cninfo_dividends(source, calendar, tmp_path / "out")
+    assert result["accepted"] == 0 and result["rejected"] == 2 and result["status"] == "partial"
+    assert pd.read_csv(tmp_path / "out/actions.csv").empty

@@ -32,6 +32,18 @@ def test_stock_split_is_not_a_loss():
     assert result.total_return_open.tolist() == [10] * 4
 
 
+def test_differential_cash_is_distinct_from_exchange_reference_deduction():
+    p, a, dates = inputs()
+    p.loc[1:, ["open", "close", "preclose"]] = 9.72
+    a["cash_per_share"] = 0.321
+    a["reference_cash_per_share"] = 0.28
+    result = economic_return_prices(p, a, dates)
+    assert result.total_return_open.iloc[1] == pytest.approx(10.041)
+    assert result.dividend_receivable.iloc[1] == pytest.approx(0.321)
+    with pytest.raises(ValueError, match="unreconciled"):
+        economic_return_prices(p, a.drop(columns="reference_cash_per_share"), dates)
+
+
 def test_missing_corporate_event_not_silently_treated_as_loss():
     p, a, dates = inputs()
     with pytest.raises(ValueError, match="unreconciled"):

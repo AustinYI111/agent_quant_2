@@ -84,6 +84,10 @@ def main():
     issuer_actions.add_argument("--symbols", nargs="+", required=True)
     issuer_actions.add_argument("--out", required=True)
     issuer_actions.add_argument("--resume", action="store_true")
+    normalize_issuer = sub.add_parser("normalize-cninfo-dividends", help="normalize dated issuer cash/share entitlements")
+    normalize_issuer.add_argument("--data", required=True)
+    normalize_issuer.add_argument("--calendar", required=True)
+    normalize_issuer.add_argument("--out", required=True)
     report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
     report.add_argument("--data", required=True)
     report.add_argument("--predictions", required=True)
@@ -188,6 +192,12 @@ def main():
         result = download_cninfo_dividends(args.out, args.symbols, args.resume)
         print(json.dumps({k: v for k, v in result.items() if k not in ["securities", "symbols"]}, ensure_ascii=False, indent=2))
         if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "normalize-cninfo-dividends":
+        from .cninfo_dividends import normalize_cninfo_dividends
+        result = normalize_cninfo_dividends(args.data, args.calendar, args.out)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        if result["status"] != "normalized":
             raise SystemExit(1)
     elif args.command == "report":
         import pandas as pd
