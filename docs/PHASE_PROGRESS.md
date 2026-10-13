@@ -272,3 +272,15 @@ python -m ashare_mvp.cli merge-market --data artifacts/market_history --repairs 
 完整支付历史与23369条市场分红方案交叉核对，15549条现金/送转条款及除权日期匹配；2673条缺独立支付证据、5117条未解决、30条未实施。产物 artifacts/cninfo_complete_coverage/。不补造支付日期；匹配仍不认证公告原始版本、证券历史身份或到账股票可交易日期。
 
 完整116项测试通过（46.25秒）。旧行情会话在新聊天中不可访问，通过操作系统只读检查确认采集进程已停止后，从524个日文件、1903163行缓存恢复采集。仍需完整行情缺口修复、公司行动和退市终值核对，当前不报告真实策略收益。持仓等待用户稍后填写。远程推送尚未完成。
+
+## 逐日历史股票池核验（2026-10-13）
+
+新增 audit-market-universe，封存证券总表和行情manifest，逐文件核验哈希、日期、唯一键及行数，对照IPO和退市区间。当前status不筛除历史证券；未取得的交易日保留missing_session，不插值成员或报价。导出session_coverage.csv、discrepancies.csv、lifetimes.csv及来源manifest。
+
+实际快照563/1479个交易日、5460个已解析生命周期，85条差异：20条outside_lifetime，65条unknown_master（sh.688086）。前者包含退市日期本身的报价，需独立确认最后交易日而非改成自动接受；后者证明当前请求证券总表不穷尽后续缓存证券。已取得日的现有生命周期内报价未发现缺失，不代表尚未取得916个日期的完整性。产物artifacts/universe_coverage_audit1/，仍model_ready=false。
+
+证券池、资料缓存及新审计相关12项测试通过（1.36秒）。执行示例：
+
+```powershell
+python -m ashare_mvp.cli audit-market-universe --master artifacts/requested_security_master1 --market artifacts/market_history_2018_2024 --out artifacts/universe_audit
+```
