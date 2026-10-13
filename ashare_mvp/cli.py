@@ -42,6 +42,10 @@ def main():
     market.add_argument("--start", required=True)
     market.add_argument("--end", required=True)
     market.add_argument("--resume", action="store_true")
+    merge_market = sub.add_parser("merge-market", help="materialize sealed market and audited repair snapshots")
+    merge_market.add_argument("--data", required=True)
+    merge_market.add_argument("--repairs", nargs="+", required=True)
+    merge_market.add_argument("--out", required=True)
     finance = sub.add_parser("download-financials", help="resumable public quarterly financial cross-sections")
     finance.add_argument("--out", required=True)
     finance.add_argument("--start", required=True)
@@ -143,6 +147,9 @@ def main():
         print(json.dumps({k: v for k, v in result.items() if k not in ["files", "queries"]}, ensure_ascii=False, indent=2))
         if result["status"] != "downloaded_raw":
             raise SystemExit(1)
+    elif args.command == "merge-market":
+        from .market_merge import merge_market_snapshots
+        print(json.dumps(merge_market_snapshots(args.data, args.repairs, args.out), ensure_ascii=False, indent=2))
     elif args.command == "download-financials":
         from .financial_batch import download_financials
         result = download_financials(args.out, args.start, args.end, args.resume)

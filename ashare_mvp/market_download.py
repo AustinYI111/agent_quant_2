@@ -18,6 +18,8 @@ def download_market_daily(out, start, end, resume=False, client=None, delay=0.2)
     manifest_file = path / "manifest.json"
     if resume:
         manifest = json.loads(manifest_file.read_text(encoding="utf-8"))
+        if manifest.get("read_only_snapshot"):
+            raise ValueError("materialized market snapshot is immutable; resume the original acquisition")
         if manifest.get("start") != str(start.date()) or manifest.get("end") != str(end.date()) or manifest.get("schema") != "market_daily_raw_v1":
             raise ValueError("resume request differs from original acquisition")
     else:
