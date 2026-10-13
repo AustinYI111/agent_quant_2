@@ -80,6 +80,10 @@ def main():
     join_actions.add_argument("--payments", required=True)
     join_actions.add_argument("--calendar", required=True)
     join_actions.add_argument("--out", required=True)
+    issuer_actions = sub.add_parser("download-cninfo-dividends", help="issuer dividend histories with explicit payment dates")
+    issuer_actions.add_argument("--symbols", nargs="+", required=True)
+    issuer_actions.add_argument("--out", required=True)
+    issuer_actions.add_argument("--resume", action="store_true")
     report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
     report.add_argument("--data", required=True)
     report.add_argument("--predictions", required=True)
@@ -179,6 +183,12 @@ def main():
     elif args.command == "reconcile-dividends":
         from .dividend_reconciliation import reconcile_dividend_sources
         print(json.dumps(reconcile_dividend_sources(args.market, args.payments, args.calendar, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "download-cninfo-dividends":
+        from .cninfo_dividends import download_cninfo_dividends
+        result = download_cninfo_dividends(args.out, args.symbols, args.resume)
+        print(json.dumps({k: v for k, v in result.items() if k not in ["securities", "symbols"]}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
     elif args.command == "report":
         import pandas as pd
         from .research import daily_report, load_holdings

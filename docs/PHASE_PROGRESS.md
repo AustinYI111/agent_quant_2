@@ -184,3 +184,19 @@ python -m ashare_mvp.cli reconcile-dividends --market artifacts/market_dividend_
 ```
 
 本轮完整95项离线测试通过（32.91秒），新增测试确认未实施和缺支付记录不导出现金事件、条款矛盾拒绝及支付证据篡改拒绝。全市场行情采集会话本轮确认仍在运行，输出达到148/1479个交易日、520045行原始记录。下一步需补齐目标区间的支付日期及未支持证券身份，继续事件与价格核验、原始财报版本验证及真实训练。
+
+## 巨潮完整历史支付日期来源
+
+依据[AKShare巨潮历史分红接口源码](https://raw.githubusercontent.com/akfamily/akshare/main/akshare/stock/stock_dividend_cninfo.py)实测公开p_sysapi1139接口，返回实施方案公告、除权、派息及股份到账日期和每十股分配条款；一次请求取得一个发行人的完整历史，避免逐年请求。新增`download-cninfo-dividends`，按返回count及total与实际行数一致性拒绝截断，封存JSON及CSV、请求证券、检索时间和哈希，恢复核验缓存，三次失败停止。
+
+公开客户端时间戳编码使用标准AES-CBC和PKCS7，并未使用个人账户凭据；可选public依赖新增cryptography，本机实测50.0.2。四家公司sh.600000、sz.000001、sh.600025、sh.600989真实采集全部成功，共75条完整历史记录，产物artifacts/cninfo_histories_real/。
+
+条款冲突仍须保留：华能水电2019-07-05事件，东方财富的数值字段为每十股1.78元、实施说明为1.4713元；巨潮数值和说明均为1.78元，并明确派息日2019-07-05。这不是小数显示精度问题，不能仅因另一个结构化源看起来一致就代替原实施公告PDF的裁定。
+
+已从完整批量方案逐文件核验records.csv哈希，提取4668个符合当前沪深代码规则的证券，启动全历史支付采集，产物artifacts/cninfo_market_histories/，请求源manifest封存于同目录。这一清单包含报告期出现的证券，不是已证明的全部历史可投资成员；北交所及历史代码更名仍有覆盖缺口。原始支付版本、事件规范化连接、退市终值及真实训练尚未完成。
+
+```powershell
+python -m ashare_mvp.cli download-cninfo-dividends --symbols sh.600000 sz.000001 --out artifacts/cninfo_dividends
+```
+
+本轮完整98项离线测试通过（33.26秒），新验证覆盖完整历史计数、截断拒绝、缓存篡改与连续失败停止。支付历史采集会话确认仍在运行，后续须先检查该会话是否终止，再决定恢复；不能因观察超时启动重复采集。
