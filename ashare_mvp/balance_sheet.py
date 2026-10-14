@@ -36,6 +36,13 @@ def normalize_balance_records(records, symbol, calendar):
     return result
 
 
+def _retain_balance_fields(rows):
+    # Identity and payload scope are checked before reducing wide provider rows.
+    # Preserve every clock used by normalization, including optional ingestion.
+    fields={"SECURITY_CODE","REPORT_DATE","NOTICE_DATE","UPDATE_DATE","EITIME","TOTAL_ASSETS","TOTAL_LIABILITIES"}
+    return [{key:value for key,value in row.items() if key in fields} for row in rows]
+
+
 def normalize_balance_download(directory, calendar_path, out):
     """Verify a frozen raw acquisition and publish a separate ratio panel."""
     from pathlib import Path
@@ -92,7 +99,7 @@ def normalize_balance_download(directory, calendar_path, out):
             allowed = pd.date_range(manifest["request"]["start"], manifest["request"]["end"], freq="QE")
             if not frame.SECURITY_CODE.astype(str).eq(code[2:]).all() or not frame.SECUCODE.eq(code[2:] + "." + code[:2]).all() or observed.duplicated().any() or not observed.isin(allowed).all():
                 raise ValueError("legacy balance identity/report scope mismatch")
-            records.setdefault(symbol, []).extend(rows)
+            records.setdefault(symbol, []).extend(_retain_balance_fields(rows))
             continue
         rows = payload["data"]
         code = query["params"]["code"]
@@ -104,7 +111,7 @@ def normalize_balance_download(directory, calendar_path, out):
         observed = pd.to_datetime(frame.REPORT_DATE).dt.normalize()
         if observed.duplicated().any() or set(observed) != set(dates):
             raise ValueError("balance raw report scope mismatch")
-        records.setdefault(symbol, []).extend(rows)
+        records.setdefault(symbol, []).extend(_retain_balance_fields(rows))
     panels, rejected = [], []
     for symbol, info in manifest["securities"].items():
         if info.get("status") != "ok":

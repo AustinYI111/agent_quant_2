@@ -45,3 +45,14 @@ def test_download_panel_verifies_all_raw_cache_and_preserves_clock(tmp_path):
     (source/index_request['file']).write_bytes(b'changed')
     with pytest.raises(ValueError,match='raw hash mismatch'):
         normalize_balance_download(source,calendar,tmp_path/'tampered')
+
+
+def test_wide_provider_rows_reduce_memory_without_losing_visibility_clocks():
+    from ashare_mvp.balance_sheet import _retain_balance_fields
+    row=record(); row["EITIME"]="2021-04-01"
+    row.update({f"UNUSED_{i}":i for i in range(500)})
+    retained=_retain_balance_fields([row])
+    assert len(retained[0])==7 and len(row)==507
+    calendar=pd.bdate_range("2020-01-01","2021-04-05")
+    pd.testing.assert_frame_equal(normalize_balance_records([row],"sh.600519",calendar),normalize_balance_records(retained,"sh.600519",calendar))
+    assert normalize_balance_records(retained,"sh.600519",calendar).available_date.iloc[0]==pd.Timestamp("2021-04-02")
