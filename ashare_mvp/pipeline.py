@@ -131,7 +131,7 @@ def cohort_performance(picks, labels, samples, data, config):
                                        "universe_return", "excess_return"])
 
 
-def simulate_monthly(data, picks, config):
+def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=None):
     """Fractional adjusted shares: economic research NAV, with blocked orders.
 
     Uses contemporaneous execution flags only; blocked sales remain held,
@@ -146,6 +146,27 @@ def simulate_monthly(data, picks, config):
             orders[data.calendar[idx]] = selected.set_index("symbol").target_weight.to_dict()
     if not orders:
         return pd.DataFrame(), pd.DataFrame()
+    if (raw_prices is None) != (corporate_actions is None):
+        raise ValueError("raw prices and corporate actions must be supplied together")
+    event_mode = raw_prices is not None
+    receivables, events, raw_quotes = [], {}, None
+    if event_mode:
+        from .corporate_actions import economic_return_prices
+        if set(raw_prices.symbol) != set(data.prices.symbol):
+            raise ValueError("event account universe differs from feature universe")
+        # Validate complete quotes, event clocks and price discontinuities first.
+        economic_return_prices(raw_prices, corporate_actions, data.calendar)
+        raw_quotes = raw_prices.copy()
+        raw_quotes["date"] = pd.to_datetime(raw_quotes.date)
+        for field in ["open", "preclose"]:
+            raw_quotes[field] = pd.to_numeric(raw_quotes[field], errors="raise")
+        raw_quotes = raw_quotes.set_index(["date", "symbol"])
+        a = corporate_actions.copy()
+        a["ex_date"] = pd.to_datetime(a.ex_date)
+        a["pay_date"] = pd.to_datetime(a.pay_date)
+        for field in ["cash_per_share", "share_multiplier"]:
+            a[field] = pd.to_numeric(a[field], errors="raise")
+        events = {day: group for day, group in a.groupby("ex_date")}
     cash, holdings = 1.0, {}
     nav, trades = [], []
     buy_rate = (config.commission_bps + config.slippage_bps) / 10000
@@ -156,7 +177,25 @@ def simulate_monthly(data, picks, config):
         sell_rate = buy_rate + tax_rate
         bars = daily.set_index("symbol")
         prices = bars.total_return_open
-        equity = cash + sum(q * prices[s] for s, q in holdings.items())
+        if event_mode:
+            quotes = raw_quotes.loc[date].reindex(bars.index)
+            tradable = quotes.tradestatus.astype(str).eq("1") & quotes.open.gt(0)
+            prices = quotes.open.where(tradable, quotes.preclose)
+            bars = bars.copy()
+            bars["can_buy"] &= tradable
+            bars["can_sell"] &= tradable
+            if date in events:
+                for event in events[date].itertuples(index=False):
+                    shares = holdings.get(event.symbol, 0.0)
+                    entitlement = shares * event.cash_per_share
+                    if entitlement:
+                        receivables.append((event.pay_date, entitlement))
+                    if shares:
+                        holdings[event.symbol] = shares * event.share_multiplier
+            cash += sum(amount for day, amount in receivables if day < date)
+            receivables = [(day, amount) for day, amount in receivables if day >= date]
+        pending = sum(amount for _, amount in receivables)
+        equity = cash + pending + sum(q * prices[s] for s, q in holdings.items())
         if date in orders:
             targets = orders[date]
             for symbol in sorted(holdings):
@@ -196,8 +235,11 @@ def simulate_monthly(data, picks, config):
         if cash < -1e-9:
             raise AssertionError("negative cash")
         cash = max(cash, 0.0)  # remove floating-point subtraction residue
-        equity = cash + sum(q * prices[s] for s, q in holdings.items())
-        nav.append(dict(date=date, nav=equity, cash=cash, positions=sum(q > 1e-12 for q in holdings.values())))
+        equity = cash + pending + sum(q * prices[s] for s, q in holdings.items())
+        record = dict(date=date, nav=equity, cash=cash, positions=sum(q > 1e-12 for q in holdings.values()))
+        if event_mode:
+            record.update(dividend_receivable=pending, return_basis="raw_share_account_gross_dividends")
+        nav.append(record)
     return pd.DataFrame(nav), pd.DataFrame(trades)
 
 

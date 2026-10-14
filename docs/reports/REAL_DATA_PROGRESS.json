@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-14",
+  "balance_panel": {
+    "securities": 2651,
+    "records": 62674,
+    "visible_records": 56954,
+    "missing_debt_ratio": 61
+  },
+  "combined_financial_events": {
+    "records": 106912,
+    "symbols": 5555,
+    "debt_records": 46567
+  },
+  "market_sessions_saved": 832,
+  "market_sessions_requested": 1479,
+  "partial_source": true,
+  "model_ready": false,
+  "real_profitability_proven": false,
+  "event_account_tests": 3,
+  "pipeline_regression_with_event_account_tests": 39,
+  "limitations": [
+    "Provider financial versions not independently archived original vintages",
+    "Corporate action and terminal valuation coverage incomplete",
+    "Event labels and NAV supported as explicit API inputs; standard run CLI not yet integrated",
+    "Gross fractional account excludes dividend tax and delayed tradability of share entitlements"
+  ]
+}
