@@ -76,6 +76,7 @@ def download_market_daily(out, start, end, resume=False, client=None, delay=0.2)
             raise ValueError("provider calendar outside requested session dates")
         manifest["sessions_requested"] = len(dates)
         manifest["status"] = "running"
+        manifest.pop("error", None)
         checkpoint()
         consecutive_failures = 0
         for index, day in enumerate(dates):
