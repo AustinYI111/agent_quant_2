@@ -103,3 +103,25 @@ def test_file_reconciliation_seals_evidence_and_rejects_truncated_history(tmp_pa
     with pytest.raises(ValueError, match="terminal valuation"):
         reconcile_price_files(*args, tmp_path / "bad")
     assert not (tmp_path / "bad").exists()
+
+
+def test_new_buyer_does_not_acquire_previous_dividend_receivable():
+    from ashare_mvp.corporate_actions import entry_return_path
+    p,a,dates=inputs()
+    p.loc[3,"open"]=p.loc[3,"close"]=19
+    old=economic_return_prices(p,a,dates)
+    fresh=entry_return_path(p,a,dates,"sh.600000",dates[1],dates[3])
+    assert fresh.dividend_receivable.eq(0).all()
+    assert fresh.holding_return.iloc[-1]==pytest.approx(1.0)
+    assert old.total_return_open.iloc[-1]/old.total_return_open.iloc[1]-1 != pytest.approx(1.0)
+
+
+def test_buyer_before_ex_date_keeps_entitlement_and_entry_suspension_rejected():
+    from ashare_mvp.corporate_actions import entry_return_path
+    p,a,dates=inputs()
+    fresh=entry_return_path(p,a,dates,"sh.600000",dates[0],dates[3])
+    assert fresh.holding_return.tolist()==pytest.approx([0]*4)
+    assert fresh.dividend_receivable.tolist()==[0,0.5,0.5,0]
+    p.loc[0,"tradestatus"]="0"
+    with pytest.raises(ValueError,match="executable"):
+        entry_return_path(p,a,dates,"sh.600000",dates[0],dates[3])

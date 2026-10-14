@@ -21,3 +21,7 @@ python -m venv .venv
 见[完整迁移教程与当前边界](docs/MIGRATION.md)。公开代码继续保存在`feature/quant-mvp`；独立私有仓库[agent_quant_2-backups](https://github.com/AustinYI111/agent_quant_2-backups)保存加密Release快照，数据库不反复提交普通Git。API凭据和备份密码不上传。
 
 新电脑先运行`setup.ps1`，登录GitHub，再运行`scripts/restore-cloud.ps1`。用`scripts/check-environment.ps1`验证模型后可直接预测，不重训。当前可恢复模型为合成候选验证模型，真实全市场模型与自动日更尚未完成，完整状态及命令请按教程执行。
+
+### 选股池范围
+
+真实选股限定沪深 A 股，排除北交所股票，并按每个历史选股日的 ST／*ST 状态剔除风险警示股。保留原始历史记录供时点校验，不用当前 ST 名单回填历史。该规则用于训练样本与预测候选池，不强行将无法卖出的已有持仓从回测账本删除。

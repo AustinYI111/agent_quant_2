@@ -276,3 +276,23 @@ def test_invalid_asof_does_not_create_output(data, tmp_path):
     with pytest.raises(ValueError, match="observed exchange session"):
         run(data, output, asof="2000-01-01")
     assert not output.exists()
+
+
+def test_beijing_excluded_even_when_marked_eligible(data):
+    date=month_ends(data.calendar)[20]
+    symbol=data.prices.symbol.iloc[0]
+    prices=data.prices.copy(); fundamentals=data.fundamentals.copy()
+    prices.loc[prices.symbol==symbol,"symbol"]="bj.920001"
+    fundamentals.loc[fundamentals.symbol==symbol,"symbol"]="bj.920001"
+    altered=replace(data,prices=prices,fundamentals=fundamentals)
+    assert "bj.920001" not in snapshot(altered,technical_panel(altered),date).index
+
+
+def test_future_st_status_does_not_remove_historical_candidate(data):
+    date=month_ends(data.calendar)[20]
+    base=snapshot(data,technical_panel(data),date)
+    symbol=base.index[0]
+    prices=data.prices.copy()
+    prices.loc[(prices.symbol==symbol)&(prices.date>date),"is_st"]=True
+    altered=replace(data,prices=prices)
+    pd.testing.assert_frame_equal(base,snapshot(altered,technical_panel(altered),date))

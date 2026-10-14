@@ -69,6 +69,11 @@ def technical_panel(data):
 
 def snapshot(data, panel, date, min_listing_days=365, max_fundamental_age=550):
     p = panel[panel.date == date].copy()
+    # Real selection is restricted to Shanghai/Shenzhen A shares.
+    if not data.metadata["synthetic"]:
+        from .public_data import is_ashare
+        p = p[p.symbol.map(is_ashare)]
+    p = p[~p.symbol.str.lower().str.startswith("bj.")]
     p = p[p.eligible & ~p.is_st & (p.volume > 0) & (p.market_cap > 0)
           & ((date - p.listing_date).dt.days >= min_listing_days)]
     p = p.merge(fundamentals_asof(data, date), on="symbol", how="inner", validate="one_to_one")

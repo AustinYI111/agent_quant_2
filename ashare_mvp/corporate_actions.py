@@ -135,3 +135,26 @@ def reconcile_price_files(prices_path, actions_path, calendar_path, out):
                                "share entitlements are not a broker tradability ledger", "rights and unresolved terminal values rejected"]}
     (target / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     return summary
+
+
+def entry_return_path(prices, actions, calendar, symbol, entry, end):
+    """Gross wealth for a new open buyer, excluding pre-entry entitlements.
+
+    A seasoned entitlement index cannot be divided to obtain this return:
+    its pending dividends belong to earlier holders. Start a fresh ledger.
+    End is a valuation date; suspended end dates are not executable exits.
+    """
+    entry, end = pd.Timestamp(entry), pd.Timestamp(end)
+    cal = pd.DatetimeIndex(calendar)
+    if entry not in cal or end not in cal or entry > end:
+        raise ValueError("holding interval must use ordered calendar sessions")
+    dates = pd.to_datetime(prices.date)
+    selected = prices.loc[(prices.symbol == symbol) & dates.between(entry, end)].copy()
+    first = selected.loc[pd.to_datetime(selected.date) == entry]
+    if len(first) != 1 or str(first.iloc[0].tradestatus) != "1" or first.iloc[0].open <= 0:
+        raise ValueError("entry requires an executable raw open")
+    path = economic_return_prices(selected, actions.loc[actions.symbol == symbol], cal[(cal >= entry) & (cal <= end)])
+    path["holding_return"] = path.total_return_open / float(first.iloc[0].open) - 1
+    path["entry_date"] = entry
+    path["executable_exit"] = path.tradestatus.astype(str).eq("1") & path.raw_open.gt(0)
+    return path
