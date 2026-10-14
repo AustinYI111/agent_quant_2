@@ -49,16 +49,38 @@
     "evaluation_start": "2018-01-02",
     "evaluation_end": "2024-01-31",
     "status_counts": {
-      "matched_payment_evidence": 15549,
+      "matched_payment_evidence": 18203,
       "outside_evaluation_window": 3746,
-      "missing_payment_evidence": 2673,
       "excluded_exchange": 1375,
+      "missing_payment_evidence": 19,
       "not_implemented": 13,
       "unresolved": 13
     },
-    "matched_events": 15549,
+    "matched_events": 18203,
     "model_ready": false,
-    "actions_sha256": "7fa4ee3b0c7f8a4c7d80b0f2b6480cde2c567ea647b854c53284dc3503a1e292"
+    "actions_sha256": "e9b7077ad39c92e6a35c99dc69c5b01eb38d396900a94aba501406c34dbec356"
   },
-  "dividend_reconciliation_tests": 5
+  "dividend_reconciliation_tests": 5,
+  "cninfo_normalization_after_transfer_terms": {
+    "accepted": 18234,
+    "rejected": 319,
+    "outside_calendar": 33997
+  },
+  "preliminary_raw_price_audit": {
+    "summary": {
+      "rows": 3131162,
+      "symbols": 4380,
+      "affected_symbols": 4380,
+      "issue_counts": {
+        "missing_sessions_or_terminal_valuation": 2846149,
+        "nonpositive_or_invalid_valuation": 2,
+        "unreconciled_adjustment": 8204
+      },
+      "model_ready": false,
+      "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+    },
+    "payment_events_used": 15549,
+    "note": "Before newly parsed transfer events; full requested calendar includes missing acquisition interval after 2021-06-08"
+  },
+  "price_action_audit_tests": 2
 }
