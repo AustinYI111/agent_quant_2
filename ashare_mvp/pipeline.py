@@ -32,7 +32,7 @@ def forward_labels(data, dates, horizons=(3, 6, 12)):
     return pd.DataFrame(rows, columns=["date", "symbol", "horizon", "entry_date", "label_end", "target"])
 
 
-def build_samples(data, config, dates=None, library=None):
+def build_samples(data, config, dates=None, library=None, raw_prices=None, corporate_actions=None):
     library = library or default_library()
     dates = month_ends(data.calendar) if dates is None else pd.DatetimeIndex(dates)
     panel = technical_panel(data)
@@ -49,7 +49,15 @@ def build_samples(data, config, dates=None, library=None):
         raise ValueError("no eligible factor snapshots; need >=252 sessions and PIT fundamentals")
     samples = pd.concat(frames, ignore_index=True)
     features = [n for n, factor in library.factors.items() if config.oneil or factor.family != "oneil"]
-    labels = forward_labels(data, dates)
+    if (raw_prices is None) != (corporate_actions is None):
+        raise ValueError("raw prices and corporate actions must be supplied together")
+    if raw_prices is None:
+        labels = forward_labels(data, dates)
+    else:
+        from .corporate_actions import entry_forward_labels
+        if set(raw_prices.symbol) != set(data.prices.symbol):
+            raise ValueError("event-label security universe differs from feature universe")
+        labels = entry_forward_labels(raw_prices, corporate_actions, data.calendar, dates)
     training_labels = labels[labels.horizon == config.train_horizon].drop(columns="horizon")
     return samples.merge(training_labels, on=["date", "symbol"], how="left", validate="one_to_one"), labels, features
 

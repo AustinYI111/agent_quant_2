@@ -296,3 +296,20 @@ def test_future_st_status_does_not_remove_historical_candidate(data):
     prices.loc[(prices.symbol==symbol)&(prices.date>date),"is_st"]=True
     altered=replace(data,prices=prices)
     pd.testing.assert_frame_equal(base,snapshot(altered,technical_panel(altered),date))
+
+
+def test_event_aware_outcomes_join_training_without_becoming_features(data):
+    date=month_ends(data.calendar)[20]
+    prices=data.prices.copy()
+    raw=pd.DataFrame(dict(date=prices.date,symbol=prices.symbol,open=prices.total_return_open,close=prices.total_return_open,tradestatus="1"))
+    raw["preclose"]=raw.groupby("symbol").close.shift().fillna(raw.close)
+    actions=pd.DataFrame(columns=["symbol","ex_date","available_date","pay_date","cash_per_share","share_multiplier"])
+    config=Config()
+    standard,labels,features=build_samples(data,config,[date])
+    event,event_labels,event_features=build_samples(data,config,[date],raw_prices=raw,corporate_actions=actions)
+    pd.testing.assert_frame_equal(standard[features],event[event_features])
+    np.testing.assert_allclose(standard.target,event.target,rtol=1e-12)
+    assert not set(features).intersection({"target","status","return_basis","executable_exit"})
+    assert event_labels.return_basis.eq("gross_new_entry_entitlements").all()
+    with pytest.raises(ValueError,match="supplied together"):
+        build_samples(data,config,[date],raw_prices=raw)
