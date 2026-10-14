@@ -57,3 +57,16 @@ def test_source_tamper_rejected_before_export(tmp_path):
     with pytest.raises(ValueError, match="hash mismatch"):
         normalize_dividends(*args)
     assert not args[2].exists()
+
+
+def test_explicit_transfer_increase_synonym_keeps_numeric_crosscheck(tmp_path):
+    args=evidence(tmp_path,dividCashStock="10送2转增3派1元（含税）",dividStocksPs="0.2",dividReserveToStockPs="0.3")
+    result=normalize_dividends(*args)
+    assert result["accepted"]==1
+    assert pd.read_csv(args[2]/"actions.csv").share_multiplier.iloc[0]==1.5
+
+
+@pytest.mark.parametrize("description,transfer",[("10转增3派1元","0.4"),("10转2转增3派1元","0.5")])
+def test_transfer_synonym_does_not_accept_conflicting_or_duplicate_terms(tmp_path,description,transfer):
+    args=evidence(tmp_path,dividCashStock=description,dividReserveToStockPs=transfer)
+    assert normalize_dividends(*args)["accepted"]==0

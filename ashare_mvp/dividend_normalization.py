@@ -10,7 +10,7 @@ import pandas as pd
 
 
 def _terms(row):
-    text = str(row.get("dividCashStock", "")).split("（")[0].split("(")[0].strip()
+    text = str(row.get("dividCashStock", "")).split("（")[0].split("(")[0].strip().replace("转增", "转")
     if not re.fullmatch(r"10(?:(?:送|转|派)[0-9]+(?:\.[0-9]+)?(?:股|元)?)+", text):
         raise ValueError("unsupported or ambiguous distribution description")
     terms = re.findall(r"(送|转|派)([0-9]+(?:\.[0-9]+)?)", text)
