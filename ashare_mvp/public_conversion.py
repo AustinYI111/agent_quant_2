@@ -195,7 +195,7 @@ def convert_public(directory, out):
     return metadata
 
 
-def public_samples(directory, config, asof=None):
+def load_public_data(directory, asof=None):
     path = Path(directory)
     metadata = json.loads((path / "metadata.json").read_text(encoding="utf-8"))
     if metadata.get("schema") != "public_ratios_v1" or metadata.get("certified") is not False:
@@ -209,21 +209,31 @@ def public_samples(directory, config, asof=None):
     end = pd.Timestamp(asof) if asof is not None else calendar[-1]
     if end not in calendar:
         raise ValueError("asof outside public calendar")
-    dates = month_ends(calendar)
-    dates = dates[dates <= end].union(pd.DatetimeIndex([end]))
-    data = Dataset(p[p.date <= end], f[f.available_date <= end], calendar[calendar <= end], metadata)
+    return Dataset(p[p.date <= end], f[f.available_date <= end], calendar[calendar <= end], metadata)
+
+
+def public_snapshot(data, technical, date):
+    """Shared native-NaN public-ratio eligibility for training and reload."""
+    snap = technical[(technical.date == date) & technical.eligible & ~technical.is_st & technical.volume.gt(0)
+                     & ((date - technical.listing_date).dt.days >= 365)]
+    snap = snap[snap.symbol.map(is_ashare)]
+    snap = snap.merge(fundamentals_asof(data, date), on="symbol", how="inner", validate="one_to_one")
+    snap = snap[(date - snap.report_date).dt.days <= 550]
+    snap = snap.dropna(subset=["momentum_63", "momentum_126", "momentum_252_skip21", "volatility_63"])
+    return snap.set_index("symbol").sort_index()
+
+
+def public_samples(directory, config, asof=None):
+    data = load_public_data(directory, asof)
+    end = data.calendar[-1]
+    dates = month_ends(data.calendar).union(pd.DatetimeIndex([end]))
     technical = technical_panel(data)
     library = default_library()
     frames = []
     for date in dates:
-        snap = technical[(technical.date == date) & technical.eligible & ~technical.is_st & technical.volume.gt(0)
-                         & ((date - technical.listing_date).dt.days >= 365)]
-        snap = snap.merge(fundamentals_asof(data, date), on="symbol", how="inner", validate="one_to_one")
-        snap = snap[(date - snap.report_date).dt.days <= 550]
-        snap = snap.dropna(subset=["momentum_63", "momentum_126", "momentum_252_skip21", "volatility_63"])
+        snap = public_snapshot(data, technical, date)
         if snap.empty:
             continue
-        snap = snap.set_index("symbol")
         values = library.compute(snap, config.oneil)
         values["date"] = date
         values["available_date"] = snap.available_date
@@ -262,5 +272,13 @@ def run_public_research(directory, out, config, asof=None, exploratory=False):
                   monthly_predictions=int(monthly.date.nunique()), latest_selection_count=int((picks.date == data.calendar[-1]).sum()),
                   nav=nav_metrics(nav),
                   interpretation="No claim of original financial vintage, audited total-return prices, executable fills or full-market coverage")
+    result["input_hashes"] = data.metadata["converted_hashes"]
+    result["label_return_basis"] = "provider_adjusted_unverified_index_ratio"
+    result["account_nav_basis"] = "provider_adjusted_unverified_fractional_shares"
+    result["cohorts"] = {str(h): {"complete_cohorts":int(g.complete.sum()),
+                                "mean_gross_return":float(g.gross_return.mean()) if g.gross_return.notna().any() else None}
+                         for h,g in cohort.groupby("horizon_months")}
     (path / "summary.json").write_text(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+    from .model_registry import record_models
+    record_models(path, result)
     return result

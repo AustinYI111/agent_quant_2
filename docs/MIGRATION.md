@@ -19,7 +19,7 @@
 .venv/Scripts/python -m ashare_mvp.model_registry predict --model artifacts/model_bundle --data artifacts/validated_dataset --out artifacts/current_top20.csv
 ```
 
-加载时核对模型哈希、LightGBM特征顺序、因子源码哈希和记录的依赖版本；不同因子代码或依赖不会被静默接受。因子哈希规范化换行，避免Windows/Linux换行差异误判。合成模型不能用于真实数据。预测只加载Booster，不重新训练。当前适配标准Dataset；公开`public_ratios_v1`探索模型的便携推理适配仍待开发。
+加载时核对模型哈希、LightGBM特征顺序、因子源码哈希和记录的依赖版本；不同因子代码或依赖不会被静默接受。因子哈希规范化换行，避免Windows/Linux换行差异误判。合成模型不能用于真实数据。预测只加载Booster，不重新训练。标准Dataset与`public_ratios_v1`探索模型均可保存和直接加载。公开比率模型额外保存、检查快照实现哈希；命令行预测必须明确添加`--exploratory`。模型加载不改变未核验数据的研究性质。
 
 正式发布脚本`publish-model.ps1`要求非合成、所有者批准、干净代码提交和明确公开确认；Release标签绑定训练代码提交，不默认指向旧main。当前所有模型为候选/合成验证模型，审批字段默认false。今后必须先完成真实数据校验和候选模型评价，再由用户决定是否修改批准状态及升级正式模型。
 
@@ -83,3 +83,14 @@ git credential-manager github login --username AustinYI111 --browser
 ## 当前不足
 
 全市场真实训练/无泄漏绩效、退市终值和完整公司行动仍未完成；行业和原年报正文自动解读尚未实现；实际持仓等待用户填写CSV。正式模型Releases尚无资产。定时日更与月度训练升级未部署；大于2 GiB快照分卷未实现。新电脑安装尚未实际在干净系统验证。测试证明工程行为，不证明策略真实盈利。
+
+
+## 公开估值比率探索模型的迁移
+
+`run-public --exploratory` 现在也保存文本模型及完整元数据，可复用相同 export/check 命令。使用该模型预测时运行：
+
+```powershell
+.venv/Scripts/python -m ashare_mvp.model_registry predict --model artifacts/public_model_bundle --data artifacts/public_ratio_dataset --out artifacts/public_top20.csv --exploratory
+```
+
+数据仍必须是经过哈希校验的 `public_ratios_v1` 目录。PE/PB 直接转换为估值收益率，缺少绝对市值、利润和净资产时不会伪造这些数值。探索模型仍为候选，加载成功不能证明原始财报版本、复权价格或全市场收益可靠。

@@ -41,6 +41,11 @@ def record_models(run_directory, summary):
                 "eligibility": {"min_listing_days":365,"max_fundamental_age_days":550},
                 "feature_source":Path(__file__).with_name("factors.py").read_text(encoding="utf-8-sig"),
                 "features": summary["features"], "oneil": summary["config"]["oneil"]}
+    contract["snapshot_schema"] = summary["data"].get("schema", "standard_dataset")
+    if contract["snapshot_schema"] == "public_ratios_v1":
+        source = Path(__file__).with_name("public_conversion.py").read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+        contract["snapshot_source_sha256"] = hashlib.sha256(source.encode()).hexdigest()
+        contract["eligibility"]["fundamental_missing_policy"] = "native NaN; technical lookbacks required"
     reference=code_reference()
     for row in audit[audit.status.eq("trained")].itertuples():
         model = root / "models" / ("ranker_" + row.date.replace("-", "") + ".txt")
@@ -76,6 +81,10 @@ def check_model(directory):
         raise ValueError("Python major/minor differs from trained environment")
     if metadata["feature_contract"]["factor_source_sha256"] != factor_digest():
         raise ValueError("factor implementation differs from trained model")
+    if metadata["feature_contract"].get("snapshot_source_sha256"):
+        source = Path(__file__).with_name("public_conversion.py").read_text(encoding="utf-8-sig").replace("\r\n", "\n")
+        if hashlib.sha256(source.encode()).hexdigest() != metadata["feature_contract"]["snapshot_source_sha256"]:
+            raise ValueError("public snapshot implementation differs from trained model")
     booster = lgb.Booster(model_file=str(root / "model.txt"))
     if booster.feature_name() != metadata["feature_contract"]["features"]:
         raise ValueError("model feature contract mismatch")
@@ -106,7 +115,14 @@ def predict_model(directory, data, out, asof=None):
     end = pd.Timestamp(asof) if asof else data.calendar[-1]
     if end not in data.calendar or end < pd.Timestamp(metadata["prediction_date"]):
         raise ValueError("prediction must be an observed session at or after model creation")
-    snap = snapshot(data, technical_panel(data), end)
+    schema = metadata["feature_contract"].get("snapshot_schema", "standard_dataset")
+    if data.metadata.get("schema", "standard_dataset") != schema:
+        raise ValueError("prediction dataset schema differs from model contract")
+    if schema == "public_ratios_v1":
+        from .public_conversion import public_snapshot
+        snap = public_snapshot(data, technical_panel(data), end)
+    else:
+        snap = snapshot(data, technical_panel(data), end)
     if len(snap) < metadata["hyperparameters"]["top_k"]:
         raise ValueError("insufficient eligible prediction universe")
     values = default_library().compute(snap, metadata["feature_contract"]["oneil"])
@@ -128,9 +144,17 @@ if __name__ == "__main__":
     export=sub.add_parser("export"); export.add_argument("--run",required=True); export.add_argument("--out",required=True)
     check=sub.add_parser("check"); check.add_argument("--model",required=True)
     predict=sub.add_parser("predict"); predict.add_argument("--model",required=True); predict.add_argument("--data",required=True); predict.add_argument("--out",required=True); predict.add_argument("--asof")
+    predict.add_argument("--exploratory",action="store_true",help="required for unverified public-ratio models")
     args=parser.parse_args()
     if args.command == "export": print(json.dumps(export_model(args.run,args.out),ensure_ascii=False))
     elif args.command == "check":
         _, metadata=check_model(args.model); print(json.dumps({"compatible":True,"version":metadata["model_version"],"role":metadata["role"]}))
     else:
-        result=predict_model(args.model,load(args.data),args.out,args.asof); print(f"Saved {len(result)} predictions")
+        _, metadata = check_model(args.model)
+        if metadata["feature_contract"].get("snapshot_schema") == "public_ratios_v1":
+            if not args.exploratory: parser.error("unverified public models require --exploratory")
+            from .public_conversion import load_public_data
+            data = load_public_data(args.data,args.asof)
+        else:
+            data = load(args.data)
+        result=predict_model(args.model,data,args.out,args.asof); print(f"Saved {len(result)} predictions")

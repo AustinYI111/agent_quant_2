@@ -102,6 +102,25 @@ def test_public_model_requires_explicit_exploration_and_purges_labels(tmp_path):
     assert (trained.max_label_end < trained.cutoff).all()
     _, samples, _, _ = public_samples(prepared, cfg, data.calendar[600])
     assert samples.date.max() <= data.calendar[600]
+    from ashare_mvp.model_registry import export_model,predict_model
+    from ashare_mvp.public_conversion import load_public_data
+    export_model(tmp_path / "run", tmp_path / "portable")
+    recovered=predict_model(tmp_path / "portable",load_public_data(prepared),tmp_path / "recovered.csv")
+    original=pd.read_csv(tmp_path / "run/latest_top20.csv")
+    assert recovered.symbol.tolist()==original.symbol.tolist()
+    np.testing.assert_allclose(recovered.score,original.score,rtol=0,atol=1e-12)
+    from dataclasses import replace
+    from ashare_mvp.model_registry import check_model
+    public_data=load_public_data(prepared)
+    wrong=replace(public_data,metadata={**public_data.metadata,"schema":"standard_dataset"})
+    with pytest.raises(ValueError,match="schema differs"):
+        predict_model(tmp_path / "portable",wrong,tmp_path / "wrong.csv")
+    manifest_path=tmp_path / "portable/model.json"
+    manifest=json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["feature_contract"]["snapshot_source_sha256"]="0"*64
+    manifest_path.write_text(json.dumps(manifest),encoding="utf-8")
+    with pytest.raises(ValueError,match="snapshot implementation differs"):
+        check_model(tmp_path / "portable")
     # Converted inputs are sealed against an unnoticed future-date edit.
     (prepared / "fundamentals.csv").write_text("changed")
     with pytest.raises(ValueError, match="hash mismatch"):
