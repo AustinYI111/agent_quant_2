@@ -125,3 +125,17 @@ def test_buyer_before_ex_date_keeps_entitlement_and_entry_suspension_rejected():
     p.loc[0,"tradestatus"]="0"
     with pytest.raises(ValueError,match="executable"):
         entry_return_path(p,a,dates,"sh.600000",dates[0],dates[3])
+
+
+def test_entry_labels_months_unmatured_and_blocked():
+    from ashare_mvp.corporate_actions import entry_forward_labels
+    dates=pd.bdate_range("2024-01-02",periods=100)
+    prices=pd.DataFrame(dict(date=dates,symbol="sh.600000",open=10.,close=10.,preclose=10.,tradestatus="1"))
+    actions=pd.DataFrame(columns=["symbol","ex_date","available_date","pay_date","cash_per_share","share_multiplier"])
+    result=entry_forward_labels(prices,actions,dates,[dates[0]])
+    assert result.iloc[0].entry_date==dates[1] and result.iloc[0].target==0
+    assert result.iloc[0].label_end==dates[dates.searchsorted(dates[1]+pd.DateOffset(months=3))]
+    assert result.iloc[1:].target.isna().all() and result.iloc[1:].status.eq("unmatured").all()
+    prices.loc[1,"tradestatus"]="0"
+    blocked=entry_forward_labels(prices,actions,dates,[dates[0]])
+    assert blocked.target.isna().all() and blocked.iloc[0].status=="blocked_entry"

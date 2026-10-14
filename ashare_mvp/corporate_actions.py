@@ -158,3 +158,34 @@ def entry_return_path(prices, actions, calendar, symbol, entry, end):
     path["entry_date"] = entry
     path["executable_exit"] = path.tradestatus.astype(str).eq("1") & path.raw_open.gt(0)
     return path
+
+
+def entry_forward_labels(prices, actions, calendar, signal_dates, horizons=(3, 6, 12)):
+    """Gross next-open outcomes; future labels, not historical features."""
+    cal=pd.DatetimeIndex(calendar)
+    signals=pd.DatetimeIndex(signal_dates)
+    if cal.empty or cal.hasnans or cal.has_duplicates or not cal.is_monotonic_increasing:
+        raise ValueError("ordered unique label calendar required")
+    if signals.has_duplicates or not signals.isin(cal).all():
+        raise ValueError("unique signal sessions required")
+    if not horizons or len(set(horizons))!=len(horizons) or any(not isinstance(h,int) or h<=0 for h in horizons):
+        raise ValueError("positive unique integer horizons required")
+    groups=dict(tuple(prices.groupby("symbol",sort=False)))
+    events=dict(tuple(actions.groupby("symbol",sort=False)))
+    rows=[]
+    for date in signals:
+        pos=cal.searchsorted(date,side="right")
+        if pos==len(cal): continue
+        entry=cal[pos]
+        ends={h:(cal[i] if (i:=cal.searchsorted(entry+pd.DateOffset(months=h)))<len(cal) else pd.NaT) for h in horizons}
+        for symbol,bars in groups.items():
+            first=bars.loc[pd.to_datetime(bars.date)==entry]
+            executable=len(first)==1 and str(first.iloc[0].tradestatus)=="1" and first.iloc[0].open>0
+            mature=[d for d in ends.values() if pd.notna(d)]
+            path=entry_return_path(bars,events.get(symbol,actions.iloc[:0]),cal,symbol,entry,max(mature)).set_index("date") if executable and mature else None
+            for h,end in ends.items():
+                outcome=path.loc[end] if path is not None and pd.notna(end) else None
+                rows.append(dict(date=date,symbol=symbol,horizon=h,entry_date=entry,label_end=end,target=float(outcome.holding_return) if outcome is not None else np.nan,
+                    executable_exit=bool(outcome.executable_exit) if outcome is not None else False,
+                    status="unmatured" if pd.isna(end) else ("valued" if executable else "blocked_entry"),return_basis="gross_new_entry_entitlements"))
+    return pd.DataFrame(rows,columns=["date","symbol","horizon","entry_date","label_end","target","executable_exit","status","return_basis"])
