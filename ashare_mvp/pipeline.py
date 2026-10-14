@@ -259,4 +259,6 @@ def run(data, out, config=Config(), asof=None, library=None):
     hashes["calendar"] = hashlib.sha256(str(list(data.calendar)).encode()).hexdigest()
     summary["input_hashes"] = hashes
     (path / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
+    from .model_registry import record_models
+    record_models(path, summary)
     return summary

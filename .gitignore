@@ -18,3 +18,9 @@ htmlcov/
 *.egg-info/
 .venv/
 artifacts/
+private/
+backups/
+*.pqr
+*.zip
+restored/
+pqr-private-*/
