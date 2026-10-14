@@ -8,6 +8,7 @@ import hashlib
 import json
 import re
 import time
+from .checkpoint import replace_checkpoint
 import pandas as pd
 from .public_data import is_ashare
 
@@ -41,7 +42,7 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
         meta["updated_at"] = datetime.now(timezone.utc).isoformat()
         temporary = path / "manifest.pending.json"
         temporary.write_text(json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8")
-        temporary.replace(path / "manifest.json")
+        replace_checkpoint(temporary, path / "manifest.json")
     def query(key, endpoint, params):
         prior = meta["queries"].get(key)
         if prior and prior.get("status") == "ok":

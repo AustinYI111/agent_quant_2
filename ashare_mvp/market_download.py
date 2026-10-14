@@ -4,6 +4,7 @@ from pathlib import Path
 import hashlib
 import json
 import time
+from .checkpoint import replace_checkpoint
 
 import pandas as pd
 
@@ -39,7 +40,7 @@ def download_market_daily(out, start, end, resume=False, client=None, delay=0.2)
         manifest["updated_at"] = datetime.now(timezone.utc).isoformat()
         pending = manifest_file.with_suffix(".pending.json")
         pending.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
-        pending.replace(manifest_file)
+        replace_checkpoint(pending, manifest_file)
 
     def cached(name):
         info = manifest["files"].get(name)
