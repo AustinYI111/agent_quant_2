@@ -52,6 +52,8 @@ def record_models(run_directory, summary):
                         prediction_date=row.date, training_cutoff=row.cutoff, training_feature_end=row.train_end,
                         training_label_end=row.max_label_end, observed_data_cutoff=summary["asof"],
                         role="candidate", synthetic=summary["data"]["synthetic"], feature_contract=contract,
+                        label_return_basis=summary.get("label_return_basis","total_return_index_ratio"),
+                        account_nav_basis=summary.get("account_nav_basis","fractional_adjusted_shares"),
                         hyperparameters=summary["config"], booster_parameters=booster.params,
                         dependencies={p:version(p) for p in ["lightgbm", "numpy", "pandas", "scikit-learn"]},
                         python=platform.python_version(), dataset=summary["data"], dataset_hashes=summary["input_hashes"],

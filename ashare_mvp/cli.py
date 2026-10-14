@@ -134,6 +134,8 @@ def main():
     backtest.add_argument("--data", required=True)
     backtest.add_argument("--out", required=True)
     backtest.add_argument("--asof")
+    backtest.add_argument("--raw-prices", help="raw quote CSV; requires --corporate-actions")
+    backtest.add_argument("--corporate-actions", help="dated cash/share event CSV; requires --raw-prices")
     backtest.add_argument("--horizon", type=int, choices=[3, 6, 12], default=6)
     backtest.add_argument("--oneil", action="store_true")
     backtest.add_argument("--top-k", type=int, default=20)
@@ -272,7 +274,12 @@ def main():
                         train_months=args.train_months, min_train_groups=args.min_train_groups,
                         commission_bps=args.commission_bps, slippage_bps=args.slippage_bps,
                         sell_tax_bps=args.sell_tax_bps)
-        print(json.dumps(run(load(args.data), args.out, config, args.asof), ensure_ascii=False, indent=2))
+        if bool(args.raw_prices) != bool(args.corporate_actions):
+            parser.error("--raw-prices and --corporate-actions must be supplied together")
+        import pandas as pd
+        raw = pd.read_csv(args.raw_prices, dtype={"symbol":str,"tradestatus":str}) if args.raw_prices else None
+        actions = pd.read_csv(args.corporate_actions, dtype={"symbol":str}) if args.corporate_actions else None
+        print(json.dumps(run(load(args.data), args.out, config, args.asof, raw_prices=raw, corporate_actions=actions), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

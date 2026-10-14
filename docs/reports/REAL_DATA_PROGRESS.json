@@ -21,7 +21,26 @@
   "limitations": [
     "Provider financial versions not independently archived original vintages",
     "Corporate action and terminal valuation coverage incomplete",
-    "Event labels and NAV supported as explicit API inputs; standard run CLI not yet integrated",
     "Gross fractional account excludes dividend tax and delayed tradability of share entitlements"
+  ],
+  "alignment": {
+    "price_rows": 3131162,
+    "symbols": 4380,
+    "matched_financial_rows": 1882548,
+    "unpriced_financial_symbols": 1416,
+    "first_date": "2018-01-02",
+    "last_date": "2021-06-08",
+    "model_ready": false
+  },
+  "event_run_integration": "standard run API and CLI accept paired raw quote/action inputs; sealed hashes and model return basis",
+  "event_run_and_model_registry_tests": 5,
+  "full_test_suite": {
+    "passed": 153,
+    "seconds": 145.98
+  },
+  "missing_absolute_valuation_fields": [
+    "market_cap",
+    "earnings_ttm",
+    "book_equity"
   ]
 }

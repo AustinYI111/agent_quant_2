@@ -37,3 +37,23 @@ def test_raw_suspension_blocks_sale_even_with_bad_execution_flag():
     nav,trades=simulate_monthly(data,picks,Config(commission_bps=0,slippage_bps=0,sell_tax_bps=0),raw,actions)
     assert trades[trades.side=="sell"].iloc[0].status=="blocked"
     assert nav[nav.date==dates[2]].iloc[0].positions==1
+
+
+def test_full_event_run_seals_inputs_and_records_model_return_contract(tmp_path):
+    import json
+    from ashare_mvp.demo import make_demo
+    from ashare_mvp.pipeline import run
+    data=make_demo(stocks=20,periods=420)
+    p=data.prices
+    raw=pd.DataFrame(dict(date=p.date,symbol=p.symbol,open=p.total_return_open,close=p.total_return_open,tradestatus="1"))
+    raw["preclose"]=raw.groupby("symbol").close.shift().fillna(raw.close)
+    actions=pd.DataFrame(columns=["symbol","ex_date","available_date","pay_date","cash_per_share","share_multiplier"])
+    summary=run(data,tmp_path/'run',Config(n_estimators=2,min_train_groups=2,train_horizon=3),raw_prices=raw,corporate_actions=actions)
+    assert summary["monthly_predictions"]>0
+    assert summary["account_nav_basis"]=="raw_share_account_gross_dividends"
+    assert summary["label_return_basis"]=="gross_new_entry_entitlements"
+    assert {"raw_prices","corporate_actions"}.issubset(summary["input_hashes"])
+    assert (tmp_path/'run/input_raw_prices.csv').exists()
+    manifest=json.loads(next((tmp_path/'run/models').glob('*.json')).read_text(encoding='utf-8'))
+    assert manifest["account_nav_basis"]==summary["account_nav_basis"]
+    assert manifest["label_return_basis"]==summary["label_return_basis"]

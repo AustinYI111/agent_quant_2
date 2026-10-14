@@ -120,7 +120,8 @@ def cohort_performance(picks, labels, samples, data, config):
                 entry, end = s.entry_date.iloc[0], s.label_end.iloc[0]
                 start_flags = data.prices[data.prices.date == entry].set_index("symbol").reindex(selected.symbol)
                 end_flags = data.prices[data.prices.date == end].set_index("symbol").reindex(selected.symbol)
-                executable = bool(start_flags.can_buy.all() and end_flags.can_sell.all())
+                executable = bool(start_flags.can_buy.all() and end_flags.can_sell.all()
+                                  and (s.executable_exit.all() if "executable_exit" in s else True))
             rows.append(dict(date=date, horizon_months=h, selected=len(s), observed=int(s.target.notna().sum()),
                              exit_date=exit_date, sell_tax_bps=tax_rate * 10000,
                              complete=complete, executable_at_endpoints=executable,
@@ -265,7 +266,7 @@ def _finite_mean(series):
     return float(value) if pd.notna(value) and np.isfinite(value) else None
 
 
-def run(data, out, config=Config(), asof=None, library=None):
+def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, corporate_actions=None):
     data = validate(data)
     path = Path(out)
     if path.exists() and any(path.iterdir()):
@@ -279,14 +280,28 @@ def run(data, out, config=Config(), asof=None, library=None):
     data = type(data)(data.prices[data.prices.date <= asof].copy(),
                       data.fundamentals[data.fundamentals.available_date <= asof].copy(),
                       data.calendar[data.calendar <= asof], data.metadata)
+    if (raw_prices is None) != (corporate_actions is None):
+        raise ValueError("raw prices and corporate actions must be supplied together")
+    if raw_prices is not None:
+        from .corporate_actions import economic_return_prices
+        raw_prices = raw_prices.copy()
+        raw_prices["date"] = pd.to_datetime(raw_prices.date)
+        raw_prices = raw_prices[raw_prices.date <= asof].copy()
+        corporate_actions = corporate_actions.copy()
+        corporate_actions["ex_date"] = pd.to_datetime(corporate_actions.ex_date)
+        corporate_actions = corporate_actions[corporate_actions.ex_date <= asof].copy()
+        keys = ["date", "symbol"]
+        if not raw_prices[keys].sort_values(keys).reset_index(drop=True).equals(data.prices[keys].sort_values(keys).reset_index(drop=True)):
+            raise ValueError("event raw quote keys differ from feature quote keys")
+        economic_return_prices(raw_prices, corporate_actions, data.calendar)
     dates = completed_months.union(pd.DatetimeIndex([asof]))
     path.mkdir(parents=True, exist_ok=True)
-    samples, labels, features = build_samples(data, config, dates, library)
+    samples, labels, features = build_samples(data, config, dates, library, raw_prices, corporate_actions)
     picks, audit, importance = rolling_rank(samples, features, data.calendar, config, path / "models")
     # The arbitrary asof score is published separately; rebalance only month ends.
     monthly = picks[picks.date.isin(completed_months)]
     cohort = cohort_performance(monthly, labels, samples, data, config)
-    nav, trades = simulate_monthly(data, monthly, config)
+    nav, trades = simulate_monthly(data, monthly, config, raw_prices, corporate_actions)
     for name, frame in [("monthly_top20", monthly), ("latest_top20", picks[picks.date == asof]),
                         ("training_audit", audit), ("cohort_performance", cohort),
                         ("daily_nav", nav), ("orders", trades), ("factor_importance", importance)]:
@@ -307,6 +322,14 @@ def run(data, out, config=Config(), asof=None, library=None):
     for name, frame in [("prices", data.prices), ("fundamentals", data.fundamentals)]:
         hashes[name] = hashlib.sha256(frame.to_csv(index=False).encode()).hexdigest()
     hashes["calendar"] = hashlib.sha256(str(list(data.calendar)).encode()).hexdigest()
+    summary["label_return_basis"] = "gross_new_entry_entitlements" if raw_prices is not None else "total_return_index_ratio"
+    summary["account_nav_basis"] = "raw_share_account_gross_dividends" if raw_prices is not None else "fractional_adjusted_shares"
+    if raw_prices is not None:
+        for name, frame in [("raw_prices", raw_prices), ("corporate_actions", corporate_actions)]:
+            frame.to_csv(path / f"input_{name}.csv", index=False)
+            hashes[name] = hashlib.sha256(frame.to_csv(index=False).encode()).hexdigest()
+        summary["limitations"][0] = "Fractional raw-share research account; no lot rounding/minimum commission/T+1 engine"
+        summary["limitations"].append("Share entitlement tradability and terminal settlements require independent validation; paid dividends stay in account cash until rebalance")
     summary["input_hashes"] = hashes
     (path / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     from .model_registry import record_models
