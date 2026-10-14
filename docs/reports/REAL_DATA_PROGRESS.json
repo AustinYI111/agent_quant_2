@@ -42,5 +42,23 @@
     "market_cap",
     "earnings_ttm",
     "book_equity"
-  ]
+  ],
+  "dividend_payment_reconciliation": {
+    "records": 23369,
+    "in_scope_records": 18248,
+    "evaluation_start": "2018-01-02",
+    "evaluation_end": "2024-01-31",
+    "status_counts": {
+      "matched_payment_evidence": 15549,
+      "outside_evaluation_window": 3746,
+      "missing_payment_evidence": 2673,
+      "excluded_exchange": 1375,
+      "not_implemented": 13,
+      "unresolved": 13
+    },
+    "matched_events": 15549,
+    "model_ready": false,
+    "actions_sha256": "7fa4ee3b0c7f8a4c7d80b0f2b6480cde2c567ea647b854c53284dc3503a1e292"
+  },
+  "dividend_reconciliation_tests": 5
 }

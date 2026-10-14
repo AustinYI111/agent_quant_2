@@ -55,3 +55,29 @@ def test_payment_hash_tamper_fails_before_any_export(tmp_path):
     with pytest.raises(ValueError, match="hash mismatch"):
         reconcile_dividend_sources(*args)
     assert not args[3].exists()
+
+
+def test_beijing_events_are_out_of_scope_not_missing_payment_failures(tmp_path):
+    args=inputs(tmp_path)
+    file=args[0]/"2017Q4/records.csv"
+    frame=pd.read_csv(file); frame.loc[1,"SECUCODE"]="920001.BJ"; frame.to_csv(file,index=False)
+    manifest_path=args[0]/"manifest.json"
+    manifest=json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["periods"]["2017-12-31"]["hashes"]["records.csv"]=hashlib.sha256(file.read_bytes()).hexdigest()
+    manifest_path.write_text(json.dumps(manifest),encoding="utf-8")
+    result=reconcile_dividend_sources(*args)
+    assert result["status_counts"]["excluded_exchange"]==1 and result["in_scope_records"]==2
+    assert "unresolved" not in result["status_counts"] and result["matched_events"]==1
+
+
+def test_future_execution_is_separately_audited_not_missing_payment(tmp_path):
+    args=inputs(tmp_path)
+    file=args[0]/"2017Q4/records.csv"
+    frame=pd.read_csv(file); frame.loc[1,"EX_DIVIDEND_DATE"]="2025-01-02"; frame.to_csv(file,index=False)
+    manifest_path=args[0]/"manifest.json"
+    manifest=json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["periods"]["2017-12-31"]["hashes"]["records.csv"]=hashlib.sha256(file.read_bytes()).hexdigest()
+    manifest_path.write_text(json.dumps(manifest),encoding="utf-8")
+    result=reconcile_dividend_sources(*args)
+    assert result["status_counts"]["outside_evaluation_window"]==1 and result["in_scope_records"]==2
+    assert "unresolved" not in result["status_counts"] and result["matched_events"]==1

@@ -61,12 +61,22 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out):
         record = dict(security=row.SECUCODE, report_date=row.REPORT_DATE, source_period=row.source_period,
                       progress=row.ASSIGN_PROGRESS, ex_date=row.EX_DIVIDEND_DATE,
                       status="not_implemented", reason="provider does not mark plan implemented")
+        exchange = re.fullmatch(r"(\d{6})\.(SH|SZ|BJ)", str(row.SECUCODE))
+        if exchange and exchange[2] == "BJ":
+            record.update(status="excluded_exchange", reason="Beijing exchange excluded from research universe")
+            classified.append(record)
+            continue
         if row.ASSIGN_PROGRESS == "实施分配":
             try:
                 code = re.fullmatch(r"(\d{6})\.(SH|SZ|BJ)", str(row.SECUCODE))
                 symbol = f"{code[2].lower()}.{code[1]}" if code else ""
                 if not is_ashare(symbol):
                     raise ValueError("unsupported historical security identity/exchange")
+                execution = pd.Timestamp(row.EX_DIVIDEND_DATE)
+                if pd.notna(execution) and (execution < cal.min() or execution > cal.max()):
+                    record.update(status="outside_evaluation_window", reason="execution outside supplied calendar interval")
+                    classified.append(record)
+                    continue
                 terms = _terms(pd.Series(dict(dividCashStock=row.IMPL_PLAN_PROFILE,
                     dividCashPsBeforeTax=row.PRETAX_BONUS_RMB / 10 if pd.notna(row.PRETAX_BONUS_RMB) else np.nan,
                     dividStocksPs=row.BONUS_RATIO / 10 if pd.notna(row.BONUS_RATIO) else np.nan,
@@ -107,7 +117,9 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out):
     (target / "input_payment_summary.json").write_bytes(payment_summary_bytes)
     (target / "input_payment_actions.csv").write_bytes(action_bytes)
     (target / "input_calendar.csv").write_bytes(calendar_bytes)
-    summary = dict(records=len(raw), status_counts=result.status.value_counts().to_dict(), matched_events=len(output),
+    summary = dict(records=len(raw), in_scope_records=int((~result.status.isin(["excluded_exchange","outside_evaluation_window"])).sum()), excluded_exchanges=["BJ"],
+                   evaluation_start=str(cal.min().date()), evaluation_end=str(cal.max().date()),
+                   status_counts=result.status.value_counts().to_dict(), matched_events=len(output),
                    partial_market_source=manifest.get("status") != "downloaded_raw", certified=False, model_ready=False,
                    market_manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
                    payment_actions_sha256=hashlib.sha256(action_bytes).hexdigest(),
