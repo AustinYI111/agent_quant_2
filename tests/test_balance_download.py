@@ -70,3 +70,17 @@ def test_fallback_count_identity_and_truncation(tmp_path):
         return raw
     result=download_balance_sheets(['sh.600519'],'2020-01-01','2020-12-31',tmp_path/'bad',fetch=truncated,delay=0)
     assert result['status']=='partial' and 'truncated' in result['securities']['sh.600519']['error']
+
+
+def test_unchanged_cached_issuers_do_not_rewrite_full_manifest(tmp_path,monkeypatch):
+    from ashare_mvp import balance_download
+    args=(["sh.600519"],"2020-01-01","2020-12-31",tmp_path)
+    download_balance_sheets(*args,fetch=fetch,delay=0)
+    original=balance_download.replace_checkpoint; writes=[]
+    def track(source,target):
+        writes.append(1); return original(source,target)
+    monkeypatch.setattr(balance_download,"replace_checkpoint",track)
+    def no_network(*args): raise AssertionError("cached request used network")
+    result=download_balance_sheets(*args,resume=True,fetch=no_network,delay=0)
+    assert result["status"]=="downloaded_raw"
+    assert len(writes)==2  # running and final state; no unchanged issuer write

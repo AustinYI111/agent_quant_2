@@ -67,6 +67,7 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
         return gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw
     meta["status"] = "running"; checkpoint(); failures = 0
     for symbol in symbols:
+        prior_state = meta["securities"].get(symbol)
         try:
             code = symbol.replace(".", "").upper()
             html = query(symbol+":type", "Index", dict(type="web", code=code.lower())).decode("utf-8")
@@ -79,7 +80,8 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
                 rows = legacy_records(query, symbol, code, start, end)
                 meta["securities"][symbol] = dict(status="ok", records=len(rows), source_endpoint="legacyBalances", note="provider record count; original versions unverified")
                 failures = 0
-                checkpoint()
+                if meta["securities"][symbol] != prior_state:
+                    checkpoint()
                 continue
             advertised = pd.to_datetime(pd.DataFrame(listing["data"]).REPORT_DATE).dt.normalize()
             if advertised.isna().any() or advertised.duplicated().any():
@@ -102,7 +104,8 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
             failures = 0
         except Exception as exc:
             meta["securities"][symbol] = dict(status="failed", error=str(exc)); failures += 1
-        checkpoint()
+        if meta["securities"][symbol] != prior_state:
+            checkpoint()
         if failures >= 3:
             break
     meta["completed_securities"] = sum(v["status"] == "ok" for v in meta["securities"].values())
