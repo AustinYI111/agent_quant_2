@@ -15,7 +15,7 @@
   "formal_real_model_available": false,
   "real_profitability_proven": false,
   "cloud_backup_repository": "AustinYI111/agent_quant_2-backups",
-  "cloud_backup_status": "uploaded and GitHub digest/size verified; actual download in progress",
+  "cloud_backup_status": "uploaded and downloaded; GitHub SHA-256 and size verified; downloaded archive identical to fully restored local archive",
   "full_tests": {
     "passed": 139,
     "seconds": 60.96
@@ -28,5 +28,7 @@
     "verified": true,
     "retrained": false,
     "synthetic_model_prediction_identical": true
-  }
+  },
+  "pull_request": "https://github.com/AustinYI111/agent_quant_2/pull/11",
+  "github_tests": "MVP, legacy offline regression and synthetic end-to-end checks passed"
 }
