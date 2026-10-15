@@ -275,7 +275,11 @@ def _finite_mean(series):
     return float(value) if pd.notna(value) and np.isfinite(value) else None
 
 
-def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, corporate_actions=None, reference_tick_size=None, code_changes=None):
+def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, corporate_actions=None, reference_tick_size=None, code_changes=None, reference_overrides=None):
+    if reference_overrides is not None:
+        if raw_prices is None or corporate_actions is None: raise ValueError("reference evidence requires raw prices and corporate actions")
+        from .reference_overrides import apply_reference_overrides
+        corporate_actions=apply_reference_overrides(corporate_actions,reference_overrides,data.calendar)
     if code_changes is not None:
         from .security_identity import apply_identity_dataset,stitch_code_prices,canonical_event_symbols
         data=apply_identity_dataset(data,code_changes)
@@ -347,6 +351,10 @@ def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, co
             hashes[name] = hashlib.sha256(frame.to_csv(index=False).encode()).hexdigest()
         summary["limitations"][0] = "Fractional raw-share research account; no lot rounding/minimum commission/T+1 engine"
         summary["limitations"].append("Share entitlement tradability and terminal settlements require independent validation; paid dividends stay in account cash until rebalance")
+    if reference_overrides is not None:
+        payload=reference_overrides.to_json(orient="records",date_format="iso")
+        (path / "input_reference_overrides.json").write_text(payload,encoding="utf-8")
+        hashes["reference_overrides"]=hashlib.sha256(payload.encode()).hexdigest()
     summary["input_hashes"] = hashes
     (path / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2, allow_nan=False), encoding="utf-8")
     from .model_registry import record_models

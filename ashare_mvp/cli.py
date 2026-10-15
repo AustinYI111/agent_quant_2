@@ -135,6 +135,7 @@ def main():
     backtest.add_argument("--data", required=True)
     backtest.add_argument("--out", required=True)
     backtest.add_argument("--asof")
+    backtest.add_argument("--reference-overrides",help="reviewed notice-backed reference cash JSON")
     backtest.add_argument("--code-changes",help="verified same-issuer code-change JSON")
     backtest.add_argument("--raw-prices", help="raw quote CSV; requires --corporate-actions")
     backtest.add_argument("--corporate-actions", help="dated cash/share event CSV; requires --raw-prices")
@@ -286,7 +287,8 @@ def main():
         from .data import read_dataset
         changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
         dataset=read_dataset(args.data) if changes is not None else load(args.data)
-        print(json.dumps(run(dataset, args.out, config, args.asof, raw_prices=raw, corporate_actions=actions, reference_tick_size=args.reference_tick_size, code_changes=changes), ensure_ascii=False, indent=2))
+        evidence=pd.read_json(args.reference_overrides,convert_dates=False) if args.reference_overrides else None
+        print(json.dumps(run(dataset, args.out, config, args.asof, raw_prices=raw, corporate_actions=actions, reference_tick_size=args.reference_tick_size, code_changes=changes, reference_overrides=evidence), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

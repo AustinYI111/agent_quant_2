@@ -1,0 +1,14 @@
+[
+  {
+    "symbol": "sh.600052",
+    "ex_date": "2020-07-31",
+    "reference_cash_per_share": 0.09483,
+    "expected_cash_per_share": 0.09727,
+    "announcement_date": "2020-07-27",
+    "available_date": "2020-07-28",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2020-07-27/1208075933.PDF",
+    "source_sha256": "ae03f8aaaf6d5f3ca480589ac78d7933740408ba7ad99f8f16abd6fcccead227",
+    "source_page": 2,
+    "reviewed": true
+  }
+]
