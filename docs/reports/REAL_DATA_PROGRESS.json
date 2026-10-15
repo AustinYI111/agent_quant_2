@@ -82,5 +82,25 @@
     "payment_events_used": 15549,
     "note": "Before newly parsed transfer events; full requested calendar includes missing acquisition interval after 2021-06-08"
   },
-  "price_action_audit_tests": 2
+  "price_action_audit_tests": 3,
+  "latest_raw_price_audit": {
+    "summary": {
+      "rows": 3131162,
+      "symbols": 4380,
+      "affected_symbols": 4380,
+      "issue_counts": {
+        "missing_sessions_or_terminal_valuation": 2846149,
+        "nonpositive_or_invalid_valuation": 2,
+        "unreconciled_adjustment": 3782
+      },
+      "model_ready": false,
+      "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+    },
+    "payment_events_used": 18203,
+    "adjacent_sessions_only": true,
+    "half_cent_difference_candidates": 3192,
+    "larger_differences": 590,
+    "note": "Precision candidates are not accepted as verified corrections; full calendar includes acquisition gaps after 2021-06-08"
+  },
+  "balance_acquisition_completed_latest": 3586
 }

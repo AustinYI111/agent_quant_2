@@ -24,6 +24,7 @@ def audit_price_actions(prices, actions, calendar):
     else: a["reference_cash_per_share"]=a.cash_per_share
     p=p.sort_values(["symbol","date"])
     p["previous_close"]=p.groupby("symbol").close.shift()
+    p["previous_date"]=p.groupby("symbol").date.shift()
     p=p.merge(a[["symbol","ex_date","reference_cash_per_share","share_multiplier"]],left_on=["symbol","date"],right_on=["symbol","ex_date"],how="left",validate="one_to_one")
     p["expected_preclose"]=(p.previous_close-p.reference_cash_per_share.fillna(0))/p.share_multiplier.fillna(1)
     issues=[]
@@ -32,7 +33,9 @@ def audit_price_actions(prices, actions, calendar):
         missing=expected[~expected.isin(bars.date)]
         if len(missing): issues.append(dict(symbol=symbol,date=missing[0],issue="missing_sessions_or_terminal_valuation",count=len(missing)))
     invalid=~np.isfinite(p.close)|~np.isfinite(p.preclose)|p.close.le(0)|p.preclose.le(0)
-    mismatch=p.previous_close.notna() & ~np.isclose(p.preclose,p.expected_preclose,rtol=1e-5,atol=1e-4) & ~invalid
+    adjacent=(cal.get_indexer(p.date)-cal.get_indexer(p.previous_date))==1
+    adjacent &= p.previous_date.notna()
+    mismatch=adjacent & p.previous_close.notna() & ~np.isclose(p.preclose,p.expected_preclose,rtol=1e-5,atol=1e-4) & ~invalid
     for issue,mask in [("nonpositive_or_invalid_valuation",invalid),("unreconciled_adjustment",mismatch)]:
         for row in p.loc[mask].itertuples(index=False):
             issues.append(dict(symbol=row.symbol,date=row.date,issue=issue,count=1,observed_preclose=row.preclose,expected_preclose=row.expected_preclose))

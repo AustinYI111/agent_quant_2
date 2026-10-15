@@ -24,3 +24,12 @@ def test_terminal_missing_quotes_are_reported_without_removing_security():
     assert summary["symbols"]==1 and summary["affected_symbols"]==1
     assert gaps.iloc[0].issue=="missing_sessions_or_terminal_valuation"
     assert gaps.iloc[0].date==dates[-1]
+
+
+def test_missing_session_does_not_create_false_corporate_action_gap():
+    prices,actions,dates=inputs()
+    prices.loc[2,"close"]=8
+    prices.loc[3,"preclose"]=8
+    gaps,summary=audit_price_actions(prices.drop(index=2),actions,dates)
+    assert summary["issue_counts"]=={"missing_sessions_or_terminal_valuation":1}
+    assert gaps.date.iloc[0]==dates[2]
