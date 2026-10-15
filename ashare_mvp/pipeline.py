@@ -44,6 +44,7 @@ def build_samples(data, config, dates=None, library=None, raw_prices=None, corpo
         factors = library.compute(snap, config.oneil)
         factors["date"] = date
         factors["available_date"] = snap.available_date
+        if "trading_symbol" in snap: factors["trading_symbol"] = snap.trading_symbol
         frames.append(factors.rename_axis("symbol").reset_index())
     if not frames:
         raise ValueError("no eligible factor snapshots; need >=252 sessions and PIT fundamentals")
@@ -87,7 +88,8 @@ def rolling_rank(samples, features, calendar, config, model_dir=None):
             path = Path(model_dir)
             path.mkdir(parents=True, exist_ok=True)
             model.booster_.save_model(str(path / f"ranker_{date:%Y%m%d}.txt"))
-        ranked = current[["date", "symbol", "available_date"]].copy()
+        columns=["date","symbol","available_date"] + (["trading_symbol"] if "trading_symbol" in current else [])
+        ranked = current[columns].copy()
         ranked["score"] = model.predict(current[features])
         ranked = ranked.sort_values(["score", "symbol"], ascending=[False, True]).head(config.top_k)
         ranked["rank"] = range(1, len(ranked) + 1)
@@ -245,7 +247,10 @@ def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=Non
         if event_mode:
             record.update(dividend_receivable=pending, return_basis="raw_share_account_gross_dividends")
         nav.append(record)
-    return pd.DataFrame(nav), pd.DataFrame(trades)
+    trades=pd.DataFrame(trades)
+    if not trades.empty and "trading_symbol" in data.prices:
+        trades=trades.merge(data.prices[["date","symbol","trading_symbol"]],on=["date","symbol"],how="left",validate="many_to_one")
+    return pd.DataFrame(nav), trades
 
 
 def nav_metrics(nav):
@@ -270,7 +275,12 @@ def _finite_mean(series):
     return float(value) if pd.notna(value) and np.isfinite(value) else None
 
 
-def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, corporate_actions=None, reference_tick_size=None):
+def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, corporate_actions=None, reference_tick_size=None, code_changes=None):
+    if code_changes is not None:
+        from .security_identity import apply_identity_dataset,stitch_code_prices,canonical_event_symbols
+        data=apply_identity_dataset(data,code_changes)
+        if raw_prices is not None: raw_prices,_=stitch_code_prices(raw_prices,code_changes)
+        if corporate_actions is not None: corporate_actions=canonical_event_symbols(corporate_actions,code_changes)
     data = validate(data)
     path = Path(out)
     if path.exists() and any(path.iterdir()):

@@ -113,6 +113,9 @@ def predict_model(directory, data, out, asof=None):
     booster, metadata = check_model(directory)
     if data.metadata["synthetic"] != metadata["synthetic"]:
         raise ValueError("cannot use a synthetic model on real data or vice versa")
+    expected_policy=metadata["dataset"].get("security_identity_policy",{}).get("sha256")
+    actual_policy=data.metadata.get("security_identity_policy",{}).get("sha256")
+    if expected_policy!=actual_policy: raise ValueError("prediction code-change policy differs from training")
     end = pd.Timestamp(asof) if asof else data.calendar[-1]
     if end not in data.calendar or end < pd.Timestamp(metadata["prediction_date"]):
         raise ValueError("prediction must be an observed session at or after model creation")
@@ -130,6 +133,7 @@ def predict_model(directory, data, out, asof=None):
     features = metadata["feature_contract"]["features"]
     result = pd.DataFrame({"symbol":values.index, "score":booster.predict(values[features]), "date":end})
     result = result.sort_values(["score","symbol"], ascending=[False,True]).head(metadata["hyperparameters"]["top_k"])
+    if "trading_symbol" in snap: result["trading_symbol"]=result.symbol.map(snap.trading_symbol)
     result["rank"] = range(1,len(result)+1)
     output = Path(out)
     if output.exists(): raise ValueError("prediction output exists")
@@ -157,5 +161,7 @@ if __name__ == "__main__":
             from .public_conversion import load_public_data
             data = load_public_data(args.data,args.asof)
         else:
-            data = load(args.data)
+            policy=metadata["dataset"].get("security_identity_policy")
+            changes=pd.DataFrame(policy["changes"]) if policy else None
+            data = load(args.data,code_changes=changes)
         result=predict_model(args.model,data,args.out,args.asof); print(f"Saved {len(result)} predictions")

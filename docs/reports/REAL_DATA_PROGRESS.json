@@ -165,5 +165,11 @@
     ]
   },
   "same_issuer_code_change_tests": 5,
-  "identity_integration_limit": "Audited quote/event identity adapter; financial panel, trading-symbol output and holdings integration remain pending"
+  "identity_integration_limit": "Integrated standard dataset loading, fundamentals, training output, backtest orders and standard model reload; personal holdings and public-ratio entry integration pending",
+  "identity_pipeline_tests": {
+    "passed": 12,
+    "seconds": 17.96,
+    "restored_prediction_identical": true,
+    "trading_code_not_a_factor": true
+  }
 }

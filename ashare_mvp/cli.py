@@ -134,6 +134,7 @@ def main():
     backtest.add_argument("--data", required=True)
     backtest.add_argument("--out", required=True)
     backtest.add_argument("--asof")
+    backtest.add_argument("--code-changes",help="verified same-issuer code-change JSON")
     backtest.add_argument("--raw-prices", help="raw quote CSV; requires --corporate-actions")
     backtest.add_argument("--corporate-actions", help="dated cash/share event CSV; requires --raw-prices")
     backtest.add_argument("--horizon", type=int, choices=[3, 6, 12], default=6)
@@ -280,7 +281,10 @@ def main():
         import pandas as pd
         raw = pd.read_csv(args.raw_prices, dtype={"symbol":str,"tradestatus":str}) if args.raw_prices else None
         actions = pd.read_csv(args.corporate_actions, dtype={"symbol":str}) if args.corporate_actions else None
-        print(json.dumps(run(load(args.data), args.out, config, args.asof, raw_prices=raw, corporate_actions=actions, reference_tick_size=args.reference_tick_size), ensure_ascii=False, indent=2))
+        from .data import read_dataset
+        changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
+        dataset=read_dataset(args.data) if changes is not None else load(args.data)
+        print(json.dumps(run(dataset, args.out, config, args.asof, raw_prices=raw, corporate_actions=actions, reference_tick_size=args.reference_tick_size, code_changes=changes), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

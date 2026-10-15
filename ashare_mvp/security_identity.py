@@ -57,3 +57,40 @@ def canonical_event_symbols(events,changes,date_column="ex_date"):
     e["symbol"]=e.symbol.map(lambda x:roots.get(x,x))
     if e.duplicated(["symbol",date_column]).any(): raise ValueError("ambiguous same-issuer event versions")
     return e
+
+
+def apply_identity_dataset(data, changes):
+    """Canonicalize quotes/fundamentals while retaining source identity fields."""
+    import hashlib,json
+    from .data import Dataset
+    roots,_,_=code_change_maps(changes)
+    records=changes.copy()
+    for field in ["announcement_date","effective_date"]:
+        records[field]=pd.to_datetime(records[field]).dt.strftime("%Y-%m-%d")
+    payload=records.sort_values(["effective_date","old_symbol"]).to_json(orient="records")
+    checksum=hashlib.sha256(payload.encode()).hexdigest()
+    existing=data.metadata.get("security_identity_policy")
+    if existing:
+        if existing.get("sha256")!=checksum or "trading_symbol" not in data.prices:
+            raise ValueError("dataset code-change policy differs")
+        return data
+    prices,rejected=stitch_code_prices(data.prices,changes)
+    if "listing_date" in prices:
+        prices["source_listing_date"]=prices.listing_date
+        prices["listing_date"]=pd.to_datetime(prices.listing_date)
+        for root in set(roots.values()):
+            selected=prices.symbol.eq(root)
+            if not selected.any(): continue
+            original=data.prices.loc[data.prices.symbol.eq(root),"listing_date"]
+            known=pd.to_datetime(original.dropna()).unique()
+            if not len(known): known=pd.to_datetime(prices.loc[selected,"listing_date"].dropna()).unique()
+            if len(known)!=1: raise ValueError("ambiguous same-issuer original listing date")
+            prices.loc[selected,"listing_date"]=pd.Timestamp(known[0])
+    fundamentals=data.fundamentals.copy()
+    fundamentals["source_symbol"]=fundamentals.symbol
+    fundamentals["symbol"]=fundamentals.symbol.map(lambda x:roots.get(x,x))
+    if fundamentals.duplicated(["symbol","report_date","available_date"]).any():
+        raise ValueError("ambiguous same-issuer fundamental versions")
+    metadata={**data.metadata,"security_identity_policy":{"sha256":checksum,"changes":json.loads(payload),
+                 "quarantined_quote_rows":len(rejected),"canonical_id":"earliest code in verified same-issuer chain"}}
+    return Dataset(prices,fundamentals,data.calendar,metadata)

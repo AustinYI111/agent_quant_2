@@ -93,14 +93,22 @@ def validate(data: Dataset) -> Dataset:
                    f.sort_values(["symbol", "report_date", "available_date"]).reset_index(drop=True), cal, data.metadata)
 
 
-def load(directory):
+def read_dataset(directory):
     path = Path(directory)
-    return validate(Dataset(
+    return Dataset(
         pd.read_csv(path / "prices.csv", dtype={"symbol": str}),
         pd.read_csv(path / "fundamentals.csv", dtype={"symbol": str}),
         pd.DatetimeIndex(pd.read_csv(path / "calendar.csv")["date"]),
         json.loads((path / "metadata.json").read_text(encoding="utf-8")),
-    ))
+    )
+
+
+def load(directory, code_changes=None):
+    data=read_dataset(directory)
+    if code_changes is not None:
+        from .security_identity import apply_identity_dataset
+        data=apply_identity_dataset(data,code_changes)
+    return validate(data)
 
 
 def fundamentals_asof(data, date):
