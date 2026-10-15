@@ -165,11 +165,17 @@
     ]
   },
   "same_issuer_code_change_tests": 5,
-  "identity_integration_limit": "Integrated standard dataset loading, fundamentals, training output, backtest orders and standard model reload; personal holdings and public-ratio entry integration pending",
+  "identity_integration_limit": "Standard training, backtest, model reload and personal holdings/report identity supported; public-ratio identity adapter and full terminal settlement pending",
   "identity_pipeline_tests": {
     "passed": 12,
     "seconds": 17.96,
     "restored_prediction_identical": true,
     "trading_code_not_a_factor": true
+  },
+  "holdings_identity_integration": {
+    "research_tests_passed": 23,
+    "input_and_current_code_preserved": true,
+    "duplicate_aliases_rejected": true,
+    "real_user_holdings_loaded": false
   }
 }

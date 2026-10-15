@@ -124,6 +124,7 @@ def main():
     report.add_argument("--out", required=True)
     report.add_argument("--asof", required=True)
     report.add_argument("--ledger")
+    report.add_argument("--code-changes",help="verified same-issuer code-change JSON")
     compare = sub.add_parser("compare", help="matched baseline versus optional Oneil factors")
     compare.add_argument("--data", required=True)
     compare.add_argument("--out", required=True)
@@ -265,7 +266,8 @@ def main():
         import pandas as pd
         from .research import daily_report, load_holdings
         picks = pd.read_csv(args.predictions, dtype={"symbol": str}, parse_dates=["date"])
-        print(json.dumps(daily_report(load(args.data), picks, load_holdings(args.holdings), args.out,
+        changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
+        print(json.dumps(daily_report(load(args.data,code_changes=changes), picks, load_holdings(args.holdings), args.out,
                                      args.asof, args.ledger), ensure_ascii=False, indent=2))
     elif args.command == "compare":
         from .experiments import compare_oneil

@@ -39,7 +39,7 @@ def technical_observations(data, asof, symbols):
                          breakout_low=max(0, prior_high - 0.5 * sigma), breakout_high=prior_high + 0.5 * sigma,
                          support_observation=support, risk_observation=max(0, min(support, current - 2 * sigma)),
                          range_method="MA50 +/- 20-session close-return volatility; prior 252 close high +/- half volatility"))
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows) if rows else pd.DataFrame(columns=["symbol","date","status"])
 
 
 def financial_research(data, asof, symbols):
@@ -74,7 +74,7 @@ def financial_research(data, asof, symbols):
                          earnings_yield=record.earnings_ttm / market_cap if market_cap > 0 else np.nan,
                          book_yield=record.book_equity / market_cap if market_cap > 0 else np.nan,
                          notes="; ".join(notes)))
-    return pd.DataFrame(rows)
+    return pd.DataFrame(rows) if rows else pd.DataFrame(columns=["symbol","status","report_date","available_date"])
 
 
 def load_holdings(file):
@@ -91,7 +91,32 @@ def load_holdings(file):
     return holdings
 
 
+def canonical_holdings(data, asof, holdings):
+    """Resolve verified equal-share aliases; never combine ambiguous input rows."""
+    policy=data.metadata.get("security_identity_policy")
+    result=holdings.copy()
+    if not policy: return result
+    from .security_identity import code_change_maps
+    changes=pd.DataFrame(policy["changes"])
+    roots,starts,_=code_change_maps(changes)
+    day=pd.Timestamp(asof)
+    for code,start in starts.items():
+        if day<start and result.symbol.eq(code).any(): raise ValueError("holding code not active at report date")
+    if "input_symbol" not in result: result["input_symbol"]=result.symbol
+    result["symbol"]=result.symbol.map(lambda x:roots.get(x,x))
+    if result.symbol.duplicated().any(): raise ValueError("multiple holdings rows resolve to same issuer")
+    forward={row.old_symbol:(row.new_symbol,pd.Timestamp(row.effective_date)) for row in changes.itertuples(index=False)}
+    current={}
+    for root in set(roots.values()):
+        code=root
+        while code in forward and forward[code][1]<=day: code=forward[code][0]
+        current[root]=code
+    result["trading_symbol"]=result.symbol.map(lambda x:current.get(x,x))
+    return result
+
+
 def value_holdings(data, asof, holdings):
+    holdings=canonical_holdings(data,asof,holdings)
     prices = data.prices[data.prices.date == pd.Timestamp(asof)].set_index("symbol")
     rows = []
     for h in holdings.itertuples(index=False):
@@ -102,8 +127,11 @@ def value_holdings(data, asof, holdings):
                          cost_basis=h.shares * h.average_cost,
                          market_value=h.shares * raw_price if observed else np.nan,
                          unrealized_pnl=h.shares * (raw_price - h.average_cost) if observed else np.nan))
-    return pd.DataFrame(rows, columns=["date", "symbol", "shares", "average_cost", "raw_price", "status",
+    result=pd.DataFrame(rows, columns=["date", "symbol", "shares", "average_cost", "raw_price", "status",
                                        "cost_basis", "market_value", "unrealized_pnl"])
+    if "input_symbol" in holdings:
+        result=result.merge(holdings[["symbol","input_symbol","trading_symbol"]],on="symbol",how="left",validate="one_to_one")
+    return result
 
 
 def update_prediction_history(data, picks, asof, ledger):
@@ -149,6 +177,7 @@ def daily_report(data, picks, holdings, out, asof, ledger=None):
         raise ValueError("report asof must be an observed exchange session")
     if picks.duplicated(["date", "symbol"]).any() or (pd.to_datetime(picks.date) > asof).any():
         raise ValueError("duplicate/future predictions")
+    holdings=canonical_holdings(data,asof,holdings)
     # A daily report must not quietly relabel an old monthly prediction as today.
     latest_date = pd.to_datetime(picks.date).max() if len(picks) else pd.NaT
     latest = picks[pd.to_datetime(picks.date) == latest_date]
@@ -156,6 +185,13 @@ def daily_report(data, picks, holdings, out, asof, ledger=None):
     technical = technical_observations(data, asof, symbols)
     financial = financial_research(data, asof, symbols)
     positions = value_holdings(data, asof, holdings)
+    if "trading_symbol" in data.prices:
+        codes=data.prices.loc[data.prices.date==asof].set_index("symbol").trading_symbol
+        for frame in [technical,financial]:
+            frame["trading_symbol"]=frame.symbol.map(codes)
+    def display_code(row):
+        value=row.get("trading_symbol")
+        return value if pd.notna(value) else row["symbol"]
     path = Path(out)
     if path.exists() and any(path.iterdir()):
         raise ValueError("daily report output must be empty")
@@ -180,14 +216,14 @@ def daily_report(data, picks, holdings, out, asof, ledger=None):
         if row["status"] == "observed":
             unit = "实际报价" if row["price_basis"] == "current_raw_price" else "调整价格单位"
             trend = {"up": "上涨", "down": "下跌", "mixed": "混合"}[row["trend"]]
-            lines.append(f"| {row['symbol']} | {unit} | {trend} | {row['pullback_low']:.2f}–{row['pullback_high']:.2f} | {row['breakout_low']:.2f}–{row['breakout_high']:.2f} |")
+            lines.append(f"| {display_code(row)} | {unit} | {trend} | {row['pullback_low']:.2f}–{row['pullback_high']:.2f} | {row['breakout_low']:.2f}–{row['breakout_high']:.2f} |")
         else:
             status = {"missing_quote": "缺失报价", "insufficient_history": "历史不足"}.get(row["status"], row["status"])
-            lines.append(f"| {row['symbol']} | {status} | — | — | — |")
+            lines.append(f"| {display_code(row)} | {status} | — | — | — |")
     lines += ["", "区间由历史均线、高点和收盘波动率计算；表示观察条件，不是预测置信区间或自动下单指令。缺失原始股价时，调整价格单位不能当作券商报价。", "",
               "## 财报事实", ""]
     for row in financial.to_dict("records"):
-        lines.append(f"- {row['symbol']}：{row.get('notes', row['status'])}")
+        lines.append(f"- {display_code(row)}：{row.get('notes', row['status'])}")
     lines += ["", "财报研究当前是结构化指标解释；尚未自动抽取原始年报正文、审计意见与行业叙事。"]
     (path / "daily_report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return summary

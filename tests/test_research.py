@@ -200,3 +200,47 @@ def test_public_audit_detects_modified_files(tmp_path):
                                            ("sz.300001", True), ("bj.830001", False), ("sh.510300", False)])
 def test_universe_filter(code, expected):
     assert is_ashare(code) == expected
+
+
+def identity_data(data):
+    from ashare_mvp.security_identity import apply_identity_dataset
+    p=data.prices.copy(); f=data.fundamentals.copy(); day=data.calendar[350]
+    selected=p.symbol.eq("SYN0000")
+    p.loc[selected,"symbol"]="sz.000043"
+    p.loc[selected & p.date.ge(day),"symbol"]="sz.001914"
+    f.loc[f.symbol.eq("SYN0000"),"symbol"]="sz.000043"
+    changes=pd.DataFrame([dict(old_symbol="sz.000043",new_symbol="sz.001914",announcement_date=str(data.calendar[340].date()),effective_date=str(day.date()),share_ratio=1,source_url="https://static.cninfo.com.cn/test-fixture.pdf")])
+    return apply_identity_dataset(replace(data,prices=p,fundamentals=f),changes)
+
+
+def test_new_code_holdings_value_and_daily_report_find_canonical_history(data,tmp_path):
+    d=identity_data(data); day=d.calendar[400]
+    h=pd.DataFrame(dict(symbol=["sz.001914"],shares=[100],average_cost=[10.]))
+    original=h.copy(deep=True)
+    row=value_holdings(d,day,h).iloc[0]
+    assert row.symbol=="sz.000043" and row.input_symbol=="sz.001914" and row.trading_symbol=="sz.001914"
+    assert row.market_value==pytest.approx(100*row.raw_price)
+    picks=pd.DataFrame(dict(date=[day],symbol=["sz.000043"],score=[.5],rank=[1]))
+    summary=daily_report(d,picks,h,tmp_path/'report',day)
+    assert summary["valuation_complete"] and summary["position_count"]==1
+    technical=pd.read_csv(tmp_path/'report/technical_observations.csv')
+    assert technical.status.eq("observed").all() and technical.trading_symbol.eq("sz.001914").all()
+    assert "sz.001914" in (tmp_path/'report/daily_report.md').read_text(encoding='utf-8')
+    pd.testing.assert_frame_equal(h,original)
+
+
+def test_duplicate_alias_holdings_and_future_code_rejected(data):
+    d=identity_data(data)
+    h=pd.DataFrame(dict(symbol=["sz.000043","sz.001914"],shares=[100,100],average_cost=[10.,10.]))
+    with pytest.raises(ValueError,match="same issuer"): value_holdings(d,d.calendar[400],h)
+    with pytest.raises(ValueError,match="not active"): value_holdings(d,d.calendar[300],h.iloc[1:])
+
+
+def test_identity_report_handles_explicit_empty_synthetic_holdings(data,tmp_path):
+    d=identity_data(data)
+    holdings=pd.DataFrame(columns=["symbol","shares","average_cost"])
+    picks=pd.DataFrame(columns=["date","symbol","score","rank"])
+    result=daily_report(d,picks,holdings,tmp_path/'empty',d.calendar[400])
+    assert result["position_count"]==0 and result["market_value"]==0
+    assert pd.read_csv(tmp_path/'empty/technical_observations.csv').empty
+    assert pd.read_csv(tmp_path/'empty/holdings.csv').empty

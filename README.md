@@ -34,4 +34,6 @@ python -m venv .venv
 
 ### 同一发行人更换证券代码
 
-`config/same_issuer_code_changes.json` 保存附公告链接的等股数代码变更记录。行情身份适配器保留 `trading_symbol`，按生效日衔接稳定发行人键，并把失效代码报价单独隔离；不会把代码更换当作资产归零。事件键冲突、公告晚于生效和非等股数交换会拒绝。当前已在真实行情审计验证 000022→001872、000043→001914；标准运行现可用 `--code-changes config/same_issuer_code_changes.json` 同步处理报价和财务身份，并在排名与回测订单中保留 `trading_symbol`。模型恢复会使用保存的映射配置。个人持仓导入和公开比率探索入口的身份衔接仍待接入，完整退市结算也尚未解决。
+`config/same_issuer_code_changes.json` 保存附公告链接的等股数代码变更记录。行情身份适配器保留 `trading_symbol`，按生效日衔接稳定发行人键，并把失效代码报价单独隔离；不会把代码更换当作资产归零。事件键冲突、公告晚于生效和非等股数交换会拒绝。当前已在真实行情审计验证 000022→001872、000043→001914；标准运行现可用 `--code-changes config/same_issuer_code_changes.json` 同步处理报价和财务身份，并在排名与回测订单中保留 `trading_symbol`。模型恢复会使用保存的映射配置。个人持仓估值与日报已接入该映射；实际持仓仍等用户填写。公开比率探索入口的身份衔接和完整退市结算尚未完成。
+
+日报命令同样可传 `--code-changes config/same_issuer_code_changes.json`。持仓 CSV 仍使用 `symbol,shares,average_cost` 三列；输出保留 `input_symbol`、稳定发行人键 `symbol` 和当日 `trading_symbol`。同一发行人的新旧代码重复填报会拒绝，不自动合并成本。持仓及日报应放在忽略的 `private/` 目录。
