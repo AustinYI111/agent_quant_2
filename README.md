@@ -43,3 +43,19 @@ python -m venv .venv
 ### 公告依据与参考除息金额
 
 公司行动运行可添加 `--reference-overrides config/reviewed_reference_cash.json`，加载经核对的参考除息金额。证据必须包含公告日期、可用日期、原文 URL、PDF 哈希、页码及预期实际派息；现金冲突、时点不合规或未复核的记录会拒绝。该功能只补充 `reference_cash_per_share`，不改 `cash_per_share`，并在运行目录保存证据与哈希。当前仅有一条已核对记录，不能视为剩余公司行动问题已解决。
+
+
+## 公开 PE/PB 因子与分红事件账本
+
+公开比率数据可封存为事件价格研究数据，不需要虚构市值、绝对利润或净资产：
+
+```powershell
+python -m ashare_mvp.cli prepare-public-events --data artifacts/public_ratios --raw-prices artifacts/raw_prices.csv --corporate-actions artifacts/corporate_actions.csv --reference-tick-size 0.01 --out artifacts/public_events
+python -m ashare_mvp.cli run-public --data artifacts/public_events --out artifacts/public_event_run --exploratory
+```
+
+输入公开比率目录须先通过 `convert-public` 的哈希与覆盖检查；原始行情必须与该目录的股票、日期、原始开收盘价和交易状态一致。分红事件字段沿用标准事件流程。未解释的除权价格跳变或缺失估值会阻止封存；不通过删股票解决。仅当原始报价采用分位精度时显式指定 `--reference-tick-size 0.01`。
+
+该目录额外封存 `event_raw_prices.csv` 与 `event_corporate_actions.csv` 及其哈希。训练标签使用新买入者的实际权益，回测使用原始股份和分红应收款／现金账本；月中 `--asof` 只发布当前评分，不当作月末调仓。模型元数据记录收益口径，恢复预测拒绝混用供应商复权价与事件价格数据。备份时必须保留整个数据目录。
+
+这仍是未认证的公开数据研究：原始财报版本、公司行动完整性、退市结算、交易限制、分红税和股份到账可交易时间仍需核实。当前全市场行情／财务汇总目录到该格式的转换还未完成；上述能力不等同于已完成真实全市场训练或盈利验证。

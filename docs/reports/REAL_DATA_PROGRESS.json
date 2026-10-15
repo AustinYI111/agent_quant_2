@@ -11,7 +11,7 @@
     "symbols": 5555,
     "debt_records": 46567
   },
-  "market_sessions_saved": 832,
+  "market_sessions_saved": 1019,
   "market_sessions_requested": 1479,
   "partial_source": true,
   "model_ready": false,
@@ -238,5 +238,27 @@
     "model_ready": false,
     "tests_passed": 22,
     "tests_seconds": 11.08
-  }
+  },
+  "public_event_pipeline": {
+    "date": "2026-10-15",
+    "new_integration_tests_passed": 4,
+    "new_integration_test_seconds": 79.03,
+    "existing_public_and_model_tests_passed": 7,
+    "synthetic_validation": {
+      "synthetic": true,
+      "trained_months": 20,
+      "latest_selection_count": 20,
+      "label_return_basis": "gross_new_entry_entitlements",
+      "account_nav_basis": "raw_share_account_gross_dividends",
+      "restored_scores_match": true,
+      "asof": "2021-04-01"
+    },
+    "absolute_valuation_fields_fabricated": false,
+    "midmonth_score_is_not_monthly_rebalance": true,
+    "whole_market_ratio_adapter_complete": false,
+    "real_training_complete": false,
+    "certified": false
+  },
+  "market_collection_observed_at_utc": "2026-10-15T07:50:16.672798+00:00",
+  "market_collection_status_observed": "running"
 }

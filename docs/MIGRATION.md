@@ -94,3 +94,6 @@ git credential-manager github login --username AustinYI111 --browser
 ```
 
 数据仍必须是经过哈希校验的 `public_ratios_v1` 目录。PE/PB 直接转换为估值收益率，缺少绝对市值、利润和净资产时不会伪造这些数值。探索模型仍为候选，加载成功不能证明原始财报版本、复权价格或全市场收益可靠。
+
+
+若模型由 `prepare-public-events` 数据训练，迁移时恢复整个封存数据目录，包括 `event_raw_prices.csv`、`event_corporate_actions.csv`、价格、财务、日历和 metadata。原始事件文件的哈希参与训练／回测校验；恢复后仍使用相同事件价格口径预测。模型兼容性严格检查训练时的代码与依赖版本，历史模型应检出其元数据记录的 Git 提交，而不是假设最新代码可直接加载所有旧模型。最初的合成备份模型可能没有 Git 提交记录，不能据此宣称在任意最新版本均兼容。

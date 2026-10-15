@@ -122,6 +122,8 @@ def predict_model(directory, data, out, asof=None):
     schema = metadata["feature_contract"].get("snapshot_schema", "standard_dataset")
     if data.metadata.get("schema", "standard_dataset") != schema:
         raise ValueError("prediction dataset schema differs from model contract")
+    if schema == "public_ratios_v1" and data.metadata.get("price_basis") != metadata["dataset"].get("price_basis"):
+        raise ValueError("public prediction price basis differs from training")
     if schema == "public_ratios_v1":
         from .public_conversion import public_snapshot
         snap = public_snapshot(data, technical_panel(data), end)

@@ -30,6 +30,12 @@ def main():
     conversion = sub.add_parser("convert-public", help="convert verified raw public inputs with unverified-vintage flags")
     conversion.add_argument("--data", required=True)
     conversion.add_argument("--out", required=True)
+    event_conversion = sub.add_parser("prepare-public-events", help="seal event prices for public-ratio research")
+    event_conversion.add_argument("--data", required=True)
+    event_conversion.add_argument("--raw-prices", required=True)
+    event_conversion.add_argument("--corporate-actions", required=True)
+    event_conversion.add_argument("--reference-tick-size", type=float)
+    event_conversion.add_argument("--out", required=True)
     research = sub.add_parser("run-public", help="explicitly exploratory public-data walk-forward")
     research.add_argument("--data", required=True)
     research.add_argument("--out", required=True)
@@ -168,6 +174,12 @@ def main():
     elif args.command == "convert-public":
         from .public_conversion import convert_public
         print(json.dumps(convert_public(args.data, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "prepare-public-events":
+        import pandas as pd
+        from .public_conversion import convert_public_events
+        raw=pd.read_csv(args.raw_prices,dtype={"symbol":str},parse_dates=["date"])
+        actions=pd.read_csv(args.corporate_actions,dtype={"symbol":str},parse_dates=["ex_date","available_date","pay_date"])
+        print(json.dumps(convert_public_events(args.data,raw,actions,args.out,args.reference_tick_size),ensure_ascii=False,indent=2))
     elif args.command == "run-public":
         from .public_conversion import run_public_research
         print(json.dumps(run_public_research(args.data, args.out, Config(train_horizon=args.horizon, oneil=args.oneil),

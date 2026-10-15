@@ -212,6 +212,80 @@ def load_public_data(directory, asof=None):
     return Dataset(p[p.date <= end], f[f.available_date <= end], calendar[calendar <= end], metadata)
 
 
+def convert_public_events(directory, raw_prices, corporate_actions, out, reference_tick_size=None):
+    """Seal a public-ratio dataset with audited event-based research prices.
+
+    This does not certify provider financial vintages or event completeness.
+    No absolute market cap, earnings or equity values are manufactured.
+    """
+    from .corporate_actions import economic_return_prices
+    data = load_public_data(directory)
+    target = Path(out)
+    if target.exists() and any(target.iterdir()):
+        raise ValueError("public event conversion output must be empty")
+    if data.metadata.get("event_return_inputs"):
+        raise ValueError("public dataset already contains event inputs")
+    raw, actions = raw_prices.copy(), corporate_actions.copy()
+    raw["date"] = pd.to_datetime(raw.date)
+    for col in ["ex_date", "available_date", "pay_date"]:
+        actions[col] = pd.to_datetime(actions[col])
+    keys = ["date", "symbol"]
+    original = data.prices.sort_values(keys).reset_index(drop=True)
+    raw = raw.sort_values(keys).reset_index(drop=True)
+    if not raw[keys].equals(original[keys]):
+        raise ValueError("event raw quote keys differ from public feature keys")
+    if not set(actions.symbol).issubset(set(raw.symbol)):
+        raise ValueError("event security outside public quote universe")
+    for name in ["open", "close"]:
+        if not np.allclose(pd.to_numeric(raw[name]), original["raw_"+name], rtol=0, atol=1e-10):
+            raise ValueError("event raw quotes differ from original public source")
+    raw_tradable = raw.tradestatus.astype(str).eq("1") & raw.open.gt(0)
+    if not raw_tradable.equals(original.can_buy) or not raw_tradable.equals(original.can_sell):
+        raise ValueError("event tradability differs from original public source")
+    economic = economic_return_prices(raw, actions, data.calendar, reference_tick_size)
+    prices = original.copy()
+    prices["close"] = economic.close.to_numpy()
+    prices["total_return_open"] = economic.total_return_open.to_numpy()
+    metadata = dict(data.metadata)
+    metadata.update(price_basis="gross_entitlement_index_reinvest_after_payment",
+                    certified=False, event_return_inputs={"raw_prices":"event_raw_prices.csv",
+                    "corporate_actions":"event_corporate_actions.csv", "reference_tick_size":reference_tick_size},
+                    event_limitation="Gross event research index; event coverage, terminal settlement and original financial vintages remain unverified",
+                    parent_metadata_sha256=hashlib.sha256((Path(directory)/"metadata.json").read_bytes()).hexdigest())
+    target.mkdir(parents=True, exist_ok=True)
+    for name, frame in [("prices.csv", prices), ("fundamentals.csv", data.fundamentals),
+                        ("calendar.csv", pd.DataFrame({"date":data.calendar})),
+                        ("event_raw_prices.csv",raw),("event_corporate_actions.csv",actions)]:
+        frame.to_csv(target/name,index=False)
+    metadata["converted_hashes"] = {name:hashlib.sha256((target/name).read_bytes()).hexdigest()
+        for name in ["prices.csv","fundamentals.csv","calendar.csv","event_raw_prices.csv","event_corporate_actions.csv"]}
+    (target/"metadata.json").write_text(json.dumps(metadata,ensure_ascii=False,indent=2,allow_nan=False),encoding="utf-8")
+    return metadata
+
+
+def _public_event_inputs(directory, data):
+    policy = data.metadata.get("event_return_inputs")
+    if not policy:
+        if data.metadata.get("price_basis") == "gross_entitlement_index_reinvest_after_payment":
+            raise ValueError("public event prices require sealed event inputs")
+        return None, None, None
+    if data.metadata.get("price_basis") != "gross_entitlement_index_reinvest_after_payment":
+        raise ValueError("public event inputs require event price basis")
+    expected = {"raw_prices":"event_raw_prices.csv","corporate_actions":"event_corporate_actions.csv"}
+    if any(policy.get(key) != name for key,name in expected.items()):
+        raise ValueError("unexpected public event input names")
+    frames = []
+    for key,name in expected.items():
+        file = Path(directory)/name
+        if hashlib.sha256(file.read_bytes()).hexdigest() != data.metadata["converted_hashes"].get(name):
+            raise ValueError("public event input hash mismatch")
+        dates = ["date"] if key == "raw_prices" else ["ex_date","available_date","pay_date"]
+        frame = pd.read_csv(file,dtype={"symbol":str},parse_dates=dates)
+        frame = frame[frame[dates[0]] <= data.calendar[-1]].copy()
+        frames.append(frame)
+    return *frames, policy.get("reference_tick_size")
+
+
 def public_snapshot(data, technical, date):
     """Shared native-NaN public-ratio eligibility for training and reload."""
     snap = technical[(technical.date == date) & technical.eligible & ~technical.is_st & technical.volume.gt(0)
@@ -241,7 +315,12 @@ def public_samples(directory, config, asof=None):
     if not frames:
         raise ValueError("public input needs longer history and visible financial reports")
     features = [n for n, item in library.factors.items() if config.oneil or item.family != "oneil"]
-    labels = forward_labels(data, dates)
+    raw, actions, tick = _public_event_inputs(directory, data)
+    if raw is None:
+        labels = forward_labels(data, dates)
+    else:
+        from .corporate_actions import entry_forward_labels
+        labels = entry_forward_labels(raw, actions, data.calendar, dates, reference_tick_size=tick)
     targets = labels[labels.horizon == config.train_horizon].drop(columns="horizon")
     samples = pd.concat(frames, ignore_index=True).merge(targets, on=["date", "symbol"], how="left", validate="one_to_one")
     return data, samples, labels, features
@@ -258,9 +337,12 @@ def run_public_research(directory, out, config, asof=None, exploratory=False):
     data, samples, labels, features = public_samples(directory, config, asof)
     path.mkdir(parents=True, exist_ok=True)
     picks, audit, importance = rolling_rank(samples, features, data.calendar, config, path / "models")
-    monthly = picks[picks.date.isin(month_ends(data.calendar))]
+    # A mid-month asof score must not become an artificial month-end rebalance.
+    full_calendar = pd.DatetimeIndex(pd.to_datetime(pd.read_csv(Path(directory)/"calendar.csv").date))
+    monthly = picks[picks.date.isin(month_ends(full_calendar))]
     cohort = cohort_performance(monthly, labels, samples, data, config)
-    nav, orders = simulate_monthly(data, monthly, config)
+    raw, actions, tick = _public_event_inputs(directory, data)
+    nav, orders = simulate_monthly(data, monthly, config, raw, actions, tick)
     coverage = samples.groupby("date")[features].agg(lambda x: x.notna().mean()).reset_index()
     for name, frame in [("monthly_top20", monthly), ("latest_top20", picks[picks.date == data.calendar[-1]]),
                         ("training_audit", audit), ("factor_importance", importance), ("feature_coverage", coverage),
@@ -273,8 +355,9 @@ def run_public_research(directory, out, config, asof=None, exploratory=False):
                   nav=nav_metrics(nav),
                   interpretation="No claim of original financial vintage, audited total-return prices, executable fills or full-market coverage")
     result["input_hashes"] = data.metadata["converted_hashes"]
-    result["label_return_basis"] = "provider_adjusted_unverified_index_ratio"
-    result["account_nav_basis"] = "provider_adjusted_unverified_fractional_shares"
+    result["label_return_basis"] = "gross_new_entry_entitlements" if raw is not None else "provider_adjusted_unverified_index_ratio"
+    result["account_nav_basis"] = "raw_share_account_gross_dividends" if raw is not None else "provider_adjusted_unverified_fractional_shares"
+    result["price_reconciliation"] = {"reference_tick_size":tick}
     result["cohorts"] = {str(h): {"complete_cohorts":int(g.complete.sum()),
                                 "mean_gross_return":float(g.gross_return.mean()) if g.gross_return.notna().any() else None}
                          for h,g in cohort.groupby("horizon_months")}
