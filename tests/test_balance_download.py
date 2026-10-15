@@ -84,3 +84,17 @@ def test_unchanged_cached_issuers_do_not_rewrite_full_manifest(tmp_path,monkeypa
     result=download_balance_sheets(*args,resume=True,fetch=no_network,delay=0)
     assert result["status"]=="downloaded_raw"
     assert len(writes)==2  # running and final state; no unchanged issuer write
+
+
+def test_transient_report_transport_error_does_not_drop_issuer(tmp_path,monkeypatch):
+    from ashare_mvp import network_retry
+    monkeypatch.setattr(network_retry.time,"sleep",lambda _:None)
+    calls=[]
+    def flaky(endpoint,params):
+        if endpoint=="zcfzbAjaxNew":
+            calls.append(1)
+            if len(calls)==1: raise TimeoutError("temporary transport failure")
+        return fetch(endpoint,params)
+    result=download_balance_sheets(["sh.600519"],"2020-01-01","2020-12-31",tmp_path,fetch=flaky,delay=0)
+    assert result["status"]=="downloaded_raw" and result["completed_securities"]==1
+    assert len(calls)==2

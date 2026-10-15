@@ -5,6 +5,7 @@ import hashlib
 import json
 import time
 from .checkpoint import replace_checkpoint
+from .network_retry import fetch_with_retry
 
 import pandas as pd
 
@@ -33,6 +34,7 @@ def download_market_daily(out, start, end, resume=False, client=None, delay=0.2)
                         limitations=["Provider raw prices; corporate actions not yet reconciled",
                                      "Security coverage and terminal delistings require independent reconciliation",
                                      "Price acquisition is not completion of financial PIT or backtest validation"])
+    manifest["network_retry_policy"]={"max_attempts":2,"initial_delay_seconds":1.0,"scope":"transient transport only"}
     if client is None:
         from .provider_session import PersistentQueryClient
         client = PersistentQueryClient(20)
@@ -62,11 +64,11 @@ def download_market_daily(out, start, end, resume=False, client=None, delay=0.2)
                                       retrieved_at=datetime.now(timezone.utc).isoformat())
 
     try:
-        login = client.login()
+        login = fetch_with_retry(client.login)
         if login.error_code != "0":
             raise RuntimeError(f"market provider login {login.error_code}: {login.error_msg}")
         if not cached("calendar.csv"):
-            calendar = _result_frame(client.query_trade_dates(str(start.date()), str(end.date())))
+            calendar = fetch_with_retry(lambda: _result_frame(client.query_trade_dates(str(start.date()), str(end.date()))))
             save("calendar.csv", calendar)
             checkpoint()
         calendar = pd.read_csv(path / "calendar.csv", dtype=str)
@@ -85,7 +87,7 @@ def download_market_daily(out, start, end, resume=False, client=None, delay=0.2)
             if cached(name):
                 continue
             try:
-                frame = _result_frame(client.query_daily_history_k_AStock(date=str(day.date())))
+                frame = fetch_with_retry(lambda: _result_frame(client.query_daily_history_k_AStock(date=str(day.date()))))
                 required = {"date", "code", "open", "close", "preclose", "volume", "adjustflag", "tradestatus", "isST"}
                 if not required.issubset(frame) or frame.empty:
                     raise ValueError("empty/incomplete provider daily cross-section")

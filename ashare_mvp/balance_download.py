@@ -9,6 +9,7 @@ import json
 import re
 import time
 from .checkpoint import replace_checkpoint
+from .network_retry import fetch_with_retry
 import pandas as pd
 from .public_data import is_ashare
 
@@ -38,6 +39,7 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
             raise ValueError("balance output must be empty")
         path.mkdir(parents=True, exist_ok=True)
         meta = dict(schema="issuer_balance_raw_v1", source=BASE, request=request, queries={}, securities={}, certified=False, model_ready=False)
+    meta["network_retry_policy"]={"max_attempts":2,"initial_delay_seconds":1.0,"scope":"transient transport only"}
     def checkpoint():
         meta["updated_at"] = datetime.now(timezone.utc).isoformat()
         temporary = path / "manifest.pending.json"
@@ -57,7 +59,7 @@ def download_balance_sheets(symbols, start, end, out, resume=False, fetch=None, 
             meta.setdefault("superseded_responses", []).append(dict(key=key, query=prior, reason="cached response has no report data list"))
         if prior and prior.get("status") == "unusable_response":
             meta.setdefault("superseded_responses", []).append(dict(key=key, query=prior, reason="retry unusable provider response"))
-        raw = fetch(endpoint, params)
+        raw = fetch_with_retry(lambda: fetch(endpoint, params))
         filename = hashlib.sha256(key.encode() + raw).hexdigest() + ".raw"
         (path / filename).write_bytes(raw)
         decoded = gzip.decompress(raw) if raw.startswith(b"\x1f\x8b") else raw

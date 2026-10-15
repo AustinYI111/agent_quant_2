@@ -217,5 +217,26 @@
     "config_file_sha256": "dda48540a3013d512cd952b904808f14459e8b980d4e57f8d15116be6d347407",
     "actual_payout_unchanged": true,
     "source_pdf_kept_local": true
+  },
+  "source_network_retry": {
+    "max_attempts": 2,
+    "initial_delay_seconds": 1.0,
+    "scope": "transient transport only",
+    "does_not_retry": [
+      "permission errors",
+      "HTTP 429",
+      "explicit Retry-After",
+      "schema/identity/business validation"
+    ],
+    "cache_hash_validation_preserved": true,
+    "market_sessions_observed": 1003,
+    "market_sessions_requested": 1479,
+    "balance_securities_completed_observed": 4302,
+    "collectors_verified_live": true,
+    "observed_at": "2026-10-15",
+    "certified": false,
+    "model_ready": false,
+    "tests_passed": 22,
+    "tests_seconds": 11.08
   }
 }
