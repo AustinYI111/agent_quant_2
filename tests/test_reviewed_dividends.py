@@ -43,3 +43,13 @@ def test_ordinary_special_components_must_match_total_payout(tmp_path):
     with pytest.raises(ValueError,match='components do not sum'):
         reconcile_dividend_sources(*args,reviewed_events=e)
     assert not args[3].exists()
+
+
+def test_provider_total_already_includes_special_cash_without_double_count(tmp_path):
+    args=inputs(tmp_path);e=evidence(cash=.1)
+    e['ordinary_cash_per_share']=.06;e['special_cash_per_share']=.04
+    result=reconcile_dividend_sources(*args,reviewed_events=e)
+    actions=pd.read_csv(args[3]/'actions.csv').set_index('symbol')
+    assert result['reviewed_notice_events']==1
+    assert actions.loc['sh.600001','cash_per_share']==pytest.approx(.1)
+    assert actions.loc['sh.600001','special_cash_per_share']==pytest.approx(.04)
