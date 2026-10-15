@@ -58,6 +58,7 @@ def main():
     prepare_market.add_argument("--reference-tick-size",type=float)
     prepare_market.add_argument("--code-changes")
     prepare_market.add_argument("--reference-overrides")
+    prepare_market.add_argument("--non-listing-evidence")
     merge_market = sub.add_parser("merge-market", help="materialize sealed market and audited repair snapshots")
     merge_market.add_argument("--data", required=True)
     merge_market.add_argument("--repairs", nargs="+", required=True)
@@ -205,8 +206,9 @@ def main():
         from .market_dataset import prepare_market_ratios
         changes=pd.read_json(args.code_changes) if args.code_changes else None
         overrides=pd.read_json(args.reference_overrides) if args.reference_overrides else None
+        non_listing=pd.read_json(args.non_listing_evidence) if args.non_listing_evidence else None
         result=prepare_market_ratios(args.market,args.financials,args.master,args.actions,args.out,args.audit_out,
-                                     args.reference_tick_size,changes,overrides)
+                                     args.reference_tick_size,changes,overrides,non_listing)
         print(json.dumps(result,ensure_ascii=False,indent=2))
         if result["status"]!="prepared_exploratory":raise SystemExit(1)
     elif args.command == "merge-market":

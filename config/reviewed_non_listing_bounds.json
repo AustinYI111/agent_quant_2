@@ -1,0 +1,86 @@
+[
+  {
+    "symbol": "sz.001235",
+    "company_name": "里得电科",
+    "evidence_kind": "pre_ipo_status",
+    "pre_ipo_stage": "suspended_issue",
+    "not_listed_through": "2026-10-15",
+    "source_observed_date": "2026-10-15",
+    "source_url": "https://www.cninfo.com.cn/neweipo/index/getToDayNewStockCount",
+    "source_sha256": "fe56701705e888f7c713206048650514c9d502cd7a9c6197e24ba075d089fa88",
+    "source_locator": "data.suspendCount[type=szzb].count[obSecCode0007=001235]",
+    "reviewed": true
+  },
+  {
+    "symbol": "sz.001381",
+    "company_name": "皇冠新材",
+    "evidence_kind": "pre_ipo_status",
+    "pre_ipo_stage": "pricing",
+    "not_listed_through": "2026-10-15",
+    "source_observed_date": "2026-10-15",
+    "source_url": "https://www.cninfo.com.cn/neweipo/index/getToDayNewStockCount",
+    "source_sha256": "fe56701705e888f7c713206048650514c9d502cd7a9c6197e24ba075d089fa88",
+    "source_locator": "data.djCount[type=szzb].count[obSecCode0007=001381]",
+    "reviewed": true
+  },
+  {
+    "symbol": "sz.002720",
+    "company_name": "宏良股份",
+    "evidence_kind": "pre_ipo_status",
+    "pre_ipo_stage": "suspended_issue",
+    "not_listed_through": "2026-10-15",
+    "source_observed_date": "2026-10-15",
+    "source_url": "https://www.cninfo.com.cn/neweipo/index/getToDayNewStockCount",
+    "source_sha256": "fe56701705e888f7c713206048650514c9d502cd7a9c6197e24ba075d089fa88",
+    "source_locator": "data.suspendCount[type=szzb].count[obSecCode0007=002720]",
+    "reviewed": true
+  },
+  {
+    "symbol": "sz.300728",
+    "company_name": "天常股份",
+    "evidence_kind": "pre_ipo_status",
+    "pre_ipo_stage": "suspended_issue",
+    "not_listed_through": "2026-10-15",
+    "source_observed_date": "2026-10-15",
+    "source_url": "https://www.cninfo.com.cn/neweipo/index/getToDayNewStockCount",
+    "source_sha256": "fe56701705e888f7c713206048650514c9d502cd7a9c6197e24ba075d089fa88",
+    "source_locator": "data.suspendCount[type=cyb].count[obSecCode0007=300728]",
+    "reviewed": true
+  },
+  {
+    "symbol": "sz.301569",
+    "company_name": "联亚药业",
+    "evidence_kind": "first_listing",
+    "listing_date": "2026-10-15",
+    "not_listed_through": "2026-10-14",
+    "source_observed_date": "2026-10-15",
+    "source_url": "https://www.szse.cn/certificate/secondb/GEMdynamice/t20261015_623313.html",
+    "source_sha256": "a78148a5ed6472379c959833d0dbde523ecf8524ea4adb5935c822d5a757e678",
+    "source_locator": "正文首次上市日期及证券代码",
+    "reviewed": true
+  },
+  {
+    "symbol": "sz.301660",
+    "company_name": "粤芯半导体",
+    "evidence_kind": "first_listing",
+    "listing_date": "2026-10-13",
+    "not_listed_through": "2026-10-12",
+    "source_observed_date": "2026-10-15",
+    "source_url": "https://www.szse.cn/www/disclosure/notice/company/t20261012_623256.html",
+    "source_sha256": "ccfdc38223ed2210737fd315313b5423d7859ef0dabae3df384682c8e12c9bf9",
+    "source_locator": "正文首次上市日期及证券代码",
+    "reviewed": true
+  },
+  {
+    "symbol": "sz.301718",
+    "company_name": "通则康威",
+    "evidence_kind": "pre_ipo_status",
+    "pre_ipo_stage": "waiting_listing",
+    "not_listed_through": "2026-10-15",
+    "source_observed_date": "2026-10-15",
+    "source_url": "https://www.cninfo.com.cn/neweipo/index/getToDayNewStockCount",
+    "source_sha256": "fe56701705e888f7c713206048650514c9d502cd7a9c6197e24ba075d089fa88",
+    "source_locator": "data.waitingCount[type=cyb].count[obSecCode0007=301718]",
+    "reviewed": true
+  }
+]

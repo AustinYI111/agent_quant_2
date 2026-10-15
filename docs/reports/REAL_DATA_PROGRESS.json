@@ -11,7 +11,7 @@
     "symbols": 5555,
     "debt_records": 46567
   },
-  "market_sessions_saved": 1042,
+  "market_sessions_saved": 1064,
   "market_sessions_requested": 1479,
   "partial_source": true,
   "model_ready": false,
@@ -260,7 +260,7 @@
     "certified": false,
     "whole_market_ratio_conversion_complete": false
   },
-  "market_collection_observed_at_utc": "2026-10-15T08:07:18.066008+00:00",
+  "market_collection_observed_at_utc": "2026-10-15T08:19:55.441814+00:00",
   "market_collection_status_observed": "running",
   "market_ratio_preparation": {
     "date": "2026-10-15",
@@ -269,22 +269,23 @@
     "status": "blocked",
     "validation_stage": "source_inventory",
     "issue_counts": {
-      "missing_daily_cross_section": 437,
+      "missing_daily_cross_section": 415,
       "unresolved_event_evidence": 25,
-      "unresolved_security_identity": 10
+      "unresolved_security_identity": 3
     },
     "requested_sessions": 1479,
-    "listed_daily_files": 1042,
+    "listed_daily_files": 1064,
     "raw_files_hash_checked": 0,
     "not_implemented_plans_ignored": 13,
     "event_coverage_prior_hash_verified": false,
     "source_hashes": {
-      "market_manifest": "a70e9a5ffec35f00159f48e1f188290e2aef17b693ffde514e9c898d9e36f9e7",
+      "market_manifest": "d201d21099eb482e9ae0f52312c205d06ad4951d413f4f3f3c6392cf1264c74f",
       "financial_summary": "eb833000b262c829c85897897f377d582d87e8199dc3cd91a875a63f3af258fd",
       "master_manifest": "cf08cde1e3fdb171cf1b297c40bdcdd64afabc763f83a7a149bcc68ea3b2f258",
       "action_summary": "28c414e970fb273c57a5476bbba12e08d626adfd6975f34091c7dc9c27811bcc",
       "code_changes": "7bbec3e099a7361a8029209cb953ba84eef77515f85eb139605e05350b0b91f6",
       "reference_overrides": "9866a08da0a918b0f25176c10966d89d18c449c041276453e9d110a0287dfd5c",
+      "non_listing_evidence": "728c1e4f33e9d23251cb65f40d7487af7dc9d473772e824b1b11eaa410d9f828",
       "master": "5a17099830c9dfd8306a6537abf3fabd65e9b1974f50e2d1c176580561487b75",
       "targets": "a673dc0374cc1c768716f6ef691a9b423c064f2168c4546075afd6c1765efe9e",
       "financial_panel": "87def6c56a1836c7e33db2cc30a914b817300fba8028b4b8c87c6eeaf18be3e6",
@@ -296,6 +297,21 @@
     "combined_related_tests_passed": 19,
     "combined_related_test_seconds": 94.08,
     "source_audit_files_local_only": true,
-    "model_ready": false
+    "model_ready": false,
+    "reviewed_prelisting_exclusions": 7
+  },
+  "reviewed_non_listing_bounds": {
+    "date": "2026-10-15",
+    "verified_records": 7,
+    "historical_window_end": "2024-01-31",
+    "remaining_unresolved_identities": 3,
+    "tests_passed": 19,
+    "tests_seconds": 3.86,
+    "policy_sha256": "728c1e4f33e9d23251cb65f40d7487af7dc9d473772e824b1b11eaa410d9f828",
+    "config_sha256": "b806b180b2381b04bd4e7d201a7ab306e413dbc20387be7b1d91b2fafa7740d7",
+    "raw_evidence_local_only": true,
+    "empty_response_is_not_evidence": true,
+    "historical_quotes_not_deleted": true,
+    "used_as_predictive_feature": false
   }
 }

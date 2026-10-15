@@ -77,3 +77,12 @@ python -m ashare_mvp.cli run-public --data artifacts/market_ratio_dataset --out 
 清单完整后，继续校验逐日原始行情哈希、行数、上市日以来完整估值、历史 ST 状态、代码变更和价格跳变，再重建事件收益。缺失财务比率保留原生 NaN，不伪造绝对市值、利润或净资产；未来依赖日期会被拒绝。代码变更使用审阅证据中的稳定发行人身份，排序结果同时保留实际交易代码。北交所不进入数据选股池，ST 历史行情保留供账户估值。
 
 输出即使为 `prepared_exploratory`，`certified` 和 `model_ready` 仍为 false：它只表示可运行探索研究，不证明原始财报版本、完整市场覆盖、退市结算或真实盈利。真实全市场转换尚未成功，必须先处理审计缺口再运行第二条命令。
+
+
+### IPO 申购代码与历史上市范围
+
+全市场目标清单可能混入申购、暂缓发行或回测区间之后才首次上市的代码。转换命令可附加 `--non-listing-evidence config/reviewed_non_listing_bounds.json`，使用已人工核实的首次上市日期或官方 IPO 阶段记录，限定其在历史区间内不应有上市行情。已核实的 7 个深市代码见配置；3 个沪市代码仍未解除身份缺口。
+
+证据必须具有明确日期边界、官方事实定位、来源 URL、内容哈希和审阅标记。空 API 响应、未审阅记录、未覆盖回测末日的旧证据均不能解除身份缺口；已知上市日期或真实历史行情与边界冲突时会拒绝转换，不删除报价。该证据仅用于重建历史上市范围，不作为历史可见的预测因子或交易信号，也不把暂缓 IPO 错填为退市／零回收股票。
+
+2026-10-15 官方核对资料包括：[巨潮 IPO 阶段](https://www.cninfo.com.cn/eipo/index.html?stockid=301660)、[粤芯半导体首次上市公告](https://www.szse.cn/www/disclosure/notice/company/t20261012_623256.html)、[联亚药业首次上市公告](https://www.szse.cn/certificate/secondb/GEMdynamice/t20261015_623313.html)。原始网页／JSON 与查询脚本缓存保存在本地 `artifacts/official_ipo_scope_20261015`；Git 只提交结构化事实及来源哈希。官方接口返回空数据的其余代码仍须单独核实。

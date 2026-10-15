@@ -25,7 +25,7 @@ def _read(path, expected=None, allow_unverified=False, **kwargs):
 
 def prepare_market_ratios(market_directory, financial_directory, master_directory,
                           action_directory, out, audit_out, reference_tick_size=None,
-                          code_changes=None, reference_overrides=None):
+                          code_changes=None, reference_overrides=None, non_listing_evidence=None):
     market,finance,master,events=map(Path,[market_directory,financial_directory,master_directory,action_directory])
     target,audit=Path(out),Path(audit_out)
     if target.resolve()==audit.resolve() or target.resolve() in audit.resolve().parents or audit.resolve() in target.resolve().parents: raise ValueError("dataset and audit outputs must be separate, non-nested directories")
@@ -82,7 +82,11 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
         raise ValueError("event coverage disagrees with summary")
     if pd.Timestamp(emeta["evaluation_start"])>cal.min() or pd.Timestamp(emeta["evaluation_end"])<cal.max():
         raise ValueError("event evidence does not cover requested calendar")
-    for key,frame in [("code_changes",code_changes),("reference_overrides",reference_overrides)]:
+    scope_exclusions,scope_policy=set(),None
+    if non_listing_evidence is not None:
+        from .universe_evidence import reviewed_non_listing_bounds
+        scope_exclusions,scope_policy=reviewed_non_listing_bounds(non_listing_evidence,cal.max(),requested.code,stocks)
+    for key,frame in [("code_changes",code_changes),("reference_overrides",reference_overrides),("non_listing_evidence",non_listing_evidence)]:
         if frame is not None: snapshots[key]=frame.to_json(orient="records",date_format="iso").encode()
     hashes={key:hashlib.sha256(raw).hexdigest() for key,raw in snapshots.items()}
     hashes.update(master=master_hash,targets=targets_hash,financial_panel=financial_hash,actions=action_hash,event_coverage=coverage_hash)
@@ -91,7 +95,7 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
         issues.append(dict(issue=kind,symbol=symbol,date=date,count=int(count),detail=detail))
     for date in cal:
         if f"daily_{date:%Y%m%d}.csv" not in m["files"]: issue("missing_daily_cross_section",date=date)
-    for code in sorted({c for c in requested.code if is_ashare(c)}-set(stocks.code)): issue("unresolved_security_identity",symbol=code)
+    for code in sorted({c for c in requested.code if is_ashare(c)}-set(stocks.code)-scope_exclusions): issue("unresolved_security_identity",symbol=code)
     def event_code(value):
         match=re.fullmatch(r"(\d{6})\.(SH|SZ|BJ)",str(value))
         return f"{match[2].lower()}.{match[1]}" if match else None
@@ -103,6 +107,7 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
     report={"status":"blocked","validation_stage":"source_inventory","synthetic":m["synthetic"],"certified":False,"model_ready":False,
             "source_hashes":hashes,"requested_sessions":len(cal),"listed_daily_files":sum(f"daily_{d:%Y%m%d}.csv" in m["files"] for d in cal),
             "financial_partial_source":bool(fmeta.get("partial_source",True)),"raw_files_hash_checked":0,"not_implemented_plans_ignored":int(coverage.status.eq("not_implemented").sum()),"event_coverage_prior_hash_verified":"coverage_sha256" in emeta}
+    report["reviewed_non_listing_policy"]=scope_policy
     for key,raw in snapshots.items(): (audit/f"input_{key}.json").write_bytes(raw)
     def checkpoint():
         pd.DataFrame(issues,columns=["issue","symbol","date","count","detail"]).to_csv(audit/"blocking_issues.csv",index=False)
@@ -128,6 +133,7 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
             p[col]=pd.to_numeric(p[col],errors="raise")
             if np.isinf(p[col]).any(): raise ValueError("infinite market value")
         if p[["open","close","preclose","volume"]].isna().any().any() or p[["open","close","preclose","volume"]].lt(0).any().any(): raise ValueError("missing or negative market value")
+        if p.symbol.isin(scope_exclusions).any(): raise ValueError("observed quote contradicts reviewed non-listing bound")
         p["listing_date"]=p.symbol.map(stocks.set_index("code").listing_date)
         if p.listing_date.isna().any(): raise ValueError("observed security has no verified stock identity")
         p["raw_open"],p["raw_close"]=p.open,p.close
@@ -143,6 +149,7 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
                   availability_policy="normalized publication/dependency clocks; original vintages unverified",execution_policy="non-suspended positive open; limit states unverified",
                   blockers=["Original financial vintages, event completeness, terminal settlement and executable fills remain unverified"],input_hashes=hashes,
                   financial_partial_source=report["financial_partial_source"])
+    if scope_policy: metadata["reviewed_non_listing_policy"]=scope_policy
     data=Dataset(prices,fundamentals,cal,metadata)
     roots={}
     if code_changes is not None:
