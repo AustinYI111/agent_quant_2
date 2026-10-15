@@ -102,5 +102,14 @@
     "larger_differences": 590,
     "note": "Precision candidates are not accepted as verified corrections; full calendar includes acquisition gaps after 2021-06-08"
   },
-  "balance_acquisition_completed_latest": 3586
+  "balance_acquisition_completed_latest": 3586,
+  "provider_session": {
+    "reuses_logged_in_worker": true,
+    "hard_query_deadlines": true,
+    "reconnect_after_error": true,
+    "tests_passed": 9,
+    "real_sessions_saved_after_resume": 836,
+    "previous_saved_sessions": 832,
+    "full_acquisition_complete": false
+  }
 }

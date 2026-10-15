@@ -8,7 +8,7 @@ from .checkpoint import replace_checkpoint
 
 import pandas as pd
 
-from .public_data import _BoundedClient, _result_frame, is_ashare
+from .public_data import _result_frame, is_ashare
 
 
 def download_market_daily(out, start, end, resume=False, client=None, delay=0.2):
@@ -34,7 +34,8 @@ def download_market_daily(out, start, end, resume=False, client=None, delay=0.2)
                                      "Security coverage and terminal delistings require independent reconciliation",
                                      "Price acquisition is not completion of financial PIT or backtest validation"])
     if client is None:
-        client = _BoundedClient(20)
+        from .provider_session import PersistentQueryClient
+        client = PersistentQueryClient(20)
 
     def checkpoint():
         manifest["updated_at"] = datetime.now(timezone.utc).isoformat()
