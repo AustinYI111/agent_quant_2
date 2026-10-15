@@ -59,3 +59,21 @@ python -m ashare_mvp.cli run-public --data artifacts/public_events --out artifac
 该目录额外封存 `event_raw_prices.csv` 与 `event_corporate_actions.csv` 及其哈希。训练标签使用新买入者的实际权益，回测使用原始股份和分红应收款／现金账本；月中 `--asof` 只发布当前评分，不当作月末调仓。模型元数据记录收益口径，恢复预测拒绝混用供应商复权价与事件价格数据。备份时必须保留整个数据目录。
 
 这仍是未认证的公开数据研究：原始财报版本、公司行动完整性、退市结算、交易限制、分红税和股份到账可交易时间仍需核实。当前全市场行情／财务汇总目录到该格式的转换还未完成；上述能力不等同于已完成真实全市场训练或盈利验证。
+
+
+## 全市场汇总数据转换
+
+`prepare-market-ratios` 将已采集的全市场原始行情、财务依赖面板、证券身份快照和分红对账结果接入同一 PE/PB 因子／事件账本流程：
+
+```powershell
+python -m ashare_mvp.cli prepare-market-ratios --market artifacts/market_history_2018_2024 --financials artifacts/financial_dependencies_progress4 --master artifacts/master_union1 --actions artifacts/dividend_payment_reconciliation_transfer1 --out artifacts/market_ratio_dataset --audit-out artifacts/market_ratio_readiness --reference-tick-size 0.01 --code-changes config/same_issuer_code_changes.json --reference-overrides config/reviewed_reference_cash.json
+python -m ashare_mvp.cli run-public --data artifacts/market_ratio_dataset --out artifacts/market_ratio_run --exploratory
+```
+
+每次运行使用空的新输出目录，数据目录和审计目录必须彼此独立。输入目录名是示例，采用实际最新归一化／对账结果；不会自动把旧财务进度目录升级成完整数据。
+
+命令先封存输入 manifest 和证据哈希。若交易日文件、证券身份或已实施分红的支付证据有缺口，退出码为 1，仅在审计目录输出 `readiness.json` 和 `blocking_issues.csv`，不生成可训练数据。未实施的分红计划不产生现金／股份权益，也不作为执行证据缺口。来源清单阶段尚未逐一验证行情文件哈希，不应将这一阶段通过的字段检查等同于行情数据完整性。
+
+清单完整后，继续校验逐日原始行情哈希、行数、上市日以来完整估值、历史 ST 状态、代码变更和价格跳变，再重建事件收益。缺失财务比率保留原生 NaN，不伪造绝对市值、利润或净资产；未来依赖日期会被拒绝。代码变更使用审阅证据中的稳定发行人身份，排序结果同时保留实际交易代码。北交所不进入数据选股池，ST 历史行情保留供账户估值。
+
+输出即使为 `prepared_exploratory`，`certified` 和 `model_ready` 仍为 false：它只表示可运行探索研究，不证明原始财报版本、完整市场覆盖、退市结算或真实盈利。真实全市场转换尚未成功，必须先处理审计缺口再运行第二条命令。

@@ -97,3 +97,6 @@ git credential-manager github login --username AustinYI111 --browser
 
 
 若模型由 `prepare-public-events` 数据训练，迁移时恢复整个封存数据目录，包括 `event_raw_prices.csv`、`event_corporate_actions.csv`、价格、财务、日历和 metadata。原始事件文件的哈希参与训练／回测校验；恢复后仍使用相同事件价格口径预测。模型兼容性严格检查训练时的代码与依赖版本，历史模型应检出其元数据记录的 Git 提交，而不是假设最新代码可直接加载所有旧模型。最初的合成备份模型可能没有 Git 提交记录，不能据此宣称在任意最新版本均兼容。
+
+
+全市场 `prepare-market-ratios` 产生的数据与审计目录也应纳入私有快照。恢复时先检查 `readiness.json`：`blocked` 只恢复了检查证据，尚无可训练数据；`prepared_exploratory` 仍需显式探索模式。审计目录封存原输入清单与证据哈希，数据目录保留原始事件文件和转换后的价格／财务，不能只复制 Top 20 报告来替代数据库和模型。

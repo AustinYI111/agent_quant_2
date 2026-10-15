@@ -48,6 +48,16 @@ def main():
     market.add_argument("--start", required=True)
     market.add_argument("--end", required=True)
     market.add_argument("--resume", action="store_true")
+    prepare_market = sub.add_parser("prepare-market-ratios", help="verify full-market sources and seal exploratory event ratios")
+    prepare_market.add_argument("--market",required=True)
+    prepare_market.add_argument("--financials",required=True)
+    prepare_market.add_argument("--master",required=True)
+    prepare_market.add_argument("--actions",required=True)
+    prepare_market.add_argument("--out",required=True)
+    prepare_market.add_argument("--audit-out",required=True)
+    prepare_market.add_argument("--reference-tick-size",type=float)
+    prepare_market.add_argument("--code-changes")
+    prepare_market.add_argument("--reference-overrides")
     merge_market = sub.add_parser("merge-market", help="materialize sealed market and audited repair snapshots")
     merge_market.add_argument("--data", required=True)
     merge_market.add_argument("--repairs", nargs="+", required=True)
@@ -190,6 +200,15 @@ def main():
         print(json.dumps({k: v for k, v in result.items() if k not in ["files", "queries"]}, ensure_ascii=False, indent=2))
         if result["status"] != "downloaded_raw":
             raise SystemExit(1)
+    elif args.command == "prepare-market-ratios":
+        import pandas as pd
+        from .market_dataset import prepare_market_ratios
+        changes=pd.read_json(args.code_changes) if args.code_changes else None
+        overrides=pd.read_json(args.reference_overrides) if args.reference_overrides else None
+        result=prepare_market_ratios(args.market,args.financials,args.master,args.actions,args.out,args.audit_out,
+                                     args.reference_tick_size,changes,overrides)
+        print(json.dumps(result,ensure_ascii=False,indent=2))
+        if result["status"]!="prepared_exploratory":raise SystemExit(1)
     elif args.command == "merge-market":
         from .market_merge import merge_market_snapshots
         print(json.dumps(merge_market_snapshots(args.data, args.repairs, args.out), ensure_ascii=False, indent=2))

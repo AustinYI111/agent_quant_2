@@ -11,7 +11,7 @@
     "symbols": 5555,
     "debt_records": 46567
   },
-  "market_sessions_saved": 1019,
+  "market_sessions_saved": 1042,
   "market_sessions_requested": 1479,
   "partial_source": true,
   "model_ready": false,
@@ -255,10 +255,47 @@
     },
     "absolute_valuation_fields_fabricated": false,
     "midmonth_score_is_not_monthly_rebalance": true,
-    "whole_market_ratio_adapter_complete": false,
+    "whole_market_ratio_adapter_complete": true,
     "real_training_complete": false,
-    "certified": false
+    "certified": false,
+    "whole_market_ratio_conversion_complete": false
   },
-  "market_collection_observed_at_utc": "2026-10-15T07:50:16.672798+00:00",
-  "market_collection_status_observed": "running"
+  "market_collection_observed_at_utc": "2026-10-15T08:07:18.066008+00:00",
+  "market_collection_status_observed": "running",
+  "market_ratio_preparation": {
+    "date": "2026-10-15",
+    "code_implemented": true,
+    "real_dataset_prepared": false,
+    "status": "blocked",
+    "validation_stage": "source_inventory",
+    "issue_counts": {
+      "missing_daily_cross_section": 437,
+      "unresolved_event_evidence": 25,
+      "unresolved_security_identity": 10
+    },
+    "requested_sessions": 1479,
+    "listed_daily_files": 1042,
+    "raw_files_hash_checked": 0,
+    "not_implemented_plans_ignored": 13,
+    "event_coverage_prior_hash_verified": false,
+    "source_hashes": {
+      "market_manifest": "a70e9a5ffec35f00159f48e1f188290e2aef17b693ffde514e9c898d9e36f9e7",
+      "financial_summary": "eb833000b262c829c85897897f377d582d87e8199dc3cd91a875a63f3af258fd",
+      "master_manifest": "cf08cde1e3fdb171cf1b297c40bdcdd64afabc763f83a7a149bcc68ea3b2f258",
+      "action_summary": "28c414e970fb273c57a5476bbba12e08d626adfd6975f34091c7dc9c27811bcc",
+      "code_changes": "7bbec3e099a7361a8029209cb953ba84eef77515f85eb139605e05350b0b91f6",
+      "reference_overrides": "9866a08da0a918b0f25176c10966d89d18c449c041276453e9d110a0287dfd5c",
+      "master": "5a17099830c9dfd8306a6537abf3fabd65e9b1974f50e2d1c176580561487b75",
+      "targets": "a673dc0374cc1c768716f6ef691a9b423c064f2168c4546075afd6c1765efe9e",
+      "financial_panel": "87def6c56a1836c7e33db2cc30a914b817300fba8028b4b8c87c6eeaf18be3e6",
+      "actions": "e9b7077ad39c92e6a35c99dc69c5b01eb38d396900a94aba501406c34dbec356",
+      "event_coverage": "e638ae428fe948e26613ac91ca0c9f999273bf77f4989f1dafe74d20807c74c0"
+    },
+    "new_conversion_tests_passed": 9,
+    "new_conversion_test_seconds": 3.16,
+    "combined_related_tests_passed": 19,
+    "combined_related_test_seconds": 94.08,
+    "source_audit_files_local_only": true,
+    "model_ready": false
+  }
 }

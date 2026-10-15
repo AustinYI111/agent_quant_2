@@ -218,8 +218,13 @@ def convert_public_events(directory, raw_prices, corporate_actions, out, referen
     This does not certify provider financial vintages or event completeness.
     No absolute market cap, earnings or equity values are manufactured.
     """
-    from .corporate_actions import economic_return_prices
     data = load_public_data(directory)
+    parent = hashlib.sha256((Path(directory)/"metadata.json").read_bytes()).hexdigest()
+    return _seal_public_events(data, raw_prices, corporate_actions, out, reference_tick_size, parent)
+
+
+def _seal_public_events(data, raw_prices, corporate_actions, out, reference_tick_size=None, parent_metadata_sha256=None):
+    from .corporate_actions import economic_return_prices
     target = Path(out)
     if target.exists() and any(target.iterdir()):
         raise ValueError("public event conversion output must be empty")
@@ -251,7 +256,7 @@ def convert_public_events(directory, raw_prices, corporate_actions, out, referen
                     certified=False, event_return_inputs={"raw_prices":"event_raw_prices.csv",
                     "corporate_actions":"event_corporate_actions.csv", "reference_tick_size":reference_tick_size},
                     event_limitation="Gross event research index; event coverage, terminal settlement and original financial vintages remain unverified",
-                    parent_metadata_sha256=hashlib.sha256((Path(directory)/"metadata.json").read_bytes()).hexdigest())
+                    parent_metadata_sha256=parent_metadata_sha256)
     target.mkdir(parents=True, exist_ok=True)
     for name, frame in [("prices.csv", prices), ("fundamentals.csv", data.fundamentals),
                         ("calendar.csv", pd.DataFrame({"date":data.calendar})),
@@ -311,6 +316,7 @@ def public_samples(directory, config, asof=None):
         values = library.compute(snap, config.oneil)
         values["date"] = date
         values["available_date"] = snap.available_date
+        if "trading_symbol" in snap: values["trading_symbol"] = snap.trading_symbol
         frames.append(values.rename_axis("symbol").reset_index())
     if not frames:
         raise ValueError("public input needs longer history and visible financial reports")
