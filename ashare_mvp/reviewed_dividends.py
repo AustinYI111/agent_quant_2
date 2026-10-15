@@ -29,6 +29,18 @@ def reviewed_distribution_lookup(evidence, raw, calendar):
             e[field]=pd.to_numeric(e[field],errors='raise')
             if not np.isfinite(e[field]).all() or e[field].lt(0).any():raise ValueError('invalid reviewed dividend component')
     if {'ordinary_cash_per_share','special_cash_per_share'}.issubset(e) and not np.isclose(e.ordinary_cash_per_share+e.special_cash_per_share,e.cash_per_share,rtol=0,atol=1e-8).all():raise ValueError('reviewed cash components do not sum to actual payout')
+    conflict=e.get('independent_conflict_reviewed',pd.Series(False,index=e.index)).fillna(False).eq(True)
+    if conflict.any():
+        fields={'payout_scope','expected_independent_cash_per_share','expected_independent_share_multiplier','expected_independent_pay_date'}
+        if not fields.issubset(e) or not e.loc[conflict,'payout_scope'].eq('public_a_share').all():raise ValueError('reviewed public-holder scope and complete independent payment anchor required')
+        for field in ['expected_independent_cash_per_share','expected_independent_share_multiplier']:
+            e[field]=pd.to_numeric(e[field],errors='raise')
+            selected=e.loc[conflict,field]
+            if not np.isfinite(selected).all() or selected.lt(0).any():raise ValueError('invalid independent payment anchor')
+        if e.loc[conflict,'expected_independent_share_multiplier'].le(0).any():raise ValueError('invalid independent share anchor')
+        e['expected_independent_pay_date']=pd.to_datetime(e.expected_independent_pay_date)
+        selected=e.loc[conflict,'expected_independent_pay_date']
+        if selected.isna().any() or selected.dt.tz is not None or not selected.eq(selected.dt.normalize()).all():raise ValueError('normalized independent payment anchor date required')
     lookup={}
     for row in e.itertuples(index=False):
         pos=cal.searchsorted(row.announcement_date,side='right')
@@ -44,3 +56,15 @@ def reviewed_distribution_lookup(evidence, raw, calendar):
             raise ValueError('reviewed evidence no longer matches original provider terms')
         lookup[(security,row.source_period)]=row
     return lookup
+
+
+def check_reviewed_independent_payment(notice, prior):
+    """A reviewed holder-class correction is anchored, never a blanket preference."""
+    flag=getattr(notice,'independent_conflict_reviewed',False)
+    if pd.notna(flag) and flag==True:
+        if prior is None:raise ValueError('reviewed independent payment anchor has no matching event')
+        if not np.isclose(prior.cash_per_share,notice.expected_independent_cash_per_share,rtol=0,atol=1e-8) or not np.isclose(prior.share_multiplier,notice.expected_independent_share_multiplier,rtol=0,atol=1e-8) or prior.pay_date!=notice.expected_independent_pay_date:
+            raise ValueError('reviewed independent payment anchor changed')
+    elif prior is not None:
+        if not np.isclose(prior.cash_per_share,notice.cash_per_share,rtol=0,atol=1e-8) or not np.isclose(prior.share_multiplier,notice.share_multiplier,rtol=0,atol=1e-8) or prior.pay_date!=notice.pay_date:
+            raise ValueError('reviewed notice conflicts with independent payment history')

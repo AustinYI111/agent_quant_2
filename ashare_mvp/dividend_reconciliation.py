@@ -72,10 +72,9 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
             continue
         notice=reviewed.get((row.SECUCODE,pd.Timestamp(row.source_period)))
         if notice is not None:
-            if (notice.symbol,notice.ex_date) in lookup.index:
-                prior=lookup.loc[(notice.symbol,notice.ex_date)]
-                if not np.isclose(prior.cash_per_share,notice.cash_per_share,rtol=0,atol=1e-8) or not np.isclose(prior.share_multiplier,notice.share_multiplier,rtol=0,atol=1e-8) or prior.pay_date!=notice.pay_date:
-                    raise ValueError("reviewed notice conflicts with independent payment history")
+            from .reviewed_dividends import check_reviewed_independent_payment
+            prior=lookup.loc[(notice.symbol,notice.ex_date)] if (notice.symbol,notice.ex_date) in lookup.index else None
+            check_reviewed_independent_payment(notice,prior)
             record.update(symbol=notice.symbol,ex_date=str(notice.ex_date.date()),cash_per_share=notice.cash_per_share,
                           share_multiplier=notice.share_multiplier,available_date=str(notice.available_date.date()),
                           status="matched_reviewed_notice",reason="exact raw provider terms reviewed against official implementation notice")
@@ -83,7 +82,9 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
                                 cash_per_share=notice.cash_per_share,share_multiplier=notice.share_multiplier,
                                 stock_market_date=getattr(notice,"stock_market_date",None),source_period=row.source_period,event_vintage_certified=False,
                                 source_notice_url=notice.source_url,source_notice_sha256=notice.source_sha256,source_notice_page=notice.source_page,
-                                ordinary_cash_per_share=getattr(notice,"ordinary_cash_per_share",None),special_cash_per_share=getattr(notice,"special_cash_per_share",None)))
+                                ordinary_cash_per_share=getattr(notice,"ordinary_cash_per_share",None),special_cash_per_share=getattr(notice,"special_cash_per_share",None),
+                                reviewed_payout_scope=getattr(notice,"payout_scope",None),
+                                independent_provider_cash_before_review=prior.cash_per_share if prior is not None else None))
             classified.append(record)
             continue
         if row.ASSIGN_PROGRESS == "实施分配":
@@ -128,7 +129,7 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
     result = pd.DataFrame(classified)
     output = pd.DataFrame(matched, columns=["symbol", "ex_date", "available_date", "pay_date", "cash_per_share",
                                            "share_multiplier", "stock_market_date", "source_period", "event_vintage_certified",
-                                           "source_notice_url","source_notice_sha256","source_notice_page","ordinary_cash_per_share","special_cash_per_share"])
+                                           "source_notice_url","source_notice_sha256","source_notice_page","ordinary_cash_per_share","special_cash_per_share","reviewed_payout_scope","independent_provider_cash_before_review"])
     if output.duplicated(["symbol", "ex_date"]).any():
         raise ValueError("multiple implemented report periods map to one payment event")
     target.mkdir(parents=True, exist_ok=True)

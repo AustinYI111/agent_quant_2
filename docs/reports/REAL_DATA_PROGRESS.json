@@ -56,25 +56,25 @@
       "outside_evaluation_window": 3746,
       "excluded_exchange": 1375,
       "not_implemented": 13,
-      "unresolved": 13,
-      "matched_reviewed_notice": 11,
+      "matched_reviewed_notice": 13,
+      "unresolved": 11,
       "missing_payment_evidence": 8
     },
-    "matched_events": 18214,
+    "matched_events": 18216,
     "partial_market_source": false,
     "certified": false,
     "model_ready": false,
     "market_manifest_sha256": "962efef400699350e2a39f8d74e4e30748c25acf1f44d69f6f3b7254bbb6c82a",
     "payment_actions_sha256": "ed19f20da70211566ca3f16be005004f469ef96ad7a9607f646eb03486551b81",
-    "actions_sha256": "4e6a5a6c7dd794beee16ad5c0b6853aac7156c7cb940e2805a8f0d9cb65f4c71",
+    "actions_sha256": "fcef39c91cf21f804201b24573d8fb7443f3bb943f26f1de3b778deeb75a9756",
     "limitations": [
       "unmatched plans never receive assumed payment dates",
       "matched subset is not a complete market event history",
       "original event vintages unverified; economic entitlement is not tradable share settlement"
     ],
-    "coverage_sha256": "5c3e31528b5e784f7467effde6a2f7bda6a49207df246eba8d0605ab3f2dd760",
-    "reviewed_distributions_sha256": "c195d97800b9e70527d0350f77899c6bcb8eda5e4ada85c7a0e4a770621d7d28",
-    "reviewed_notice_events": 11
+    "coverage_sha256": "e00729d550fea2d4397294d6d108bfed248a3265608f9045dfb9e7e20ff5b0e7",
+    "reviewed_distributions_sha256": "4806ee6b6ce69d44c88731caee0ee5f94077354bf701c2a38df9144aa3033a09",
+    "reviewed_notice_events": 13
   },
   "dividend_reconciliation_tests": 5,
   "cninfo_normalization_after_transfer_terms": {
@@ -227,10 +227,10 @@
     ]
   },
   "reviewed_reference_evidence": {
-    "records": 1,
+    "records": 3,
     "tests_passed": 9,
     "tests_seconds": 22.14,
-    "config_file_sha256": "dda48540a3013d512cd952b904808f14459e8b980d4e57f8d15116be6d347407",
+    "config_file_sha256": "f074c43859e13401ec132fbc861e7ddd09d3ed35e7b5a96c140882f4369dda1d",
     "actual_payout_unchanged": true,
     "source_pdf_kept_local": true
   },
@@ -286,7 +286,7 @@
     "validation_stage": "source_inventory",
     "issue_counts": {
       "missing_daily_cross_section": 390,
-      "unresolved_event_evidence": 14,
+      "unresolved_event_evidence": 12,
       "unresolved_security_identity": 3
     },
     "requested_sessions": 1479,
@@ -298,15 +298,15 @@
       "market_manifest": "db5d89206e54b860d8560619b2ef5524e74659730391d32c6219d6f996ba8fce",
       "financial_summary": "eb833000b262c829c85897897f377d582d87e8199dc3cd91a875a63f3af258fd",
       "master_manifest": "cf08cde1e3fdb171cf1b297c40bdcdd64afabc763f83a7a149bcc68ea3b2f258",
-      "action_summary": "a784393f3c25d40a5819a08fb56b5c290a5a60937f35a45d19b272e3a9727452",
+      "action_summary": "037ed590d1b9ef06fc451ebaa021edf4e14acb6d009d9be4fa07efa75b5a75aa",
       "code_changes": "7bbec3e099a7361a8029209cb953ba84eef77515f85eb139605e05350b0b91f6",
-      "reference_overrides": "9866a08da0a918b0f25176c10966d89d18c449c041276453e9d110a0287dfd5c",
+      "reference_overrides": "0d87b5bdffa2088a23cf90e1d5221465ee5f56fcd051ff3afe04410491714ce3",
       "non_listing_evidence": "728c1e4f33e9d23251cb65f40d7487af7dc9d473772e824b1b11eaa410d9f828",
       "master": "5a17099830c9dfd8306a6537abf3fabd65e9b1974f50e2d1c176580561487b75",
       "targets": "a673dc0374cc1c768716f6ef691a9b423c064f2168c4546075afd6c1765efe9e",
       "financial_panel": "87def6c56a1836c7e33db2cc30a914b817300fba8028b4b8c87c6eeaf18be3e6",
-      "actions": "4e6a5a6c7dd794beee16ad5c0b6853aac7156c7cb940e2805a8f0d9cb65f4c71",
-      "event_coverage": "5c3e31528b5e784f7467effde6a2f7bda6a49207df246eba8d0605ab3f2dd760"
+      "actions": "fcef39c91cf21f804201b24573d8fb7443f3bb943f26f1de3b778deeb75a9756",
+      "event_coverage": "e00729d550fea2d4397294d6d108bfed248a3265608f9045dfb9e7e20ff5b0e7"
     },
     "new_conversion_tests_passed": 9,
     "new_conversion_test_seconds": 3.16,
@@ -332,33 +332,34 @@
   },
   "reviewed_distribution_notices": {
     "date": "2026-10-15",
-    "reviewed_events": 11,
+    "reviewed_events": 13,
     "tests_passed": 22,
     "tests_seconds": 4.45,
-    "config_sha256": "58fd8d131e78409a36ad957db2c7578fdd008d34af5f64069bf3ae2016503a01",
+    "config_sha256": "ecdbfb21717cf93ac542a7d0d499429faa08ce1509f4e7b3beb93797e691c98b",
     "supported_unresolved_events_before": 25,
-    "supported_unresolved_events_after": 14,
+    "supported_unresolved_events_after": 12,
     "same_historical_quote_prefix_unreconciled_before": 586,
-    "same_historical_quote_prefix_unreconciled_after": 580,
+    "same_historical_quote_prefix_unreconciled_after": 578,
     "original_provider_rows_unchanged": true,
     "raw_pdf_and_images_local_only": true,
     "gross_ordinary_and_special_cash_separate": true,
     "certified": false,
-    "latest_batch_records": 5,
-    "latest_batch_regression_tests_passed": 14,
-    "latest_batch_test_seconds": 1.21,
-    "actual_exported_records_verified": 11,
-    "provider_total_preserved_when_already_inclusive": true
+    "latest_batch_records": 2,
+    "latest_batch_regression_tests_passed": 38,
+    "latest_batch_test_seconds": 2.5,
+    "actual_exported_records_verified": 13,
+    "provider_total_preserved_when_already_inclusive": true,
+    "public_holder_scope_correction_anchored": true
   },
   "price_action_audit_after_reviewed_payments": {
     "reference_tick_size": 0.01,
-    "rounded_reference_matches": 3328,
+    "rounded_reference_matches": 3329,
     "rows": 3130445,
     "symbols": 4378,
     "affected_symbols": 4378,
     "issue_counts": {
       "missing_sessions_or_terminal_valuation": 2843908,
-      "unreconciled_adjustment": 580
+      "unreconciled_adjustment": 578
     },
     "model_ready": false,
     "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation",
@@ -383,7 +384,7 @@
     ],
     "input_hashes": {
       "aligned_market.csv": "0cad566481efbc35818b70d1e53c8f2945957c108f008164bc542c697a534546",
-      "actions.csv": "4e6a5a6c7dd794beee16ad5c0b6853aac7156c7cb940e2805a8f0d9cb65f4c71"
+      "actions.csv": "fcef39c91cf21f804201b24573d8fb7443f3bb943f26f1de3b778deeb75a9756"
     }
   },
   "market_connection_diagnostic": {
@@ -396,5 +397,6 @@
     "bounded_probe_seconds": 8,
     "duplicated_collector_started": false,
     "interpretation": "Current connection path refused the official endpoint; not a factor or data conversion failure"
-  }
+  },
+  "financial_refresh_status": "new balance snapshot normalization running; combined financial refresh pending"
 }

@@ -53,3 +53,40 @@ def test_provider_total_already_includes_special_cash_without_double_count(tmp_p
     assert result['reviewed_notice_events']==1
     assert actions.loc['sh.600001','cash_per_share']==pytest.approx(.1)
     assert actions.loc['sh.600001','special_cash_per_share']==pytest.approx(.04)
+
+
+def public_holder_evidence():
+    e=evidence(symbol='sh.600000')
+    e['ordinary_cash_per_share']=.15;e['special_cash_per_share']=0.
+    e['payout_scope']='public_a_share';e['independent_conflict_reviewed']=True
+    e['expected_independent_cash_per_share']=.1;e['expected_independent_share_multiplier']=1.
+    e['expected_independent_pay_date']='2018-07-16'
+    return e
+
+
+def test_reviewed_holder_class_payout_preserves_prior_provider_value(tmp_path):
+    args=inputs(tmp_path);result=reconcile_dividend_sources(*args,reviewed_events=public_holder_evidence())
+    row=pd.read_csv(args[3]/'actions.csv').set_index('symbol').loc['sh.600000']
+    assert row.cash_per_share==pytest.approx(.15) and row.independent_provider_cash_before_review==pytest.approx(.1)
+    assert row.reviewed_payout_scope=='public_a_share' and result['reviewed_notice_events']==1
+
+
+@pytest.mark.parametrize('field,value',[('expected_independent_cash_per_share',.09),('expected_independent_share_multiplier',1.1),('expected_independent_pay_date','2018-07-17')])
+def test_holder_class_review_cannot_accept_changed_independent_source(tmp_path,field,value):
+    args=inputs(tmp_path);e=public_holder_evidence();e[field]=value
+    with pytest.raises(ValueError,match='anchor changed'):reconcile_dividend_sources(*args,reviewed_events=e)
+    assert not args[3].exists()
+
+
+def test_reviewed_conflict_requires_public_holder_scope(tmp_path):
+    args=inputs(tmp_path);e=public_holder_evidence();e['payout_scope']='controlling_holder'
+    with pytest.raises(ValueError,match='public-holder scope'):
+        reconcile_dividend_sources(*args,reviewed_events=e)
+    assert not args[3].exists()
+
+
+def test_reviewed_conflict_cannot_ignore_missing_independent_source_event(tmp_path):
+    args=inputs(tmp_path);e=public_holder_evidence();e['symbol']='sh.600001'
+    with pytest.raises(ValueError,match='anchor has no matching event'):
+        reconcile_dividend_sources(*args,reviewed_events=e)
+    assert not args[3].exists()

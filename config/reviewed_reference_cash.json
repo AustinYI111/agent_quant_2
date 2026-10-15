@@ -10,5 +10,29 @@
     "source_sha256": "ae03f8aaaf6d5f3ca480589ac78d7933740408ba7ad99f8f16abd6fcccead227",
     "source_page": 2,
     "reviewed": true
+  },
+  {
+    "symbol": "sh.600025",
+    "ex_date": "2019-07-05",
+    "reference_cash_per_share": 0.15022,
+    "expected_cash_per_share": 0.178,
+    "announcement_date": "2019-06-29",
+    "available_date": "2019-07-01",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2019-06-29/1206408689.PDF",
+    "source_sha256": "804c45fc429a75413979b70c82451e065b82cb3e9ce54ff26f9705df45ba4b31",
+    "source_page": 3,
+    "reviewed": true
+  },
+  {
+    "symbol": "sh.600025",
+    "ex_date": "2020-06-19",
+    "reference_cash_per_share": 0.15,
+    "expected_cash_per_share": 0.18,
+    "announcement_date": "2020-06-12",
+    "available_date": "2020-06-15",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2020-06-12/1207919396.PDF",
+    "source_sha256": "54d9f9ade9baabe182ac47634cf269033c9b010928d0b6aeafb135346a57b884",
+    "source_page": 2,
+    "reviewed": true
   }
 ]

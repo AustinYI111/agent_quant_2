@@ -113,3 +113,10 @@ python -m ashare_mvp.cli reconcile-dividends --market artifacts/market_dividend_
 本批原 PDF 和渲染页在本地 `artifacts/official_petrochina_notices_20261015`，对账目录更新为 `artifacts/dividend_payment_reconciliation_reviewed3`。同一封存旧行情片段的未解释价格调整进一步从 585→580；仍有价格、身份及覆盖缺口，未完成真实模型训练。
 
 2026-10-15 行情连接诊断：官方主机 `public-api.baostock.com` DNS 可解析，但当前网络到 TCP 10030 连接被拒绝，隔离登录返回 10002007。行情缓存保持 1,089 日。不要把此错误当成因子转换问题或反复启动多个采集进程；接口恢复后再用原 `download-market --resume` 命令续跑。财务／公告来源是独立流程，其可用性分别检查。
+
+
+第四批核实华能水电 2019／2020 年公众股东的差异化分红：实际每股现金为 0.178／0.18 元，官方除息参考扣减为 0.15022／0.15 元；原大股东的每股金额又不同。研究账户采用公众股东权益，除息校验采用独立的参考扣减，不能用平均扣减额作为实际到账现金。
+
+2020 年独立归一化来源的旧值 0.15 元有明确审阅锚点：只有 `independent_conflict_reviewed=true`、`payout_scope=public_a_share` 且旧金额／股份比例／支付日均准确匹配时才允许改为公告中的公众股东金额。旧值保存在事件输出，缺失旧事件或后来来源变化会拒绝处理；其他未审阅冲突继续失败。原供应商文件不改写，旧 `0.15` 与新 `0.18` 的意义不会混为一谈。
+
+累计审阅 13 条实施事件、3 条参考现金记录；当前支持范围内事件缺口 25→12，同一历史片段价格差异 586→578。最新本地对账为 `artifacts/dividend_payment_reconciliation_reviewed4`；两份原始公告及完整核对页在 `artifacts/official_huaneng_notices_20261015`，待后续私有快照备份。完整真实数据与训练仍未完成。
