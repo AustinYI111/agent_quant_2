@@ -56,3 +56,48 @@ def test_wide_provider_rows_reduce_memory_without_losing_visibility_clocks():
     calendar=pd.bdate_range("2020-01-01","2021-04-05")
     pd.testing.assert_frame_equal(normalize_balance_records([row],"sh.600519",calendar),normalize_balance_records(retained,"sh.600519",calendar))
     assert normalize_balance_records(retained,"sh.600519",calendar).available_date.iloc[0]==pd.Timestamp("2021-04-02")
+
+
+def legacy_snapshot(tmp_path):
+    import json,hashlib
+    source=tmp_path/'legacy';source.mkdir()
+    meta=dict(schema='issuer_balance_raw_v1',status='partial',request={'start':'2019-01-01','end':'2020-12-31'},queries={},securities={})
+    for symbol,status in [('sh.600519','ok'),('sz.000004','failed')]:
+        code=symbol.split('.')[1];exchange=symbol[:2].upper()
+        row={**record(),'SECURITY_CODE':code,'SECUCODE':code+'.'+exchange}
+        raw=json.dumps({'success':True,'result':{'count':1,'pages':1,'data':[row]}}).encode()
+        filename=code+'.raw';(source/filename).write_bytes(raw)
+        meta['queries'][symbol]={'status':'ok','endpoint':'legacyBalances','file':filename,'sha256':hashlib.sha256(raw).hexdigest(),'params':{'filter':'(SECUCODE="'+code+'.'+exchange+'")','p':'1'}}
+        meta['securities'][symbol]={'status':status,'records':1} if status=='ok' else {'status':'failed','error':'later request timed out'}
+    (source/'manifest.json').write_text(json.dumps(meta))
+    calendar=tmp_path/'calendar.csv';pd.DataFrame({'calendar_date':pd.bdate_range('2020-01-01','2021-04-02'),'is_trading_day':1}).to_csv(calendar,index=False)
+    return source,calendar,meta
+
+
+def test_failed_legacy_issuer_keeps_raw_cache_but_does_not_abort_complete_peers(tmp_path):
+    from ashare_mvp.balance_sheet import normalize_balance_download
+    source,calendar,_=legacy_snapshot(tmp_path)
+    before=(source/'000004.raw').read_bytes()
+    result=normalize_balance_download(source,calendar,tmp_path/'out')
+    panel=pd.read_csv(tmp_path/'out/balance_panel.csv')
+    rejected=pd.read_csv(tmp_path/'out/rejected_securities.csv').set_index('symbol')
+    assert panel.symbol.tolist()==['sh.600519'] and result['partial_source'] and not result['model_ready']
+    assert rejected.loc['sz.000004','reason']=='unfinished raw acquisition'
+    assert (source/'000004.raw').read_bytes()==before
+
+
+def test_failed_legacy_raw_cache_still_requires_valid_hash(tmp_path):
+    from ashare_mvp.balance_sheet import normalize_balance_download
+    source,calendar,_=legacy_snapshot(tmp_path);(source/'000004.raw').write_bytes(b'changed')
+    with pytest.raises(ValueError,match='raw hash mismatch'):normalize_balance_download(source,calendar,tmp_path/'out')
+    assert not (tmp_path/'out').exists()
+
+
+def test_completed_legacy_issuer_count_mismatch_still_fails(tmp_path):
+    import json
+    from ashare_mvp.balance_sheet import normalize_balance_download
+    source,calendar,meta=legacy_snapshot(tmp_path);meta['securities']['sh.600519']['records']=2
+    (source/'manifest.json').write_text(json.dumps(meta))
+    with pytest.raises(ValueError,match='legacy balance total count mismatch'):
+        normalize_balance_download(source,calendar,tmp_path/'out')
+    assert not (tmp_path/'out').exists()

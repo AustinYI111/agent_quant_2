@@ -92,7 +92,10 @@ def normalize_balance_download(directory, calendar_path, out):
             if int(result["pages"]) != (total + 199) // 200 or len(rows) != min(200, total - (page-1)*200):
                 raise ValueError("legacy balance page count mismatch")
             symbol = code[:2].lower() + "." + code[2:]
-            if total != manifest["securities"].get(symbol, {}).get("records"):
+            issuer = manifest["securities"].get(symbol, {})
+            # A failed later resume has no complete issuer count. Its cached raw
+            # response is still hash/schema checked, then rejected below.
+            if issuer.get("status") == "ok" and total != issuer.get("records"):
                 raise ValueError("legacy balance total count mismatch")
             frame = pd.DataFrame(rows)
             observed = pd.to_datetime(frame.REPORT_DATE).dt.normalize()

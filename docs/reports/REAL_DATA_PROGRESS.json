@@ -398,5 +398,15 @@
     "duplicated_collector_started": false,
     "interpretation": "Current connection path refused the official endpoint; not a factor or data conversion failure"
   },
-  "financial_refresh_status": "new balance snapshot normalization running; combined financial refresh pending"
+  "financial_refresh_status": "restarted after fixing unfinished legacy issuer count check; new normalized panel and merge not yet verified",
+  "partial_legacy_balance_fix": {
+    "date": "2026-10-15",
+    "actual_failed_issuer_legacy_responses_identified": 7,
+    "all_raw_hash_checks_preserved": true,
+    "completed_issuer_total_count_check_preserved": true,
+    "unfinished_issuers_remain_rejected": true,
+    "tests_passed": 17,
+    "tests_seconds": 2.13,
+    "real_normalization_rerun_complete": false
+  }
 }

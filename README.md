@@ -120,3 +120,6 @@ python -m ashare_mvp.cli reconcile-dividends --market artifacts/market_dividend_
 2020 年独立归一化来源的旧值 0.15 元有明确审阅锚点：只有 `independent_conflict_reviewed=true`、`payout_scope=public_a_share` 且旧金额／股份比例／支付日均准确匹配时才允许改为公告中的公众股东金额。旧值保存在事件输出，缺失旧事件或后来来源变化会拒绝处理；其他未审阅冲突继续失败。原供应商文件不改写，旧 `0.15` 与新 `0.18` 的意义不会混为一谈。
 
 累计审阅 13 条实施事件、3 条参考现金记录；当前支持范围内事件缺口 25→12，同一历史片段价格差异 586→578。最新本地对账为 `artifacts/dividend_payment_reconciliation_reviewed4`；两份原始公告及完整核对页在 `artifacts/official_huaneng_notices_20261015`，待后续私有快照备份。完整真实数据与训练仍未完成。
+
+
+财务快照处理修复：如果某证券的后续采集失败，旧 legacy 原始响应仍保留并校验哈希／身份／分页；由于失败状态没有“完整记录数”，不会再把它误报为完整请求总数不一致。未完成证券仍列入 `rejected_securities.csv`，不使用其缓存来冒充可用财务记录；完整证券的总数不一致和任何缓存哈希变化仍会失败。此修复不恢复原始财报版本，也不把不完整来源标为完整。
