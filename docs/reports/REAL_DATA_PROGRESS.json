@@ -11,7 +11,7 @@
     "symbols": 5555,
     "debt_records": 46567
   },
-  "market_sessions_saved": 1064,
+  "market_sessions_saved": 1082,
   "market_sessions_requested": 1479,
   "partial_source": true,
   "model_ready": false,
@@ -46,19 +46,35 @@
   "dividend_payment_reconciliation": {
     "records": 23369,
     "in_scope_records": 18248,
+    "excluded_exchanges": [
+      "BJ"
+    ],
     "evaluation_start": "2018-01-02",
     "evaluation_end": "2024-01-31",
     "status_counts": {
       "matched_payment_evidence": 18203,
       "outside_evaluation_window": 3746,
       "excluded_exchange": 1375,
-      "missing_payment_evidence": 19,
+      "missing_payment_evidence": 16,
       "not_implemented": 13,
-      "unresolved": 13
+      "unresolved": 13,
+      "matched_reviewed_notice": 3
     },
-    "matched_events": 18203,
+    "matched_events": 18206,
+    "partial_market_source": false,
+    "certified": false,
     "model_ready": false,
-    "actions_sha256": "e9b7077ad39c92e6a35c99dc69c5b01eb38d396900a94aba501406c34dbec356"
+    "market_manifest_sha256": "962efef400699350e2a39f8d74e4e30748c25acf1f44d69f6f3b7254bbb6c82a",
+    "payment_actions_sha256": "ed19f20da70211566ca3f16be005004f469ef96ad7a9607f646eb03486551b81",
+    "actions_sha256": "595fd7695bcc905395f19332457756755bade6e187a6bcf3cf9a035273abc518",
+    "limitations": [
+      "unmatched plans never receive assumed payment dates",
+      "matched subset is not a complete market event history",
+      "original event vintages unverified; economic entitlement is not tradable share settlement"
+    ],
+    "coverage_sha256": "8703bba1b44c0898c8005f197c62ff390a290b99ceee53177e37cfab134c4d4c",
+    "reviewed_distributions_sha256": "e48026d34573c76b9a83fda8121f7a4bdc935d8b5388217c39bf456e88589889",
+    "reviewed_notice_events": 3
   },
   "dividend_reconciliation_tests": 5,
   "cninfo_normalization_after_transfer_terms": {
@@ -260,7 +276,7 @@
     "certified": false,
     "whole_market_ratio_conversion_complete": false
   },
-  "market_collection_observed_at_utc": "2026-10-15T08:19:55.441814+00:00",
+  "market_collection_observed_at_utc": "2026-10-15T08:33:09.052385+00:00",
   "market_collection_status_observed": "running",
   "market_ratio_preparation": {
     "date": "2026-10-15",
@@ -269,28 +285,28 @@
     "status": "blocked",
     "validation_stage": "source_inventory",
     "issue_counts": {
-      "missing_daily_cross_section": 415,
-      "unresolved_event_evidence": 25,
+      "missing_daily_cross_section": 397,
+      "unresolved_event_evidence": 22,
       "unresolved_security_identity": 3
     },
     "requested_sessions": 1479,
-    "listed_daily_files": 1064,
+    "listed_daily_files": 1082,
     "raw_files_hash_checked": 0,
     "not_implemented_plans_ignored": 13,
-    "event_coverage_prior_hash_verified": false,
+    "event_coverage_prior_hash_verified": true,
     "source_hashes": {
-      "market_manifest": "d201d21099eb482e9ae0f52312c205d06ad4951d413f4f3f3c6392cf1264c74f",
+      "market_manifest": "7bd64570f4e11d2ed4020db15404121ff3d8eeb16abc1d93a22120af7094373b",
       "financial_summary": "eb833000b262c829c85897897f377d582d87e8199dc3cd91a875a63f3af258fd",
       "master_manifest": "cf08cde1e3fdb171cf1b297c40bdcdd64afabc763f83a7a149bcc68ea3b2f258",
-      "action_summary": "28c414e970fb273c57a5476bbba12e08d626adfd6975f34091c7dc9c27811bcc",
+      "action_summary": "604bddbcd1ff37054ca176a19a794f330e27f3dd48156361a4ba7a309636663d",
       "code_changes": "7bbec3e099a7361a8029209cb953ba84eef77515f85eb139605e05350b0b91f6",
       "reference_overrides": "9866a08da0a918b0f25176c10966d89d18c449c041276453e9d110a0287dfd5c",
       "non_listing_evidence": "728c1e4f33e9d23251cb65f40d7487af7dc9d473772e824b1b11eaa410d9f828",
       "master": "5a17099830c9dfd8306a6537abf3fabd65e9b1974f50e2d1c176580561487b75",
       "targets": "a673dc0374cc1c768716f6ef691a9b423c064f2168c4546075afd6c1765efe9e",
       "financial_panel": "87def6c56a1836c7e33db2cc30a914b817300fba8028b4b8c87c6eeaf18be3e6",
-      "actions": "e9b7077ad39c92e6a35c99dc69c5b01eb38d396900a94aba501406c34dbec356",
-      "event_coverage": "e638ae428fe948e26613ac91ca0c9f999273bf77f4989f1dafe74d20807c74c0"
+      "actions": "595fd7695bcc905395f19332457756755bade6e187a6bcf3cf9a035273abc518",
+      "event_coverage": "8703bba1b44c0898c8005f197c62ff390a290b99ceee53177e37cfab134c4d4c"
     },
     "new_conversion_tests_passed": 9,
     "new_conversion_test_seconds": 3.16,
@@ -313,5 +329,56 @@
     "empty_response_is_not_evidence": true,
     "historical_quotes_not_deleted": true,
     "used_as_predictive_feature": false
+  },
+  "reviewed_distribution_notices": {
+    "date": "2026-10-15",
+    "reviewed_events": 3,
+    "tests_passed": 22,
+    "tests_seconds": 4.45,
+    "config_sha256": "faf18df54982205164e43aee08bbe73f17c69290c212f40d921af72cbf35e056",
+    "supported_unresolved_events_before": 25,
+    "supported_unresolved_events_after": 22,
+    "same_historical_quote_prefix_unreconciled_before": 586,
+    "same_historical_quote_prefix_unreconciled_after": 585,
+    "original_provider_rows_unchanged": true,
+    "raw_pdf_and_images_local_only": true,
+    "gross_ordinary_and_special_cash_separate": true,
+    "certified": false
+  },
+  "price_action_audit_after_reviewed_payments": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 3324,
+    "rows": 3130445,
+    "symbols": 4378,
+    "affected_symbols": 4378,
+    "issue_counts": {
+      "missing_sessions_or_terminal_valuation": 2843908,
+      "unreconciled_adjustment": 585
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation",
+    "inactive_code_rows_quarantined": 717,
+    "code_changes_applied": [
+      {
+        "old_symbol": "sz.000022",
+        "new_symbol": "sz.001872",
+        "announcement_date": "2018-12-21",
+        "effective_date": "2018-12-26",
+        "share_ratio": 1,
+        "source_url": "https://static.cninfo.com.cn/finalpage/2018-12-21/1205681867.PDF"
+      },
+      {
+        "old_symbol": "sz.000043",
+        "new_symbol": "sz.001914",
+        "announcement_date": "2019-12-06",
+        "effective_date": "2019-12-16",
+        "share_ratio": 1,
+        "source_url": "https://static.cninfo.com.cn/finalpage/2019-12-06/1207141416.PDF"
+      }
+    ],
+    "input_hashes": {
+      "aligned_market.csv": "0cad566481efbc35818b70d1e53c8f2945957c108f008164bc542c697a534546",
+      "actions.csv": "595fd7695bcc905395f19332457756755bade6e187a6bcf3cf9a035273abc518"
+    }
   }
 }

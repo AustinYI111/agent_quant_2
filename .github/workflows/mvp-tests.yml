@@ -44,7 +44,7 @@ jobs:
             const existing = await github.rest.pulls.list({owner, repo, head: `${owner}:${head}`, state: 'open'});
             const body = 'Personal Quant Research MVP: causal factor ranking, public-data validation, persisted model contracts, encrypted backups and Windows migration.\n\nValidation: MVP tests, legacy offline regression and synthetic end-to-end release check passed for this commit. Synthetic validation does not establish real profitability; full-market data reconciliation and formal model approval remain pending.\n\nMain merge requires owner confirmation. No automatic merge.';
             if (existing.data.length) {
-              await github.rest.pulls.update({owner, repo, pull_number: existing.data[0].number, title: 'Personal Quant Research MVP and portable model management', body});
+              await github.rest.pulls.update({owner, repo, pull_number: existing.data[0].number, title: 'Personal Quant Research MVP and portable model management', body: existing.data[0].body || body});
             } else {
               await github.rest.pulls.create({owner, repo, head, base: 'main', draft: true, title: 'Personal Quant Research MVP and portable model management', body});
             }

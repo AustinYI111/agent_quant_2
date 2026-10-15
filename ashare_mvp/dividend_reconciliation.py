@@ -11,7 +11,7 @@ from .dividend_normalization import _terms
 from .public_data import is_ashare
 
 
-def reconcile_dividend_sources(market_data, payment_data, calendar_path, out):
+def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, reviewed_events=None):
     market, payments, target = Path(market_data), Path(payment_data), Path(out)
     if target.exists() and any(target.iterdir()):
         raise ValueError("dividend reconciliation output must be empty")
@@ -56,6 +56,10 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out):
     if not frames:
         raise ValueError("no verified market dividend periods")
     raw = pd.concat(frames, ignore_index=True)
+    reviewed={}
+    if reviewed_events is not None:
+        from .reviewed_dividends import reviewed_distribution_lookup
+        reviewed=reviewed_distribution_lookup(reviewed_events,raw,cal)
     classified, matched = [], []
     for row in raw.itertuples(index=False):
         record = dict(security=row.SECUCODE, report_date=row.REPORT_DATE, source_period=row.source_period,
@@ -64,6 +68,22 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out):
         exchange = re.fullmatch(r"(\d{6})\.(SH|SZ|BJ)", str(row.SECUCODE))
         if exchange and exchange[2] == "BJ":
             record.update(status="excluded_exchange", reason="Beijing exchange excluded from research universe")
+            classified.append(record)
+            continue
+        notice=reviewed.get((row.SECUCODE,pd.Timestamp(row.source_period)))
+        if notice is not None:
+            if (notice.symbol,notice.ex_date) in lookup.index:
+                prior=lookup.loc[(notice.symbol,notice.ex_date)]
+                if not np.isclose(prior.cash_per_share,notice.cash_per_share,rtol=0,atol=1e-8) or not np.isclose(prior.share_multiplier,notice.share_multiplier,rtol=0,atol=1e-8) or prior.pay_date!=notice.pay_date:
+                    raise ValueError("reviewed notice conflicts with independent payment history")
+            record.update(symbol=notice.symbol,ex_date=str(notice.ex_date.date()),cash_per_share=notice.cash_per_share,
+                          share_multiplier=notice.share_multiplier,available_date=str(notice.available_date.date()),
+                          status="matched_reviewed_notice",reason="exact raw provider terms reviewed against official implementation notice")
+            matched.append(dict(symbol=notice.symbol,ex_date=notice.ex_date,available_date=notice.available_date,pay_date=notice.pay_date,
+                                cash_per_share=notice.cash_per_share,share_multiplier=notice.share_multiplier,
+                                stock_market_date=getattr(notice,"stock_market_date",None),source_period=row.source_period,event_vintage_certified=False,
+                                source_notice_url=notice.source_url,source_notice_sha256=notice.source_sha256,source_notice_page=notice.source_page,
+                                ordinary_cash_per_share=getattr(notice,"ordinary_cash_per_share",None),special_cash_per_share=getattr(notice,"special_cash_per_share",None)))
             classified.append(record)
             continue
         if row.ASSIGN_PROGRESS == "实施分配":
@@ -107,7 +127,8 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out):
         classified.append(record)
     result = pd.DataFrame(classified)
     output = pd.DataFrame(matched, columns=["symbol", "ex_date", "available_date", "pay_date", "cash_per_share",
-                                           "share_multiplier", "stock_market_date", "source_period", "event_vintage_certified"])
+                                           "share_multiplier", "stock_market_date", "source_period", "event_vintage_certified",
+                                           "source_notice_url","source_notice_sha256","source_notice_page","ordinary_cash_per_share","special_cash_per_share"])
     if output.duplicated(["symbol", "ex_date"]).any():
         raise ValueError("multiple implemented report periods map to one payment event")
     target.mkdir(parents=True, exist_ok=True)
@@ -126,5 +147,11 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out):
                    actions_sha256=hashlib.sha256((target / "actions.csv").read_bytes()).hexdigest(),
                    limitations=["unmatched plans never receive assumed payment dates", "matched subset is not a complete market event history",
                                 "original event vintages unverified; economic entitlement is not tradable share settlement"])
+    summary["coverage_sha256"]=hashlib.sha256((target/"coverage.csv").read_bytes()).hexdigest()
+    if reviewed_events is not None:
+        payload=reviewed_events.to_json(orient="records",date_format="iso")
+        (target/"input_reviewed_distributions.json").write_text(payload,encoding="utf-8")
+        summary["reviewed_distributions_sha256"]=hashlib.sha256(payload.encode()).hexdigest()
+        summary["reviewed_notice_events"]=len(reviewed)
     (target / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     return summary

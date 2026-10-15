@@ -86,3 +86,18 @@ python -m ashare_mvp.cli run-public --data artifacts/market_ratio_dataset --out 
 证据必须具有明确日期边界、官方事实定位、来源 URL、内容哈希和审阅标记。空 API 响应、未审阅记录、未覆盖回测末日的旧证据均不能解除身份缺口；已知上市日期或真实历史行情与边界冲突时会拒绝转换，不删除报价。该证据仅用于重建历史上市范围，不作为历史可见的预测因子或交易信号，也不把暂缓 IPO 错填为退市／零回收股票。
 
 2026-10-15 官方核对资料包括：[巨潮 IPO 阶段](https://www.cninfo.com.cn/eipo/index.html?stockid=301660)、[粤芯半导体首次上市公告](https://www.szse.cn/www/disclosure/notice/company/t20261012_623256.html)、[联亚药业首次上市公告](https://www.szse.cn/certificate/secondb/GEMdynamice/t20261015_623313.html)。原始网页／JSON 与查询脚本缓存保存在本地 `artifacts/official_ipo_scope_20261015`；Git 只提交结构化事实及来源哈希。官方接口返回空数据的其余代码仍须单独核实。
+
+
+### 官方实施公告与特别股息
+
+`reconcile-dividends` 可接入已审阅的实施公告事实：
+
+```powershell
+python -m ashare_mvp.cli reconcile-dividends --market artifacts/market_dividend_history_2017_2023 --payments artifacts/cninfo_complete_normalized_transfer1 --calendar artifacts/market_history_2018_2024/calendar.csv --out artifacts/dividend_payment_reconciliation_reviewed --reviewed-events config/reviewed_distributions.json
+```
+
+全市场准备时将 `--actions` 指向该新对账目录。不要覆盖旧缓存或直接修改供应商原始行。审阅记录必须准确匹配证券、报告期、执行日、原现金／股份比例及完整原条款，并附公告日期、可用日期、实际支付日期、官方 URL、PDF 哈希和页码；未审阅、晚于执行才可见、来源变化或与独立支付记录冲突时拒绝处理。
+
+当前核实 3 条：南威软件 2018 年支付日期补齐；青岛啤酒 2023 年每股普通 1.30 元加特别 0.50 元，合计 1.80 元；兖矿能源 2023 年每股普通 3.07 元加特别 1.23 元，合计 4.30 元，并送股 0.5 股。数值均为税前研究口径。汇总接口漏掉特别股息时不能按普通股息回测，也不能用价格反推金额。
+
+新事件状态 `matched_reviewed_notice` 与普通来源匹配分开统计，事件文件保留来源 URL／哈希／页码、普通及特别股息，审阅配置也封存并计算哈希。对账覆盖表新增内容哈希。官方原 PDF、文本和核对渲染页仅保存在本地 `artifacts/official_payment_notices_20261015`，需随下一次私有快照备份。实际本轮支持范围内事件缺口 25→22；同一旧行情片段的价格差异 586→585，不能把该旧片段当成已经完成的全市场回测。
