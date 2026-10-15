@@ -131,5 +131,39 @@
     "default_validation_unchanged": true,
     "cash_and_wealth_not_rounded": true,
     "larger_differences_still_rejected": true
-  }
+  },
+  "same_issuer_code_change_audit": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 3323,
+    "rows": 3130445,
+    "symbols": 4378,
+    "affected_symbols": 4378,
+    "issue_counts": {
+      "missing_sessions_or_terminal_valuation": 2843908,
+      "unreconciled_adjustment": 587
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation",
+    "inactive_code_rows_quarantined": 717,
+    "code_changes_applied": [
+      {
+        "old_symbol": "sz.000022",
+        "new_symbol": "sz.001872",
+        "announcement_date": "2018-12-21",
+        "effective_date": "2018-12-26",
+        "share_ratio": 1,
+        "source_url": "https://static.cninfo.com.cn/finalpage/2018-12-21/1205681867.PDF"
+      },
+      {
+        "old_symbol": "sz.000043",
+        "new_symbol": "sz.001914",
+        "announcement_date": "2019-12-06",
+        "effective_date": "2019-12-16",
+        "share_ratio": 1,
+        "source_url": "https://static.cninfo.com.cn/finalpage/2019-12-06/1207141416.PDF"
+      }
+    ]
+  },
+  "same_issuer_code_change_tests": 5,
+  "identity_integration_limit": "Audited quote/event identity adapter; financial panel, trading-symbol output and holdings integration remain pending"
 }
