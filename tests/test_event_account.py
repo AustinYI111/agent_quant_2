@@ -48,7 +48,7 @@ def test_full_event_run_seals_inputs_and_records_model_return_contract(tmp_path)
     raw=pd.DataFrame(dict(date=p.date,symbol=p.symbol,open=p.total_return_open,close=p.total_return_open,tradestatus="1"))
     raw["preclose"]=raw.groupby("symbol").close.shift().fillna(raw.close)
     actions=pd.DataFrame(columns=["symbol","ex_date","available_date","pay_date","cash_per_share","share_multiplier"])
-    summary=run(data,tmp_path/'run',Config(n_estimators=2,min_train_groups=2,train_horizon=3),raw_prices=raw,corporate_actions=actions)
+    summary=run(data,tmp_path/'run',Config(n_estimators=2,min_train_groups=2,train_horizon=3),raw_prices=raw,corporate_actions=actions,reference_tick_size=.01)
     assert summary["monthly_predictions"]>0
     assert summary["account_nav_basis"]=="raw_share_account_gross_dividends"
     assert summary["label_return_basis"]=="gross_new_entry_entitlements"
@@ -57,3 +57,4 @@ def test_full_event_run_seals_inputs_and_records_model_return_contract(tmp_path)
     manifest=json.loads(next((tmp_path/'run/models').glob('*.json')).read_text(encoding='utf-8'))
     assert manifest["account_nav_basis"]==summary["account_nav_basis"]
     assert manifest["label_return_basis"]==summary["label_return_basis"]
+    assert manifest["price_reconciliation"]["reference_tick_size"]==.01

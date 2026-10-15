@@ -138,6 +138,7 @@ def main():
     backtest.add_argument("--corporate-actions", help="dated cash/share event CSV; requires --raw-prices")
     backtest.add_argument("--horizon", type=int, choices=[3, 6, 12], default=6)
     backtest.add_argument("--oneil", action="store_true")
+    backtest.add_argument("--reference-tick-size",type=float,help="explicit reference-quote precision, e.g. 0.01; requires event inputs")
     backtest.add_argument("--top-k", type=int, default=20)
     backtest.add_argument("--train-months", type=int, default=60)
     backtest.add_argument("--min-train-groups", type=int, default=12)
@@ -279,7 +280,7 @@ def main():
         import pandas as pd
         raw = pd.read_csv(args.raw_prices, dtype={"symbol":str,"tradestatus":str}) if args.raw_prices else None
         actions = pd.read_csv(args.corporate_actions, dtype={"symbol":str}) if args.corporate_actions else None
-        print(json.dumps(run(load(args.data), args.out, config, args.asof, raw_prices=raw, corporate_actions=actions), ensure_ascii=False, indent=2))
+        print(json.dumps(run(load(args.data), args.out, config, args.asof, raw_prices=raw, corporate_actions=actions, reference_tick_size=args.reference_tick_size), ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

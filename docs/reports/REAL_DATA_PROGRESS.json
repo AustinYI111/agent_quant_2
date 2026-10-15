@@ -111,5 +111,25 @@
     "real_sessions_saved_after_resume": 836,
     "previous_saved_sessions": 832,
     "full_acquisition_complete": false
+  },
+  "explicit_reference_precision_audit": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 3323,
+    "rows": 3131162,
+    "symbols": 4380,
+    "affected_symbols": 4380,
+    "issue_counts": {
+      "missing_sessions_or_terminal_valuation": 2846149,
+      "nonpositive_or_invalid_valuation": 2,
+      "unreconciled_adjustment": 590
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+  },
+  "reference_precision_checks": {
+    "initial_related_tests_passed": 25,
+    "default_validation_unchanged": true,
+    "cash_and_wealth_not_rounded": true,
+    "larger_differences_still_rejected": true
   }
 }

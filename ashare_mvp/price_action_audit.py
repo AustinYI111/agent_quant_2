@@ -1,9 +1,11 @@
 """Vectorized raw-price discontinuity audit; never removes failed securities."""
 import numpy as np
 import pandas as pd
+from .price_reference import reference_matches, validate_reference_tick
 
 
-def audit_price_actions(prices, actions, calendar):
+def audit_price_actions(prices, actions, calendar, reference_tick_size=None):
+    validate_reference_tick(reference_tick_size)
     p=prices.copy(); a=actions.copy(); cal=pd.DatetimeIndex(calendar)
     if cal.empty or cal.hasnans or cal.has_duplicates or not cal.is_monotonic_increasing:
         raise ValueError("ordered unique audit calendar required")
@@ -36,10 +38,18 @@ def audit_price_actions(prices, actions, calendar):
     adjacent=(cal.get_indexer(p.date)-cal.get_indexer(p.previous_date))==1
     adjacent &= p.previous_date.notna()
     mismatch=adjacent & p.previous_close.notna() & ~np.isclose(p.preclose,p.expected_preclose,rtol=1e-5,atol=1e-4) & ~invalid
+    rounding_matches=0
+    if reference_tick_size is not None:
+        mismatch=adjacent & p.previous_close.notna() & ~np.isclose(p.preclose,p.expected_preclose,rtol=0,atol=1e-8) & ~invalid
+        for row in p.loc[mismatch].itertuples():
+            if reference_matches(row.preclose,row.previous_close,0.0 if pd.isna(row.reference_cash_per_share) else row.reference_cash_per_share,
+                                 1.0 if pd.isna(row.share_multiplier) else row.share_multiplier,reference_tick_size):
+                mismatch.at[row.Index]=False
+                rounding_matches+=1
     for issue,mask in [("nonpositive_or_invalid_valuation",invalid),("unreconciled_adjustment",mismatch)]:
         for row in p.loc[mask].itertuples(index=False):
             issues.append(dict(symbol=row.symbol,date=row.date,issue=issue,count=1,observed_preclose=row.preclose,expected_preclose=row.expected_preclose))
     result=pd.DataFrame(issues,columns=["symbol","date","issue","count","observed_preclose","expected_preclose"])
-    return result,dict(rows=len(p),symbols=int(p.symbol.nunique()),affected_symbols=int(result.symbol.nunique()),
+    return result,dict(reference_tick_size=reference_tick_size,rounded_reference_matches=rounding_matches,rows=len(p),symbols=int(p.symbol.nunique()),affected_symbols=int(result.symbol.nunique()),
                        issue_counts=result.groupby("issue")["count"].sum().astype(int).to_dict(),model_ready=False,
                        limitation="Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation")

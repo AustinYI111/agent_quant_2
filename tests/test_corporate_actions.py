@@ -139,3 +139,13 @@ def test_entry_labels_months_unmatured_and_blocked():
     prices.loc[1,"tradestatus"]="0"
     blocked=entry_forward_labels(prices,actions,dates,[dates[0]])
     assert blocked.target.isna().all() and blocked.iloc[0].status=="blocked_entry"
+
+
+def test_explicit_reference_quote_rounding_is_not_wealth_rounding():
+    p,a,dates=inputs()
+    a["cash_per_share"]=.335
+    p.loc[1:,["open","close","preclose"]]=9.67
+    with pytest.raises(ValueError,match="unreconciled"): economic_return_prices(p,a,dates)
+    result=economic_return_prices(p,a,dates,reference_tick_size=.01)
+    assert result.total_return_open.iloc[1]==pytest.approx(10.005)
+    assert result.dividend_receivable.iloc[1]==pytest.approx(.335)

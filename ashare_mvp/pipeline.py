@@ -32,7 +32,7 @@ def forward_labels(data, dates, horizons=(3, 6, 12)):
     return pd.DataFrame(rows, columns=["date", "symbol", "horizon", "entry_date", "label_end", "target"])
 
 
-def build_samples(data, config, dates=None, library=None, raw_prices=None, corporate_actions=None):
+def build_samples(data, config, dates=None, library=None, raw_prices=None, corporate_actions=None, reference_tick_size=None):
     library = library or default_library()
     dates = month_ends(data.calendar) if dates is None else pd.DatetimeIndex(dates)
     panel = technical_panel(data)
@@ -51,13 +51,15 @@ def build_samples(data, config, dates=None, library=None, raw_prices=None, corpo
     features = [n for n, factor in library.factors.items() if config.oneil or factor.family != "oneil"]
     if (raw_prices is None) != (corporate_actions is None):
         raise ValueError("raw prices and corporate actions must be supplied together")
+    if reference_tick_size is not None and raw_prices is None:
+        raise ValueError("reference tick requires raw prices and corporate actions")
     if raw_prices is None:
         labels = forward_labels(data, dates)
     else:
         from .corporate_actions import entry_forward_labels
         if set(raw_prices.symbol) != set(data.prices.symbol):
             raise ValueError("event-label security universe differs from feature universe")
-        labels = entry_forward_labels(raw_prices, corporate_actions, data.calendar, dates)
+        labels = entry_forward_labels(raw_prices, corporate_actions, data.calendar, dates, reference_tick_size=reference_tick_size)
     training_labels = labels[labels.horizon == config.train_horizon].drop(columns="horizon")
     return samples.merge(training_labels, on=["date", "symbol"], how="left", validate="one_to_one"), labels, features
 
@@ -132,7 +134,7 @@ def cohort_performance(picks, labels, samples, data, config):
                                        "universe_return", "excess_return"])
 
 
-def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=None):
+def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=None, reference_tick_size=None):
     """Fractional adjusted shares: economic research NAV, with blocked orders.
 
     Uses contemporaneous execution flags only; blocked sales remain held,
@@ -149,6 +151,8 @@ def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=Non
         return pd.DataFrame(), pd.DataFrame()
     if (raw_prices is None) != (corporate_actions is None):
         raise ValueError("raw prices and corporate actions must be supplied together")
+    if reference_tick_size is not None and raw_prices is None:
+        raise ValueError("reference tick requires raw prices and corporate actions")
     event_mode = raw_prices is not None
     receivables, events, raw_quotes = [], {}, None
     if event_mode:
@@ -156,7 +160,7 @@ def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=Non
         if set(raw_prices.symbol) != set(data.prices.symbol):
             raise ValueError("event account universe differs from feature universe")
         # Validate complete quotes, event clocks and price discontinuities first.
-        economic_return_prices(raw_prices, corporate_actions, data.calendar)
+        economic_return_prices(raw_prices, corporate_actions, data.calendar, reference_tick_size)
         raw_quotes = raw_prices.copy()
         raw_quotes["date"] = pd.to_datetime(raw_quotes.date)
         for field in ["open", "preclose"]:
@@ -266,7 +270,7 @@ def _finite_mean(series):
     return float(value) if pd.notna(value) and np.isfinite(value) else None
 
 
-def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, corporate_actions=None):
+def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, corporate_actions=None, reference_tick_size=None):
     data = validate(data)
     path = Path(out)
     if path.exists() and any(path.iterdir()):
@@ -282,6 +286,8 @@ def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, co
                       data.calendar[data.calendar <= asof], data.metadata)
     if (raw_prices is None) != (corporate_actions is None):
         raise ValueError("raw prices and corporate actions must be supplied together")
+    if reference_tick_size is not None and raw_prices is None:
+        raise ValueError("reference tick requires raw prices and corporate actions")
     if raw_prices is not None:
         from .corporate_actions import economic_return_prices
         raw_prices = raw_prices.copy()
@@ -293,15 +299,15 @@ def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, co
         keys = ["date", "symbol"]
         if not raw_prices[keys].sort_values(keys).reset_index(drop=True).equals(data.prices[keys].sort_values(keys).reset_index(drop=True)):
             raise ValueError("event raw quote keys differ from feature quote keys")
-        economic_return_prices(raw_prices, corporate_actions, data.calendar)
+        economic_return_prices(raw_prices, corporate_actions, data.calendar, reference_tick_size)
     dates = completed_months.union(pd.DatetimeIndex([asof]))
     path.mkdir(parents=True, exist_ok=True)
-    samples, labels, features = build_samples(data, config, dates, library, raw_prices, corporate_actions)
+    samples, labels, features = build_samples(data, config, dates, library, raw_prices, corporate_actions, reference_tick_size)
     picks, audit, importance = rolling_rank(samples, features, data.calendar, config, path / "models")
     # The arbitrary asof score is published separately; rebalance only month ends.
     monthly = picks[picks.date.isin(completed_months)]
     cohort = cohort_performance(monthly, labels, samples, data, config)
-    nav, trades = simulate_monthly(data, monthly, config, raw_prices, corporate_actions)
+    nav, trades = simulate_monthly(data, monthly, config, raw_prices, corporate_actions, reference_tick_size)
     for name, frame in [("monthly_top20", monthly), ("latest_top20", picks[picks.date == asof]),
                         ("training_audit", audit), ("cohort_performance", cohort),
                         ("daily_nav", nav), ("orders", trades), ("factor_importance", importance)]:
@@ -322,6 +328,7 @@ def run(data, out, config=Config(), asof=None, library=None, raw_prices=None, co
     for name, frame in [("prices", data.prices), ("fundamentals", data.fundamentals)]:
         hashes[name] = hashlib.sha256(frame.to_csv(index=False).encode()).hexdigest()
     hashes["calendar"] = hashlib.sha256(str(list(data.calendar)).encode()).hexdigest()
+    summary["price_reconciliation"] = {"reference_tick_size":reference_tick_size,"rounding":"half_up when explicitly configured; exact arithmetic also accepted"}
     summary["label_return_basis"] = "gross_new_entry_entitlements" if raw_prices is not None else "total_return_index_ratio"
     summary["account_nav_basis"] = "raw_share_account_gross_dividends" if raw_prices is not None else "fractional_adjusted_shares"
     if raw_prices is not None:

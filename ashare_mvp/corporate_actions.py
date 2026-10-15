@@ -8,9 +8,11 @@ import pandas as pd
 from pathlib import Path
 import hashlib
 import json
+from .price_reference import reference_matches, validate_reference_tick
 
 
-def economic_return_prices(prices, actions, calendar):
+def economic_return_prices(prices, actions, calendar, reference_tick_size=None):
+    validate_reference_tick(reference_tick_size)
     required = {"date", "symbol", "open", "close", "preclose", "tradestatus"}
     fields = {"symbol", "ex_date", "available_date", "pay_date", "cash_per_share", "share_multiplier"}
     if not required.issubset(prices) or not fields.issubset(actions):
@@ -71,7 +73,9 @@ def economic_return_prices(prices, actions, calendar):
                 expected_preclose = previous_close
                 if event is not None:
                     expected_preclose = (previous_close - event.reference_cash_per_share) / event.share_multiplier
-                if not np.isclose(row.preclose, expected_preclose, rtol=1e-5, atol=1e-4):
+                if not reference_matches(row.preclose, previous_close,
+                        event.reference_cash_per_share if event is not None else 0.0,
+                        event.share_multiplier if event is not None else 1.0, reference_tick_size):
                     raise ValueError(f"{symbol} {row.date.date()}: unreconciled price adjustment/corporate action")
             if event is not None:
                 entitlement = shares * event.cash_per_share
@@ -137,7 +141,7 @@ def reconcile_price_files(prices_path, actions_path, calendar_path, out):
     return summary
 
 
-def entry_return_path(prices, actions, calendar, symbol, entry, end):
+def entry_return_path(prices, actions, calendar, symbol, entry, end, reference_tick_size=None):
     """Gross wealth for a new open buyer, excluding pre-entry entitlements.
 
     A seasoned entitlement index cannot be divided to obtain this return:
@@ -153,14 +157,14 @@ def entry_return_path(prices, actions, calendar, symbol, entry, end):
     first = selected.loc[pd.to_datetime(selected.date) == entry]
     if len(first) != 1 or str(first.iloc[0].tradestatus) != "1" or first.iloc[0].open <= 0:
         raise ValueError("entry requires an executable raw open")
-    path = economic_return_prices(selected, actions.loc[actions.symbol == symbol], cal[(cal >= entry) & (cal <= end)])
+    path = economic_return_prices(selected, actions.loc[actions.symbol == symbol], cal[(cal >= entry) & (cal <= end)], reference_tick_size)
     path["holding_return"] = path.total_return_open / float(first.iloc[0].open) - 1
     path["entry_date"] = entry
     path["executable_exit"] = path.tradestatus.astype(str).eq("1") & path.raw_open.gt(0)
     return path
 
 
-def entry_forward_labels(prices, actions, calendar, signal_dates, horizons=(3, 6, 12)):
+def entry_forward_labels(prices, actions, calendar, signal_dates, horizons=(3, 6, 12), reference_tick_size=None):
     """Gross next-open outcomes; future labels, not historical features."""
     cal=pd.DatetimeIndex(calendar)
     signals=pd.DatetimeIndex(signal_dates)
@@ -182,7 +186,7 @@ def entry_forward_labels(prices, actions, calendar, signal_dates, horizons=(3, 6
             first=bars.loc[pd.to_datetime(bars.date)==entry]
             executable=len(first)==1 and str(first.iloc[0].tradestatus)=="1" and first.iloc[0].open>0
             mature=[d for d in ends.values() if pd.notna(d)]
-            path=entry_return_path(bars,events.get(symbol,actions.iloc[:0]),cal,symbol,entry,max(mature)).set_index("date") if executable and mature else None
+            path=entry_return_path(bars,events.get(symbol,actions.iloc[:0]),cal,symbol,entry,max(mature),reference_tick_size).set_index("date") if executable and mature else None
             for h,end in ends.items():
                 outcome=path.loc[end] if path is not None and pd.notna(end) else None
                 rows.append(dict(date=date,symbol=symbol,horizon=h,entry_date=entry,label_end=end,target=float(outcome.holding_return) if outcome is not None else np.nan,
