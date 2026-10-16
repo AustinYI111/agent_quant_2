@@ -159,11 +159,12 @@ def test_unknown_security_execution_explicitly_outside_calendar_is_separate(tmp_
     assert prepare(tmp_path,paths)['status']=='prepared_exploratory'
 
 
+@pytest.mark.parametrize('source',['event','financial'])
 @pytest.mark.parametrize('mode',['missing','different','tampered','matching'])
-def test_event_identity_policy_is_verified_and_matches_feature_policy(tmp_path,mode):
+def test_event_identity_policy_is_verified_and_matches_feature_policy(tmp_path,mode,source):
     from test_dividend_identity import changes
     from ashare_mvp.security_identity import code_change_payload
-    paths,_=fixture(tmp_path);events=paths[3];c=changes()
+    paths,_=fixture(tmp_path);events=paths[3] if source=='event' else paths[1];c=changes()
     raw=code_change_payload(c).encode();(events/'input_code_changes.json').write_bytes(raw)
     p=events/'summary.json';m=json.loads(p.read_text());m['code_changes_sha256']=hashlib.sha256(raw).hexdigest();p.write_text(json.dumps(m))
     if mode=='missing':c=None
@@ -174,8 +175,8 @@ def test_event_identity_policy_is_verified_and_matches_feature_policy(tmp_path,m
         c['announcement_date']=pd.to_datetime(c.announcement_date);c['effective_date']=pd.to_datetime(c.effective_date);c['share_ratio']=1.
     if mode=='matching':
         assert prepare(tmp_path,paths,code_changes=c)['status']=='prepared_exploratory'
-        assert (tmp_path/'audit/input_event_code_changes.json').read_bytes()==raw
+        assert (tmp_path/('audit/input_'+source+'_code_changes.json')).read_bytes()==raw
     else:
-        with pytest.raises(ValueError,match='event code-change'):
+        with pytest.raises(ValueError,match=source+' code-change'):
             prepare(tmp_path,paths,code_changes=c)
         assert not (tmp_path/'dataset').exists()

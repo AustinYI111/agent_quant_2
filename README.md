@@ -134,3 +134,12 @@ python -m ashare_mvp.cli reconcile-dividends --market artifacts/market_dividend_
 
 
 分红对账现支持 `--code-changes config/same_issuer_code_changes.json`。供应商最新代码与官方历史代码分别保留，数据准备要求事件与特征使用同一封存身份策略；新旧代码重复事件拒绝。当前包含 300114→302132 的正式变更证据。最新实测、字段含义与仍待修复的财务依赖连接见[历史证券代码与分红连接](docs/reports/EVENT_IDENTITY_20261016.md)。
+
+
+财务依赖连接也可使用 `--code-changes config/same_issuer_code_changes.json`：先统一同一发行人，再按报告期和可见日期连接。完全一致的跨别名版本显式合并并保存全来源审计，字段冲突或同代码重复仍拒绝。真实相同输入已恢复 23 条负债率，完整 277 项测试通过；见[财务身份连接实测](docs/reports/FINANCIAL_IDENTITY_20261016.md)。
+
+```powershell
+python -m ashare_mvp.cli combine-financials --earnings artifacts/financial_panel_complete --balances artifacts/balance_normalized_progress5 --code-changes config/same_issuer_code_changes.json --out artifacts/financial_dependencies_identity1
+```
+
+以上目录是已完成本地实测的版本名，复用时采用新的空输出目录。准备训练数据时，财务、分红与特征须使用同一封存身份策略；新版本不自动替代旧快照。

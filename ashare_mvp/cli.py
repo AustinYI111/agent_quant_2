@@ -78,6 +78,7 @@ def main():
     dependencies.add_argument("--earnings", required=True)
     dependencies.add_argument("--balances", required=True)
     dependencies.add_argument("--out", required=True)
+    dependencies.add_argument("--code-changes")
     balance_panel = sub.add_parser("normalize-balances", help="verify issuer batches and publish dated balance ratios")
     balance_panel.add_argument("--data", required=True)
     balance_panel.add_argument("--calendar", required=True)
@@ -231,7 +232,9 @@ def main():
             raise SystemExit(1)
     elif args.command == "combine-financials":
         from .financial_dependencies import combine_financial_files
-        result = combine_financial_files(args.earnings, args.balances, args.out)
+        import pandas as pd
+        changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
+        result = combine_financial_files(args.earnings, args.balances, args.out, changes)
         print(json.dumps({k:v for k,v in result.items() if k != "sources"}, ensure_ascii=False, indent=2))
     elif args.command == "normalize-balances":
         from .balance_sheet import normalize_balance_download
