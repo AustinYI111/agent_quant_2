@@ -12,14 +12,23 @@ def reviewed_distribution_lookup(evidence, raw, calendar):
     e=evidence.copy();cal=pd.DatetimeIndex(calendar)
     if not e.reviewed.eq(True).all():raise ValueError('unreviewed distribution notice rejected')
     if e.symbol.isna().any() or not e.symbol.map(is_ashare).all():raise ValueError('supported reviewed security required')
-    for field in ['source_period','ex_date','announcement_date','available_date','pay_date']:
+    for field in ['source_period','ex_date','announcement_date','available_date']:
         e[field]=pd.to_datetime(e[field])
         if e[field].isna().any() or e[field].dt.tz is not None or not e[field].eq(e[field].dt.normalize()).all():raise ValueError('normalized reviewed event dates required')
+    e['pay_date']=pd.to_datetime(e.pay_date)
+    known_pay=e.pay_date.dropna()
+    if known_pay.dt.tz is not None or not known_pay.eq(known_pay.dt.normalize()).all():raise ValueError('normalized reviewed event dates required')
     if e.duplicated(['symbol','source_period']).any() or e.duplicated(['symbol','ex_date']).any():raise ValueError('ambiguous reviewed distribution keys')
     if e.source_period.ge(e.ex_date).any() or e.pay_date.lt(e.ex_date).any() or not e.ex_date.isin(cal).all() or not e.available_date.isin(cal).all():raise ValueError('reviewed event dates outside execution scope')
-    for field in ['cash_per_share','share_multiplier','expected_provider_cash_per_share','expected_provider_share_multiplier']:
+    for field in ['cash_per_share','share_multiplier','expected_provider_share_multiplier']:
         e[field]=pd.to_numeric(e[field],errors='raise')
         if not np.isfinite(e[field]).all() or e[field].lt(0).any():raise ValueError('invalid reviewed event amount')
+    e['expected_provider_cash_per_share']=pd.to_numeric(e.expected_provider_cash_per_share,errors='raise')
+    known_cash=e.expected_provider_cash_per_share.dropna()
+    if not np.isfinite(known_cash).all() or known_cash.lt(0).any():raise ValueError('invalid reviewed event amount')
+    missing_cash=e.expected_provider_cash_per_share.isna()
+    if (missing_cash & (e.cash_per_share.ne(0) | e.share_multiplier.le(1))).any():raise ValueError('absent provider cash anchor requires a reviewed cash-free share distribution')
+    if (e.cash_per_share.gt(0)&e.pay_date.isna()).any():raise ValueError('cash dividend requires a payment date')
     if e.share_multiplier.le(0).any() or e.expected_provider_share_multiplier.le(0).any():raise ValueError('positive reviewed share multiplier required')
     if not e.source_url.astype(str).str.startswith('https://').all() or not e.source_sha256.astype(str).str.fullmatch(r'[0-9a-f]{64}').all():raise ValueError('reviewed notice URL and hash required')
     pages=pd.to_numeric(e.source_page,errors='raise')
@@ -59,7 +68,8 @@ def reviewed_distribution_lookup(evidence, raw, calendar):
         if item.ASSIGN_PROGRESS!='实施分配' or pd.Timestamp(item.EX_DIVIDEND_DATE)!=row.ex_date:raise ValueError('reviewed event differs from implemented provider date')
         cash=float(item.PRETAX_BONUS_RMB)/10
         shares=1+sum(0 if pd.isna(item[field]) else float(item[field])/10 for field in ['BONUS_RATIO','IT_RATIO'])
-        if not np.isclose(cash,row.expected_provider_cash_per_share,rtol=0,atol=1e-8) or not np.isclose(shares,row.expected_provider_share_multiplier,rtol=0,atol=1e-8) or str(item.IMPL_PLAN_PROFILE)!=row.expected_provider_description:
+        cash_anchor_matches=(pd.isna(cash) and pd.isna(row.expected_provider_cash_per_share)) or np.isclose(cash,row.expected_provider_cash_per_share,rtol=0,atol=1e-8)
+        if not cash_anchor_matches or not np.isclose(shares,row.expected_provider_share_multiplier,rtol=0,atol=1e-8) or str(item.IMPL_PLAN_PROFILE)!=row.expected_provider_description:
             raise ValueError('reviewed evidence no longer matches original provider terms')
         lookup[(security,row.source_period)]=row
     return lookup
@@ -73,5 +83,5 @@ def check_reviewed_independent_payment(notice, prior):
         if not np.isclose(prior.cash_per_share,notice.expected_independent_cash_per_share,rtol=0,atol=1e-8) or not np.isclose(prior.share_multiplier,notice.expected_independent_share_multiplier,rtol=0,atol=1e-8) or prior.pay_date!=notice.expected_independent_pay_date:
             raise ValueError('reviewed independent payment anchor changed')
     elif prior is not None:
-        if not np.isclose(prior.cash_per_share,notice.cash_per_share,rtol=0,atol=1e-8) or not np.isclose(prior.share_multiplier,notice.share_multiplier,rtol=0,atol=1e-8) or prior.pay_date!=notice.pay_date:
+        if not np.isclose(prior.cash_per_share,notice.cash_per_share,rtol=0,atol=1e-8) or not np.isclose(prior.share_multiplier,notice.share_multiplier,rtol=0,atol=1e-8) or (notice.cash_per_share>0 and prior.pay_date!=notice.pay_date):
             raise ValueError('reviewed notice conflicts with independent payment history')

@@ -149,3 +149,18 @@ def test_explicit_reference_quote_rounding_is_not_wealth_rounding():
     result=economic_return_prices(p,a,dates,reference_tick_size=.01)
     assert result.total_return_open.iloc[1]==pytest.approx(10.005)
     assert result.dividend_receivable.iloc[1]==pytest.approx(.335)
+
+
+def test_stock_only_event_without_cash_payment_date_preserves_wealth():
+    p,a,dates=inputs();p.loc[1:,['open','close','preclose']]=5.
+    a['cash_per_share']=0.;a['share_multiplier']=2.;a['pay_date']=pd.NaT
+    result=economic_return_prices(p,a,dates)
+    assert result.total_return_open.tolist()==[10.]*4
+    assert result.dividend_receivable.eq(0).all() and result.dividend_cash.eq(0).all()
+    assert result.economic_shares.tolist()==[1.,2.,2.,2.]
+
+
+def test_cash_event_without_payment_date_is_rejected():
+    p,a,dates=inputs();a['pay_date']=pd.NaT
+    with pytest.raises(ValueError,match='invalid payment date'):
+        economic_return_prices(p,a,dates)

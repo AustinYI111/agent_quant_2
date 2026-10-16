@@ -28,7 +28,7 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
                           parse_dates=["ex_date", "available_date", "pay_date", "announcement_date"])
     if actions.duplicated(["symbol", "ex_date"]).any():
         raise ValueError("ambiguous payment events")
-    if actions[["symbol", "ex_date", "available_date", "pay_date", "announcement_date"]].isna().any().any():
+    if actions[["symbol", "ex_date", "available_date", "announcement_date"]].isna().any().any() or (pd.to_numeric(actions.cash_per_share, errors="raise").gt(0) & actions.pay_date.isna()).any():
         raise ValueError("missing payment event clock/security")
     lookup = actions.set_index(["symbol", "ex_date"])
     calendar_bytes = Path(calendar_path).read_bytes()
@@ -80,7 +80,7 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
                           status="matched_reviewed_notice",reason="exact raw provider terms reviewed against official implementation notice")
             matched.append(dict(symbol=notice.symbol,ex_date=notice.ex_date,available_date=notice.available_date,pay_date=notice.pay_date,
                                 cash_per_share=notice.cash_per_share,share_multiplier=notice.share_multiplier,
-                                stock_market_date=getattr(notice,"stock_market_date",None),source_period=row.source_period,event_vintage_certified=False,
+                                stock_market_date=getattr(notice,"stock_market_date",None),share_credit_date=getattr(notice,"share_credit_date",None),source_period=row.source_period,event_vintage_certified=False,
                                 source_notice_url=notice.source_url,source_notice_sha256=notice.source_sha256,source_notice_page=notice.source_page,
                                 ordinary_cash_per_share=getattr(notice,"ordinary_cash_per_share",None),special_cash_per_share=getattr(notice,"special_cash_per_share",None),
                                 reviewed_payout_scope=getattr(notice,"payout_scope",None),
@@ -121,6 +121,7 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
                     record.update(status="matched_payment_evidence", reason="terms/ex-date agree; original vintages remain unverified")
                     matched.append(dict(symbol=symbol, ex_date=ex_date, available_date=max(cal[position], payment.available_date),
                                         pay_date=payment.pay_date, cash_per_share=record["cash_per_share"],
+                                        share_credit_date=payment.get("share_credit_date", ""),
                                         share_multiplier=record["share_multiplier"], stock_market_date=payment.get("stock_market_date", ""),
                                         source_period=row.source_period, event_vintage_certified=False))
             except (ValueError, TypeError, KeyError) as exc:
@@ -128,7 +129,7 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
         classified.append(record)
     result = pd.DataFrame(classified)
     output = pd.DataFrame(matched, columns=["symbol", "ex_date", "available_date", "pay_date", "cash_per_share",
-                                           "share_multiplier", "stock_market_date", "source_period", "event_vintage_certified",
+                                           "share_multiplier", "stock_market_date", "share_credit_date", "source_period", "event_vintage_certified",
                                            "source_notice_url","source_notice_sha256","source_notice_page","ordinary_cash_per_share","special_cash_per_share","reviewed_payout_scope","independent_provider_cash_before_review"])
     if output.duplicated(["symbol", "ex_date"]).any():
         raise ValueError("multiple implemented report periods map to one payment event")

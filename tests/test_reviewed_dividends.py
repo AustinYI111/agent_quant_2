@@ -107,3 +107,61 @@ def test_half_known_cash_component_pair_is_not_silently_filled(tmp_path):
     with pytest.raises(ValueError,match='both be provided or both absent'):
         reconcile_dividend_sources(*args,reviewed_events=e)
     assert not args[3].exists()
+
+
+def stock_only_inputs(tmp_path, independent=False):
+    args=inputs(tmp_path);file=args[0]/'2017Q4/records.csv'
+    raw=pd.read_csv(file);mask=raw.SECUCODE.eq('600001.SH')
+    raw.loc[mask,['PRETAX_BONUS_RMB','IT_RATIO','IMPL_PLAN_PROFILE']]=[float('nan'),8.,'10转8股不派现金']
+    raw.to_csv(file,index=False)
+    manifest_path=args[0]/'manifest.json';manifest=json.loads(manifest_path.read_text())
+    manifest['periods']['2017-12-31']['hashes']['records.csv']=hashlib.sha256(file.read_bytes()).hexdigest()
+    manifest_path.write_text(json.dumps(manifest))
+    e=evidence(cash=0.)
+    e[['ordinary_cash_per_share','special_cash_per_share']]=0.
+    e['expected_provider_cash_per_share']=float('nan');e['share_multiplier']=1.8;e['expected_provider_share_multiplier']=1.8
+    e['expected_provider_description']='10转8股不派现金';e['pay_date']=None
+    e['share_credit_date']='2018-07-12';e['stock_market_date']='2018-07-13'
+    if independent:
+        file=args[1]/'actions.csv';a=pd.read_csv(file)
+        row=a.iloc[0].copy();row['symbol']='sh.600001';row['cash_per_share']=0.;row['share_multiplier']=1.8
+        # Older normalized stock-only inputs used ex-date as a placeholder.
+        row['pay_date']='2018-07-13'
+        pd.concat([a,pd.DataFrame([row])],ignore_index=True).to_csv(file,index=False)
+        summary=args[1]/'summary.json';summary.write_text(json.dumps({'actions_sha256':hashlib.sha256(file.read_bytes()).hexdigest()}))
+    return args,e
+
+
+@pytest.mark.parametrize('independent',[False,True])
+def test_stock_only_review_has_no_cash_payment_date_and_keeps_share_dates(tmp_path,independent):
+    args,e=stock_only_inputs(tmp_path,independent)
+    result=reconcile_dividend_sources(*args,reviewed_events=e)
+    a=pd.read_csv(args[3]/'actions.csv').set_index('symbol').loc['sh.600001']
+    assert result['reviewed_notice_events']==1 and a.cash_per_share==0 and a.share_multiplier==1.8
+    assert pd.isna(a.pay_date) and a.share_credit_date=='2018-07-12' and a.stock_market_date=='2018-07-13'
+
+
+def test_positive_cash_notice_still_requires_actual_payment_date(tmp_path):
+    args=inputs(tmp_path);e=evidence();e['pay_date']=None
+    with pytest.raises(ValueError,match='cash dividend requires a payment date'):
+        reconcile_dividend_sources(*args,reviewed_events=e)
+    assert not args[3].exists()
+
+
+def test_missing_provider_cash_anchor_does_not_match_a_later_numeric_value(tmp_path):
+    args,e=stock_only_inputs(tmp_path)
+    file=args[0]/'2017Q4/records.csv';raw=pd.read_csv(file)
+    raw.loc[raw.SECUCODE.eq('600001.SH'),'PRETAX_BONUS_RMB']=0.
+    raw.to_csv(file,index=False)
+    path=args[0]/'manifest.json';m=json.loads(path.read_text())
+    m['periods']['2017-12-31']['hashes']['records.csv']=hashlib.sha256(file.read_bytes()).hexdigest()
+    path.write_text(json.dumps(m))
+    with pytest.raises(ValueError,match='original provider terms'):
+        reconcile_dividend_sources(*args,reviewed_events=e)
+    assert not args[3].exists()
+
+
+def test_missing_provider_cash_anchor_cannot_justify_a_cash_payout(tmp_path):
+    args=inputs(tmp_path);e=evidence();e['expected_provider_cash_per_share']=float('nan')
+    with pytest.raises(ValueError,match='absent provider cash anchor'):
+        reconcile_dividend_sources(*args,reviewed_events=e)

@@ -69,3 +69,15 @@ def test_full_event_run_seals_inputs_and_records_model_return_contract(tmp_path)
     assert manifest["account_nav_basis"]==summary["account_nav_basis"]
     assert manifest["label_return_basis"]==summary["label_return_basis"]
     assert manifest["price_reconciliation"]["reference_tick_size"]==.01
+
+
+@pytest.mark.parametrize('signal_index',[0,1])
+def test_stock_only_account_without_payment_date_for_old_and_new_buyers(signal_index):
+    data,raw,actions,dates=inputs()
+    raw.loc[raw.date>=dates[2],['open','close','preclose']]=5.
+    actions['cash_per_share']=0.;actions['share_multiplier']=2.;actions['pay_date']=pd.NaT
+    picks=pd.DataFrame(dict(date=[dates[signal_index],dates[3]],symbol='sh.600000',target_weight=[1.,0.]))
+    nav,trades=simulate_monthly(data,picks,Config(commission_bps=0,slippage_bps=0,sell_tax_bps=0),raw,actions)
+    assert nav.nav.tolist()==pytest.approx([1.]*len(nav))
+    assert nav.dividend_receivable.eq(0).all() and nav.iloc[-1].positions==0
+    assert nav.iloc[-1].cash==pytest.approx(1.)

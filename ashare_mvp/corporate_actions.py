@@ -48,7 +48,7 @@ def economic_return_prices(prices, actions, calendar, reference_tick_size=None):
             raise ValueError("invalid reference-price dividend")
     else:
         a["reference_cash_per_share"] = a.cash_per_share
-    if a[["ex_date", "available_date", "pay_date"]].isna().any().any() or (a.available_date > a.ex_date).any() or (a.pay_date < a.ex_date).any():
+    if a[["ex_date", "available_date"]].isna().any().any() or (a.cash_per_share.gt(0) & a.pay_date.isna()).any() or (a.available_date > a.ex_date).any() or (a.pay_date < a.ex_date).any():
         raise ValueError("action not known at ex-date or invalid payment date")
     within_interval = a.ex_date.between(cal.min(), cal.max())
     if not p.date.isin(cal).all() or not a.loc[within_interval, "ex_date"].isin(cal).all() or not p.tradestatus.astype(str).isin(["0", "1"]).all():
