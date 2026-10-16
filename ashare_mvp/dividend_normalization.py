@@ -32,6 +32,36 @@ def _terms(row):
     return values
 
 
+def _distribution_versions(frame):
+    """Select only a raw row containing all known values of its duplicates.
+
+    Missing fields are never filled. Incompatible versions quarantine the whole
+    execution key; source order and row completeness cannot override a conflict.
+    """
+    clean = frame.fillna('').astype(str).apply(lambda col: col.str.strip())
+    selected, provenance, audit, conflicts = [], {}, [], []
+    executed = clean.dividOperateDate.ne('')
+    selected.extend(clean.index[~executed])
+    for _, group in clean.loc[executed].groupby('dividOperateDate', sort=False):
+        indices = list(group.index)
+        if len(indices) == 1:
+            selected.extend(indices); provenance[indices[0]] = indices
+            continue
+        candidates = []
+        for index, candidate in group.iterrows():
+            if all(((other == '') | other.eq(candidate)).all() for _, other in group.iterrows()):
+                candidates.append(index)
+        chosen = min(candidates) if candidates else None
+        status = 'coalesced_compatible_raw_versions' if candidates else 'conflicting_raw_versions'
+        audit.append(dict(ex_date=group.dividOperateDate.iloc[0], source_rows_json=json.dumps(indices),
+                          selected_source_row=chosen, status=status))
+        if chosen is None:
+            conflicts.extend(indices)
+        else:
+            selected.append(chosen); provenance[chosen] = indices
+    return sorted(selected), provenance, audit, conflicts
+
+
 def normalize_dividends(data, calendar_path, out):
     source, target = Path(data), Path(out)
     if target.exists() and any(target.iterdir()):
@@ -53,7 +83,7 @@ def normalize_dividends(data, calendar_path, out):
     cal = pd.DatetimeIndex(pd.to_datetime(dates))
     if cal.empty or cal.has_duplicates or cal.hasnans or not cal.is_monotonic_increasing or cal.tz is not None or not cal.equals(cal.normalize()):
         raise ValueError("invalid dividend exchange calendar")
-    accepted, rejected = [], []
+    accepted, rejected, duplicate_audit = [], [], []
     for name, (symbol, year) in sorted(expected.items()):
         if Path(name).name != name:
             raise ValueError("invalid dividend evidence filename")
@@ -63,7 +93,13 @@ def normalize_dividends(data, calendar_path, out):
         frame = pd.read_csv(BytesIO(raw), dtype=str)
         if len(frame) != manifest["files"][name]["rows"]:
             raise ValueError("dividend source row count mismatch")
-        for index, row in frame.iterrows():
+        selected, provenance, versions, conflicts = _distribution_versions(frame)
+        duplicate_audit.extend(dict(source_file=name, **row) for row in versions)
+        for index in conflicts:
+            rejected.append(dict(source_file=name, source_row=int(index), symbol=symbol,
+                reason="conflicting duplicate distribution records"))
+        for index in selected:
+            row = frame.loc[index]
             try:
                 if row.code != symbol:
                     raise ValueError("dividend security mismatch")
@@ -82,20 +118,25 @@ def normalize_dividends(data, calendar_path, out):
                 accepted.append(dict(symbol=symbol, ex_date=ex_date, available_date=available_date, pay_date=pay_date,
                     cash_per_share=cash, share_multiplier=1 + terms["dividStocksPs"] + terms["dividReserveToStockPs"],
                     announcement_date=announcement, stock_market_date=row.get("dividStockMarketDate", ""),
-                    source_file=name, source_row=int(index), event_vintage_certified=False))
+                    source_file=name, source_row=int(index), source_rows_json=json.dumps(provenance.get(index, [index])), event_vintage_certified=False))
             except (ValueError, TypeError, KeyError) as exc:
                 rejected.append(dict(source_file=name, source_row=int(index), symbol=symbol, reason=str(exc)))
     columns = ["symbol", "ex_date", "available_date", "pay_date", "cash_per_share", "share_multiplier",
-               "announcement_date", "stock_market_date", "source_file", "source_row", "event_vintage_certified"]
+               "announcement_date", "stock_market_date", "source_file", "source_row", "source_rows_json", "event_vintage_certified"]
     actions = pd.DataFrame(accepted, columns=columns)
     if actions.duplicated(["symbol", "ex_date"]).any():
         raise ValueError("duplicate normalized corporate event")
     target.mkdir(parents=True, exist_ok=True)
     actions.sort_values(["symbol", "ex_date"]).to_csv(target / "actions.csv", index=False)
     pd.DataFrame(rejected, columns=["source_file", "source_row", "symbol", "reason"]).to_csv(target / "rejected.csv", index=False)
+    pd.DataFrame(duplicate_audit, columns=['source_file', 'ex_date', 'source_rows_json', 'selected_source_row', 'status']).to_csv(target / 'duplicate_audit.csv', index=False)
     (target / "input_manifest.json").write_bytes(manifest_bytes)
     (target / "input_calendar.csv").write_bytes(calendar_bytes)
     summary = dict(accepted=len(actions), rejected=len(rejected), certified=False, model_ready=False,
+                   duplicate_groups=len(duplicate_audit),
+                   duplicate_rows_coalesced=sum(len(json.loads(row['source_rows_json']))-1 for row in duplicate_audit if row['status']=='coalesced_compatible_raw_versions'),
+                   duplicate_audit_sha256=hashlib.sha256((target / 'duplicate_audit.csv').read_bytes()).hexdigest(),
+                   rejected_sha256=hashlib.sha256((target / 'rejected.csv').read_bytes()).hexdigest(),
                    status="normalized" if not rejected else "partial",
                    input_manifest_sha256=hashlib.sha256(manifest_bytes).hexdigest(),
                    calendar_sha256=hashlib.sha256(calendar_bytes).hexdigest(),

@@ -55,3 +55,20 @@ def test_provider_outage_stops_then_resume_only_retries_missing(tmp_path):
     result = download_dividends(*args, resume=True, client=healthy, delay=0)
     assert result["status"] == "downloaded_raw" and healthy.calls == 6
     assert "error" not in result
+
+
+class DuplicateClient(Client):
+    def query_dividend_data(self,code,year,yearType):
+        row=super().query_dividend_data(code,year,yearType)
+        # Preserve both raw rows; duplicate semantics belong to normalization.
+        from ashare_mvp.public_data import _result_frame
+        frame=_result_frame(row)
+        return _FrameResult(pd.concat([frame,frame],ignore_index=True))
+
+
+def test_raw_duplicate_execution_rows_retained_for_normalization(tmp_path):
+    result=download_dividends(tmp_path,['sh.600000'],2018,2018,client=DuplicateClient(),delay=0)
+    assert result['status']=='downloaded_raw' and result['rows']==2
+    info=result['files']['sh.600000_2018.csv']
+    assert info['executed_rows']==2 and info['duplicate_execution_rows']==2
+    assert len(pd.read_csv(tmp_path/'sh.600000_2018.csv'))==2

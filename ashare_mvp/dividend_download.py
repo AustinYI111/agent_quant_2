@@ -66,12 +66,13 @@ def download_dividends(out, symbols, start_year, end_year, resume=False, client=
                     # Proposals lacking an execution date remain raw evidence, never an executed event.
                     executed = frame.dividOperateDate.notna() & frame.dividOperateDate.ne("")
                     dates = pd.to_datetime(frame.loc[executed, "dividOperateDate"], errors="raise")
-                    if not dates.dt.year.eq(year).all() or dates.duplicated().any():
+                    if not dates.dt.year.eq(year).all() or dates.dt.tz is not None or not dates.eq(dates.dt.normalize()).all():
                         raise ValueError("ambiguous dividend execution year/date")
                     temporary = file.with_suffix(".pending.csv")
                     frame.to_csv(temporary, index=False)
                     temporary.replace(file)
                     manifest["files"][name] = dict(rows=len(frame), executed_rows=int(executed.sum()),
+                                                   duplicate_execution_rows=int(dates.duplicated(keep=False).sum()),
                                                    sha256=hashlib.sha256(file.read_bytes()).hexdigest(),
                                                    retrieved_at=datetime.now(timezone.utc).isoformat())
                     manifest["queries"][name] = dict(status="ok", rows=len(frame))
