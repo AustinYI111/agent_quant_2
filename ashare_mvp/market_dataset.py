@@ -103,6 +103,10 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
     for row in coverage[coverage.status.isin(["missing_payment_evidence","unresolved"])].itertuples():
         code=event_code(row.security)
         if code and is_ashare(code): issue("unresolved_event_evidence",symbol=code,detail=row.status)
+        elif code is None or code.startswith(("sh.","sz.")):
+            execution=pd.to_datetime(getattr(row,"ex_date",None),errors="coerce")
+            if pd.isna(execution) or cal.min()<=execution<=cal.max():
+                issue("unresolved_event_identity",symbol=code or str(row.security),detail=row.status)
     audit.mkdir(parents=True,exist_ok=True)
     report={"status":"blocked","validation_stage":"source_inventory","synthetic":m["synthetic"],"certified":False,"model_ready":False,
             "source_hashes":hashes,"requested_sessions":len(cal),"listed_daily_files":sum(f"daily_{d:%Y%m%d}.csv" in m["files"] for d in cal),

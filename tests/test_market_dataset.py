@@ -136,3 +136,24 @@ def test_missing_required_source_hash_cannot_disable_validation(tmp_path):
     p=master/'manifest.json';m=json.loads(p.read_text());m['master_sha256']=None;p.write_text(json.dumps(m))
     with pytest.raises(ValueError,match='source hash required'):prepare(tmp_path,paths)
     assert not (tmp_path/'dataset').exists()
+
+
+@pytest.mark.parametrize('security',['302132.SZ','689009.SH','unknown'])
+def test_unknown_implemented_security_is_not_silently_out_of_universe(tmp_path,security):
+    paths,cal=fixture(tmp_path);events=paths[3]
+    coverage=pd.read_csv(events/'coverage.csv')
+    coverage=pd.concat([coverage,pd.DataFrame([dict(security=security,status='unresolved',ex_date=cal[1])])],ignore_index=True)
+    coverage.to_csv(events/'coverage.csv',index=False)
+    p=events/'summary.json';m=json.loads(p.read_text());m.update(coverage_sha256=digest(events/'coverage.csv'),status_counts=coverage.status.value_counts().to_dict());p.write_text(json.dumps(m))
+    result=prepare(tmp_path,paths)
+    assert result['status']=='blocked' and result['issue_counts']=={'unresolved_event_identity':1}
+    assert not (tmp_path/'dataset').exists()
+
+
+def test_unknown_security_execution_explicitly_outside_calendar_is_separate(tmp_path):
+    paths,cal=fixture(tmp_path);events=paths[3]
+    coverage=pd.read_csv(events/'coverage.csv')
+    coverage=pd.concat([coverage,pd.DataFrame([dict(security='689009.SH',status='unresolved',ex_date=cal[-1]+pd.Timedelta(days=10))])],ignore_index=True)
+    coverage.to_csv(events/'coverage.csv',index=False)
+    p=events/'summary.json';m=json.loads(p.read_text());m.update(coverage_sha256=digest(events/'coverage.csv'),status_counts=coverage.status.value_counts().to_dict());p.write_text(json.dumps(m))
+    assert prepare(tmp_path,paths)['status']=='prepared_exploratory'
