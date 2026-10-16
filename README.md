@@ -42,7 +42,7 @@ python -m venv .venv
 
 ### 公告依据与参考除息金额
 
-公司行动运行可添加 `--reference-overrides config/reviewed_reference_cash.json`，加载经核对的参考除息金额。证据必须包含公告日期、可用日期、原文 URL、PDF 哈希、页码及预期实际派息；现金冲突、时点不合规或未复核的记录会拒绝。该功能只补充 `reference_cash_per_share`，不改 `cash_per_share`，并在运行目录保存证据与哈希。当前累计有 9 条已核对记录，不能视为剩余公司行动问题已解决。
+公司行动运行可添加 `--reference-overrides config/reviewed_reference_cash.json`，加载经核对的参考除息金额。证据必须包含公告日期、可用日期、原文 URL、PDF 哈希、页码及预期实际派息；现金冲突、时点不合规或未复核的记录会拒绝。该功能只补充 `reference_cash_per_share`，不改 `cash_per_share`，并在运行目录保存证据与哈希。当前累计有 12 条已核对记录，不能视为剩余公司行动问题已解决。
 
 
 ## 公开 PE/PB 因子与分红事件账本
@@ -93,7 +93,7 @@ python -m ashare_mvp.cli run-public --data artifacts/market_ratio_dataset --out 
 `reconcile-dividends` 可接入已审阅的实施公告事实：
 
 ```powershell
-python -m ashare_mvp.cli reconcile-dividends --market artifacts/market_dividend_history_2017_2023 --payments artifacts/cninfo_complete_normalized_transfer1 --calendar artifacts/market_history_2018_2024/calendar.csv --out artifacts/dividend_payment_reconciliation_reviewed --reviewed-events config/reviewed_distributions.json
+python -m ashare_mvp.cli reconcile-dividends --market artifacts/market_dividend_history_2017_2023 --payments artifacts/cninfo_complete_normalized_transfer1 --calendar artifacts/market_history_2018_2024/calendar.csv --out artifacts/dividend_payment_reconciliation_reviewed --reviewed-events config/reviewed_distributions.json --code-changes config/same_issuer_code_changes.json
 ```
 
 全市场准备时将 `--actions` 指向该新对账目录。不要覆盖旧缓存或直接修改供应商原始行。审阅记录必须准确匹配证券、报告期、执行日、原现金／股份比例及完整原条款，并附公告日期、可用日期、实际支付日期、官方 URL、PDF 哈希和页码；未审阅、晚于执行才可见、来源变化或与独立支付记录冲突时拒绝处理。
@@ -127,7 +127,10 @@ python -m ashare_mvp.cli reconcile-dividends --market artifacts/market_dividend_
 
 ### 第一阶段最新实测（2026-10-16）
 
-逐日流式连接已实际核验 1,089 个行情文件并处理 4,304,493 行，连接新版财务依赖面板；相关 53 项测试通过。累计审阅 25 条实施公告、9 条参考金额证据。行情接口已恢复并断点续采，但当前封存检查仍有日行情、身份、事件及价格核对缺口，尚未运行真实全市场训练与样本外回测。具体范围、哈希和剩余工作见[本次数据报告](docs/reports/PHASE1_DATA_20261016.md)。开发优先保持第一阶段，不扩展后续阶段功能。
+逐日流式连接已实际核验 1,089 个行情文件并处理 4,304,493 行，连接新版财务依赖面板；相关 53 项测试通过。累计审阅 31 条实施公告、12 条参考金额证据。行情接口已恢复并断点续采，但当前封存检查仍有日行情、身份、事件及价格核对缺口，尚未运行真实全市场训练与样本外回测。具体范围、哈希和剩余工作见[本次数据报告](docs/reports/PHASE1_DATA_20261016.md)。开发优先保持第一阶段，不扩展后续阶段功能。
 
 
-纯转增事件允许 `cash_per_share=0` 且 `pay_date` 为空，保留 `share_credit_date` 与 `stock_market_date`；正现金分红仍要求支付日期。审阅配置的原始现金锚点为空时，只能用于有官方证据的零现金转增，不能与后续数字零混同。两条真实转增已接入，旧前缀规则内执行事件证据缺口为零；进一步审查发现 6 条新代码回填的历史事件，需解析其发行人身份。准备检查已将未分类的区间内事件列为阻塞，不据前缀排除冒充事件完整。
+纯转增事件允许 `cash_per_share=0` 且 `pay_date` 为空，保留 `share_credit_date` 与 `stock_market_date`；正现金分红仍要求支付日期。审阅配置的原始现金锚点为空时，只能用于有官方证据的零现金转增，不能与后续数字零混同。两条真实转增已接入，新代码回填的六条历史分红已用正式代码变更与逐条支付公告恢复。准备检查仍将区间内未解析事件列为阻塞，不据代码前缀排除冒充完整。
+
+
+分红对账现支持 `--code-changes config/same_issuer_code_changes.json`。供应商最新代码与官方历史代码分别保留，数据准备要求事件与特征使用同一封存身份策略；新旧代码重复事件拒绝。当前包含 300114→302132 的正式变更证据。最新实测、字段含义与仍待修复的财务依赖连接见[历史证券代码与分红连接](docs/reports/EVENT_IDENTITY_20261016.md)。

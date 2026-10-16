@@ -29,7 +29,7 @@ def _result_frame(result):
 
 
 def is_ashare(code):
-    return bool(re.fullmatch(r"(?:sh\.(?:600|601|603|605|688)\d{3}|sz\.(?:000|001|002|003|300|301)\d{3})", code))
+    return bool(re.fullmatch(r"(?:sh\.(?:600|601|603|605|688)\d{3}|sz\.(?:000|001|002|003|300|301|302)\d{3})", code))
 
 
 def _worker(connection, method, args, kwargs, timeout):

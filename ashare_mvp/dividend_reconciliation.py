@@ -11,7 +11,7 @@ from .dividend_normalization import _terms
 from .public_data import is_ashare
 
 
-def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, reviewed_events=None):
+def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, reviewed_events=None, code_changes=None):
     market, payments, target = Path(market_data), Path(payment_data), Path(out)
     if target.exists() and any(target.iterdir()):
         raise ValueError("dividend reconciliation output must be empty")
@@ -30,6 +30,11 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
         raise ValueError("ambiguous payment events")
     if actions[["symbol", "ex_date", "available_date", "announcement_date"]].isna().any().any() or (pd.to_numeric(actions.cash_per_share, errors="raise").gt(0) & actions.pay_date.isna()).any():
         raise ValueError("missing payment event clock/security")
+    roots={}
+    if code_changes is not None:
+        from .security_identity import code_change_maps,canonical_event_symbols
+        roots,_,_=code_change_maps(code_changes)
+        actions=canonical_event_symbols(actions,code_changes).rename(columns={"source_symbol":"payment_provider_symbol"})
     lookup = actions.set_index(["symbol", "ex_date"])
     calendar_bytes = Path(calendar_path).read_bytes()
     calendar = pd.read_csv(calendar_path, dtype=str)
@@ -59,7 +64,7 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
     reviewed={}
     if reviewed_events is not None:
         from .reviewed_dividends import reviewed_distribution_lookup
-        reviewed=reviewed_distribution_lookup(reviewed_events,raw,cal)
+        reviewed=reviewed_distribution_lookup(reviewed_events,raw,cal,code_changes)
     classified, matched = [], []
     for row in raw.itertuples(index=False):
         record = dict(security=row.SECUCODE, report_date=row.REPORT_DATE, source_period=row.source_period,
@@ -73,12 +78,13 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
         notice=reviewed.get((row.SECUCODE,pd.Timestamp(row.source_period)))
         if notice is not None:
             from .reviewed_dividends import check_reviewed_independent_payment
-            prior=lookup.loc[(notice.symbol,notice.ex_date)] if (notice.symbol,notice.ex_date) in lookup.index else None
+            notice_symbol=roots.get(notice.symbol,notice.symbol)
+            prior=lookup.loc[(notice_symbol,notice.ex_date)] if (notice_symbol,notice.ex_date) in lookup.index else None
             check_reviewed_independent_payment(notice,prior)
-            record.update(symbol=notice.symbol,ex_date=str(notice.ex_date.date()),cash_per_share=notice.cash_per_share,
+            record.update(symbol=notice_symbol,provider_symbol=notice.provider_symbol,ex_date=str(notice.ex_date.date()),cash_per_share=notice.cash_per_share,
                           share_multiplier=notice.share_multiplier,available_date=str(notice.available_date.date()),
                           status="matched_reviewed_notice",reason="exact raw provider terms reviewed against official implementation notice")
-            matched.append(dict(symbol=notice.symbol,ex_date=notice.ex_date,available_date=notice.available_date,pay_date=notice.pay_date,
+            matched.append(dict(symbol=notice_symbol,provider_symbol=notice.provider_symbol,payment_provider_symbol=prior.get("payment_provider_symbol",notice_symbol) if prior is not None else None,ex_date=notice.ex_date,available_date=notice.available_date,pay_date=notice.pay_date,
                                 cash_per_share=notice.cash_per_share,share_multiplier=notice.share_multiplier,
                                 stock_market_date=getattr(notice,"stock_market_date",None),share_credit_date=getattr(notice,"share_credit_date",None),source_period=row.source_period,event_vintage_certified=False,
                                 source_notice_url=notice.source_url,source_notice_sha256=notice.source_sha256,source_notice_page=notice.source_page,
@@ -90,7 +96,8 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
         if row.ASSIGN_PROGRESS == "实施分配":
             try:
                 code = re.fullmatch(r"(\d{6})\.(SH|SZ|BJ)", str(row.SECUCODE))
-                symbol = f"{code[2].lower()}.{code[1]}" if code else ""
+                provider_symbol = f"{code[2].lower()}.{code[1]}" if code else ""
+                symbol=roots.get(provider_symbol,provider_symbol)
                 if not is_ashare(symbol):
                     raise ValueError("unsupported historical security identity/exchange")
                 execution = pd.Timestamp(row.EX_DIVIDEND_DATE)
@@ -108,7 +115,7 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
                 position = cal.searchsorted(notice, side="right")
                 if position >= len(cal) or cal[position] > ex_date:
                     raise ValueError("latest notice not visible before execution")
-                record.update(symbol=symbol, ex_date=str(ex_date.date()), cash_per_share=terms["dividCashPsBeforeTax"],
+                record.update(symbol=symbol, provider_symbol=provider_symbol, ex_date=str(ex_date.date()), cash_per_share=terms["dividCashPsBeforeTax"],
                               share_multiplier=1 + terms["dividStocksPs"] + terms["dividReserveToStockPs"],
                               available_date=str(cal[position].date()), status="missing_payment_evidence",
                               reason="no independently normalized payment event for security/ex-date")
@@ -119,7 +126,7 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
                     if payment.pay_date < ex_date or payment.available_date > ex_date:
                         raise ValueError("invalid independent payment clock")
                     record.update(status="matched_payment_evidence", reason="terms/ex-date agree; original vintages remain unverified")
-                    matched.append(dict(symbol=symbol, ex_date=ex_date, available_date=max(cal[position], payment.available_date),
+                    matched.append(dict(symbol=symbol, provider_symbol=provider_symbol, payment_provider_symbol=payment.get("payment_provider_symbol",symbol), ex_date=ex_date, available_date=max(cal[position], payment.available_date),
                                         pay_date=payment.pay_date, cash_per_share=record["cash_per_share"],
                                         share_credit_date=payment.get("share_credit_date", ""),
                                         share_multiplier=record["share_multiplier"], stock_market_date=payment.get("stock_market_date", ""),
@@ -128,7 +135,7 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
                 record.update(status="unresolved", reason=str(exc))
         classified.append(record)
     result = pd.DataFrame(classified)
-    output = pd.DataFrame(matched, columns=["symbol", "ex_date", "available_date", "pay_date", "cash_per_share",
+    output = pd.DataFrame(matched, columns=["symbol", "provider_symbol", "payment_provider_symbol", "ex_date", "available_date", "pay_date", "cash_per_share",
                                            "share_multiplier", "stock_market_date", "share_credit_date", "source_period", "event_vintage_certified",
                                            "source_notice_url","source_notice_sha256","source_notice_page","ordinary_cash_per_share","special_cash_per_share","reviewed_payout_scope","independent_provider_cash_before_review"])
     if output.duplicated(["symbol", "ex_date"]).any():
@@ -155,5 +162,11 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
         (target/"input_reviewed_distributions.json").write_text(payload,encoding="utf-8")
         summary["reviewed_distributions_sha256"]=hashlib.sha256(payload.encode()).hexdigest()
         summary["reviewed_notice_events"]=len(reviewed)
+    if code_changes is not None:
+        from .security_identity import code_change_payload
+        payload=code_change_payload(code_changes)
+        (target/"input_code_changes.json").write_text(payload,encoding="utf-8")
+        summary["code_changes_sha256"]=hashlib.sha256(payload.encode()).hexdigest()
+        summary["event_identity_policy"]="stable verified issuer; original provider symbols retained; never a predictive feature"
     (target / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     return summary

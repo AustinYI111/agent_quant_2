@@ -82,6 +82,14 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
         raise ValueError("event coverage disagrees with summary")
     if pd.Timestamp(emeta["evaluation_start"])>cal.min() or pd.Timestamp(emeta["evaluation_end"])<cal.max():
         raise ValueError("event evidence does not cover requested calendar")
+    if emeta.get("code_changes_sha256") is not None:
+        identity_raw=(events/"input_code_changes.json").read_bytes()
+        if hashlib.sha256(identity_raw).hexdigest()!=emeta["code_changes_sha256"]:
+            raise ValueError("event code-change evidence hash mismatch")
+        from .security_identity import code_change_payload
+        if code_changes is None or hashlib.sha256(code_change_payload(code_changes).encode()).hexdigest()!=emeta["code_changes_sha256"]:
+            raise ValueError("matching event code-change policy required")
+        snapshots["event_code_changes"]=identity_raw
     scope_exclusions,scope_policy=set(),None
     if non_listing_evidence is not None:
         from .universe_evidence import reviewed_non_listing_bounds

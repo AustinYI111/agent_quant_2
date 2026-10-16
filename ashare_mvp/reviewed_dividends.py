@@ -4,7 +4,7 @@ import pandas as pd
 from .public_data import is_ashare
 
 
-def reviewed_distribution_lookup(evidence, raw, calendar):
+def reviewed_distribution_lookup(evidence, raw, calendar, code_changes=None):
     required={'symbol','source_period','ex_date','announcement_date','available_date','pay_date','cash_per_share','share_multiplier',
               'expected_provider_cash_per_share','expected_provider_share_multiplier','expected_provider_description',
               'source_url','source_sha256','source_page','reviewed'}
@@ -57,11 +57,20 @@ def reviewed_distribution_lookup(evidence, raw, calendar):
         e['expected_independent_pay_date']=pd.to_datetime(e.expected_independent_pay_date)
         selected=e.loc[conflict,'expected_independent_pay_date']
         if selected.isna().any() or selected.dt.tz is not None or not selected.eq(selected.dt.normalize()).all():raise ValueError('normalized independent payment anchor date required')
+    roots={}
+    if code_changes is not None:
+        from .security_identity import code_change_maps
+        roots,_,_=code_change_maps(code_changes)
+    e['provider_symbol']=e.get('provider_symbol',e.symbol).fillna(e.symbol)
+    if not e.provider_symbol.map(is_ashare).all():raise ValueError('supported reviewed provider security required')
+    for row in e.itertuples(index=False):
+        if roots.get(row.provider_symbol,row.provider_symbol)!=roots.get(row.symbol,row.symbol):
+            raise ValueError('reviewed provider alias requires matching verified issuer evidence')
     lookup={}
     for row in e.itertuples(index=False):
         pos=cal.searchsorted(row.announcement_date,side='right')
         if pos>=len(cal) or row.available_date<cal[pos] or row.available_date>row.ex_date:raise ValueError('reviewed notice not visible before execution')
-        security=row.symbol.split('.')[1]+'.'+row.symbol.split('.')[0].upper()
+        security=row.provider_symbol.split('.')[1]+'.'+row.provider_symbol.split('.')[0].upper()
         selected=raw[(raw.SECUCODE==security)&pd.to_datetime(raw.source_period).eq(row.source_period)]
         if len(selected)!=1:raise ValueError('reviewed event has no unique raw provider period')
         item=selected.iloc[0]

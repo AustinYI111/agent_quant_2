@@ -28,6 +28,16 @@ def code_change_maps(changes):
     return roots,starts,ends
 
 
+def code_change_payload(changes):
+    """Stable evidence bytes for string or parsed dates and numeric ratios."""
+    code_change_maps(changes)
+    records=changes.copy()
+    for field in ['announcement_date','effective_date']:
+        records[field]=pd.to_datetime(records[field]).dt.strftime('%Y-%m-%d')
+    records['share_ratio']=pd.to_numeric(records.share_ratio,errors='raise').astype(float)
+    return records.sort_values(['effective_date','old_symbol']).to_json(orient='records')
+
+
 def stitch_code_prices(prices, changes):
     """Keep original trading code; quarantine inactive aliases without rewriting quotes."""
     roots,starts,ends=code_change_maps(changes)
@@ -64,10 +74,7 @@ def apply_identity_dataset(data, changes):
     import hashlib,json
     from .data import Dataset
     roots,_,_=code_change_maps(changes)
-    records=changes.copy()
-    for field in ["announcement_date","effective_date"]:
-        records[field]=pd.to_datetime(records[field]).dt.strftime("%Y-%m-%d")
-    payload=records.sort_values(["effective_date","old_symbol"]).to_json(orient="records")
+    payload=code_change_payload(changes)
     checksum=hashlib.sha256(payload.encode()).hexdigest()
     existing=data.metadata.get("security_identity_policy")
     if existing:

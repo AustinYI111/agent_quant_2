@@ -138,15 +138,15 @@ def test_missing_required_source_hash_cannot_disable_validation(tmp_path):
     assert not (tmp_path/'dataset').exists()
 
 
-@pytest.mark.parametrize('security',['302132.SZ','689009.SH','unknown'])
-def test_unknown_implemented_security_is_not_silently_out_of_universe(tmp_path,security):
+@pytest.mark.parametrize('security,kind',[('302132.SZ','unresolved_event_evidence'),('689009.SH','unresolved_event_identity'),('unknown','unresolved_event_identity')])
+def test_unknown_implemented_security_is_not_silently_out_of_universe(tmp_path,security,kind):
     paths,cal=fixture(tmp_path);events=paths[3]
     coverage=pd.read_csv(events/'coverage.csv')
     coverage=pd.concat([coverage,pd.DataFrame([dict(security=security,status='unresolved',ex_date=cal[1])])],ignore_index=True)
     coverage.to_csv(events/'coverage.csv',index=False)
     p=events/'summary.json';m=json.loads(p.read_text());m.update(coverage_sha256=digest(events/'coverage.csv'),status_counts=coverage.status.value_counts().to_dict());p.write_text(json.dumps(m))
     result=prepare(tmp_path,paths)
-    assert result['status']=='blocked' and result['issue_counts']=={'unresolved_event_identity':1}
+    assert result['status']=='blocked' and result['issue_counts']=={kind:1}
     assert not (tmp_path/'dataset').exists()
 
 
@@ -157,3 +157,25 @@ def test_unknown_security_execution_explicitly_outside_calendar_is_separate(tmp_
     coverage.to_csv(events/'coverage.csv',index=False)
     p=events/'summary.json';m=json.loads(p.read_text());m.update(coverage_sha256=digest(events/'coverage.csv'),status_counts=coverage.status.value_counts().to_dict());p.write_text(json.dumps(m))
     assert prepare(tmp_path,paths)['status']=='prepared_exploratory'
+
+
+@pytest.mark.parametrize('mode',['missing','different','tampered','matching'])
+def test_event_identity_policy_is_verified_and_matches_feature_policy(tmp_path,mode):
+    from test_dividend_identity import changes
+    from ashare_mvp.security_identity import code_change_payload
+    paths,_=fixture(tmp_path);events=paths[3];c=changes()
+    raw=code_change_payload(c).encode();(events/'input_code_changes.json').write_bytes(raw)
+    p=events/'summary.json';m=json.loads(p.read_text());m['code_changes_sha256']=hashlib.sha256(raw).hexdigest();p.write_text(json.dumps(m))
+    if mode=='missing':c=None
+    elif mode=='different':c['effective_date']='2025-02-18'
+    elif mode=='tampered':(events/'input_code_changes.json').write_text('changed')
+    else:
+        # String dates and timestamp dates produce the same sealed policy.
+        c['announcement_date']=pd.to_datetime(c.announcement_date);c['effective_date']=pd.to_datetime(c.effective_date);c['share_ratio']=1.
+    if mode=='matching':
+        assert prepare(tmp_path,paths,code_changes=c)['status']=='prepared_exploratory'
+        assert (tmp_path/'audit/input_event_code_changes.json').read_bytes()==raw
+    else:
+        with pytest.raises(ValueError,match='event code-change'):
+            prepare(tmp_path,paths,code_changes=c)
+        assert not (tmp_path/'dataset').exists()
