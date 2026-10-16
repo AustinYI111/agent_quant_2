@@ -1,0 +1,387 @@
+import argparse
+import json
+
+from .data import load
+from .demo import make_demo, save
+from .model import Config
+from .pipeline import run
+
+
+def main():
+    parser = argparse.ArgumentParser(description="A-share monthly factor ranker research MVP")
+    sub = parser.add_subparsers(dest="command", required=True)
+    demo = sub.add_parser("demo", help="generate explicitly synthetic input data")
+    demo.add_argument("--out", required=True)
+    demo.add_argument("--stocks", type=int, default=40)
+    demo.add_argument("--sessions", type=int, default=1512)
+    demo.add_argument("--seed", type=int, default=42)
+    public = sub.add_parser("download-public", help="download raw public data; does not certify PIT")
+    public.add_argument("--out", required=True)
+    public.add_argument("--start", required=True)
+    public.add_argument("--end", required=True)
+    public.add_argument("--symbols", nargs="+")
+    public.add_argument("--max-symbols", type=int, default=5)
+    public.add_argument("--all-symbols", action="store_true")
+    audit = sub.add_parser("audit-public", help="inspect raw public download hashes, fields and dates")
+    audit.add_argument("--data", required=True)
+    universe = sub.add_parser("build-universe", help="build verified dated public A-share universe")
+    universe.add_argument("--data", required=True)
+    universe.add_argument("--out", required=True)
+    conversion = sub.add_parser("convert-public", help="convert verified raw public inputs with unverified-vintage flags")
+    conversion.add_argument("--data", required=True)
+    conversion.add_argument("--out", required=True)
+    event_conversion = sub.add_parser("prepare-public-events", help="seal event prices for public-ratio research")
+    event_conversion.add_argument("--data", required=True)
+    event_conversion.add_argument("--raw-prices", required=True)
+    event_conversion.add_argument("--corporate-actions", required=True)
+    event_conversion.add_argument("--reference-tick-size", type=float)
+    event_conversion.add_argument("--out", required=True)
+    research = sub.add_parser("run-public", help="explicitly exploratory public-data walk-forward")
+    research.add_argument("--data", required=True)
+    research.add_argument("--out", required=True)
+    research.add_argument("--asof")
+    research.add_argument("--horizon", choices=[3, 6, 12], type=int, default=6)
+    research.add_argument("--oneil", action="store_true")
+    research.add_argument("--exploratory", action="store_true")
+    horizon_labels = sub.add_parser("build-horizon-labels", help="explicit 5/20-session and 12-month new-buyer outcomes")
+    horizon_labels.add_argument("--prices", required=True)
+    horizon_labels.add_argument("--actions", required=True)
+    horizon_labels.add_argument("--calendar", required=True)
+    horizon_labels.add_argument("--signals", required=True)
+    horizon_labels.add_argument("--out", required=True)
+    horizon_labels.add_argument("--horizons", nargs="+", choices=["5d","20d","12m"], default=["5d","20d","12m"])
+    horizon_labels.add_argument("--asof")
+    horizon_labels.add_argument("--reference-tick-size", type=float)
+    multi = sub.add_parser("run-three-horizons", help="time-purged 5d/20d/12m models and net index comparisons")
+    multi.add_argument("--data", required=True)
+    multi.add_argument("--benchmark", required=True)
+    multi.add_argument("--out", required=True)
+    multi.add_argument("--validation-start", required=True)
+    multi.add_argument("--test-start", required=True)
+    multi.add_argument("--test-end", required=True)
+    multi.add_argument("--asof")
+    multi.add_argument("--exploratory", action="store_true")
+    multi.add_argument("--oneil", action="store_true")
+    multi.add_argument("--top-k", type=int, default=20)
+    multi.add_argument("--trees", nargs="+", type=int, default=[30,60])
+    multi.add_argument("--retrain-months", type=int, default=12)
+    multi.add_argument("--commission-bps", type=float, default=3.)
+    multi.add_argument("--slippage-bps", type=float, default=5.)
+    multi.add_argument("--sell-tax-bps", type=float)
+    market = sub.add_parser("download-market", help="resumable daily full-cross-section raw-price acquisition")
+    market.add_argument("--out", required=True)
+    market.add_argument("--start", required=True)
+    market.add_argument("--end", required=True)
+    market.add_argument("--resume", action="store_true")
+    prepare_market = sub.add_parser("prepare-market-ratios", help="verify full-market sources and seal exploratory event ratios")
+    prepare_market.add_argument("--market",required=True)
+    prepare_market.add_argument("--financials",required=True)
+    prepare_market.add_argument("--master",required=True)
+    prepare_market.add_argument("--actions",required=True)
+    prepare_market.add_argument("--out",required=True)
+    prepare_market.add_argument("--audit-out",required=True)
+    prepare_market.add_argument("--reference-tick-size",type=float)
+    prepare_market.add_argument("--code-changes")
+    prepare_market.add_argument("--reference-overrides")
+    prepare_market.add_argument("--non-listing-evidence")
+    merge_market = sub.add_parser("merge-market", help="materialize sealed market and audited repair snapshots")
+    merge_market.add_argument("--data", required=True)
+    merge_market.add_argument("--repairs", nargs="+", required=True)
+    merge_market.add_argument("--out", required=True)
+    merge_master = sub.add_parser("merge-security-masters", help="seal compatible requested lifecycle sources")
+    merge_master.add_argument("--data", nargs="+", required=True)
+    merge_master.add_argument("--out", required=True)
+    membership = sub.add_parser("audit-market-universe", help="reconcile daily quotes with verified security lifetimes")
+    membership.add_argument("--master", required=True)
+    membership.add_argument("--market", required=True)
+    membership.add_argument("--out", required=True)
+    master = sub.add_parser("download-security-master", help="requested lifetimes via name groups and exact-code fallback")
+    master.add_argument("--targets", required=True)
+    master.add_argument("--out", required=True)
+    master.add_argument("--resume", action="store_true")
+    dependencies = sub.add_parser("combine-financials", help="combine same-period visible earnings and balance dependencies")
+    dependencies.add_argument("--earnings", required=True)
+    dependencies.add_argument("--balances", required=True)
+    dependencies.add_argument("--out", required=True)
+    dependencies.add_argument("--code-changes")
+    balance_panel = sub.add_parser("normalize-balances", help="verify issuer batches and publish dated balance ratios")
+    balance_panel.add_argument("--data", required=True)
+    balance_panel.add_argument("--calendar", required=True)
+    balance_panel.add_argument("--out", required=True)
+    balance = sub.add_parser("download-balances", help="resumable issuer balance sheets")
+    balance.add_argument("--symbols", nargs="+", required=True)
+    balance.add_argument("--start", required=True)
+    balance.add_argument("--end", required=True)
+    balance.add_argument("--out", required=True)
+    balance.add_argument("--resume", action="store_true")
+    finance = sub.add_parser("download-financials", help="resumable public quarterly financial cross-sections")
+    finance.add_argument("--out", required=True)
+    finance.add_argument("--start", required=True)
+    finance.add_argument("--end", required=True)
+    finance.add_argument("--resume", action="store_true")
+    normalize_finance = sub.add_parser("normalize-financials", help="normalize quarterly records with publication/update visibility clocks")
+    normalize_finance.add_argument("--data", required=True)
+    normalize_finance.add_argument("--calendar", required=True)
+    normalize_finance.add_argument("--out", required=True)
+    alignment = sub.add_parser("align-market", help="join verified daily prices and visible financial events")
+    alignment.add_argument("--market", required=True)
+    alignment.add_argument("--financials", required=True)
+    alignment.add_argument("--out", required=True)
+    reconciliation = sub.add_parser("reconcile-prices", help="reconcile supplied raw prices and known cash/share events")
+    reconciliation.add_argument("--prices", required=True)
+    reconciliation.add_argument("--actions", required=True)
+    reconciliation.add_argument("--calendar", required=True)
+    reconciliation.add_argument("--out", required=True)
+    dividends = sub.add_parser("download-dividends", help="resumable raw dividend evidence by security and execution year")
+    dividends.add_argument("--out", required=True)
+    dividends.add_argument("--symbols", nargs="+", required=True)
+    dividends.add_argument("--start-year", type=int, required=True)
+    dividends.add_argument("--end-year", type=int, required=True)
+    dividends.add_argument("--resume", action="store_true")
+    normalize_actions = sub.add_parser("normalize-dividends", help="normalize verified cash/share event records with visibility dates")
+    normalize_actions.add_argument("--data", required=True)
+    normalize_actions.add_argument("--calendar", required=True)
+    normalize_actions.add_argument("--out", required=True)
+    normalize_actions.add_argument("--reviewed-versions")
+    market_actions = sub.add_parser("download-market-dividends", help="complete paginated dividend plans by report period")
+    market_actions.add_argument("--start", required=True)
+    market_actions.add_argument("--end", required=True)
+    market_actions.add_argument("--out", required=True)
+    market_actions.add_argument("--resume", action="store_true")
+    join_actions = sub.add_parser("reconcile-dividends", help="match market plans to independently normalized payment events")
+    join_actions.add_argument("--market", required=True)
+    join_actions.add_argument("--payments", required=True)
+    join_actions.add_argument("--calendar", required=True)
+    join_actions.add_argument("--out", required=True)
+    join_actions.add_argument("--reviewed-events")
+    join_actions.add_argument("--code-changes")
+    union = sub.add_parser("merge-dividend-events", help="union sealed historical distribution sources without clearing plan issues")
+    union.add_argument("--base", required=True)
+    union.add_argument("--supplements", nargs="+", required=True)
+    union.add_argument("--calendar", required=True)
+    union.add_argument("--out", required=True)
+    union.add_argument("--code-changes")
+    issuer_actions = sub.add_parser("download-cninfo-dividends", help="issuer dividend histories with explicit payment dates")
+    issuer_actions.add_argument("--symbols", nargs="+", required=True)
+    issuer_actions.add_argument("--out", required=True)
+    issuer_actions.add_argument("--resume", action="store_true")
+    normalize_issuer = sub.add_parser("normalize-cninfo-dividends", help="normalize dated issuer cash/share entitlements")
+    normalize_issuer.add_argument("--data", required=True)
+    normalize_issuer.add_argument("--calendar", required=True)
+    normalize_issuer.add_argument("--out", required=True)
+    report = sub.add_parser("report", help="technical and financial research plus manually entered holdings")
+    report.add_argument("--data", required=True)
+    report.add_argument("--predictions", required=True)
+    report.add_argument("--holdings", required=True)
+    report.add_argument("--out", required=True)
+    report.add_argument("--asof", required=True)
+    report.add_argument("--ledger")
+    report.add_argument("--code-changes",help="verified same-issuer code-change JSON")
+    compare = sub.add_parser("compare", help="matched baseline versus optional Oneil factors")
+    compare.add_argument("--data", required=True)
+    compare.add_argument("--out", required=True)
+    compare.add_argument("--asof")
+    compare.add_argument("--evaluation-start")
+    compare.add_argument("--horizon", choices=[3, 6, 12], type=int, default=6)
+    backtest = sub.add_parser("run", help="walk-forward training, rankings and performance")
+    backtest.add_argument("--data", required=True)
+    backtest.add_argument("--out", required=True)
+    backtest.add_argument("--asof")
+    backtest.add_argument("--reference-overrides",help="reviewed notice-backed reference cash JSON")
+    backtest.add_argument("--code-changes",help="verified same-issuer code-change JSON")
+    backtest.add_argument("--raw-prices", help="raw quote CSV; requires --corporate-actions")
+    backtest.add_argument("--corporate-actions", help="dated cash/share event CSV; requires --raw-prices")
+    backtest.add_argument("--horizon", type=int, choices=[3, 6, 12], default=6)
+    backtest.add_argument("--oneil", action="store_true")
+    backtest.add_argument("--reference-tick-size",type=float,help="explicit reference-quote precision, e.g. 0.01; requires event inputs")
+    backtest.add_argument("--top-k", type=int, default=20)
+    backtest.add_argument("--train-months", type=int, default=60)
+    backtest.add_argument("--min-train-groups", type=int, default=12)
+    backtest.add_argument("--commission-bps", type=float, default=3)
+    backtest.add_argument("--slippage-bps", type=float, default=5)
+    backtest.add_argument("--sell-tax-bps", type=float, default=None, help="constant research override; default uses historical dated A-share rates")
+    args = parser.parse_args()
+    if args.command == "demo":
+        save(make_demo(args.seed, args.stocks, args.sessions), args.out)
+        print(f"SYNTHETIC data saved to {args.out}")
+    elif args.command == "download-public":
+        from .public_data import download_public
+        result = download_public(args.out, args.start, args.end, args.symbols,
+                                 None if args.all_symbols else args.max_symbols)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        if result["status"] in ["failed", "partial"]:
+            raise SystemExit(1)
+    elif args.command == "audit-public":
+        from .public_data import readiness_audit
+        print(json.dumps(readiness_audit(args.data), ensure_ascii=False, indent=2))
+    elif args.command == "build-universe":
+        from .universe import build_public_universe
+        print(json.dumps(build_public_universe(args.data, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "convert-public":
+        from .public_conversion import convert_public
+        print(json.dumps(convert_public(args.data, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "prepare-public-events":
+        import pandas as pd
+        from .public_conversion import convert_public_events
+        raw=pd.read_csv(args.raw_prices,dtype={"symbol":str},parse_dates=["date"])
+        actions=pd.read_csv(args.corporate_actions,dtype={"symbol":str},parse_dates=["ex_date","available_date","pay_date"])
+        print(json.dumps(convert_public_events(args.data,raw,actions,args.out,args.reference_tick_size),ensure_ascii=False,indent=2))
+    elif args.command == "run-public":
+        from .public_conversion import run_public_research
+        print(json.dumps(run_public_research(args.data, args.out, Config(train_horizon=args.horizon, oneil=args.oneil),
+                                             args.asof, args.exploratory), ensure_ascii=False, indent=2))
+    elif args.command == "build-horizon-labels":
+        from .horizon_labels import write_horizon_label_files
+        print(json.dumps(write_horizon_label_files(args.prices,args.actions,args.calendar,args.signals,args.out,
+            args.horizons,args.reference_tick_size,args.asof),ensure_ascii=False,indent=2))
+    elif args.command == "run-three-horizons":
+        from .horizon_research import run_three_horizon_research,HorizonResearchConfig
+        cfg=HorizonResearchConfig(top_k=args.top_k,candidate_estimators=tuple(args.trees),retrain_months=args.retrain_months)
+        result=run_three_horizon_research(args.data,args.benchmark,args.out,args.validation_start,args.test_start,args.test_end,
+            cfg,args.asof,args.oneil,args.exploratory,args.commission_bps,args.slippage_bps,args.sell_tax_bps)
+        print(json.dumps(result,ensure_ascii=False,indent=2))
+    elif args.command == "download-market":
+        from .market_download import download_market_daily
+        result = download_market_daily(args.out, args.start, args.end, args.resume)
+        print(json.dumps({k: v for k, v in result.items() if k not in ["files", "queries"]}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "prepare-market-ratios":
+        import pandas as pd
+        from .market_dataset import prepare_market_ratios
+        changes=pd.read_json(args.code_changes) if args.code_changes else None
+        from .reference_overrides import load_reference_evidence
+        overrides=load_reference_evidence(args.reference_overrides) if args.reference_overrides else None
+        non_listing=pd.read_json(args.non_listing_evidence) if args.non_listing_evidence else None
+        result=prepare_market_ratios(args.market,args.financials,args.master,args.actions,args.out,args.audit_out,
+                                     args.reference_tick_size,changes,overrides,non_listing)
+        print(json.dumps(result,ensure_ascii=False,indent=2))
+        if result["status"]!="prepared_exploratory":raise SystemExit(1)
+    elif args.command == "merge-market":
+        from .market_merge import merge_market_snapshots
+        print(json.dumps(merge_market_snapshots(args.data, args.repairs, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "merge-security-masters":
+        from .security_master import merge_security_masters
+        result = merge_security_masters(args.data, args.out)
+        print(json.dumps({k:v for k,v in result.items() if k != "sources"}, ensure_ascii=False, indent=2))
+    elif args.command == "audit-market-universe":
+        from .universe_audit import audit_market_universe
+        print(json.dumps(audit_market_universe(args.master, args.market, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "download-security-master":
+        from .security_master import download_security_master
+        result = download_security_master(args.targets, args.out, args.resume)
+        print(json.dumps({key: value for key, value in result.items() if key != "queries"}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "combine-financials":
+        from .financial_dependencies import combine_financial_files
+        import pandas as pd
+        changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
+        result = combine_financial_files(args.earnings, args.balances, args.out, changes)
+        print(json.dumps({k:v for k,v in result.items() if k != "sources"}, ensure_ascii=False, indent=2))
+    elif args.command == "normalize-balances":
+        from .balance_sheet import normalize_balance_download
+        print(json.dumps(normalize_balance_download(args.data, args.calendar, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "download-balances":
+        from .balance_download import download_balance_sheets
+        result = download_balance_sheets(args.symbols, args.start, args.end, args.out, args.resume)
+        print(json.dumps({k:v for k,v in result.items() if k not in ["queries", "securities"]}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "download-financials":
+        from .financial_batch import download_financials
+        result = download_financials(args.out, args.start, args.end, args.resume)
+        print(json.dumps({k: v for k, v in result.items() if k != "quarters"}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "normalize-financials":
+        import pandas as pd
+        from .financial_batch import normalize_financial_batch
+        frame = pd.read_csv(args.calendar, dtype=str)
+        if {"calendar_date", "is_trading_day"}.issubset(frame):
+            dates = frame.loc[frame.is_trading_day == "1", "calendar_date"]
+        elif "date" in frame:
+            dates = frame.date
+        else:
+            raise ValueError("calendar requires date or calendar_date/is_trading_day")
+        print(json.dumps(normalize_financial_batch(args.data, pd.to_datetime(dates), args.out), ensure_ascii=False, indent=2))
+    elif args.command == "align-market":
+        from .market_alignment import align_market_financials
+        print(json.dumps(align_market_financials(args.market, args.financials, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "reconcile-prices":
+        from .corporate_actions import reconcile_price_files
+        print(json.dumps(reconcile_price_files(args.prices, args.actions, args.calendar, args.out), ensure_ascii=False, indent=2))
+    elif args.command == "download-dividends":
+        from .dividend_download import download_dividends
+        result = download_dividends(args.out, args.symbols, args.start_year, args.end_year, args.resume)
+        print(json.dumps({k: v for k, v in result.items() if k not in ["files", "queries"]}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "normalize-dividends":
+        from .dividend_normalization import normalize_dividends
+        import pandas as pd
+        reviewed=pd.read_json(args.reviewed_versions,convert_dates=False,precise_float=True) if args.reviewed_versions else None
+        result = normalize_dividends(args.data, args.calendar, args.out, reviewed)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        if result["status"] != "normalized":
+            raise SystemExit(1)
+    elif args.command == "download-market-dividends":
+        from .dividend_market import download_dividend_market
+        result = download_dividend_market(args.out, args.start, args.end, args.resume)
+        print(json.dumps({k: v for k, v in result.items() if k != "periods"}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "reconcile-dividends":
+        from .dividend_reconciliation import reconcile_dividend_sources
+        import pandas as pd
+        reviewed=pd.read_json(args.reviewed_events,precise_float=True) if args.reviewed_events else None
+        changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
+        print(json.dumps(reconcile_dividend_sources(args.market, args.payments, args.calendar, args.out, reviewed, changes), ensure_ascii=False, indent=2))
+    elif args.command == "merge-dividend-events":
+        from .dividend_union import merge_dividend_events
+        import pandas as pd
+        changes = pd.read_json(args.code_changes, convert_dates=False) if args.code_changes else None
+        print(json.dumps(merge_dividend_events(args.base, args.supplements, args.calendar, args.out, changes), ensure_ascii=False, indent=2))
+    elif args.command == "download-cninfo-dividends":
+        from .cninfo_dividends import download_cninfo_dividends
+        result = download_cninfo_dividends(args.out, args.symbols, args.resume)
+        print(json.dumps({k: v for k, v in result.items() if k not in ["securities", "symbols"]}, ensure_ascii=False, indent=2))
+        if result["status"] != "downloaded_raw":
+            raise SystemExit(1)
+    elif args.command == "normalize-cninfo-dividends":
+        from .cninfo_dividends import normalize_cninfo_dividends
+        result = normalize_cninfo_dividends(args.data, args.calendar, args.out)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        if result["status"] != "normalized":
+            raise SystemExit(1)
+    elif args.command == "report":
+        import pandas as pd
+        from .research import daily_report, load_holdings
+        picks = pd.read_csv(args.predictions, dtype={"symbol": str}, parse_dates=["date"])
+        changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
+        print(json.dumps(daily_report(load(args.data,code_changes=changes), picks, load_holdings(args.holdings), args.out,
+                                     args.asof, args.ledger), ensure_ascii=False, indent=2))
+    elif args.command == "compare":
+        from .experiments import compare_oneil
+        result = compare_oneil(load(args.data), args.out, Config(train_horizon=args.horizon), args.asof, args.evaluation_start)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    else:
+        config = Config(train_horizon=args.horizon, oneil=args.oneil, top_k=args.top_k,
+                        train_months=args.train_months, min_train_groups=args.min_train_groups,
+                        commission_bps=args.commission_bps, slippage_bps=args.slippage_bps,
+                        sell_tax_bps=args.sell_tax_bps)
+        if bool(args.raw_prices) != bool(args.corporate_actions):
+            parser.error("--raw-prices and --corporate-actions must be supplied together")
+        import pandas as pd
+        raw = pd.read_csv(args.raw_prices, dtype={"symbol":str,"tradestatus":str}) if args.raw_prices else None
+        actions = pd.read_csv(args.corporate_actions, dtype={"symbol":str}) if args.corporate_actions else None
+        from .data import read_dataset
+        changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
+        dataset=read_dataset(args.data) if changes is not None else load(args.data)
+        from .reference_overrides import load_reference_evidence
+        evidence=load_reference_evidence(args.reference_overrides) if args.reference_overrides else None
+        print(json.dumps(run(dataset, args.out, config, args.asof, raw_prices=raw, corporate_actions=actions, reference_tick_size=args.reference_tick_size, code_changes=changes, reference_overrides=evidence), ensure_ascii=False, indent=2))
+
+
+if __name__ == "__main__":
+    main()

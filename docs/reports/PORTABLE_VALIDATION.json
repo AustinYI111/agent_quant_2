@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-14",
+  "scope": "portable model persistence and private backup engineering",
+  "full_tests_before_cloud_client": {
+    "passed": 137,
+    "seconds": 50.58
+  },
+  "migration_and_private_storage_tests": {
+    "passed": 6,
+    "seconds": 9.35
+  },
+  "synthetic_end_to_end_checks": 8,
+  "reloaded_prediction_matches": "symbol order identical; scores within 1e-12; no retraining",
+  "windows_scripts": "PowerShell syntax parser passed; clean-machine installation not tested",
+  "formal_real_model_available": false,
+  "real_profitability_proven": false,
+  "cloud_backup_repository": "AustinYI111/agent_quant_2-backups",
+  "cloud_backup_status": "uploaded and downloaded; GitHub SHA-256 and size verified; downloaded archive identical to fully restored local archive",
+  "full_tests": {
+    "passed": 139,
+    "seconds": 60.96
+  },
+  "cloud_backup_tag": "backup-20261014-initial",
+  "cloud_backup_bytes": 465760360,
+  "cloud_backup_sha256": "ce291cfdacc5b3ae049c426f17a3c0785545fa1b0257ddf20e14607fd28f2c4a",
+  "full_local_restore": {
+    "files": 16418,
+    "verified": true,
+    "retrained": false,
+    "synthetic_model_prediction_identical": true
+  },
+  "pull_request": "https://github.com/AustinYI111/agent_quant_2/pull/11",
+  "github_tests": "MVP, legacy offline regression and synthetic end-to-end checks passed"
+}
