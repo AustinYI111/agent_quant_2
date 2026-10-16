@@ -1,7 +1,12 @@
-"""Reviewed notice-backed reference cash; actual holder payout is immutable."""
+"""Reviewed reference cash/share terms; actual holder entitlements stay intact."""
 import re
 import numpy as np
 import pandas as pd
+
+
+def load_reference_evidence(path):
+    """Preserve declared JSON decimal precision at quote-rounding boundaries."""
+    return pd.read_json(path,convert_dates=False,precise_float=True)
 
 
 def apply_reference_overrides(actions, overrides, calendar):
@@ -23,6 +28,18 @@ def apply_reference_overrides(actions, overrides, calendar):
     for field in ["reference_cash_per_share","expected_cash_per_share"]:
         o[field]=pd.to_numeric(o[field],errors="raise")
         if not np.isfinite(o[field]).all() or o[field].lt(0).any(): raise ValueError("invalid reference cash")
+    share_fields=['reference_share_multiplier','expected_share_multiplier']
+    if any(field in o for field in share_fields):
+        if not all(field in o for field in share_fields):raise ValueError('paired reference and actual share anchors required')
+        for field in share_fields:o[field]=pd.to_numeric(o[field],errors='raise')
+        supplied=o[share_fields].notna()
+        if supplied.any(axis=1).ne(supplied.all(axis=1)).any():raise ValueError('paired reference and actual share anchors required')
+        for field in share_fields:
+            known=o.loc[supplied.all(axis=1),field]
+            if not np.isfinite(known).all() or known.le(0).any():raise ValueError('invalid reference share multiplier')
+        a['share_multiplier']=pd.to_numeric(a.share_multiplier,errors='raise')
+        if 'reference_share_multiplier' not in a:a['reference_share_multiplier']=np.nan
+        else:a['reference_share_multiplier']=pd.to_numeric(a.reference_share_multiplier,errors='raise')
     a["cash_per_share"]=pd.to_numeric(a.cash_per_share,errors="raise")
     if "reference_cash_per_share" not in a: a["reference_cash_per_share"]=np.nan
     else: a["reference_cash_per_share"]=pd.to_numeric(a.reference_cash_per_share,errors="raise")
@@ -37,6 +54,12 @@ def apply_reference_overrides(actions, overrides, calendar):
             raise ValueError("reference evidence not visible before execution")
         existing=a.at[index,"reference_cash_per_share"]
         if pd.notna(existing) and not np.isclose(existing,row.reference_cash_per_share,rtol=0,atol=1e-8): raise ValueError("conflicting reviewed reference amounts")
+        reference_shares=getattr(row,'reference_share_multiplier',np.nan)
+        if pd.notna(reference_shares):
+            if not np.isclose(a.at[index,'share_multiplier'],row.expected_share_multiplier,rtol=0,atol=1e-8):raise ValueError('reference evidence conflicts with actual shares')
+            existing_shares=a.at[index,'reference_share_multiplier']
+            if pd.notna(existing_shares) and not np.isclose(existing_shares,reference_shares,rtol=0,atol=1e-8):raise ValueError('conflicting reviewed reference shares')
+            a.at[index,'reference_share_multiplier']=reference_shares
         a.at[index,"reference_cash_per_share"]=row.reference_cash_per_share
         a.at[index,"available_date"]=max(a.at[index,"available_date"],row.available_date)
         if a.at[index,"available_date"]>row.ex_date: raise ValueError("payment event not visible before execution")

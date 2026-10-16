@@ -81,3 +81,13 @@ def test_stock_only_account_without_payment_date_for_old_and_new_buyers(signal_i
     assert nav.nav.tolist()==pytest.approx([1.]*len(nav))
     assert nav.dividend_receivable.eq(0).all() and nav.iloc[-1].positions==0
     assert nav.iloc[-1].cash==pytest.approx(1.)
+
+
+def test_reference_share_ratio_does_not_change_actual_account_shares():
+    data,raw,actions,dates=inputs();raw=raw.astype({'open':float,'close':float,'preclose':float});raw.loc[raw.date>=dates[2],['open','close','preclose']]=5.26
+    actions['cash_per_share']=0.;actions['share_multiplier']=2.;actions['reference_share_multiplier']=1.9;actions['pay_date']=pd.NaT
+    picks=pd.DataFrame(dict(date=[dates[0],dates[3]],symbol='sh.600000',target_weight=[1.,0.]))
+    nav,trades=simulate_monthly(data,picks,Config(commission_bps=0,slippage_bps=0,sell_tax_bps=0),raw,actions,reference_tick_size=.01)
+    assert nav.nav.tolist()==pytest.approx([1.,1.052,1.052,1.052])
+    assert nav.iloc[-1].cash==pytest.approx(1.052) and nav.iloc[-1].positions==0
+    assert nav.dividend_receivable.eq(0).all()

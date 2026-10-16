@@ -208,7 +208,8 @@ def main():
         import pandas as pd
         from .market_dataset import prepare_market_ratios
         changes=pd.read_json(args.code_changes) if args.code_changes else None
-        overrides=pd.read_json(args.reference_overrides) if args.reference_overrides else None
+        from .reference_overrides import load_reference_evidence
+        overrides=load_reference_evidence(args.reference_overrides) if args.reference_overrides else None
         non_listing=pd.read_json(args.non_listing_evidence) if args.non_listing_evidence else None
         result=prepare_market_ratios(args.market,args.financials,args.master,args.actions,args.out,args.audit_out,
                                      args.reference_tick_size,changes,overrides,non_listing)
@@ -289,7 +290,7 @@ def main():
     elif args.command == "reconcile-dividends":
         from .dividend_reconciliation import reconcile_dividend_sources
         import pandas as pd
-        reviewed=pd.read_json(args.reviewed_events) if args.reviewed_events else None
+        reviewed=pd.read_json(args.reviewed_events,precise_float=True) if args.reviewed_events else None
         changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
         print(json.dumps(reconcile_dividend_sources(args.market, args.payments, args.calendar, args.out, reviewed, changes), ensure_ascii=False, indent=2))
     elif args.command == "download-cninfo-dividends":
@@ -328,7 +329,8 @@ def main():
         from .data import read_dataset
         changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
         dataset=read_dataset(args.data) if changes is not None else load(args.data)
-        evidence=pd.read_json(args.reference_overrides,convert_dates=False) if args.reference_overrides else None
+        from .reference_overrides import load_reference_evidence
+        evidence=load_reference_evidence(args.reference_overrides) if args.reference_overrides else None
         print(json.dumps(run(dataset, args.out, config, args.asof, raw_prices=raw, corporate_actions=actions, reference_tick_size=args.reference_tick_size, code_changes=changes, reference_overrides=evidence), ensure_ascii=False, indent=2))
 
 

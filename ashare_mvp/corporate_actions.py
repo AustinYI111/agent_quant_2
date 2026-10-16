@@ -48,6 +48,12 @@ def economic_return_prices(prices, actions, calendar, reference_tick_size=None):
             raise ValueError("invalid reference-price dividend")
     else:
         a["reference_cash_per_share"] = a.cash_per_share
+    if "reference_share_multiplier" in a:
+        a["reference_share_multiplier"]=pd.to_numeric(a.reference_share_multiplier,errors="raise").fillna(a.share_multiplier)
+        if not np.isfinite(a.reference_share_multiplier).all() or a.reference_share_multiplier.le(0).any():
+            raise ValueError("invalid reference-price share multiplier")
+    else:
+        a["reference_share_multiplier"]=a.share_multiplier
     if a[["ex_date", "available_date"]].isna().any().any() or (a.cash_per_share.gt(0) & a.pay_date.isna()).any() or (a.available_date > a.ex_date).any() or (a.pay_date < a.ex_date).any():
         raise ValueError("action not known at ex-date or invalid payment date")
     within_interval = a.ex_date.between(cal.min(), cal.max())
@@ -72,10 +78,10 @@ def economic_return_prices(prices, actions, calendar, reference_tick_size=None):
             if previous_close is not None:
                 expected_preclose = previous_close
                 if event is not None:
-                    expected_preclose = (previous_close - event.reference_cash_per_share) / event.share_multiplier
+                    expected_preclose = (previous_close - event.reference_cash_per_share) / event.reference_share_multiplier
                 if not reference_matches(row.preclose, previous_close,
                         event.reference_cash_per_share if event is not None else 0.0,
-                        event.share_multiplier if event is not None else 1.0, reference_tick_size):
+                        event.reference_share_multiplier if event is not None else 1.0, reference_tick_size):
                     raise ValueError(f"{symbol} {row.date.date()}: unreconciled price adjustment/corporate action")
             if event is not None:
                 entitlement = shares * event.cash_per_share

@@ -40,9 +40,9 @@ python -m venv .venv
 
 日报命令同样可传 `--code-changes config/same_issuer_code_changes.json`。持仓 CSV 仍使用 `symbol,shares,average_cost` 三列；输出保留 `input_symbol`、稳定发行人键 `symbol` 和当日 `trading_symbol`。同一发行人的新旧代码重复填报会拒绝，不自动合并成本。持仓及日报应放在忽略的 `private/` 目录。
 
-### 公告依据与参考除息金额
+### 公告依据与参考除权参数
 
-公司行动运行可添加 `--reference-overrides config/reviewed_reference_cash.json`，加载经核对的参考除息金额。证据必须包含公告日期、可用日期、原文 URL、PDF 哈希、页码及预期实际派息；现金冲突、时点不合规或未复核的记录会拒绝。该功能只补充 `reference_cash_per_share`，不改 `cash_per_share`，并在运行目录保存证据与哈希。当前累计有 12 条已核对记录，不能视为剩余公司行动问题已解决。
+公司行动运行可添加 `--reference-overrides config/reviewed_reference_cash.json`，加载经核对的参考除息金额。证据必须包含公告日期、可用日期、原文 URL、PDF 哈希、页码及预期实际派息；现金冲突、时点不合规或未复核的记录会拒绝。该功能补充 `reference_cash_per_share`，也可用成对的 `reference_share_multiplier`／`expected_share_multiplier` 记录官方虚拟送转倍数；真实 `cash_per_share` 和 `share_multiplier` 保持原权益，证据与哈希保存到运行目录。当前累计有 15 条已核对记录，不能视为剩余公司行动问题已解决。
 
 
 ## 公开 PE/PB 因子与分红事件账本
@@ -127,7 +127,7 @@ python -m ashare_mvp.cli reconcile-dividends --market artifacts/market_dividend_
 
 ### 第一阶段最新实测（2026-10-16）
 
-逐日流式连接已实际核验 1,089 个行情文件并处理 4,304,493 行，连接新版财务依赖面板；相关 53 项测试通过。累计审阅 31 条实施公告、12 条参考金额证据。行情接口已恢复并断点续采，但当前封存检查仍有日行情、身份、事件及价格核对缺口，尚未运行真实全市场训练与样本外回测。具体范围、哈希和剩余工作见[本次数据报告](docs/reports/PHASE1_DATA_20261016.md)。开发优先保持第一阶段，不扩展后续阶段功能。
+逐日流式连接已实际核验 1,089 个行情文件并处理 4,304,493 行，连接新版财务依赖面板；相关 53 项测试通过。累计审阅 31 条实施公告、15 条参考金额及比例证据。行情接口已恢复并断点续采，但当前封存检查仍有日行情、身份、事件及价格核对缺口，尚未运行真实全市场训练与样本外回测。具体范围、哈希和剩余工作见[本次数据报告](docs/reports/PHASE1_DATA_20261016.md)。开发优先保持第一阶段，不扩展后续阶段功能。
 
 
 纯转增事件允许 `cash_per_share=0` 且 `pay_date` 为空，保留 `share_credit_date` 与 `stock_market_date`；正现金分红仍要求支付日期。审阅配置的原始现金锚点为空时，只能用于有官方证据的零现金转增，不能与后续数字零混同。两条真实转增已接入，新代码回填的六条历史分红已用正式代码变更与逐条支付公告恢复。准备检查仍将区间内未解析事件列为阻塞，不据代码前缀排除冒充完整。
@@ -143,3 +143,6 @@ python -m ashare_mvp.cli combine-financials --earnings artifacts/financial_panel
 ```
 
 以上目录是已完成本地实测的版本名，复用时采用新的空输出目录。准备训练数据时，财务、分红与特征须使用同一封存身份策略；新版本不自动替代旧快照。
+
+
+差异化送转的官方参考倍数已接入，三条真实案例保持全部主事件的实际现金／股数不变，并解释对应价格差异。完整 286 项测试通过；新财务快照已扩至 5,216 个证券，仍未完成真实全市场训练。范围、来源分类与剩余工作见[参考比例与数据覆盖检查](docs/reports/REFERENCE_SHARES_20261016.md)。

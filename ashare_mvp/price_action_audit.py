@@ -24,11 +24,15 @@ def audit_price_actions(prices, actions, calendar, reference_tick_size=None):
         a["reference_cash_per_share"]=pd.to_numeric(a.reference_cash_per_share,errors="raise").fillna(a.cash_per_share)
         if not np.isfinite(a.reference_cash_per_share).all() or a.reference_cash_per_share.lt(0).any(): raise ValueError("invalid reference cash")
     else: a["reference_cash_per_share"]=a.cash_per_share
+    if "reference_share_multiplier" in a:
+        a["reference_share_multiplier"]=pd.to_numeric(a.reference_share_multiplier,errors="raise").fillna(a.share_multiplier)
+        if not np.isfinite(a.reference_share_multiplier).all() or a.reference_share_multiplier.le(0).any():raise ValueError("invalid reference share multiplier")
+    else:a["reference_share_multiplier"]=a.share_multiplier
     p=p.sort_values(["symbol","date"])
     p["previous_close"]=p.groupby("symbol").close.shift()
     p["previous_date"]=p.groupby("symbol").date.shift()
-    p=p.merge(a[["symbol","ex_date","reference_cash_per_share","share_multiplier"]],left_on=["symbol","date"],right_on=["symbol","ex_date"],how="left",validate="one_to_one")
-    p["expected_preclose"]=(p.previous_close-p.reference_cash_per_share.fillna(0))/p.share_multiplier.fillna(1)
+    p=p.merge(a[["symbol","ex_date","reference_cash_per_share","share_multiplier","reference_share_multiplier"]],left_on=["symbol","date"],right_on=["symbol","ex_date"],how="left",validate="one_to_one")
+    p["expected_preclose"]=(p.previous_close-p.reference_cash_per_share.fillna(0))/p.reference_share_multiplier.fillna(1)
     issues=[]
     for symbol,bars in p.groupby("symbol",sort=False):
         expected=cal[cal>=bars.date.min()]
@@ -43,7 +47,7 @@ def audit_price_actions(prices, actions, calendar, reference_tick_size=None):
         mismatch=adjacent & p.previous_close.notna() & ~np.isclose(p.preclose,p.expected_preclose,rtol=0,atol=1e-8) & ~invalid
         for row in p.loc[mismatch].itertuples():
             if reference_matches(row.preclose,row.previous_close,0.0 if pd.isna(row.reference_cash_per_share) else row.reference_cash_per_share,
-                                 1.0 if pd.isna(row.share_multiplier) else row.share_multiplier,reference_tick_size):
+                                 1.0 if pd.isna(row.reference_share_multiplier) else row.reference_share_multiplier,reference_tick_size):
                 mismatch.at[row.Index]=False
                 rounding_matches+=1
     for issue,mask in [("nonpositive_or_invalid_valuation",invalid),("unreconciled_adjustment",mismatch)]:
