@@ -27,8 +27,15 @@ def reviewed_distribution_lookup(evidence, raw, calendar):
     for field in ['ordinary_cash_per_share','special_cash_per_share']:
         if field in e:
             e[field]=pd.to_numeric(e[field],errors='raise')
-            if not np.isfinite(e[field]).all() or e[field].lt(0).any():raise ValueError('invalid reviewed dividend component')
-    if {'ordinary_cash_per_share','special_cash_per_share'}.issubset(e) and not np.isclose(e.ordinary_cash_per_share+e.special_cash_per_share,e.cash_per_share,rtol=0,atol=1e-8).all():raise ValueError('reviewed cash components do not sum to actual payout')
+            known=e[field].dropna()
+            if not np.isfinite(known).all() or known.lt(0).any():raise ValueError('invalid reviewed dividend component')
+    component_fields=['ordinary_cash_per_share','special_cash_per_share']
+    if any(field in e for field in component_fields):
+        if not all(field in e for field in component_fields):raise ValueError('cash components must both be provided or both absent')
+        supplied=e[component_fields].notna()
+        if supplied.any(axis=1).ne(supplied.all(axis=1)).any():raise ValueError('cash components must both be provided or both absent')
+        known=supplied.all(axis=1)
+        if not np.isclose(e.loc[known,'ordinary_cash_per_share']+e.loc[known,'special_cash_per_share'],e.loc[known,'cash_per_share'],rtol=0,atol=1e-8).all():raise ValueError('reviewed cash components do not sum to actual payout')
     conflict=e.get('independent_conflict_reviewed',pd.Series(False,index=e.index)).fillna(False).eq(True)
     if conflict.any():
         fields={'payout_scope','expected_independent_cash_per_share','expected_independent_share_multiplier','expected_independent_pay_date'}

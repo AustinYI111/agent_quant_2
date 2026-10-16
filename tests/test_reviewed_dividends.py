@@ -90,3 +90,20 @@ def test_reviewed_conflict_cannot_ignore_missing_independent_source_event(tmp_pa
     with pytest.raises(ValueError,match='anchor has no matching event'):
         reconcile_dividend_sources(*args,reviewed_events=e)
     assert not args[3].exists()
+
+
+def test_known_total_can_preserve_unknown_component_split_in_mixed_batch(tmp_path):
+    args=inputs(tmp_path)
+    known=evidence(symbol='sh.600000',cash=.1)
+    unknown=evidence();unknown[['ordinary_cash_per_share','special_cash_per_share']]=float('nan')
+    result=reconcile_dividend_sources(*args,reviewed_events=pd.concat([known,unknown],ignore_index=True))
+    frame=pd.read_csv(args[3]/'actions.csv').set_index('symbol')
+    assert result['reviewed_notice_events']==2 and frame.loc['sh.600001','cash_per_share']==pytest.approx(.15)
+    assert pd.isna(frame.loc['sh.600001','ordinary_cash_per_share']) and pd.isna(frame.loc['sh.600001','special_cash_per_share'])
+
+
+def test_half_known_cash_component_pair_is_not_silently_filled(tmp_path):
+    args=inputs(tmp_path);e=evidence();e['special_cash_per_share']=float('nan')
+    with pytest.raises(ValueError,match='both be provided or both absent'):
+        reconcile_dividend_sources(*args,reviewed_events=e)
+    assert not args[3].exists()

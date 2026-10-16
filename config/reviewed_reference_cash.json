@@ -34,5 +34,17 @@
     "source_sha256": "54d9f9ade9baabe182ac47634cf269033c9b010928d0b6aeafb135346a57b884",
     "source_page": 2,
     "reviewed": true
+  },
+  {
+    "symbol": "sh.601828",
+    "ex_date": "2023-07-24",
+    "reference_cash_per_share": 0.07998,
+    "expected_cash_per_share": 0.08,
+    "announcement_date": "2023-07-18",
+    "available_date": "2023-07-19",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2023-07-18/1217315307.PDF",
+    "source_sha256": "911f8a3bda29572d50c5388cbe5e54e9c4b1c6fccbc1b5bb4b7f72612b57bd8a",
+    "source_page": 2,
+    "reviewed": true
   }
 ]
