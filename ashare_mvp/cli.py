@@ -43,6 +43,15 @@ def main():
     research.add_argument("--horizon", choices=[3, 6, 12], type=int, default=6)
     research.add_argument("--oneil", action="store_true")
     research.add_argument("--exploratory", action="store_true")
+    horizon_labels = sub.add_parser("build-horizon-labels", help="explicit 5/20-session and 12-month new-buyer outcomes")
+    horizon_labels.add_argument("--prices", required=True)
+    horizon_labels.add_argument("--actions", required=True)
+    horizon_labels.add_argument("--calendar", required=True)
+    horizon_labels.add_argument("--signals", required=True)
+    horizon_labels.add_argument("--out", required=True)
+    horizon_labels.add_argument("--horizons", nargs="+", choices=["5d","20d","12m"], default=["5d","20d","12m"])
+    horizon_labels.add_argument("--asof")
+    horizon_labels.add_argument("--reference-tick-size", type=float)
     market = sub.add_parser("download-market", help="resumable daily full-cross-section raw-price acquisition")
     market.add_argument("--out", required=True)
     market.add_argument("--start", required=True)
@@ -205,6 +214,10 @@ def main():
         from .public_conversion import run_public_research
         print(json.dumps(run_public_research(args.data, args.out, Config(train_horizon=args.horizon, oneil=args.oneil),
                                              args.asof, args.exploratory), ensure_ascii=False, indent=2))
+    elif args.command == "build-horizon-labels":
+        from .horizon_labels import write_horizon_label_files
+        print(json.dumps(write_horizon_label_files(args.prices,args.actions,args.calendar,args.signals,args.out,
+            args.horizons,args.reference_tick_size,args.asof),ensure_ascii=False,indent=2))
     elif args.command == "download-market":
         from .market_download import download_market_daily
         result = download_market_daily(args.out, args.start, args.end, args.resume)
