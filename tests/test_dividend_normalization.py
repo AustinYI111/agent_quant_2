@@ -125,3 +125,75 @@ def test_identically_missing_cash_still_does_not_become_valid(tmp_path):
     replace_rows(args,pd.concat([frame,frame],ignore_index=True))
     result=normalize_dividends(*args)
     assert result['accepted']==0 and result['rejected']==1 and result['status']=='partial'
+
+
+
+def reviewed_conflict(args):
+    row=pd.read_csv(args[0]/'sh.600000_2018.csv',dtype=str).iloc[0]
+    rows=pd.DataFrame([row,row]).reset_index(drop=True)
+    rows.loc[1,'dividCashPsBeforeTax']='0.09';rows.loc[1,'dividCashStock']='10派0.9元'
+    replace_rows(args,rows)
+    return pd.DataFrame([dict(source_file='sh.600000_2018.csv',
+        expected_file_sha256=hashlib.sha256((args[0]/'sh.600000_2018.csv').read_bytes()).hexdigest(),
+        source_rows=[0,1],selected_source_row=1,symbol='sh.600000',ex_date='2018-07-13',
+        expected_raw_cash_per_share=.09,expected_raw_share_multiplier=1.,expected_raw_description='10派0.9元',
+        cash_per_share=.0900001,share_multiplier=1.,announcement_date='2018-07-06',available_date='2018-07-09',pay_date='2018-07-13',
+        source_url='https://example.org/official.pdf',source_sha256='b'*64,source_page=1,payment_source_page=2,reviewed=True)])
+
+
+def test_explicit_official_conflict_review_is_anchored_and_replayable(tmp_path):
+    args=evidence(tmp_path);review=reviewed_conflict(args)
+    result=normalize_dividends(*args,reviewed_versions=review)
+    assert result['accepted']==1 and result['rejected']==0 and result['reviewed_version_groups']==1
+    action=pd.read_csv(args[2]/'actions.csv').iloc[0]
+    assert action.cash_per_share==.0900001 and action.source_row==1
+    assert action.reviewed_raw_version_resolution and json.loads(action.source_rows_json)==[0,1]
+    assert action.source_notice_sha256=='b'*64 and action.source_payment_page==2
+    assert action.available_date=='2018-07-09' and action.pay_date=='2018-07-13'
+    assert pd.read_csv(args[2]/'duplicate_audit.csv').status.iloc[0]=='resolved_reviewed_implementation_notice'
+    assert hashlib.sha256((args[2]/'input_reviewed_versions.json').read_bytes()).hexdigest()==result['reviewed_versions_sha256']
+
+
+@pytest.mark.parametrize('field,value,message',[
+    ('expected_file_sha256','c'*64,'file hash'),('expected_raw_cash_per_share',.1,'selected raw terms'),
+    ('expected_raw_description','wrong','selected raw terms'),('selected_source_row',0,'selected raw terms'),
+    ('source_rows',[0,2],'row anchors'),('reviewed',False,'unreviewed'),
+    ('available_date','2018-07-16','visible'),('pay_date','2018-07-16','clock differs'),
+    ('share_multiplier',1.1,'share changes'),('source_file','other.csv','unused'),
+    ('payment_source_page',0,'source page'),('source_sha256','bad','SHA256'),
+])
+def test_official_review_cannot_bypass_raw_clock_or_amount_anchors(tmp_path,field,value,message):
+    args=evidence(tmp_path);review=reviewed_conflict(args)
+    review.at[0,field]=value
+    with pytest.raises(ValueError,match=message):normalize_dividends(*args,reviewed_versions=review)
+    assert not args[2].exists()
+
+
+def test_extra_raw_version_is_not_hidden_by_incomplete_review(tmp_path):
+    args=evidence(tmp_path);review=reviewed_conflict(args)
+    frame=pd.read_csv(args[0]/'sh.600000_2018.csv',dtype=str)
+    frame=pd.concat([frame,frame.iloc[[0]]],ignore_index=True);replace_rows(args,frame)
+    review.at[0,'expected_file_sha256']=hashlib.sha256((args[0]/'sh.600000_2018.csv').read_bytes()).hexdigest()
+    with pytest.raises(ValueError,match='group anchors'):normalize_dividends(*args,reviewed_versions=review)
+
+
+def test_more_precise_description_refines_only_provably_rounded_numeric_field(tmp_path):
+    args=evidence(tmp_path,dividCashPsBeforeTax='0.149141',dividCashStock='10派1.491414元')
+    result=normalize_dividends(*args)
+    assert pd.read_csv(args[2]/'actions.csv').cash_per_share.iloc[0]==.1491414
+    assert result['precision_refinements']==1
+    audit=pd.read_csv(args[2]/'precision_audit.csv',dtype=str)
+    assert audit.raw_literal.iloc[0]=='0.149141' and audit.declared_per_share.iloc[0]=='0.1491414'
+    assert hashlib.sha256((args[2]/'precision_audit.csv').read_bytes()).hexdigest()==result['precision_audit_sha256']
+
+
+def test_lower_precision_description_does_not_replace_numeric_field(tmp_path):
+    args=evidence(tmp_path,dividCashPsBeforeTax='0.1000004',dividCashStock='10派1元')
+    result=normalize_dividends(*args)
+    assert pd.read_csv(args[2]/'actions.csv').cash_per_share.iloc[0]==.1000004 and result['precision_refinements']==0
+
+
+def test_inconsistent_rounding_does_not_claim_precision_refinement(tmp_path):
+    args=evidence(tmp_path,dividCashPsBeforeTax='0.149141',dividCashStock='10派1.491415元')
+    result=normalize_dividends(*args)
+    assert result['precision_refinements']==0 and pd.read_csv(args[2]/'actions.csv').cash_per_share.iloc[0]==.149141

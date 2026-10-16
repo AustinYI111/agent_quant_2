@@ -1,0 +1,27 @@
+[
+  {
+    "source_file": "sz.300110_2018.csv",
+    "expected_file_sha256": "b123b42552f858a0b93ead422756f1cf92308c6b89c8f0ce699f6cc8c8912f82",
+    "source_rows": [
+      0,
+      1
+    ],
+    "selected_source_row": 1,
+    "symbol": "sz.300110",
+    "ex_date": "2018-05-22",
+    "expected_raw_cash_per_share": 0.016682,
+    "expected_raw_share_multiplier": 1.0,
+    "expected_raw_description": "10派0.166823元（含税，扣税后0.150141或0.166823元）",
+    "cash_per_share": 0.0166823,
+    "share_multiplier": 1.0,
+    "announcement_date": "2018-05-15",
+    "available_date": "2018-05-16",
+    "pay_date": "2018-05-22",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2018-05-15/1204945742.PDF",
+    "source_sha256": "632a4a45865bc9ac8e808cefa2ea8ad059ca55864266dc4d63d02f57fb9b262f",
+    "source_page": 1,
+    "payment_source_page": 2,
+    "reviewed": true,
+    "reason": "Original proposal per old share count differs from explicit implemented distribution after rights issuance; preserve both sealed raw rows and use announcement implementation terms"
+  }
+]

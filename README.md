@@ -150,3 +150,5 @@ python -m ashare_mvp.cli combine-financials --earnings artifacts/financial_panel
 历史分红可用 `merge-dividend-events` 以封存来源补齐，重复权益只计一次，冲突拒绝且保留原计划缺口。1,479 个请求交易日现已采集齐全；真实训练仍待数据核验。使用方式和边界见[历史分红与全量行情进展](docs/reports/HISTORICAL_DISTRIBUTION_UNION_20261016.md)。
 
 公开分红接口的同日重复版本已支持保留原始行和一致性规范化；真实 573 条原始记录保留 563 条事件，8 条重复只计一次，2 条冲突隔离且不进入主事件库。规则与证据见[分红版本处理](docs/reports/DISTRIBUTION_VERSIONS_20261016.md)。
+
+正式实施公告可通过原始文件哈希及全部冲突行锚点解决历史分红版本差异；本轮已实际新增 300 条事件并验证原有现金／股数不变。未解释调整在同一旧行情片段从 560 降至 321，仍待全量核验。命令、证据及边界见[公告审阅与历史事件合并](docs/reports/REVIEWED_HISTORICAL_EVENTS_20261016.md)。

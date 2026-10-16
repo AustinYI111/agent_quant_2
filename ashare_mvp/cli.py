@@ -117,6 +117,7 @@ def main():
     normalize_actions.add_argument("--data", required=True)
     normalize_actions.add_argument("--calendar", required=True)
     normalize_actions.add_argument("--out", required=True)
+    normalize_actions.add_argument("--reviewed-versions")
     market_actions = sub.add_parser("download-market-dividends", help="complete paginated dividend plans by report period")
     market_actions.add_argument("--start", required=True)
     market_actions.add_argument("--end", required=True)
@@ -283,7 +284,9 @@ def main():
             raise SystemExit(1)
     elif args.command == "normalize-dividends":
         from .dividend_normalization import normalize_dividends
-        result = normalize_dividends(args.data, args.calendar, args.out)
+        import pandas as pd
+        reviewed=pd.read_json(args.reviewed_versions,convert_dates=False,precise_float=True) if args.reviewed_versions else None
+        result = normalize_dividends(args.data, args.calendar, args.out, reviewed)
         print(json.dumps(result, ensure_ascii=False, indent=2))
         if result["status"] != "normalized":
             raise SystemExit(1)

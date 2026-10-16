@@ -94,6 +94,10 @@ def merge_dividend_events(base, supplements, calendar_path, out, code_changes=No
         if manifest.get('schema') != 'dividend_raw_v1' or manifest.get('status') != 'downloaded_raw' or manifest.get('request', {}).get('year_type') != 'operate':
             raise ValueError('supported execution-year distribution source required')
         read(directory, 'input_calendar.csv', prefix + 'calendar.csv', calendar_hash)
+        for name, key in [('duplicate_audit.csv','duplicate_audit_sha256'),
+                          ('precision_audit.csv','precision_audit_sha256'),
+                          ('input_reviewed_versions.json','reviewed_versions_sha256')]:
+            if key in info: read(directory,name,prefix+name,info[key])
         extra = pd.read_csv(BytesIO(read(directory, 'actions.csv', prefix + 'actions.csv', info['actions_sha256'])))
         if len(extra) != info['accepted']: raise ValueError('supplemental row count mismatch')
         if code_changes is not None:

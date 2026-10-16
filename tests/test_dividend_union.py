@@ -112,3 +112,21 @@ def test_same_issuer_alias_is_not_double_counted_and_policy_required(tmp_path):
 def test_calendar_mismatch_is_not_silently_reinterpreted(tmp_path):
     args=fixture(tmp_path);args[2].write_text(args[2].read_text()+'2020-02-03\n')
     with pytest.raises(ValueError,match='span calendar'):merge_dividend_events(*args)
+
+
+@pytest.mark.parametrize('name,key',[
+    ('duplicate_audit.csv','duplicate_audit_sha256'),('precision_audit.csv','precision_audit_sha256'),
+    ('input_reviewed_versions.json','reviewed_versions_sha256'),
+])
+def test_supplemental_review_evidence_is_verified_and_sealed(tmp_path,name,key):
+    args=fixture(tmp_path);extra=args[1][0]
+    (extra/name).write_text('sealed evidence',encoding='utf8')
+    meta=json.loads((extra/'summary.json').read_text());meta[key]=digest(extra/name)
+    (extra/'summary.json').write_text(json.dumps(meta))
+    result=merge_dividend_events(*args)
+    saved='supplement_0_'+name
+    assert digest(args[3]/('input_'+saved))==result['input_hashes'][saved]==meta[key]
+    (extra/name).write_text('changed',encoding='utf8')
+    with pytest.raises(ValueError,match='hash mismatch'):
+        merge_dividend_events(args[0],args[1],args[2],tmp_path/'bad')
+    assert not (tmp_path/'bad').exists()

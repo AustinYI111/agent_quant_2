@@ -4,12 +4,13 @@ from io import BytesIO
 import hashlib
 import json
 import re
+from decimal import Decimal, ROUND_HALF_UP
 
 import numpy as np
 import pandas as pd
 
 
-def _terms(row):
+def _terms(row, prefer_explicit_precision=False):
     text = str(row.get("dividCashStock", "")).split("（")[0].split("(")[0].strip().replace("转增", "转")
     if not re.fullmatch(r"10(?:(?:送|转|派)[0-9]+(?:\.[0-9]+)?(?:股|元)?)+", text):
         raise ValueError("unsupported or ambiguous distribution description")
@@ -18,6 +19,7 @@ def _terms(row):
         raise ValueError("duplicate distribution terms")
     described = {key: float(value) / 10 for key, value in terms}
     values = {}
+    precision_audit = []
     for field, key in [("dividCashPsBeforeTax", "派"), ("dividStocksPs", "送"), ("dividReserveToStockPs", "转")]:
         raw = row[field]
         if pd.isna(raw) or str(raw).strip() == "":
@@ -28,7 +30,15 @@ def _terms(row):
             value = float(raw)
         if not np.isfinite(value) or value < 0 or not np.isclose(value, described.get(key, 0), atol=1e-6, rtol=1e-6):
             raise ValueError("numeric distribution differs from explicit description")
+        if prefer_explicit_precision and key in described and pd.notna(raw) and str(raw).strip():
+            declared = Decimal(dict(terms)[key]) / Decimal(10)
+            numeric = Decimal(str(raw))
+            if declared != numeric and declared.as_tuple().exponent < numeric.as_tuple().exponent and declared.quantize(numeric, rounding=ROUND_HALF_UP) == numeric:
+                precision_audit.append(dict(field=field, raw_literal=str(raw), declared_per_share=str(declared),
+                    rule='explicit description rounds to numeric field at its declared decimal precision'))
+                value = float(declared)
         values[field] = value
+    if prefer_explicit_precision: values["_precision_audit"] = precision_audit
     return values
 
 
@@ -62,7 +72,7 @@ def _distribution_versions(frame):
     return sorted(selected), provenance, audit, conflicts
 
 
-def normalize_dividends(data, calendar_path, out):
+def normalize_dividends(data, calendar_path, out, reviewed_versions=None):
     source, target = Path(data), Path(out)
     if target.exists() and any(target.iterdir()):
         raise ValueError("normalized dividend output must be empty")
@@ -83,7 +93,10 @@ def normalize_dividends(data, calendar_path, out):
     cal = pd.DatetimeIndex(pd.to_datetime(dates))
     if cal.empty or cal.has_duplicates or cal.hasnans or not cal.is_monotonic_increasing or cal.tz is not None or not cal.equals(cal.normalize()):
         raise ValueError("invalid dividend exchange calendar")
-    accepted, rejected, duplicate_audit = [], [], []
+    from .reviewed_dividend_versions import reviewed_version_lookup, resolve_raw_versions
+    reviews = {} if reviewed_versions is None else reviewed_version_lookup(reviewed_versions,cal)
+    used_reviews=set()
+    accepted, rejected, duplicate_audit, precision_audit = [], [], [], []
     for name, (symbol, year) in sorted(expected.items()):
         if Path(name).name != name:
             raise ValueError("invalid dividend evidence filename")
@@ -94,6 +107,8 @@ def normalize_dividends(data, calendar_path, out):
         if len(frame) != manifest["files"][name]["rows"]:
             raise ValueError("dividend source row count mismatch")
         selected, provenance, versions, conflicts = _distribution_versions(frame)
+        overrides,used=resolve_raw_versions(frame,name,hashlib.sha256(raw).hexdigest(),selected,provenance,versions,conflicts,reviews)
+        used_reviews.update(used)
         duplicate_audit.extend(dict(source_file=name, **row) for row in versions)
         for index in conflicts:
             rejected.append(dict(source_file=name, source_row=int(index), symbol=symbol,
@@ -103,9 +118,10 @@ def normalize_dividends(data, calendar_path, out):
             try:
                 if row.code != symbol:
                     raise ValueError("dividend security mismatch")
-                terms = _terms(row)
+                terms = _terms(row,prefer_explicit_precision=True)
                 announcement, ex_date = pd.Timestamp(row.dividPlanDate), pd.Timestamp(row.dividOperateDate)
-                cash = terms["dividCashPsBeforeTax"]
+                notice=overrides.get(index)
+                cash = notice['cash_per_share'] if notice else terms["dividCashPsBeforeTax"]
                 pay_date = pd.Timestamp(row.dividPayDate) if cash > 0 else ex_date
                 if any(pd.isna(day) or day.tz is not None or day != day.normalize() for day in [announcement, ex_date, pay_date]):
                     raise ValueError("missing or invalid event date")
@@ -115,26 +131,35 @@ def normalize_dividends(data, calendar_path, out):
                 available_date = cal[visible_index]
                 if available_date > ex_date:
                     raise ValueError("event not visible before execution")
+                if notice:available_date=max(available_date,notice['available_date'])
+                precision_audit.extend(dict(source_file=name,source_row=int(index),**item) for item in terms['_precision_audit'])
                 accepted.append(dict(symbol=symbol, ex_date=ex_date, available_date=available_date, pay_date=pay_date,
-                    cash_per_share=cash, share_multiplier=1 + terms["dividStocksPs"] + terms["dividReserveToStockPs"],
+                    cash_per_share=cash, share_multiplier=notice["share_multiplier"] if notice else 1 + terms["dividStocksPs"] + terms["dividReserveToStockPs"],
                     announcement_date=announcement, stock_market_date=row.get("dividStockMarketDate", ""),
-                    source_file=name, source_row=int(index), source_rows_json=json.dumps(provenance.get(index, [index])), event_vintage_certified=False))
+                    source_file=name, source_row=int(index), source_rows_json=json.dumps(provenance.get(index, [index])), event_vintage_certified=False,
+                    reviewed_raw_version_resolution=bool(notice),source_notice_url=notice['source_url'] if notice else None,
+                    source_notice_sha256=notice['source_sha256'] if notice else None,source_notice_page=notice['source_page'] if notice else None,
+                    source_payment_page=notice['payment_source_page'] if notice else None))
             except (ValueError, TypeError, KeyError) as exc:
                 rejected.append(dict(source_file=name, source_row=int(index), symbol=symbol, reason=str(exc)))
+    if used_reviews!=set(reviews):raise ValueError("unused reviewed raw version evidence")
     columns = ["symbol", "ex_date", "available_date", "pay_date", "cash_per_share", "share_multiplier",
-               "announcement_date", "stock_market_date", "source_file", "source_row", "source_rows_json", "event_vintage_certified"]
+               "announcement_date", "stock_market_date", "source_file", "source_row", "source_rows_json", "event_vintage_certified", "reviewed_raw_version_resolution", "source_notice_url", "source_notice_sha256", "source_notice_page", "source_payment_page"]
     actions = pd.DataFrame(accepted, columns=columns)
     if actions.duplicated(["symbol", "ex_date"]).any():
         raise ValueError("duplicate normalized corporate event")
     target.mkdir(parents=True, exist_ok=True)
     actions.sort_values(["symbol", "ex_date"]).to_csv(target / "actions.csv", index=False)
     pd.DataFrame(rejected, columns=["source_file", "source_row", "symbol", "reason"]).to_csv(target / "rejected.csv", index=False)
-    pd.DataFrame(duplicate_audit, columns=['source_file', 'ex_date', 'source_rows_json', 'selected_source_row', 'status']).to_csv(target / 'duplicate_audit.csv', index=False)
+    pd.DataFrame(duplicate_audit, columns=['source_file', 'ex_date', 'source_rows_json', 'selected_source_row', 'status','source_url','source_sha256']).to_csv(target / 'duplicate_audit.csv', index=False)
+    pd.DataFrame(precision_audit,columns=['source_file','source_row','field','raw_literal','declared_per_share','rule']).to_csv(target/'precision_audit.csv',index=False)
     (target / "input_manifest.json").write_bytes(manifest_bytes)
     (target / "input_calendar.csv").write_bytes(calendar_bytes)
     summary = dict(accepted=len(actions), rejected=len(rejected), certified=False, model_ready=False,
+                   reviewed_version_groups=len(used_reviews),precision_refinements=len(precision_audit),
+                   precision_audit_sha256=hashlib.sha256((target/'precision_audit.csv').read_bytes()).hexdigest(),
                    duplicate_groups=len(duplicate_audit),
-                   duplicate_rows_coalesced=sum(len(json.loads(row['source_rows_json']))-1 for row in duplicate_audit if row['status']=='coalesced_compatible_raw_versions'),
+                   duplicate_rows_coalesced=sum(len(json.loads(row['source_rows_json']))-1 for row in duplicate_audit if row['status'] in ['coalesced_compatible_raw_versions','resolved_reviewed_implementation_notice']),
                    duplicate_audit_sha256=hashlib.sha256((target / 'duplicate_audit.csv').read_bytes()).hexdigest(),
                    rejected_sha256=hashlib.sha256((target / 'rejected.csv').read_bytes()).hexdigest(),
                    status="normalized" if not rejected else "partial",
@@ -143,5 +168,9 @@ def normalize_dividends(data, calendar_path, out):
                    actions_sha256=hashlib.sha256((target / "actions.csv").read_bytes()).hexdigest(),
                    limitations=["source vintage unverified", "gross economic share entitlements; stock tradability date retained separately",
                                 "no independent full-market company-action/terminal coverage certification"])
+    if reviewed_versions is not None:
+        payload=reviewed_versions.to_json(orient='records',date_format='iso',double_precision=15).encode()
+        (target/'input_reviewed_versions.json').write_bytes(payload)
+        summary['reviewed_versions_sha256']=hashlib.sha256(payload).hexdigest()
     (target / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
     return summary
