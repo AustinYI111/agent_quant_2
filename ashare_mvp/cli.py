@@ -52,6 +52,22 @@ def main():
     horizon_labels.add_argument("--horizons", nargs="+", choices=["5d","20d","12m"], default=["5d","20d","12m"])
     horizon_labels.add_argument("--asof")
     horizon_labels.add_argument("--reference-tick-size", type=float)
+    multi = sub.add_parser("run-three-horizons", help="time-purged 5d/20d/12m models and net index comparisons")
+    multi.add_argument("--data", required=True)
+    multi.add_argument("--benchmark", required=True)
+    multi.add_argument("--out", required=True)
+    multi.add_argument("--validation-start", required=True)
+    multi.add_argument("--test-start", required=True)
+    multi.add_argument("--test-end", required=True)
+    multi.add_argument("--asof")
+    multi.add_argument("--exploratory", action="store_true")
+    multi.add_argument("--oneil", action="store_true")
+    multi.add_argument("--top-k", type=int, default=20)
+    multi.add_argument("--trees", nargs="+", type=int, default=[30,60])
+    multi.add_argument("--retrain-months", type=int, default=12)
+    multi.add_argument("--commission-bps", type=float, default=3.)
+    multi.add_argument("--slippage-bps", type=float, default=5.)
+    multi.add_argument("--sell-tax-bps", type=float)
     market = sub.add_parser("download-market", help="resumable daily full-cross-section raw-price acquisition")
     market.add_argument("--out", required=True)
     market.add_argument("--start", required=True)
@@ -218,6 +234,12 @@ def main():
         from .horizon_labels import write_horizon_label_files
         print(json.dumps(write_horizon_label_files(args.prices,args.actions,args.calendar,args.signals,args.out,
             args.horizons,args.reference_tick_size,args.asof),ensure_ascii=False,indent=2))
+    elif args.command == "run-three-horizons":
+        from .horizon_research import run_three_horizon_research,HorizonResearchConfig
+        cfg=HorizonResearchConfig(top_k=args.top_k,candidate_estimators=tuple(args.trees),retrain_months=args.retrain_months)
+        result=run_three_horizon_research(args.data,args.benchmark,args.out,args.validation_start,args.test_start,args.test_end,
+            cfg,args.asof,args.oneil,args.exploratory,args.commission_bps,args.slippage_bps,args.sell_tax_bps)
+        print(json.dumps(result,ensure_ascii=False,indent=2))
     elif args.command == "download-market":
         from .market_download import download_market_daily
         result = download_market_daily(args.out, args.start, args.end, args.resume)

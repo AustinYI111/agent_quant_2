@@ -1,6 +1,6 @@
 # agent_quant_2 — A股多因子选股 MVP
 
-当前第一阶段目标是分别训练未来 **5／20 个交易日及约 12 个月**的 LightGBM 排序模型，并按周期完成严格时间样本外的成本、指数收益、回撤与换手比较。三周期标签入口已实际运行；独立三模型及统一指数评估仍在开发，见[研究协议与标签入口](docs/reports/THREE_HORIZON_PROTOCOL_20261016.md)。
+当前第一阶段目标是分别训练未来 **5／20 个交易日及约 12 个月**的 LightGBM 排序模型，并按周期完成严格时间样本外的成本、指数收益、回撤与换手比较。三周期标签、独立模型、滚动训练及统一净成本指数评估已完成合成数据端到端验证；真实全市场实验仍待数据校验通过。见[三周期研究入口](docs/reports/THREE_HORIZON_RESEARCH_20261016.md)及[标签协议](docs/reports/THREE_HORIZON_PROTOCOL_20261016.md)。
 
 新增 `ashare_mvp/` 为独立研究模块，旧 `agent_quant-main/` 演示保留。代码检查与使用说明见 [MVP说明](docs/MVP.md)，运行结果见 [开发与验证报告](docs/IMPLEMENTATION_REPORT.md)，复查修复与测试见 [Debug报告](docs/DEBUG_REPORT.md)。
 
