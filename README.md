@@ -146,3 +146,5 @@ python -m ashare_mvp.cli combine-financials --earnings artifacts/financial_panel
 
 
 差异化送转的官方参考倍数已接入，三条真实案例保持全部主事件的实际现金／股数不变，并解释对应价格差异。完整 286 项测试通过；新财务快照已扩至 5,216 个证券，仍未完成真实全市场训练。范围、来源分类与剩余工作见[参考比例与数据覆盖检查](docs/reports/REFERENCE_SHARES_20261016.md)。
+
+历史分红可用 `merge-dividend-events` 以封存来源补齐，重复权益只计一次，冲突拒绝且保留原计划缺口。1,479 个请求交易日现已采集齐全；真实训练仍待数据核验。使用方式和边界见[历史分红与全量行情进展](docs/reports/HISTORICAL_DISTRIBUTION_UNION_20261016.md)。

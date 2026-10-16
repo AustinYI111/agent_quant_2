@@ -129,6 +129,12 @@ def main():
     join_actions.add_argument("--out", required=True)
     join_actions.add_argument("--reviewed-events")
     join_actions.add_argument("--code-changes")
+    union = sub.add_parser("merge-dividend-events", help="union sealed historical distribution sources without clearing plan issues")
+    union.add_argument("--base", required=True)
+    union.add_argument("--supplements", nargs="+", required=True)
+    union.add_argument("--calendar", required=True)
+    union.add_argument("--out", required=True)
+    union.add_argument("--code-changes")
     issuer_actions = sub.add_parser("download-cninfo-dividends", help="issuer dividend histories with explicit payment dates")
     issuer_actions.add_argument("--symbols", nargs="+", required=True)
     issuer_actions.add_argument("--out", required=True)
@@ -293,6 +299,11 @@ def main():
         reviewed=pd.read_json(args.reviewed_events,precise_float=True) if args.reviewed_events else None
         changes=pd.read_json(args.code_changes,convert_dates=False) if args.code_changes else None
         print(json.dumps(reconcile_dividend_sources(args.market, args.payments, args.calendar, args.out, reviewed, changes), ensure_ascii=False, indent=2))
+    elif args.command == "merge-dividend-events":
+        from .dividend_union import merge_dividend_events
+        import pandas as pd
+        changes = pd.read_json(args.code_changes, convert_dates=False) if args.code_changes else None
+        print(json.dumps(merge_dividend_events(args.base, args.supplements, args.calendar, args.out, changes), ensure_ascii=False, indent=2))
     elif args.command == "download-cninfo-dividends":
         from .cninfo_dividends import download_cninfo_dividends
         result = download_cninfo_dividends(args.out, args.symbols, args.resume)
