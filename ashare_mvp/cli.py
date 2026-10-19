@@ -91,6 +91,7 @@ def main():
     prepare_market.add_argument("--reference-overrides")
     prepare_market.add_argument("--non-listing-evidence")
     prepare_market.add_argument("--instrument-scope")
+    prepare_market.add_argument("--causal-quality-research",action="store_true")
     range_union = sub.add_parser("merge-market-ranges", help="seal adjacent raw market ranges without filling missing sessions")
     range_union.add_argument("--data", nargs="+", required=True)
     range_union.add_argument("--out", required=True)
@@ -248,7 +249,7 @@ def main():
         from .horizon_research import run_three_horizon_research,HorizonResearchConfig
         cfg=HorizonResearchConfig(top_k=args.top_k,candidate_estimators=tuple(args.trees),retrain_months=args.retrain_months)
         result=run_three_horizon_research(args.data,args.benchmark,args.out,args.validation_start,args.test_start,args.test_end,
-            cfg,args.asof,args.oneil,args.exploratory,args.commission_bps,args.slippage_bps,args.sell_tax_bps)
+            cfg,args.asof,args.oneil,args.exploratory,args.commission_bps,args.slippage_bps,args.sell_tax_bps,progress=lambda message:print(message,flush=True))
         print(json.dumps(result,ensure_ascii=False,indent=2))
     elif args.command == "reconcile-reviewed-payments":
         from .reviewed_payment_groups import reconcile_reviewed_payment_files
@@ -268,9 +269,9 @@ def main():
         non_listing=pd.read_json(args.non_listing_evidence) if args.non_listing_evidence else None
         result=prepare_market_ratios(args.market,args.financials,args.master,args.actions,args.out,args.audit_out,
                                      args.reference_tick_size,changes,overrides,non_listing,
-                                     pd.read_json(args.instrument_scope,convert_dates=False) if args.instrument_scope else None)
+                                     pd.read_json(args.instrument_scope,convert_dates=False) if args.instrument_scope else None,args.causal_quality_research)
         print(json.dumps(result,ensure_ascii=False,indent=2))
-        if result["status"]!="prepared_exploratory":raise SystemExit(1)
+        if result["status"] not in ["prepared_exploratory","prepared_causal_quality_research"]:raise SystemExit(1)
     elif args.command == "merge-market-ranges":
         from .market_range_union import merge_market_ranges
         print(json.dumps(merge_market_ranges(args.data, args.out), ensure_ascii=False, indent=2))

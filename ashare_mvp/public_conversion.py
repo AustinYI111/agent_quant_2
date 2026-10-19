@@ -271,11 +271,13 @@ def _seal_public_events(data, raw_prices, corporate_actions, out, reference_tick
 def _public_event_inputs(directory, data):
     policy = data.metadata.get("event_return_inputs")
     if not policy:
-        if data.metadata.get("price_basis") == "gross_entitlement_index_reinvest_after_payment":
+        if data.metadata.get("price_basis") in ["gross_entitlement_index_reinvest_after_payment","causal_segment_feature_index"]:
             raise ValueError("public event prices require sealed event inputs")
         return None, None, None
-    if data.metadata.get("price_basis") != "gross_entitlement_index_reinvest_after_payment":
-        raise ValueError("public event inputs require event price basis")
+    basis=data.metadata.get("price_basis")
+    causal=(basis=="causal_segment_feature_index" and data.metadata.get("quality_policy",{}).get("schema")=="causal_quality_research_v1")
+    if basis != "gross_entitlement_index_reinvest_after_payment" and not causal:
+        raise ValueError("public event inputs require verified event price basis/policy")
     expected = {"raw_prices":"event_raw_prices.csv","corporate_actions":"event_corporate_actions.csv"}
     if any(policy.get(key) != name for key,name in expected.items()):
         raise ValueError("unexpected public event input names")
@@ -298,7 +300,9 @@ def public_snapshot(data, technical, date):
     snap = snap[snap.symbol.map(is_ashare)]
     snap = snap.merge(fundamentals_asof(data, date), on="symbol", how="inner", validate="one_to_one")
     snap = snap[(date - snap.report_date).dt.days <= 550]
-    snap = snap.dropna(subset=["momentum_63", "momentum_126", "momentum_252_skip21", "volatility_63"])
+    causal=data.metadata.get("quality_policy",{}).get("schema")=="causal_quality_research_v1"
+    if not causal:
+        snap = snap.dropna(subset=["momentum_63", "momentum_126", "momentum_252_skip21", "volatility_63"])
     return snap.set_index("symbol").sort_index()
 
 

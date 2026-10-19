@@ -39,7 +39,7 @@ def label_interval(calendar, signal, horizon):
 
 
 def forward_horizon_labels(prices, actions, calendar, signal_dates,
-                           horizon_keys=('5d','20d','12m'), reference_tick_size=None, asof=None):
+                           horizon_keys=('5d','20d','12m'), reference_tick_size=None, asof=None, unknown_intervals='raise', eligible_pairs=None):
     """Exact new-buyer outcomes; no pre-entry dividend claims or shortened labels.
 
     Within an interval containing no ex-date, every fresh buyer acquires the
@@ -48,6 +48,7 @@ def forward_horizon_labels(prices, actions, calendar, signal_dates,
     This shares computation without dividing a seasoned entitlement index.
     All price/event validation remains in the existing ledger.
     """
+    if unknown_intervals not in ["raise","record"]:raise ValueError("explicit unknown interval policy required")
     horizons=resolve_horizons(horizon_keys)
     cal=pd.DatetimeIndex(calendar);signals=pd.DatetimeIndex(signal_dates)
     if cal.empty or cal.hasnans or cal.has_duplicates or not cal.is_monotonic_increasing or cal.tz is not None or not cal.equals(cal.normalize()):
@@ -71,14 +72,26 @@ def forward_horizon_labels(prices, actions, calendar, signal_dates,
     if signals.empty or signals.hasnans or signals.has_duplicates or signals.tz is not None or not signals.equals(signals.normalize()) or not signals.isin(cal).all():
         raise ValueError('unique observed horizon signal sessions required')
     signals=signals.sort_values()
+    if unknown_intervals=="record":
+        from .causal_quality import quality_inputs
+        terminal=p[["symbol","date","terminal_date"]].copy() if "terminal_date" in p else None
+        p,a,_=quality_inputs(p,a,cal,reference_tick_size)
+        if terminal is not None:p=p.merge(terminal,on=["symbol","date"],validate="one_to_one")
+    pairs=None
+    if eligible_pairs is not None:
+        pairs=eligible_pairs[["date","symbol"]].copy();pairs["date"]=pd.to_datetime(pairs.date)
+        if pairs.isna().any().any() or pairs.duplicated(["date","symbol"]).any() or not pairs.date.isin(signals).all():raise ValueError("unique historically eligible signal pairs required")
+        pairs={s:pd.DatetimeIndex(f.date) for s,f in pairs.groupby("symbol",sort=False)}
     intervals={date:{h.key:label_interval(cal,date,h) for h in horizons} for date in signals}
     event_groups=dict(tuple(a.groupby('symbol',sort=False)))
+    columns=['date','symbol','horizon','horizon_unit','horizon_length','entry_date','label_end','target',
+             'valuation_return','executable_exit','status','return_basis']
     records=[]
     for symbol,bars in p.groupby('symbol',sort=False):
         bars=bars.sort_values('date');lookup=bars.set_index('date')
         events=event_groups.get(symbol,a.iloc[:0]);event_dates=np.sort(events.ex_date.to_numpy(dtype='datetime64[ns]'))
         buckets={};requests=[]
-        for signal in signals:
+        for signal in signals if pairs is None else pairs.get(symbol,[]):
             for h in horizons:
                 entry,end=intervals[signal][h.key]
                 status='unmatured' if pd.isna(end) else 'valued'
@@ -91,21 +104,31 @@ def forward_horizon_labels(prices, actions, calendar, signal_dates,
                 index=len(requests);requests.append(record)
                 if pd.notna(end) and executable:
                     bucket=int(np.searchsorted(event_dates,entry.to_datetime64(),side='right'))
+                    if unknown_intervals=="record":
+                        terminal=pd.Timestamp(lookup.at[entry,'terminal_date']) if 'terminal_date' in lookup else pd.NaT
+                        if pd.notna(terminal) and terminal<=end:
+                            record['status']='unresolved_terminal_valuation';continue
+                        if end not in lookup.index:
+                            record['status']='unresolved_interval';continue
+                        entry_pos,end_pos=lookup.index.get_loc(entry),lookup.index.get_loc(end)
+                        contiguous=(end_pos-entry_pos==cal.get_loc(end)-cal.get_loc(entry))
+                        if not contiguous or lookup.at[entry,'quality_segment']!=lookup.at[end,'quality_segment']:
+                            record['status']='unresolved_interval';continue
+                        bucket=(bucket,int(lookup.at[entry,'quality_segment']))
                     buckets.setdefault(bucket,[]).append(index)
         for indices in buckets.values():
             first=min(requests[i]['entry_date'] for i in indices)
             last=max(requests[i]['label_end'] for i in indices)
-            path=entry_return_path(bars,events,cal,symbol,first,last,reference_tick_size).set_index('date')
+            path_events=events[events.ex_date.gt(first)&events.ex_date.le(last)] if unknown_intervals=="record" else events
+            path=entry_return_path(bars,path_events,cal,symbol,first,last,reference_tick_size).set_index('date')
             for index in indices:
                 record=requests[index];outcome=path.loc[record['label_end']]
                 value=float(outcome.total_return_open/lookup.at[record['entry_date'],'open']-1)
                 executable_exit=bool(outcome.executable_exit)
                 record.update(valuation_return=value,executable_exit=executable_exit,
                     target=value if executable_exit else np.nan,status='valued' if executable_exit else 'blocked_exit')
-        records.extend(requests)
-    columns=['date','symbol','horizon','horizon_unit','horizon_length','entry_date','label_end','target',
-             'valuation_return','executable_exit','status','return_basis']
-    result=pd.DataFrame(records,columns=columns)
+        if requests:records.append(pd.DataFrame.from_records(requests,columns=columns))
+    result=pd.concat(records,ignore_index=True) if records else pd.DataFrame(columns=columns)
     return result.sort_values(['date','symbol','horizon']).reset_index(drop=True)
 
 

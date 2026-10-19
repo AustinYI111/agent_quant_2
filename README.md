@@ -1,12 +1,14 @@
 # agent_quant_2 — A股多因子选股 MVP
 
-当前第一阶段目标是分别训练未来 **5／20 个交易日及约 12 个月**的 LightGBM 排序模型，并按周期完成严格时间样本外的成本、指数收益、回撤与换手比较。三周期标签、独立模型、滚动训练及统一净成本指数评估已完成合成数据端到端验证；真实全市场实验仍待数据校验通过。 真实财务跨年份输入与依赖已合并，见[财务准备进展](docs/reports/FINANCIAL_RANGE_UNION_20261019.md)。 跨年份行情快照与扩展事件验证见[行情合并说明](docs/reports/MARKET_RANGE_UNION_20261019.md)。见[三周期研究入口](docs/reports/THREE_HORIZON_RESEARCH_20261016.md)及[标签协议](docs/reports/THREE_HORIZON_PROTOCOL_20261016.md)。
+当前第一阶段目标是分别训练未来 **5／20 个交易日及约 12 个月**的 LightGBM 排序模型，并按周期完成严格时间样本外的成本、指数收益、回撤与换手比较。三周期标签、独立模型、滚动训练及统一净成本指数评估已完成合成数据端到端验证；显式因果质量研究输入已封存，真实全市场实验正在运行；完整三周期绩效尚未产出。 真实财务跨年份输入与依赖已合并，见[财务准备进展](docs/reports/FINANCIAL_RANGE_UNION_20261019.md)。 跨年份行情快照与扩展事件验证见[行情合并说明](docs/reports/MARKET_RANGE_UNION_20261019.md)。见[三周期研究入口](docs/reports/THREE_HORIZON_RESEARCH_20261016.md)及[标签协议](docs/reports/THREE_HORIZON_PROTOCOL_20261016.md)。
 
 2026-10-19：2018—2025 的 1,942 日原始行情已采集并封存完成；价格及退市终值仍待校验，真实三周期回测未完成。最新范围、证据与剩余问题见[行情完成及价格／终值检查](docs/reports/MARKET_COMPLETION_AND_TERMINAL_AUDIT_20261019.md)。
 
 同日多报告期与完整现金支付已补充公告审阅：剩余支付缺口8→0，435项测试通过，真实回测仍待范围、价格和退市结算核验。见[同日分红合并实测](docs/reports/REVIEWED_PAYMENT_GROUPS_20261019.md)。
 
 最新完整区间检查已核验全部1,942日文件，CDR事件范围问题已分类；存续期缺行情为0，仍有价格与退市终值门禁。452项测试通过，见[证券类型与全量输入核验](docs/reports/INSTRUMENT_SCOPE_AND_FULL_READINESS_20261019.md)。
+
+最新研究检查点：已保留8,609,196条真实报价并完成405个信号日、1,509,411条因子样本；收益标签和三周期训练／账户评估正在运行。研究模式保留未知收益的预测候选，实际正持仓遇到价格或终值缺口仍停止，默认严格门禁保持有效。实验协议、模型迁移合约及本地／GitHub边界见[真实因果质量研究进展](docs/reports/CAUSAL_RESEARCH_INPUTS_20261019.md)。下方较早章节和日期报告是历史检查点，以最新报告为准；未完成结果不能视为策略盈利证据。
 
 新增 `ashare_mvp/` 为独立研究模块，旧 `agent_quant-main/` 演示保留。代码检查与使用说明见 [MVP说明](docs/MVP.md)，运行结果见 [开发与验证报告](docs/IMPLEMENTATION_REPORT.md)，复查修复与测试见 [Debug报告](docs/DEBUG_REPORT.md)。
 

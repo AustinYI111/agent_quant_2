@@ -136,7 +136,7 @@ def cohort_performance(picks, labels, samples, data, config):
                                        "universe_return", "excess_return"])
 
 
-def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=None, reference_tick_size=None):
+def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=None, reference_tick_size=None, causal_quality_research=False):
     """Fractional adjusted shares: economic research NAV, with blocked orders.
 
     Uses contemporaneous execution flags only; blocked sales remain held,
@@ -156,18 +156,29 @@ def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=Non
     if reference_tick_size is not None and raw_prices is None:
         raise ValueError("reference tick requires raw prices and corporate actions")
     event_mode = raw_prices is not None
+    if causal_quality_research and not event_mode:raise ValueError("causal quality account requires raw price/event inputs")
     receivables, events, raw_quotes = [], {}, None
     if event_mode:
         from .corporate_actions import economic_return_prices
         if set(raw_prices.symbol) != set(data.prices.symbol):
             raise ValueError("event account universe differs from feature universe")
         # Validate complete quotes, event clocks and price discontinuities first.
-        economic_return_prices(raw_prices, corporate_actions, data.calendar, reference_tick_size)
+        fault_keys=set()
+        if causal_quality_research:
+            from .causal_quality import quality_inputs,HeldValuationError
+            checked,_,_=quality_inputs(raw_prices,corporate_actions,data.calendar,reference_tick_size)
+            faulty=checked[checked.reference_fault]
+            fault_keys=set(zip(faulty.date,faulty.symbol))
+            required_dates=data.calendar[data.calendar>=min(orders)]
+            if not required_dates.isin(pd.to_datetime(raw_prices.date)).all():raise ValueError("missing requested portfolio market sessions")
+        else:
+            economic_return_prices(raw_prices, corporate_actions, data.calendar, reference_tick_size)
         raw_quotes = raw_prices.copy()
         raw_quotes["date"] = pd.to_datetime(raw_quotes.date)
         for field in ["open", "preclose"]:
             raw_quotes[field] = pd.to_numeric(raw_quotes[field], errors="raise")
         raw_quotes = raw_quotes.set_index(["date", "symbol"])
+        if causal_quality_research:raw_quotes=raw_quotes.sort_index()
         a = corporate_actions.copy()
         a["ex_date"] = pd.to_datetime(a.ex_date)
         a["pay_date"] = pd.to_datetime(a.pay_date)
@@ -184,6 +195,15 @@ def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=Non
         sell_rate = buy_rate + tax_rate
         bars = daily.set_index("symbol")
         prices = bars.total_return_open
+        if event_mode and causal_quality_research:
+            holdings={s:q for s,q in holdings.items() if q>1e-12}
+            for symbol in holdings:
+                if symbol not in bars.index or (date,symbol) not in raw_quotes.index:
+                    raise HeldValuationError("missing",symbol,date,nav,trades,holdings)
+                if (date,symbol) in fault_keys:
+                    raise HeldValuationError("reference",symbol,date,nav,trades,holdings)
+                if 'terminal_date' in raw_quotes and pd.notna(raw_quotes.at[(date,symbol),'terminal_date']) and date>=pd.Timestamp(raw_quotes.at[(date,symbol),'terminal_date']):
+                    raise HeldValuationError("terminal",symbol,date,nav,trades,holdings)
         if event_mode:
             quotes = raw_quotes.loc[date].reindex(bars.index)
             tradable = quotes.tradestatus.astype(str).eq("1") & quotes.open.gt(0)
@@ -222,6 +242,12 @@ def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=Non
                                            cost=0.0, status="blocked"))
             buys = {}
             for symbol, weight in targets.items():
+                if causal_quality_research and symbol not in bars.index:
+                    trades.append(dict(date=date,symbol=symbol,side="buy",notional=max(0.,weight*equity),stamp_duty_bps=0.,stamp_duty=0.,cost=0.,status="blocked"))
+                    continue
+                if causal_quality_research and 'terminal_date' in raw_quotes and pd.notna(raw_quotes.at[(date,symbol),'terminal_date']) and date>=pd.Timestamp(raw_quotes.at[(date,symbol),'terminal_date']):
+                    trades.append(dict(date=date,symbol=symbol,side="buy",notional=max(0.,weight*equity),stamp_duty_bps=0.,stamp_duty=0.,cost=0.,status="blocked"))
+                    continue
                 price = prices[symbol]
                 amount = max(0.0, weight * equity - holdings.get(symbol, 0.0) * price)
                 if amount > 1e-12:
@@ -242,6 +268,7 @@ def simulate_monthly(data, picks, config, raw_prices=None, corporate_actions=Non
         if cash < -1e-9:
             raise AssertionError("negative cash")
         cash = max(cash, 0.0)  # remove floating-point subtraction residue
+        if causal_quality_research:holdings={s:q for s,q in holdings.items() if q>1e-12}
         equity = cash + pending + sum(q * prices[s] for s, q in holdings.items())
         record = dict(date=date, nav=equity, cash=cash, positions=sum(q > 1e-12 for q in holdings.values()))
         if event_mode:

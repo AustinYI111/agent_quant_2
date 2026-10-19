@@ -25,7 +25,7 @@ def _read(path, expected=None, allow_unverified=False, **kwargs):
 
 def prepare_market_ratios(market_directory, financial_directory, master_directory,
                           action_directory, out, audit_out, reference_tick_size=None,
-                          code_changes=None, reference_overrides=None, non_listing_evidence=None, instrument_evidence=None):
+                          code_changes=None, reference_overrides=None, non_listing_evidence=None, instrument_evidence=None, causal_quality_research=False):
     market,finance,master,events=map(Path,[market_directory,financial_directory,master_directory,action_directory])
     target,audit=Path(out),Path(audit_out)
     if target.resolve()==audit.resolve() or target.resolve() in audit.resolve().parents or audit.resolve() in target.resolve().parents: raise ValueError("dataset and audit outputs must be separate, non-nested directories")
@@ -178,6 +178,8 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
         roots,_,_=code_change_maps(code_changes)
         data=apply_identity_dataset(data,code_changes)
         actions=canonical_event_symbols(actions,code_changes)
+    # Release per-day and pre-identity copies before full-market reconstruction.
+    del frames,prices
     # Apply the existing dated code policy before validating active values.
     # Providers may backfill an inactive new alias with a blank volume; it is
     # quarantined by identity evidence, never repaired or used for selection.
@@ -236,15 +238,25 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
     report.update(validation_stage="price_and_lifetime_coverage",price_audit=price_audit,excluded_non_ashare_quote_rows=excluded,
                   price_rows=len(data.prices),symbols=int(data.prices.symbol.nunique()))
     checkpoint()
-    if issues:return report
+    permitted={"unreconciled_adjustment","missing_sessions_or_terminal_valuation"}
+    research_allowed=(causal_quality_research and not (set(report["issue_counts"])-permitted)
+                      and lifetime_summary["missing_lifetime_quotes"]==0)
+    if issues and not research_allowed:return report
+    if causal_quality_research:
+        data.prices["terminal_date"]=data.prices.symbol.map(lifetime_rows.set_index("symbol").terminal_date)
     parent=hashlib.sha256(json.dumps(hashes,sort_keys=True).encode()).hexdigest()
     try:
-        _seal_public_events(data,data.prices.copy(),actions,target,reference_tick_size,parent)
+        if causal_quality_research:
+            from .causal_quality import seal_causal_quality_data
+            seal_causal_quality_data(data,actions,target,reference_tick_size,parent,
+                progress=lambda done,total:print(f"Causal feature segments: {done}/{total}",flush=True))
+        else:
+            _seal_public_events(data,data.prices.copy(),actions,target,reference_tick_size,parent)
     except ValueError as exc:
         issue("event_reconstruction_failed",detail=str(exc))
         report["validation_stage"]="event_reconstruction"
         checkpoint()
         return report
-    report.update(status="prepared_exploratory",validation_stage="event_reconstruction_completed",dataset_metadata_sha256=hashlib.sha256((target/"metadata.json").read_bytes()).hexdigest())
+    report.update(status="prepared_causal_quality_research" if causal_quality_research else "prepared_exploratory",validation_stage="event_reconstruction_completed",dataset_metadata_sha256=hashlib.sha256((target/"metadata.json").read_bytes()).hexdigest())
     checkpoint()
     return report

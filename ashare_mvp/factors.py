@@ -57,7 +57,9 @@ def default_library():
 
 def technical_panel(data):
     p = data.prices.sort_values(["symbol", "date"]).copy()
-    g = p.groupby("symbol", sort=False)
+    quality=data.metadata.get("quality_policy",{}).get("schema")=="causal_quality_research_v1"
+    if quality and "quality_segment" not in p:raise ValueError("causal features require quality segments")
+    g = p.groupby(["symbol","quality_segment"] if quality else "symbol", sort=False)
     for days in [63, 126]:
         p[f"momentum_{days}"] = g.close.pct_change(days, fill_method=None)
     p["momentum_252_skip21"] = g.close.shift(21) / g.close.shift(252) - 1

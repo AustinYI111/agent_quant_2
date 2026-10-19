@@ -3,6 +3,7 @@ from dataclasses import dataclass, asdict
 from pathlib import Path
 from types import SimpleNamespace
 import hashlib,json
+from datetime import datetime,timezone
 import numpy as np
 import pandas as pd
 from .horizon_labels import HORIZONS,resolve_horizons,label_interval
@@ -134,7 +135,7 @@ def _rank_ic(frame):
     return float(np.mean(scores)) if scores else None
 
 
-def train_horizon_models(samples,labels,features,calendar,validation_start,test_start,test_end,out,config=HorizonResearchConfig()):
+def train_horizon_models(samples,labels,features,calendar,validation_start,test_start,test_end,out,config=HorizonResearchConfig(),progress=None):
     """Validation chooses tree count once; rolling refits use only matured history."""
     import lightgbm,platform
     cal=_sessions(calendar);path=Path(out)
@@ -174,6 +175,7 @@ def train_horizon_models(samples,labels,features,calendar,validation_start,test_
         def sufficient(f):
             sizes=f.groupby('date').size();return f[f.date.isin(sizes[sizes>=config.min_group_size].index)].sort_values(['date','symbol'])
         train=sufficient(train);valid=sufficient(valid)
+        if progress:progress(f'Training {horizon.key}: train_dates={train.date.nunique()} validation_dates={valid.date.nunique()} test_rows={len(test)}')
         if train.date.nunique()<config.min_train_dates or valid.empty or test.empty:raise ValueError(horizon.key+': insufficient chronological train/validation/test groups')
         candidates=[]
         for trees in config.candidate_estimators:
@@ -190,10 +192,12 @@ def train_horizon_models(samples,labels,features,calendar,validation_start,test_
                 history=frame[(frame.date<date)&(pd.to_datetime(frame.label_end)<cutoff)&frame.target.notna()&(frame.date>=date-pd.DateOffset(months=config.train_months))].copy()
                 history=sufficient(history)
                 if history.date.nunique()<config.min_train_dates:raise ValueError('insufficient mature rolling history')
+                if progress:progress(f'Rolling fit {horizon.key} asof={date.date()} rows={len(history)} trees={chosen}')
                 model=fit_ranker(history,features,SimpleNamespace(n_estimators=chosen,seed=config.seed));next_refit=date+pd.DateOffset(months=config.retrain_months)
                 bundle=path/horizon.key/date.strftime('%Y%m%d');bundle.mkdir(parents=True,exist_ok=True)
                 model.booster_.save_model(str(bundle/'model.txt'))
                 meta=dict(schema='horizon_ranker_v1',horizon=asdict(horizon),features=features,n_estimators=chosen,seed=config.seed,
+                    trained_at_utc=datetime.now(timezone.utc).isoformat(),
                     trained_asof=str(date.date()),cutoff=str(cutoff.date()),max_label_end=str(pd.Timestamp(history.label_end.max()).date()),
                     preprocessing='supplied point-in-time factor values; no additional fitted transform',
                     dependencies=dict(lightgbm=lightgbm.__version__,numpy=np.__version__,pandas=pd.__version__,python=platform.python_version()),
@@ -224,6 +228,8 @@ def load_horizon_model(directory,expected_horizon,features):
     if meta.get('schema')!='horizon_ranker_v1' or meta['horizon']!=asdict(resolve_horizons([expected_horizon])[0]) or meta['features']!=list(features):raise ValueError('horizon model feature/unit contract differs')
     if hashlib.sha256((p/'model.txt').read_bytes()).hexdigest()!=meta['model_sha256']:raise ValueError('horizon model hash mismatch')
     if meta['dependencies']['lightgbm']!=lightgbm.__version__:raise ValueError('LightGBM runtime version differs')
+    from .research_provenance import validate_model_policy
+    validate_model_policy(p,meta)
     return lightgbm.Booster(model_file=str(p/'model.txt'))
 
 
@@ -245,6 +251,8 @@ def backtest_horizon_rankings(data,rankings,benchmark,benchmark_kind,out,top_k=2
     first_position=data.calendar.searchsorted(r.date.min(),side='right')
     if first_position>=len(data.calendar):raise ValueError('no common next-open test session')
     common_start=data.calendar[first_position]
+    from .causal_quality import HeldValuationError,IncompleteHorizonBacktests
+    errors=[]
     result={}
     for horizon,forecasts in r.groupby('horizon',sort=True):
         signals=rebalance_signals(forecasts.date.unique(),data.calendar,horizon)
@@ -262,7 +270,20 @@ def backtest_horizon_rankings(data,rankings,benchmark,benchmark_kind,out,top_k=2
             chosen=current.head(top_k).copy();chosen['target_weight']=1./top_k;picks.append(chosen)
         if not picks:raise ValueError('no executable scheduled forecast dates')
         selected=pd.concat(picks,ignore_index=True)
-        nav,orders=simulate_monthly(data,selected,config,raw_prices,corporate_actions,reference_tick_size)
+        causal=data.metadata.get('quality_policy',{}).get('schema')=='causal_quality_research_v1'
+        try:
+            nav,orders=simulate_monthly(data,selected,config,raw_prices,corporate_actions,reference_tick_size,causal_quality_research=causal)
+        except HeldValuationError as exc:
+            directory=path/horizon;directory.mkdir(parents=True,exist_ok=True)
+            selected.to_csv(directory/'scheduled_top20.csv',index=False)
+            exc.nav.to_csv(directory/'partial_valid_nav.csv',index=False)
+            exc.trades.to_csv(directory/'partial_orders.csv',index=False)
+            failure=dict(status='incomplete_held_valuation',horizon=horizon,symbol=exc.symbol,date=str(exc.date.date()),reason=exc.reason,
+                holdings=exc.holdings,last_valid_nav_date=str(pd.Timestamp(exc.nav.date.iloc[-1]).date()) if not exc.nav.empty else None,
+                limitation='Valid prefix only; no performance conclusion for requested full period')
+            (directory/'incomplete.json').write_text(json.dumps(failure,indent=2),encoding='utf8')
+            errors.append(failure);exc.__traceback__=None
+            continue
         if nav.empty:raise ValueError('empty horizon account')
         cash_dates=data.calendar[(data.calendar>=common_start)&(data.calendar<nav.date.min())]
         if len(cash_dates):
@@ -280,17 +301,21 @@ def backtest_horizon_rankings(data,rankings,benchmark,benchmark_kind,out,top_k=2
             costs=dict(commission_bps=commission_bps,slippage_bps=slippage_bps,sell_stamp_duty=stamp_duty_policy(sell_tax_bps)),
             accounting='existing fractional-share research account; initial costs included; no forced final liquidation',certified=False)
         (directory/'summary.json').write_text(json.dumps(metrics,indent=2,allow_nan=False),encoding='utf8');result[horizon]=metrics
+    if errors:
+        (path/'incomplete.json').write_text(json.dumps(dict(status='incomplete',completed_horizons=sorted(result),errors=errors),indent=2),encoding='utf8')
+        raise IncompleteHorizonBacktests(errors)
     (path/'summary.json').write_text(json.dumps(dict(schema='horizon_portfolio_comparison_v1',horizons=result,certified=False,model_ready=False),indent=2,allow_nan=False),encoding='utf8')
     return result
 
 
-def public_horizon_inputs(directory,asof=None,oneil=False):
+def public_horizon_inputs(directory,asof=None,oneil=False,progress=None):
     """Reuse the existing sealed public dataset and factor definitions."""
     from .public_conversion import load_public_data,public_snapshot,_public_event_inputs
     from .factors import default_library,technical_panel
     from .data import month_ends
     from .horizon_labels import forward_horizon_labels
     data=load_public_data(directory,asof);raw,actions,tick=_public_event_inputs(directory,data)
+    if progress:progress(f'Loaded research inputs: prices={len(data.prices)} financial_events={len(data.fundamentals)}')
     if raw is None:raise ValueError('three-horizon research requires sealed raw-price/event inputs')
     cal=data.calendar
     if len(cal)<252:raise ValueError('factor warmup requires 252 observed sessions')
@@ -300,20 +325,30 @@ def public_horizon_inputs(directory,asof=None,oneil=False):
     union=pd.DatetimeIndex(sorted(set().union(*(set(d) for d in dates.values()))))
     technical=technical_panel(data);library=default_library();frames=[]
     features=[name for name,item in library.factors.items() if oneil or item.family!='oneil']
-    for date in union:
+    for number,date in enumerate(union,1):
+        if progress and number%25==0:progress(f'Factor snapshots {number}/{len(union)}')
         snap=public_snapshot(data,technical,date)
         if snap.empty:continue
         values=library.compute(snap,oneil);values['date']=date;values['available_date']=snap.available_date
         frames.append(values.rename_axis('symbol').reset_index())
     if not frames:raise ValueError('no dated eligible public factor snapshots')
     samples=pd.concat(frames,ignore_index=True)
-    labels=pd.concat([forward_horizon_labels(raw,actions,cal,signals,[key],tick) for key,signals in dates.items()],ignore_index=True)
+    causal=data.metadata.get('quality_policy',{}).get('schema')=='causal_quality_research_v1'
+    label_frames=[]
+    for key,signals in dates.items():
+        if progress:progress(f'Building {key} outcomes; feature samples={len(samples)}')
+        frame=forward_horizon_labels(raw,actions,cal,signals,[key],tick,
+            unknown_intervals='record' if causal else 'raise',
+            eligible_pairs=samples.loc[samples.date.isin(signals),['date','symbol']] if causal else None)
+        label_frames.append(frame)
+        if progress:progress(f'Labels {key}: rows={len(frame)} known={frame.target.notna().sum()}')
+    labels=pd.concat(label_frames,ignore_index=True)
     return data,samples,labels,features,raw,actions,tick
 
 
 def run_three_horizon_research(directory,benchmark_directory,out,validation_start,test_start,test_end,
                                config=HorizonResearchConfig(),asof=None,oneil=False,exploratory=False,
-                               commission_bps=3.,slippage_bps=5.,sell_tax_bps=None):
+                               commission_bps=3.,slippage_bps=5.,sell_tax_bps=None,progress=None):
     if not exploratory:raise ValueError('unverified public vintages require explicit exploratory research mode')
     path=Path(out)
     if path.exists() and any(path.iterdir()):raise ValueError('three-horizon run output must be empty')
@@ -323,11 +358,16 @@ def run_three_horizon_research(directory,benchmark_directory,out,validation_star
     from io import BytesIO
     benchmark=pd.read_csv(BytesIO(raw_benchmark))
     if meta.get('request',{}).get('symbol')=='sh.000300' and meta.get('return_kind')!='price_index':raise ValueError('CSI300 price series cannot be relabelled total return')
-    data,samples,labels,features,raw,actions,tick=public_horizon_inputs(directory,asof,oneil)
+    data,samples,labels,features,raw,actions,tick=public_horizon_inputs(directory,asof,oneil,progress)
     if pd.Timestamp(test_end)>data.calendar[-1]:raise ValueError('requested test end beyond observed dataset')
     path.mkdir(parents=True,exist_ok=True)
     samples.to_csv(path/'factor_samples.csv',index=False);labels.to_csv(path/'labels.csv',index=False)
-    ranks,audit,models=train_horizon_models(samples,labels,features,data.calendar,validation_start,test_start,test_end,path/'models',config)
+    label_status={h:group.status.value_counts().to_dict() for h,group in labels.groupby('horizon')}
+    (path/'label_status_summary.json').write_text(json.dumps(label_status,indent=2),encoding='utf8')
+    ranks,audit,models=train_horizon_models(samples,labels,features,data.calendar,validation_start,test_start,test_end,path/'models',config,progress)
+    from .research_provenance import bind_dataset_policy
+    bind_dataset_policy(path/'models',data.metadata,features,oneil)
+    if progress:progress('Evaluating actual raw-share portfolios; unresolved positive holdings will stop')
     # Test boundary also limits portfolio marks and orders, including subsequent
     # raw event inputs; training cannot consume the benchmark or NAV metrics.
     from .data import Dataset

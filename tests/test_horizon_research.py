@@ -103,7 +103,11 @@ def test_bankruptcy_does_not_fabricate_information_ratio():
 
 def test_three_models_rolling_audit_reload_and_future_test_independence(tmp_path):
     x,y,cal=sample_tables();config=HorizonResearchConfig(top_k=5,min_train_dates=12,candidate_estimators=(8,12))
-    ranks,audit,summary=train_horizon_models(x,y,['roe','momentum_63'],cal,'2020-01-31','2022-01-31','2024-12-31',tmp_path/'first',config)
+    progress=[]
+    ranks,audit,summary=train_horizon_models(x,y,['roe','momentum_63'],cal,'2020-01-31','2022-01-31','2024-12-31',tmp_path/'first',config,progress=progress.append)
+    assert any('Rolling fit 5d' in message for message in progress)
+    from ashare_mvp.research_provenance import bind_dataset_policy
+    bind_dataset_policy(tmp_path/'first',{'price_basis':'causal_segment_feature_index','quality_policy':{'schema':'causal_quality_research_v1'}},['roe','momentum_63'])
     assert set(ranks.horizon)==set(HORIZONS) and summary['models']==9
     assert pd.to_datetime(audit.max_label_end).lt(pd.to_datetime(audit.cutoff)).all()
     assert pd.to_datetime(audit.max_feature_date).lt(pd.to_datetime(audit.date)).all()
@@ -117,6 +121,10 @@ def test_three_models_rolling_audit_reload_and_future_test_independence(tmp_path
     later,_,_=train_horizon_models(x,altered,['roe','momentum_63'],cal,'2020-01-31','2022-01-31','2024-12-31',tmp_path/'second',config)
     pd.testing.assert_frame_equal(ranks,later)
     with pytest.raises(ValueError,match='contract differs'):load_horizon_model(tmp_path/'first'/'5d'/'20220131','20d',['roe','momentum_63'])
+    policy_file=tmp_path/'first'/'5d'/'20220131'/'feature_input_policy.json'
+    original_policy=policy_file.read_bytes();policy_file.write_bytes(original_policy+b' ')
+    with pytest.raises(ValueError,match='policy hash mismatch'):load_horizon_model(policy_file.parent,'5d',['roe','momentum_63'])
+    policy_file.write_bytes(original_policy)
     model_file=tmp_path/'first'/'5d'/'20220131'/'model.txt';model_file.write_text(model_file.read_text()+'changed')
     with pytest.raises(ValueError,match='hash mismatch'):load_horizon_model(model_file.parent,'5d',['roe','momentum_63'])
 

@@ -79,7 +79,7 @@ def economic_return_prices(prices, actions, calendar, reference_tick_size=None):
                 expected_preclose = previous_close
                 if event is not None:
                     expected_preclose = (previous_close - event.reference_cash_per_share) / event.reference_share_multiplier
-                if not reference_matches(row.preclose, previous_close,
+                if not (event is None and row.preclose == previous_close) and not reference_matches(row.preclose, previous_close,
                         event.reference_cash_per_share if event is not None else 0.0,
                         event.reference_share_multiplier if event is not None else 1.0, reference_tick_size):
                     raise ValueError(f"{symbol} {row.date.date()}: unreconciled price adjustment/corporate action")
