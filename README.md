@@ -6,6 +6,8 @@
 
 同日多报告期与完整现金支付已补充公告审阅：剩余支付缺口8→0，435项测试通过，真实回测仍待范围、价格和退市结算核验。见[同日分红合并实测](docs/reports/REVIEWED_PAYMENT_GROUPS_20261019.md)。
 
+最新完整区间检查已核验全部1,942日文件，CDR事件范围问题已分类；存续期缺行情为0，仍有价格与退市终值门禁。452项测试通过，见[证券类型与全量输入核验](docs/reports/INSTRUMENT_SCOPE_AND_FULL_READINESS_20261019.md)。
+
 新增 `ashare_mvp/` 为独立研究模块，旧 `agent_quant-main/` 演示保留。代码检查与使用说明见 [MVP说明](docs/MVP.md)，运行结果见 [开发与验证报告](docs/IMPLEMENTATION_REPORT.md)，复查修复与测试见 [Debug报告](docs/DEBUG_REPORT.md)。
 
 ```powershell

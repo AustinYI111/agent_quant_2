@@ -25,7 +25,7 @@ def _read(path, expected=None, allow_unverified=False, **kwargs):
 
 def prepare_market_ratios(market_directory, financial_directory, master_directory,
                           action_directory, out, audit_out, reference_tick_size=None,
-                          code_changes=None, reference_overrides=None, non_listing_evidence=None):
+                          code_changes=None, reference_overrides=None, non_listing_evidence=None, instrument_evidence=None):
     market,finance,master,events=map(Path,[market_directory,financial_directory,master_directory,action_directory])
     target,audit=Path(out),Path(audit_out)
     if target.resolve()==audit.resolve() or target.resolve() in audit.resolve().parents or audit.resolve() in target.resolve().parents: raise ValueError("dataset and audit outputs must be separate, non-nested directories")
@@ -95,7 +95,11 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
     if non_listing_evidence is not None:
         from .universe_evidence import reviewed_non_listing_bounds
         scope_exclusions,scope_policy=reviewed_non_listing_bounds(non_listing_evidence,cal.max(),requested.code,stocks)
-    for key,frame in [("code_changes",code_changes),("reference_overrides",reference_overrides),("non_listing_evidence",non_listing_evidence)]:
+    instrument_audit,instrument_policy=None,None
+    if instrument_evidence is not None:
+        from .instrument_scope import classify_instrument_scope
+        coverage,instrument_audit,instrument_policy=classify_instrument_scope(coverage,actions,instrument_evidence,cal)
+    for key,frame in [("code_changes",code_changes),("reference_overrides",reference_overrides),("non_listing_evidence",non_listing_evidence),("instrument_evidence",instrument_evidence)]:
         if frame is not None: snapshots[key]=frame.to_json(orient="records",date_format="iso").encode()
     hashes={key:hashlib.sha256(raw).hexdigest() for key,raw in snapshots.items()}
     hashes.update(master=master_hash,targets=targets_hash,financial_panel=financial_hash,actions=action_hash,event_coverage=coverage_hash)
@@ -121,6 +125,10 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
             "source_hashes":hashes,"requested_sessions":len(cal),"listed_daily_files":sum(f"daily_{d:%Y%m%d}.csv" in m["files"] for d in cal),
             "financial_partial_source":bool(fmeta.get("partial_source",True)),"raw_files_hash_checked":0,"not_implemented_plans_ignored":int(coverage.status.eq("not_implemented").sum()),"event_coverage_prior_hash_verified":"coverage_sha256" in emeta}
     report["reviewed_non_listing_policy"]=scope_policy
+    report["instrument_scope_policy"]=instrument_policy
+    if instrument_audit is not None:
+        instrument_audit.to_csv(audit/"instrument_scope.csv",index=False)
+        report["instrument_scope_audit_sha256"]=hashlib.sha256((audit/"instrument_scope.csv").read_bytes()).hexdigest()
     for key,raw in snapshots.items(): (audit/f"input_{key}.json").write_bytes(raw)
     def checkpoint():
         pd.DataFrame(issues,columns=["issue","symbol","date","count","detail"]).to_csv(audit/"blocking_issues.csv",index=False)
@@ -162,6 +170,7 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
                   blockers=["Original financial vintages, event completeness, terminal settlement and executable fills remain unverified"],input_hashes=hashes,
                   financial_partial_source=report["financial_partial_source"])
     if scope_policy: metadata["reviewed_non_listing_policy"]=scope_policy
+    if instrument_policy: metadata["instrument_scope_policy"]=instrument_policy
     data=Dataset(prices,fundamentals,cal,metadata)
     roots={}
     if code_changes is not None:

@@ -90,6 +90,7 @@ def main():
     prepare_market.add_argument("--code-changes")
     prepare_market.add_argument("--reference-overrides")
     prepare_market.add_argument("--non-listing-evidence")
+    prepare_market.add_argument("--instrument-scope")
     range_union = sub.add_parser("merge-market-ranges", help="seal adjacent raw market ranges without filling missing sessions")
     range_union.add_argument("--data", nargs="+", required=True)
     range_union.add_argument("--out", required=True)
@@ -266,7 +267,8 @@ def main():
         overrides=load_reference_evidence(args.reference_overrides) if args.reference_overrides else None
         non_listing=pd.read_json(args.non_listing_evidence) if args.non_listing_evidence else None
         result=prepare_market_ratios(args.market,args.financials,args.master,args.actions,args.out,args.audit_out,
-                                     args.reference_tick_size,changes,overrides,non_listing)
+                                     args.reference_tick_size,changes,overrides,non_listing,
+                                     pd.read_json(args.instrument_scope,convert_dates=False) if args.instrument_scope else None)
         print(json.dumps(result,ensure_ascii=False,indent=2))
         if result["status"]!="prepared_exploratory":raise SystemExit(1)
     elif args.command == "merge-market-ranges":

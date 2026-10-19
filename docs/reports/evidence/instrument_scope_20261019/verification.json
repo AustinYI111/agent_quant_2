@@ -1,0 +1,14 @@
+{
+  "source_sha256": {
+    "readiness": "4e599007ca686ea7306ac3f16f5b7636c55e375801e8cd021c0c5073f4ed8016",
+    "scope_audit": "e95a84b3b93393a7ce2b6b7eaa25e65509bebd6da13e09fdb0a55d5281ffcfad"
+  },
+  "tests_passed": 452,
+  "test_seconds": 170.04,
+  "raw_files_checked": 1942,
+  "price_rows": 8609196,
+  "stable_issuers": 5401,
+  "terminal_affected_issuers": 220,
+  "terminal_dates_not_in_session_calendar": 0,
+  "nontrading_unknown_volume_preserved": 12265
+}
