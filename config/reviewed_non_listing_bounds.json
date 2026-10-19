@@ -82,5 +82,50 @@
     "source_sha256": "fe56701705e888f7c713206048650514c9d502cd7a9c6197e24ba075d089fa88",
     "source_locator": "data.waitingCount[type=cyb].count[obSecCode0007=301718]",
     "reviewed": true
+  },
+  {
+    "symbol": "sh.603302",
+    "company_name": "鑫广绿环",
+    "evidence_kind": "pre_ipo_status",
+    "pre_ipo_stage": "suspended_issue",
+    "not_listed_through": "2026-10-19",
+    "source_observed_date": "2026-10-19",
+    "source_url": "https://query.sse.com.cn/commonQuery.do?isPagination=true&sqlId=COMMON_SSE_IPO_IPO_LIST_L&stockType=&isListing=&isIssue=1&stockCode=603302&isNotStatus=&pageHelp.pageSize=15&pageHelp.cacheSize=1&pageHelp.pageNo=1",
+    "source_sha256": "a368bd0429773016fed446d768b1287d98d077aa05026ad33b47dbf30a6ac218",
+    "source_locator": "result[SECURITY_CODE=603302]: current first-issue query isIssue=1, IPO_OVERALL_STATUS=99, LISTED_DATE=-; listed-filter negative and listed control positive",
+    "source_response": "evidence/sse_ipo_20261019/603302_issuing.json",
+    "source_filter_contract_url": "https://www.sse.com.cn/xhtml/ipo/js/ipo_common.js?v=20220224",
+    "source_filter_contract_sha256": "a1eb531af166f92a4460c880b5edc0a7231a059c1e0f91cfb20631674a712671",
+    "reviewed": true
+  },
+  {
+    "symbol": "sh.603361",
+    "company_name": "浙江国祥",
+    "evidence_kind": "pre_ipo_status",
+    "pre_ipo_stage": "suspended_issue",
+    "not_listed_through": "2026-10-19",
+    "source_observed_date": "2026-10-19",
+    "source_url": "https://query.sse.com.cn/commonQuery.do?isPagination=true&sqlId=COMMON_SSE_IPO_IPO_LIST_L&stockType=&isListing=&isIssue=1&stockCode=603361&isNotStatus=&pageHelp.pageSize=15&pageHelp.cacheSize=1&pageHelp.pageNo=1",
+    "source_sha256": "f8a9305386b9f3413e6ae6b894abc59b2e95a980c95f6fa46c1f7ed01b03dba4",
+    "source_locator": "result[SECURITY_CODE=603361]: current first-issue query isIssue=1, IPO_OVERALL_STATUS=99, LISTED_DATE=-; listed-filter negative and listed control positive",
+    "source_response": "evidence/sse_ipo_20261019/603361_issuing.json",
+    "source_filter_contract_url": "https://www.sse.com.cn/xhtml/ipo/js/ipo_common.js?v=20220224",
+    "source_filter_contract_sha256": "a1eb531af166f92a4460c880b5edc0a7231a059c1e0f91cfb20631674a712671",
+    "reviewed": true
+  },
+  {
+    "symbol": "sh.688688",
+    "company_name": "蚂蚁集团",
+    "evidence_kind": "pre_ipo_status",
+    "pre_ipo_stage": "suspended_issue",
+    "not_listed_through": "2026-10-19",
+    "source_observed_date": "2026-10-19",
+    "source_url": "https://query.sse.com.cn/commonQuery.do?isPagination=true&sqlId=COMMON_SSE_IPO_IPO_LIST_L&stockType=&isListing=&isIssue=1&stockCode=688688&isNotStatus=&pageHelp.pageSize=15&pageHelp.cacheSize=1&pageHelp.pageNo=1",
+    "source_sha256": "016cb54ff507654022951e1b65097ad2753bdcdf18198e8511dd7028e6782624",
+    "source_locator": "result[SECURITY_CODE=688688]: current first-issue query isIssue=1, IPO_OVERALL_STATUS=99, LISTED_DATE=-; listed-filter negative and listed control positive",
+    "source_response": "evidence/sse_ipo_20261019/688688_issuing.json",
+    "source_filter_contract_url": "https://www.sse.com.cn/xhtml/ipo/js/ipo_common.js?v=20220224",
+    "source_filter_contract_sha256": "a1eb531af166f92a4460c880b5edc0a7231a059c1e0f91cfb20631674a712671",
+    "reviewed": true
   }
 ]
