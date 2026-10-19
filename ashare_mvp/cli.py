@@ -84,6 +84,9 @@ def main():
     prepare_market.add_argument("--code-changes")
     prepare_market.add_argument("--reference-overrides")
     prepare_market.add_argument("--non-listing-evidence")
+    range_union = sub.add_parser("merge-market-ranges", help="seal adjacent raw market ranges without filling missing sessions")
+    range_union.add_argument("--data", nargs="+", required=True)
+    range_union.add_argument("--out", required=True)
     merge_market = sub.add_parser("merge-market", help="materialize sealed market and audited repair snapshots")
     merge_market.add_argument("--data", required=True)
     merge_market.add_argument("--repairs", nargs="+", required=True)
@@ -257,6 +260,9 @@ def main():
                                      args.reference_tick_size,changes,overrides,non_listing)
         print(json.dumps(result,ensure_ascii=False,indent=2))
         if result["status"]!="prepared_exploratory":raise SystemExit(1)
+    elif args.command == "merge-market-ranges":
+        from .market_range_union import merge_market_ranges
+        print(json.dumps(merge_market_ranges(args.data, args.out), ensure_ascii=False, indent=2))
     elif args.command == "merge-market":
         from .market_merge import merge_market_snapshots
         print(json.dumps(merge_market_snapshots(args.data, args.repairs, args.out), ensure_ascii=False, indent=2))
