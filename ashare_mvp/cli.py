@@ -68,6 +68,12 @@ def main():
     multi.add_argument("--commission-bps", type=float, default=3.)
     multi.add_argument("--slippage-bps", type=float, default=5.)
     multi.add_argument("--sell-tax-bps", type=float)
+    reviewed_groups = sub.add_parser("reconcile-reviewed-payments", help="notice-anchored same-day multi-period cash distributions")
+    reviewed_groups.add_argument("--data", required=True)
+    reviewed_groups.add_argument("--market", required=True)
+    reviewed_groups.add_argument("--calendar", required=True)
+    reviewed_groups.add_argument("--evidence", required=True)
+    reviewed_groups.add_argument("--out", required=True)
     market = sub.add_parser("download-market", help="resumable daily full-cross-section raw-price acquisition")
     market.add_argument("--out", required=True)
     market.add_argument("--start", required=True)
@@ -243,6 +249,9 @@ def main():
         result=run_three_horizon_research(args.data,args.benchmark,args.out,args.validation_start,args.test_start,args.test_end,
             cfg,args.asof,args.oneil,args.exploratory,args.commission_bps,args.slippage_bps,args.sell_tax_bps)
         print(json.dumps(result,ensure_ascii=False,indent=2))
+    elif args.command == "reconcile-reviewed-payments":
+        from .reviewed_payment_groups import reconcile_reviewed_payment_files
+        print(json.dumps(reconcile_reviewed_payment_files(args.data,args.market,args.calendar,args.evidence,args.out),ensure_ascii=False,indent=2))
     elif args.command == "download-market":
         from .market_download import download_market_daily
         result = download_market_daily(args.out, args.start, args.end, args.resume)

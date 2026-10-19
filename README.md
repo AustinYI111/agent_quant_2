@@ -4,6 +4,8 @@
 
 2026-10-19：2018—2025 的 1,942 日原始行情已采集并封存完成；价格及退市终值仍待校验，真实三周期回测未完成。最新范围、证据与剩余问题见[行情完成及价格／终值检查](docs/reports/MARKET_COMPLETION_AND_TERMINAL_AUDIT_20261019.md)。
 
+同日多报告期与完整现金支付已补充公告审阅：剩余支付缺口8→0，435项测试通过，真实回测仍待范围、价格和退市结算核验。见[同日分红合并实测](docs/reports/REVIEWED_PAYMENT_GROUPS_20261019.md)。
+
 新增 `ashare_mvp/` 为独立研究模块，旧 `agent_quant-main/` 演示保留。代码检查与使用说明见 [MVP说明](docs/MVP.md)，运行结果见 [开发与验证报告](docs/IMPLEMENTATION_REPORT.md)，复查修复与测试见 [Debug报告](docs/DEBUG_REPORT.md)。
 
 ```powershell

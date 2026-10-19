@@ -1,0 +1,174 @@
+[
+  {
+    "symbol": "sh.600720",
+    "ex_date": "2024-06-13",
+    "announcement_date": "2024-06-04",
+    "available_date": "2024-06-05",
+    "pay_date": "2024-06-13",
+    "cash_per_share": 0.3674,
+    "reference_cash_per_share": 0.3674,
+    "share_multiplier": 1.0,
+    "components": [
+      {
+        "source_period": "2022-12-31",
+        "expected_cash_per_share": 0.1104,
+        "expected_description": "10派1.104元(含税,扣税后0.9936元)",
+        "expected_status": "missing_payment_evidence"
+      },
+      {
+        "source_period": "2023-12-31",
+        "expected_cash_per_share": 0.257,
+        "expected_description": "10派2.57元(含税,扣税后2.313元)",
+        "expected_status": "matched_payment_evidence"
+      }
+    ],
+    "expected_existing": {
+      "cash_per_share": 0.257,
+      "source_period": "2023-12-31",
+      "pay_date": "2024-06-13"
+    },
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-06-04/1220246448.PDF",
+    "source_sha256": "dcc50f953cdd16cd763444f0ac60c62b2b7bc48a98edef17110510d23a2cafb8",
+    "source_page": 1,
+    "payment_source_page": 1,
+    "reference_source_page": 1,
+    "reviewed": true
+  },
+  {
+    "symbol": "sh.600803",
+    "ex_date": "2024-08-01",
+    "announcement_date": "2024-07-26",
+    "available_date": "2024-07-29",
+    "pay_date": "2024-08-01",
+    "cash_per_share": 0.91,
+    "reference_cash_per_share": 0.9054,
+    "share_multiplier": 1.0,
+    "components": [
+      {
+        "source_period": "2023-12-31",
+        "expected_cash_per_share": 0.6599999999999999,
+        "expected_description": "10派6.60元(含税,扣税后5.94元)",
+        "expected_status": "missing_payment_evidence"
+      }
+    ],
+    "expected_existing": null,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-07-26/1220731024.PDF",
+    "source_sha256": "c610a0242cc13bbde06917cfaad3549365afc16e10a5bf278b4751f5be497917",
+    "source_page": 1,
+    "payment_source_page": 2,
+    "reference_source_page": 2,
+    "reviewed": true
+  },
+  {
+    "symbol": "sh.600803",
+    "ex_date": "2025-07-22",
+    "announcement_date": "2025-07-16",
+    "available_date": "2025-07-17",
+    "pay_date": "2025-07-22",
+    "cash_per_share": 1.03,
+    "reference_cash_per_share": 1.03,
+    "share_multiplier": 1.0,
+    "components": [
+      {
+        "source_period": "2024-12-31",
+        "expected_cash_per_share": 0.8099999999999999,
+        "expected_description": "10派8.10元(含税,扣税后7.29元)",
+        "expected_status": "missing_payment_evidence"
+      }
+    ],
+    "expected_existing": null,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2025-07-16/1224176257.PDF",
+    "source_sha256": "a47a387e531faaf13584f3b88a6d2af998427e034298e1503ada7146b6921f99",
+    "source_page": 1,
+    "payment_source_page": 2,
+    "reference_source_page": 2,
+    "reviewed": true
+  },
+  {
+    "symbol": "sh.601966",
+    "ex_date": "2024-06-14",
+    "announcement_date": "2024-06-07",
+    "available_date": "2024-06-11",
+    "pay_date": "2024-06-14",
+    "cash_per_share": 0.377,
+    "reference_cash_per_share": 0.37444,
+    "share_multiplier": 1.0,
+    "components": [
+      {
+        "source_period": "2023-12-31",
+        "expected_cash_per_share": 0.286,
+        "expected_description": "10派2.86元(含税,扣税后2.574元)",
+        "expected_status": "missing_payment_evidence"
+      },
+      {
+        "source_period": "2024-03-31",
+        "expected_cash_per_share": 0.091,
+        "expected_description": "10派0.91元(含税,扣税后0.819元)",
+        "expected_status": "missing_payment_evidence"
+      }
+    ],
+    "expected_existing": null,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-06-07/1220288229.PDF",
+    "source_sha256": "f7659034cb64362e870f2f16f25f89ca683b10a779bb18e6e14ac6ea4d5b97a5",
+    "source_page": 1,
+    "payment_source_page": 1,
+    "reference_source_page": 2,
+    "reviewed": true
+  },
+  {
+    "symbol": "sz.002352",
+    "ex_date": "2024-11-07",
+    "announcement_date": "2024-10-31",
+    "available_date": "2024-11-01",
+    "pay_date": "2024-11-07",
+    "cash_per_share": 1.4,
+    "reference_cash_per_share": 1.393962,
+    "share_multiplier": 1.0,
+    "components": [
+      {
+        "source_period": "2024-06-30",
+        "expected_cash_per_share": 0.4,
+        "expected_description": "10派4.00元(含税,扣税后3.60元)",
+        "expected_status": "missing_payment_evidence"
+      }
+    ],
+    "expected_existing": null,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-10-31/1221573964.PDF",
+    "source_sha256": "338b6f3fe077d74966638cf0caf937e0d5e53aa86d06ed518b23e15c94cdc871",
+    "source_page": 1,
+    "payment_source_page": 3,
+    "reference_source_page": 3,
+    "reviewed": true
+  },
+  {
+    "symbol": "sz.300760",
+    "ex_date": "2025-05-29",
+    "announcement_date": "2025-05-22",
+    "available_date": "2025-05-23",
+    "pay_date": "2025-05-29",
+    "cash_per_share": 1.97,
+    "reference_cash_per_share": 1.97,
+    "share_multiplier": 1.0,
+    "components": [
+      {
+        "source_period": "2024-12-31",
+        "expected_cash_per_share": 0.5599999999999999,
+        "expected_description": "10派5.60元(含税,扣税后5.04元)",
+        "expected_status": "missing_payment_evidence"
+      },
+      {
+        "source_period": "2025-03-31",
+        "expected_cash_per_share": 1.41,
+        "expected_description": "10派14.10元(含税,扣税后12.69元)",
+        "expected_status": "missing_payment_evidence"
+      }
+    ],
+    "expected_existing": null,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2025-05-22/1223626414.PDF",
+    "source_sha256": "98470e8000f0d2c45c4b2584be0e92bb2741668cdba0a358858f8120c37d4fb9",
+    "source_page": 2,
+    "payment_source_page": 2,
+    "reference_source_page": 2,
+    "reviewed": true
+  }
+]

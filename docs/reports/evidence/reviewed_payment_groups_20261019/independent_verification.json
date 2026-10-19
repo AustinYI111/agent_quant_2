@@ -1,0 +1,42 @@
+{
+  "non_target_old_events_preserved": 27649,
+  "existing_partial_events_corrected": 1,
+  "new_event_dates_added": 5,
+  "missing_plan_records_resolved": 8,
+  "all_group_plan_records_reviewed": 9,
+  "resolved_price_keys": [
+    [
+      "sh.600720",
+      "2024-06-13"
+    ],
+    [
+      "sh.600803",
+      "2024-08-01"
+    ],
+    [
+      "sh.600803",
+      "2025-07-22"
+    ],
+    [
+      "sh.601966",
+      "2024-06-14"
+    ],
+    [
+      "sz.002352",
+      "2024-11-07"
+    ],
+    [
+      "sz.300760",
+      "2025-05-29"
+    ]
+  ],
+  "price_keys_added": [],
+  "input_source_sha256": {
+    "events": "aefcc412f12dd60b858329d2f2e7d49d65ce41dddaf01d756aa778008a2b5bc2",
+    "price_audit": "edf279c4b50aea2c8614801b75d8455d69227c980014fb2d9db851cc01437371",
+    "readiness": "ede37a033dd7c5a36e9b664c345c0f45712278ccf65da783083a7784838b831b",
+    "group_audit": "55bb2681bc6c62e95ec43d1a05dadcafff5f9c93ab0ace14cd5705965232c7d4"
+  },
+  "tests_passed": 435,
+  "test_seconds": 165.58
+}
