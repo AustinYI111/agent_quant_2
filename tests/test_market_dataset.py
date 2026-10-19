@@ -180,3 +180,25 @@ def test_event_identity_policy_is_verified_and_matches_feature_policy(tmp_path,m
         with pytest.raises(ValueError,match=source+' code-change'):
             prepare(tmp_path,paths,code_changes=c)
         assert not (tmp_path/'dataset').exists()
+
+
+def test_post_delisting_values_are_diagnosed_but_still_block_training(tmp_path):
+    paths,cal=fixture(tmp_path);market,_,master,_=paths
+    master_file=master/'security_master.csv';f=pd.read_csv(master_file,dtype=str).fillna('')
+    f.loc[f.code.eq('sz.000001'),'outDate']=str(cal[1].date());f.to_csv(master_file,index=False)
+    meta=json.loads((master/'manifest.json').read_text());meta['master_sha256']=digest(master_file)
+    (master/'manifest.json').write_text(json.dumps(meta))
+    m=json.loads((market/'manifest.json').read_text())
+    for day in cal[2:]:
+        name=f'daily_{day:%Y%m%d}.csv';file=market/name
+        f=pd.read_csv(file);f=f[f.code.ne('sz.000001')];f.to_csv(file,index=False)
+        m['files'][name]={'sha256':digest(file),'rows':len(f)}
+    (market/'manifest.json').write_text(json.dumps(m))
+    result=prepare(tmp_path,paths)
+    assert result['status']=='blocked' and not (tmp_path/'dataset').exists()
+    assert result['symbols']==2
+    assert result['lifetime_coverage']['missing_lifetime_quotes']==0
+    assert result['lifetime_coverage']['unresolved_post_terminal_valuations']==2
+    assert not result['lifetime_coverage']['terminal_settlement_verified']
+    assert result['lifetime_coverage']['sha256']==digest(tmp_path/'audit/lifetime_coverage.csv')
+    assert result['issue_counts']['missing_sessions_or_terminal_valuation']==2

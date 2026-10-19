@@ -205,6 +205,12 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
         actions=apply_reference_overrides(actions,reference_overrides,cal)
     active=active.copy();active["symbol"]=active.code.map(lambda x:roots.get(x,x))
     listing=active.groupby("symbol").listing_date.min()
+    from .lifetime_coverage import audit_lifetime_coverage
+    lifetime_rows,lifetime_summary=audit_lifetime_coverage(data.prices,active,cal)
+    lifetime_path=audit/"lifetime_coverage.csv"
+    lifetime_rows.to_csv(lifetime_path,index=False)
+    report["lifetime_coverage"]={**lifetime_summary,"file":lifetime_path.name,
+        "sha256":hashlib.sha256(lifetime_path.read_bytes()).hexdigest()}
     data.prices["listing_date"]=data.prices.symbol.map(listing)
     for symbol in sorted(set(listing.index)-set(data.prices.symbol)): issue("missing_security_history",symbol=symbol)
     for symbol,p in data.prices.groupby("symbol",sort=False):

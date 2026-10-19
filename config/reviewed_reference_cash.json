@@ -187,5 +187,29 @@
     "source_page": 2,
     "reviewed": true,
     "reason": "Official virtual cash/share terms for exchange reference; actual cash and share entitlements stay unchanged"
+  },
+  {
+    "symbol": "sh.600019",
+    "ex_date": "2021-10-15",
+    "announcement_date": "2021-10-11",
+    "available_date": "2021-10-12",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2021-10-11/1211229150.PDF",
+    "source_page": 2,
+    "reference_cash_per_share": 0.3434,
+    "expected_cash_per_share": 0.35,
+    "source_sha256": "59dcfefd5b8a65ed1726a6a080f3361a89bda0379b2762ad0bda57ef3092ee01",
+    "reviewed": true
+  },
+  {
+    "symbol": "sh.600114",
+    "ex_date": "2019-06-06",
+    "announcement_date": "2019-05-30",
+    "available_date": "2019-05-31",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2019-05-30/1206313597.PDF",
+    "source_page": 2,
+    "reference_cash_per_share": 0.39,
+    "expected_cash_per_share": 0.4,
+    "source_sha256": "d3f76c8911b489aee0def21361aa08320f62333c8a2ac511a10e182db7d7e4de",
+    "reviewed": true
   }
 ]

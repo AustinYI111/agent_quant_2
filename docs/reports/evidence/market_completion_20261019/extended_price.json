@@ -1,0 +1,28 @@
+{
+  "reference_tick_size": 0.01,
+  "rounded_reference_matches": 2506,
+  "rows": 2380210,
+  "symbols": 5260,
+  "affected_symbols": 792,
+  "issue_counts": {
+    "missing_sessions_or_terminal_valuation": 21470,
+    "unreconciled_adjustment": 1036
+  },
+  "model_ready": false,
+  "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation",
+  "lifetime_coverage": {
+    "missing_lifetime_quotes": 0,
+    "unresolved_post_terminal_valuations": 86894,
+    "terminal_affected_issuers": 220,
+    "terminal_settlement_verified": false,
+    "policy": "Diagnostic only; preserve all quotes and issuers; do not fill prices or infer settlement from outDate"
+  },
+  "source_manifest_sha256": "c2cc84a9281c7a0303ed4657a5f9b9393596ca17da2e6dcecc67a28692120acf",
+  "actions_sha256": "2cab377cbeb8f9047a762291ae03880131a4f9b49b7a8d2be44360633ebaeff6",
+  "reference_config_sha256": "4734c33f3f7ddffff2289bd1896cc39ccd88af275d43994c13886e53bf6c0e40",
+  "covered_sessions": 464,
+  "interval_start": "2024-01-31",
+  "interval_end": "2025-12-31",
+  "missing_payment_plans": 189,
+  "scope": "Diagnostic only; incomplete payment evidence may explain some price gaps; cannot train or backtest from this audit"
+}
