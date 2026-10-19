@@ -145,7 +145,6 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
         for col in ["open","close","preclose","volume","peTTM","pbMRQ"]:
             p[col]=pd.to_numeric(p[col],errors="raise")
             if np.isinf(p[col]).any(): raise ValueError("infinite market value")
-        if p[["open","close","preclose","volume"]].isna().any().any() or p[["open","close","preclose","volume"]].lt(0).any().any(): raise ValueError("missing or negative market value")
         if p.symbol.isin(scope_exclusions).any(): raise ValueError("observed quote contradicts reviewed non-listing bound")
         p["listing_date"]=p.symbol.map(stocks.set_index("code").listing_date)
         if p.listing_date.isna().any(): raise ValueError("observed security has no verified stock identity")
@@ -170,6 +169,33 @@ def prepare_market_ratios(market_directory, financial_directory, master_director
         roots,_,_=code_change_maps(code_changes)
         data=apply_identity_dataset(data,code_changes)
         actions=canonical_event_symbols(actions,code_changes)
+    # Apply the existing dated code policy before validating active values.
+    # Providers may backfill an inactive new alias with a blank volume; it is
+    # quarantined by identity evidence, never repaired or used for selection.
+    value_fields=["open","close","preclose","volume"]
+    missing_values=data.prices[value_fields].isna()
+    nontrading_unknown_volume=missing_values.volume & data.prices.tradestatus.eq("0")
+    # A declared nontrading session needs a valid valuation, not invented volume.
+    # Retain its NaN volume and prohibit execution through the existing status.
+    missing_values.loc[nontrading_unknown_volume,"volume"]=False
+    volume_audit_columns=[col for col in ["date","symbol","trading_symbol","tradestatus","volume"] if col in data.prices]
+    data.prices.loc[nontrading_unknown_volume,volume_audit_columns].to_csv(audit/"nontrading_unknown_volume.csv",index=False)
+    report["nontrading_unknown_volume_rows"]=int(nontrading_unknown_volume.sum())
+    report["nontrading_unknown_volume_sha256"]=hashlib.sha256((audit/"nontrading_unknown_volume.csv").read_bytes()).hexdigest()
+    metadata_policy="NaN volume retained only with explicit tradestatus=0; no imputation; candidate volume filter and execution status still apply"
+    data.metadata["nontrading_volume_policy"]=metadata_policy
+    negative_values=data.prices[value_fields].lt(0)
+    for mask,kind in [(missing_values,"missing_active_market_value"),(negative_values,"negative_active_market_value")]:
+        for index in mask.index[mask.any(axis=1)]:
+            row=data.prices.loc[index]
+            fields=",".join(mask.columns[mask.loc[index]])
+            source=row.get("trading_symbol",row.symbol)
+            issue(kind,symbol=row.symbol,date=row.date,detail="trading_symbol="+str(source)+"; fields="+fields)
+    report["quarantined_quote_rows"]=data.metadata.get("security_identity_policy",{}).get("quarantined_quote_rows",0)
+    if issues:
+        report.update(validation_stage="active_price_values",price_rows=len(data.prices),symbols=int(data.prices.symbol.nunique()))
+        checkpoint()
+        return report
     if reference_overrides is not None:
         from .reference_overrides import apply_reference_overrides
         # Normalize reviewed event keys to the same verified issuer identity.
