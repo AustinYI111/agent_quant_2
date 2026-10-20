@@ -1,0 +1,61 @@
+{
+  "schema": "independent_real_horizon_input_audit_v1",
+  "observed_at_utc": "2026-10-19T08:17:32.379450+00:00",
+  "factor_rows": 1509411,
+  "factor_dates": 388,
+  "attempted_signal_dates": 405,
+  "empty_pre_financial_dates": 17,
+  "first_financial_visibility": "2019-04-30",
+  "label_rows": 1892522,
+  "label_status_counts": {
+    "12m": {
+      "valued": 247427,
+      "unmatured": 57535,
+      "unresolved_interval": 12929,
+      "blocked_exit": 334,
+      "blocked_entry": 94
+    },
+    "20d": {
+      "valued": 308661,
+      "unmatured": 4819,
+      "unresolved_interval": 1409,
+      "blocked_exit": 375,
+      "blocked_entry": 75
+    },
+    "5d": {
+      "valued": 1246406,
+      "no_next_session": 4827,
+      "unmatured": 4821,
+      "unresolved_interval": 1430,
+      "blocked_exit": 1038,
+      "blocked_entry": 342
+    }
+  },
+  "native_missing_features": {
+    "roe": 4609,
+    "revenue_growth": 1525,
+    "earnings_growth": 486,
+    "low_debt": 194632,
+    "earnings_yield": 0,
+    "book_yield": 0,
+    "momentum_63": 21969,
+    "momentum_126": 42580,
+    "momentum_252_skip21": 75727,
+    "low_volatility": 21969
+  },
+  "artifact_sha256": {
+    "factor_samples.csv": "00bced86090d154f49d949113d7129a2b45caa53985079637c3c3beb1bbcb565",
+    "labels.csv": "8a94ff115406cd19d1b5ba292c8481ec47ce8bba281560bb37a973c7cac48ef5"
+  },
+  "checks": [
+    "unique ordered feature keys",
+    "feature availability no later than signal",
+    "finite or native missing factors",
+    "actual 5/20-session and12-calendar-month label intervals",
+    "unknown outcomes not zero filled",
+    "artifact hashes stable throughout independent read"
+  ],
+  "passed": true,
+  "portfolio_backtests_complete": false,
+  "limitation": "Checks these saved input tables only; not source-vintage certification, model training audit, portfolio completion or profitability."
+}

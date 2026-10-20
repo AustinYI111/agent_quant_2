@@ -25,7 +25,7 @@
 python scripts/run_frozen_three_horizons.py --protocol config/research_protocols/real_20261019.json --data artifacts/market_ratios_causal_quality1 --benchmark artifacts/benchmark_csi300_price_2018_2025 --out artifacts/three_horizon_real_causal_quality1 --code-snapshot artifacts/research_code_snapshot_causal_quality1
 ```
 
-每次实验要求新的输出和源码快照目录。当前进程使用已冻结的源码包；运行期间后续代码修改不会悄然改变实验。已完成405个信号日、1,509,411条候选因子样本，正在生成5日收益标签。三周期真实模型、完整账户净值和3周期净收益比较尚未在此检查点产生。
+每次实验要求新的输出和源码快照目录。当前进程使用已冻结的源码包；运行期间后续代码修改不会悄然改变实验。已尝试405个信号日期（后续独立表审计确认388个有样本）、1,509,411条候选因子样本，正在生成5日收益标签。三周期真实模型、完整账户净值和3周期净收益比较尚未在此检查点产生。
 
 后续输出包括因子样本、逐条标签及未知原因计数、验证选择记录、每折训练时间/标签截止审计、排序预测、各周期Top20、净值、订单和指数比较。实际持仓校验失败时输出 `incomplete.json` 与有效前缀，完整期收益不发布。
 
@@ -42,3 +42,5 @@ python scripts/run_frozen_three_horizons.py --protocol config/research_protocols
 ## GitHub与本地边界
 
 开发分支 `feature/quant-mvp`，更新草稿PR #11，不合并main。普通Git交付代码、配置、冻结实验协议、测试、本报告及轻量哈希证据。原始数据、完整派生数据、运行日志、预测明细和模型文件仍在本地artifacts。新增真实数据尚未进入新的私有加密备份Release；初始2026-10-14备份不能冒充本轮数据备份。个人持仓、凭据和备份口令不进入公开仓库。
+
+后续真实9模型、样本日期计数更正和估值补证结果见 [2026-10-20实测报告](REAL_MODELS_AND_VALUATION_REPLAY_20261020.md)。本文件较早阶段的“正在计算”等描述是当时检查点。

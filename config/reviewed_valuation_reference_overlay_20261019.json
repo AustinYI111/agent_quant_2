@@ -1,0 +1,184 @@
+[
+  {
+    "symbol": "sz.002582",
+    "ex_date": "2024-05-27",
+    "announcement_date": "2024-05-18",
+    "available_date": "2024-05-20",
+    "reference_cash_per_share": 0.5847288,
+    "expected_cash_per_share": 0.6,
+    "reference_share_multiplier": 1.0,
+    "expected_share_multiplier": 1.0,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-05-18/1220090243.PDF",
+    "source_sha256": "20cd31a94dfb712ce7062e09988a0bb96c22c8c37449887a6653ba001283ca5b",
+    "source_page": 1,
+    "reviewed": true,
+    "source_pages_visually_reviewed": [
+      1,
+      2
+    ],
+    "scope": "valuation reference only; actual payout/shares/payment unchanged; fixed models/predictions not retrained",
+    "publication_policy": "URL/index publication date, next exchange session; GLD signedMay8 but publishedMay9"
+  },
+  {
+    "symbol": "sz.002410",
+    "ex_date": "2023-05-15",
+    "announcement_date": "2023-05-09",
+    "available_date": "2023-05-10",
+    "reference_cash_per_share": 0.3978359,
+    "expected_cash_per_share": 0.4,
+    "reference_share_multiplier": 1.3978359,
+    "expected_share_multiplier": 1.4,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2023-05-09/1216763769.PDF",
+    "source_sha256": "15d166d942215c9edf9d376907b69f7db0926593ef6209c743ecb47d2b8fb4d6",
+    "source_page": 4,
+    "reviewed": true,
+    "source_pages_visually_reviewed": [
+      2,
+      4
+    ],
+    "scope": "valuation reference only; actual payout/shares/payment unchanged; fixed models/predictions not retrained",
+    "publication_policy": "URL/index publication date, next exchange session; GLD signedMay8 but publishedMay9"
+  },
+  {
+    "symbol": "sh.600266",
+    "ex_date": "2023-07-04",
+    "announcement_date": "2023-06-28",
+    "available_date": "2023-06-29",
+    "reference_cash_per_share": 0.09199,
+    "expected_cash_per_share": 0.1,
+    "reference_share_multiplier": 1.0,
+    "expected_share_multiplier": 1.0,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2023-06-28/1217145803.PDF",
+    "source_sha256": "f1be094f38c147668d1d535e59fc475a4ae5ce809ac6f32226f9c6c893c13311",
+    "source_page": 2,
+    "reviewed": true,
+    "source_pages_visually_reviewed": [
+      1,
+      2
+    ],
+    "scope": "valuation reference only; actual payout/shares/payment unchanged; fixed models/predictions not retrained",
+    "publication_policy": "URL/index publication date, next exchange session; GLD signedMay8 but publishedMay9"
+  },
+  {
+    "symbol": "sh.688617",
+    "ex_date": "2023-05-29",
+    "announcement_date": "2023-05-23",
+    "available_date": "2023-05-24",
+    "reference_cash_per_share": 1.6423,
+    "expected_cash_per_share": 1.65,
+    "reference_share_multiplier": 1.0,
+    "expected_share_multiplier": 1.0,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2023-05-23/1216872848.PDF",
+    "source_sha256": "d5319477fc739d5613fa4af021a378e7a18511015f19c845f63e016d85dcf81f",
+    "source_page": 2,
+    "reviewed": true,
+    "source_pages_visually_reviewed": [
+      1,
+      2
+    ],
+    "scope": "valuation reference only; original actual cash/shares/payment unchanged; original models/forecasts not retrained",
+    "publication_policy": "official URL/index publication date and next supplied exchange session"
+  },
+  {
+    "symbol": "sh.688617",
+    "ex_date": "2024-07-26",
+    "announcement_date": "2024-07-22",
+    "available_date": "2024-07-23",
+    "reference_cash_per_share": 1.9907,
+    "expected_cash_per_share": 2.0,
+    "reference_share_multiplier": 1.4479,
+    "expected_share_multiplier": 1.45,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-07-22/1220695487.PDF",
+    "source_sha256": "c2ba95da679df96680b0f80c7a84b22eaa900a08ab25d217ed4d2dab02e7be2e",
+    "source_page": 2,
+    "reviewed": true,
+    "source_pages_visually_reviewed": [
+      1,
+      2
+    ],
+    "scope": "valuation reference only; original actual cash/shares/payment unchanged; original models/forecasts not retrained",
+    "publication_policy": "official URL/index publication date and next supplied exchange session"
+  },
+  {
+    "symbol": "sz.300896",
+    "ex_date": "2024-04-29",
+    "announcement_date": "2024-04-19",
+    "available_date": "2024-04-22",
+    "reference_cash_per_share": 2.3104823,
+    "expected_cash_per_share": 2.323,
+    "reference_share_multiplier": 1.3978445,
+    "expected_share_multiplier": 1.4,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-04-19/1219697497.PDF",
+    "source_sha256": "c3da1538b34f7e3ca7186b10ae7b580667c1dec7a927202afa57d48db93c2648",
+    "source_page": 2,
+    "reviewed": true,
+    "source_pages_visually_reviewed": [
+      1,
+      2,
+      3
+    ],
+    "scope": "valuation reference only; original actual cash/shares/payment unchanged; original models/forecasts not retrained",
+    "publication_policy": "official URL/index publication date and next supplied exchange session"
+  },
+  {
+    "symbol": "sz.002582",
+    "ex_date": "2024-09-04",
+    "announcement_date": "2024-08-28",
+    "available_date": "2024-08-29",
+    "reference_cash_per_share": 0.3861739,
+    "expected_cash_per_share": 0.4,
+    "reference_share_multiplier": 1.0,
+    "expected_share_multiplier": 1.0,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-08-28/1221006013.PDF",
+    "source_sha256": "ed33b0e71128f225975b6903ad7dc894e9bbadfbe6768b65059f3d7902aa4cf7",
+    "source_page": 1,
+    "reviewed": true,
+    "source_pages_visually_reviewed": [
+      1,
+      2
+    ],
+    "scope": "valuation reference only; actual payout/shares/payment and frozen model/forecasts unchanged",
+    "publication_policy": "official URL/index publication date and next exchange session"
+  },
+  {
+    "symbol": "sz.002811",
+    "ex_date": "2024-05-29",
+    "announcement_date": "2024-05-22",
+    "available_date": "2024-05-23",
+    "reference_cash_per_share": 0.1944109,
+    "expected_cash_per_share": 0.2,
+    "reference_share_multiplier": 1.0,
+    "expected_share_multiplier": 1.0,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-05-22/1220122599.PDF",
+    "source_sha256": "0cd35f0ec83491299fc2d273a7af878d6617291d30234d919674940c21d0b68e",
+    "source_page": 1,
+    "reviewed": true,
+    "source_pages_visually_reviewed": [
+      1,
+      3
+    ],
+    "scope": "valuation reference only; actual payout/shares/payment and frozen model/forecasts unchanged",
+    "publication_policy": "official URL/index publication date and next exchange session"
+  },
+  {
+    "symbol": "sz.300193",
+    "ex_date": "2024-06-13",
+    "announcement_date": "2024-06-04",
+    "available_date": "2024-06-05",
+    "reference_cash_per_share": 0.3859295,
+    "expected_cash_per_share": 0.4,
+    "reference_share_multiplier": 1.0,
+    "expected_share_multiplier": 1.0,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-06-04/1220257886.PDF",
+    "source_sha256": "210e013474886e53497c4288bf6ef353932b194669220b6e5de000c9c54284af",
+    "source_page": 1,
+    "reviewed": true,
+    "source_pages_visually_reviewed": [
+      1,
+      2,
+      3
+    ],
+    "scope": "valuation reference only; actual cash/shares/payment and frozen forecasts unchanged",
+    "publication_policy": "official publication date and next exchange session"
+  }
+]

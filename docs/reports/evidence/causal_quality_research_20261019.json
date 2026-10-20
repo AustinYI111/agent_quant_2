@@ -116,9 +116,10 @@
     "dataset_metadata_sha256": "e6a58c95483a3bb654465d5ca724bb8314a68ccff61beb054eeb5b446e1ff0e7"
   },
   "observed_progress": {
-    "factor_dates": 405,
+    "factor_dates": 388,
     "factor_samples": 1509411,
-    "stage": "5d labels"
+    "stage": "5d labels",
+    "attempted_factor_dates": 405
   },
   "real_performance_available": false,
   "formal_model_released": false,
@@ -134,5 +135,9 @@
     "seconds": 238.17,
     "exit_code": 0,
     "warning": "sandbox prevented optional pytest cache write; no failed tests"
+  },
+  "date_count_correction": {
+    "audited_at_utc": "2026-10-19T08:17:32.379450+00:00",
+    "reason": "405 attempted,17 before first financial visibility,388 nonempty;sample count unchanged"
   }
 }

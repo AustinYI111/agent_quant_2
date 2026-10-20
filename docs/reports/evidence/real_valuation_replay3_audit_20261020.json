@@ -1,0 +1,147 @@
+{
+  "schema": "fixed_forecast_valuation_replay_v1",
+  "created_at_utc": "2026-10-20T01:07:43.607236+00:00",
+  "original_experiment_files_sha256": {
+    "models/rankings.csv": "00ce800ac55c224928ea037fdae503e55d9343f83adc4f63819a1de139a8af9f",
+    "models/models.csv": "34e9ecf51d0847489281425eb0533faa52f7785f0d4a66240b7d82a4e24de980",
+    "models/summary.json": "66f9f745d52f453996148eefbf730bc988aeceec317068c3f548ef7268e7a836",
+    "protocol.json": "55a7585271bdea01905af00217952873fac0d1d4161ca65bfcb33e3f6a73084e",
+    "code_snapshot_manifest.json": "d625cffe8e7b873a4439be6dd239cdd053f66e79b47b4ad02d4193acc9a16452",
+    "portfolios/12m/partial_orders.csv": "a244eb117bc232314553c84f7b7aa5cd58b17d90ab25916864c602717f3fc069",
+    "portfolios/12m/partial_valid_nav.csv": "d25bdd67f80bb5131bdd2e2d9010e164ade907cfaa8a9bed3f9a0a8fc382aa51",
+    "portfolios/20d/partial_orders.csv": "587013f905c46ac997750e52572aff1c10d6a31a4ca819099c8d60d197e9acc6",
+    "portfolios/20d/partial_valid_nav.csv": "753fcbfffa600fb8692b18a43b6f31856a9c6f89f2ba6e53b516bd525d957dc2",
+    "portfolios/5d/partial_orders.csv": "d8a75cce83633a1bc6c78a0de23d9d5545e1a939117b8efc87366cca5d3fa2ed",
+    "portfolios/5d/partial_valid_nav.csv": "b7c2285fecca459eb60335e4875f48573b72e309d2018a5983cd651a943628a2",
+    "portfolios/incomplete.json": "a984745c8921adf561bb64319ceb2cd04eb9615462f2b4fdb3131f04b0ac1ad9",
+    "models/5d/20230201/model.txt": "77b3d15e6ffc6f9de51a2813b1ea4a4930f455b73436d2bebaa89ca3facdefc8",
+    "models/5d/20230201/metadata.json": "7b8b4c87bd4b7702f61c72a7f04d71c51e92cbafb76c52b2f9b19edc1b5d862e",
+    "models/5d/20230201/feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+    "models/5d/20240205/model.txt": "cda974ea916f8c13676f44d66e306ef98938ae0847e24a1c2469d61c978d0b3d",
+    "models/5d/20240205/metadata.json": "fb5899de8fbd7c34b8fd95ff628f78a623d6ebbda923d9d2ce7fed018aae179b",
+    "models/5d/20240205/feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+    "models/5d/20250211/model.txt": "70d76a7af37e47e0d2a99c0d88ec76f2dccb15b08d990945055cc8d66d5f0464",
+    "models/5d/20250211/metadata.json": "c61b7e90fef846601c4c0bf36735dbd96c4338bbbb56ae9bb5bb1f76453ade4c",
+    "models/5d/20250211/feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+    "models/20d/20230201/model.txt": "49937a136bc9b736b4d5499b21daad9e3c2aa4cb34ed200021be5ed7def4e0c4",
+    "models/20d/20230201/metadata.json": "252a9cf425c083c5c6378c401bd58f17a37960896e69ef09e91b9901a9f7211d",
+    "models/20d/20230201/feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+    "models/20d/20240227/model.txt": "0155668ed61c65727b8d5939634c48b081e6acada5ae3276167fef02f52a17a1",
+    "models/20d/20240227/metadata.json": "d9e5232b0056cb299f4547da24bd234621a5d060761cbcabec2593586611e555",
+    "models/20d/20240227/feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+    "models/20d/20250325/model.txt": "49f9d547da3b916b557ac6dc897a1bb19279eef3ab4901a79d537a1333116dd5",
+    "models/20d/20250325/metadata.json": "e836fab768ba3b42ff350a4176d6ee9187da8a7c8bc5dda0dc49a887f4646079",
+    "models/20d/20250325/feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+    "models/12m/20230131/model.txt": "666969f73ea5179ed64adb2d875c7d4864e370d15e9a7043fec696549d9878e9",
+    "models/12m/20230131/metadata.json": "b5b4108f679dd51fd8ff91cfa01036dad44ef722c7f586aa4823abaae7559e83",
+    "models/12m/20230131/feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+    "models/12m/20240131/model.txt": "c27098c61ef66ee249e8049f17dc21dc200e1f96de277543fd00db735bf1035c",
+    "models/12m/20240131/metadata.json": "0005b29208477873a6b1d059d3afa839554229c44b82c689eb8a25d9d31375fd",
+    "models/12m/20240131/feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+    "models/12m/20250228/model.txt": "5640734659445cf8df6d1d46f5657f7eb455f2c9d8d806193478f9e65febddf8",
+    "models/12m/20250228/metadata.json": "33ded958f3008939a276212f495bb4df84adfe814b3c8ffd6eab84ec461bbf6b",
+    "models/12m/20250228/feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef"
+  },
+  "dataset_metadata_sha256": "e6a58c95483a3bb654465d5ca724bb8314a68ccff61beb054eeb5b446e1ff0e7",
+  "code_sha256": {
+    "pipeline.py": "ea199c05f43e800cacd791d5ab8962bc6b1a2c5b58622a71d1b5db0a90fa83bd",
+    "horizon_research.py": "afebbc889f87a9970598fd9e4c3962b4da6e741835bee10805a5680ae436a7f6",
+    "horizon_labels.py": "4fddb73e04e954d414c3b5fb04f2ae36b69a73c52eab3589022ff95c19d47320",
+    "model.py": "d00db438805829ba4d672a0243587cc71374645a5efd691b211879ab9fe1ff4f",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e",
+    "causal_quality.py": "97b77cebdf61a2bc1eed0db48ee155d469b559953ea0bbafdb419c7e9f262a4d",
+    "price_action_audit.py": "50fa556059b1129953378043c8d737bf8c62c2630c3b554678c238dc6cf1af5e",
+    "price_reference.py": "5e922a572a643ff42d3001f31149054c38c80c6ba188a5f5bbb5a4a237341628",
+    "public_conversion.py": "e8af5c7e765a2e8e80f0dda07df896928417eb3af27470370500d2d7a5a785ca",
+    "data.py": "e3a8fd8ce994ecbd9cc1f469049851efc6d86367ed56b5268fc8529fdb22a50c",
+    "reference_overrides.py": "4cdf673f7967b60425373a766db9335c7ab852c82da9bd1e74ca9a5a7e9bb320"
+  },
+  "driver_sha256": "689b547adc03fcab6a12c3eba048a2c1415f68a76c2153e82b57ab00ac10854f",
+  "sealed_dataset_files_sha256": {
+    "prices.csv": "d946075ad13792e14ae7f063c22909553fb3734102c3a11d67046de38bb329eb",
+    "fundamentals.csv": "5244841f44c38ad6bce89d143aec8c44021fe366e15584505e0cdfbdf8cdfc05",
+    "calendar.csv": "03f80b287afcd54e46bd2e78aa25564383a5193e6734a27221bda85868447553",
+    "event_raw_prices.csv": "327e392dd61a4674156c567a31df38f377be8af4ebc918c95fada2aaf1450785",
+    "event_corporate_actions.csv": "e54dadc9b424e185586f1a228cd4e591a21dabcebaaa341123ad65d992021631"
+  },
+  "benchmark_sha256": "e783866da38bc3e81855b026402a7141d18e18780c6728e4f9c93b54cda281e8",
+  "base_actions_sha256": "e54dadc9b424e185586f1a228cd4e591a21dabcebaaa341123ad65d992021631",
+  "effective_actions_sha256": "a099a165a528a024f33d253fce2d9c80ddba403bbf58153496b982ab14cc4ae8",
+  "overlay_sha256": "708e41db5b9734c06a7a1f05d571c4d5c39e113706c66c8d21b38d53e1979301",
+  "changed_reference_events": [
+    {
+      "symbol": "sh.600266",
+      "ex_date": "2023-07-04T00:00:00.000"
+    },
+    {
+      "symbol": "sh.688617",
+      "ex_date": "2023-05-29T00:00:00.000"
+    },
+    {
+      "symbol": "sh.688617",
+      "ex_date": "2024-07-26T00:00:00.000"
+    },
+    {
+      "symbol": "sz.002410",
+      "ex_date": "2023-05-15T00:00:00.000"
+    },
+    {
+      "symbol": "sz.002582",
+      "ex_date": "2024-05-27T00:00:00.000"
+    },
+    {
+      "symbol": "sz.002582",
+      "ex_date": "2024-09-04T00:00:00.000"
+    },
+    {
+      "symbol": "sz.002811",
+      "ex_date": "2024-05-29T00:00:00.000"
+    },
+    {
+      "symbol": "sz.300896",
+      "ex_date": "2024-04-29T00:00:00.000"
+    }
+  ],
+  "forecasts_reused_without_changes": true,
+  "models_retrained": false,
+  "actual_economic_terms_changed": false,
+  "feature_policy": "original causal feature resets and missing-label training subset remain frozen; overlay only validates account reference prices",
+  "certified": false,
+  "model_ready": false,
+  "status": "incomplete_actual_holdings",
+  "original_valid_prefix_checks": [
+    {
+      "horizon": "5d",
+      "nav_rows": 102,
+      "orders": 582,
+      "through": "2023-07-03",
+      "leading_cash_sessions": 1,
+      "exact_match": true
+    },
+    {
+      "horizon": "20d",
+      "nav_rows": 68,
+      "orders": 121,
+      "through": "2023-05-12",
+      "leading_cash_sessions": 0,
+      "exact_match": true
+    },
+    {
+      "horizon": "12m",
+      "nav_rows": 319,
+      "orders": 59,
+      "through": "2024-05-24",
+      "leading_cash_sessions": 0,
+      "exact_match": true
+    }
+  ],
+  "errors": [
+    {
+      "horizon": "20d",
+      "symbol": "sz.300193",
+      "date": "2024-06-13",
+      "reason": "reference"
+    }
+  ],
+  "finished_at_utc": "2026-10-20T01:11:20.275588+00:00"
+}
