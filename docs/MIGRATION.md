@@ -1,102 +1,85 @@
-# Personal Quant Research：云端管理与迁移
+# Personal Quant Research：云端管理与换电脑恢复
 
-## 当前存储布局
+本轮已完成真实5／20交易日、12自然月的9个滚动候选模型和三周期账户回测。数据截至2025-12-31，不能用于声称2026年实时选股。代码、数据库和模型分开保存，恢复原模型无需重新训练；GitHub登录与备份口令仍由所有者提供。
 
-- `AustinYI111/agent_quant_2`：公开源代码、依赖锁、测试、脚本和轻量验证报告；开发分支为`feature/quant-mvp`。main仅由用户确认合并。
-- `AustinYI111/agent_quant_2-backups`：已创建并验证为私有。历史行情、财务、模型与预测记录以**加密压缩快照放在Releases资产**，不反复提交数据库到普通Git。备份密码不上传到此仓库。
-- 公开代码仓库的模型Releases：仅用于经过数据与样本外验证、经所有者批准且允许公开的正式模型。目前没有这种模型，也未发布合成模型冒充正式模型。
-- `artifacts/`、`private/`、`backups/`、`restored/`和临时备份目录不进入公开Git；API凭据通过本机Git Credential Manager或服务的秘密管理配置，`.env`、密钥文件及备份密码拒绝进入备份选择。
+## 版本与存储
 
-[GitHub Releases官方限制](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)：单个资产必须小于2 GiB，每个Release最多1000资产。当前实现拒绝大于等于2 GiB的单文件；超出时需分卷（尚未实现）或迁往私有对象存储。定期全量压缩快照适合当前规模，更新频繁时宜周度快照与增量数据目录，不应每天重复上传整库。不把GitHub容量说明当成无限免费服务承诺。公开源数据的再分发许可尚未核验，当前只放私有仓库。
+- 公开代码：[agent_quant_2，feature/quant-mvp](https://github.com/AustinYI111/agent_quant_2/tree/feature/quant-mvp)。源代码、依赖锁、测试、脚本、轻量报告及历史Top20进入Git。main仅由用户确认合并。
+- 私有数据：[agent_quant_2-backups](https://github.com/AustinYI111/agent_quant_2-backups)。本次快照放在私有Releases资产，压缩并加密，不将数据库反复提交Git。
+- 本次备份：`backup-real-research-20261020` / `pqr-real-research-20261020.pqr`。其上传、大小、哈希、本地独立恢复及云端下载未完成边界见[备份与恢复审计](reports/evidence/real_cloud_restore_audit_20261020.json)。实际资产1,503,141,560字节，SHA-256 `3dc6606fb7a5fd2b728896e3945382659b318c6d38081e09ddefb965ce014ff7`；GitHub完整资产digest和大小均已验证。使用相同SHA的本地密文独立恢复2,225文件，9模型41,087条预测误差0.0，60条历史Top20一致、未重训。云端重下载实际取得67,108,864字节后因速度慢停止，**完整云端下载未验证通过**。本页由上述审计成功后发布；旧2026-10-14合成候选快照保留，不能代表本轮真实成果。
+- 兼容代码提交：`ee790211ea0a60b4fa0f0b702aa75647ed930a5b`。当前后续交付提交仅更新证据与文档，运行代码兼容；以后更改代码导致模型检查失败时，应检出此版本或使用对应独立环境，不能绕过检查。
+- 9个模型为**研究候选**，备份不代表正式升级。公开模型Releases尚无经过用户批准的正式模型；未自动发布、升级或合并main。
 
-## 已实现的模型持久化
+快照包含：完整2018—2025原始行情及采集凭证、整理后的真实行情／财务／日历／公司行动、相关身份／分红／准备审计、沪深300价格指数、封存代码、原始因子／标签／排序／9个模型、最终三周期净值／订单／绩效、9个可加载候选包、历史Top20与11份估值公告原文和来源。完整相对路径清单见审计的`included_paths`；`artifacts/migration_real_20261020/state.json`记录版本与实际依赖。
 
-标准`run`每个滚动训练完成后均保存LightGBM文本模型和同名JSON元数据：模型内容版本、训练时间、训练特征截止、标签截止、预测时点、全数据截止、完整特征顺序、预处理规则及实现源码、超参数、Python/依赖版本、数据哈希、代码提交与未提交状态，以及整个滚动实验的评价指标。该评价不等于最后一个模型已经有未来实盘或样本外收益。
+选择性备份不包含冗余旧实验、早期失败重放、所有历史截图及未选中的中间目录。它们仍只在旧电脑。`private/`个人持仓未选择进入本次快照；用户尚未填写实际持仓。GitHub令牌、API Key、环境密钥、备份口令和虚拟环境均不上传。未来若填写持仓，需单独明确选择私有加密快照，不能放公开Git。
 
-```powershell
-.venv/Scripts/python -m ashare_mvp.model_registry export --run artifacts/model_run --out artifacts/model_bundle
-.venv/Scripts/python -m ashare_mvp.model_registry check --model artifacts/model_bundle
-.venv/Scripts/python -m ashare_mvp.model_registry predict --model artifacts/model_bundle --data artifacts/validated_dataset --out artifacts/current_top20.csv
-```
+## 换电脑：一次安装、恢复后直接加载
 
-加载时核对模型哈希、LightGBM特征顺序、因子源码哈希和记录的依赖版本；不同因子代码或依赖不会被静默接受。因子哈希规范化换行，避免Windows/Linux换行差异误判。合成模型不能用于真实数据。预测只加载Booster，不重新训练。标准Dataset与`public_ratios_v1`探索模型均可保存和直接加载。公开比率模型额外保存、检查快照实现哈希；命令行预测必须明确添加`--exploratory`。模型加载不改变未核验数据的研究性质。
+**先在旧电脑将备份口令另存到密码管理器或其他安全位置。口令不在GitHub，只有GitHub账号不能解密。丢失口令无法恢复。** 本次口令文件保存在本任务本机私有输出中，由用户自行妥善保存；不要把它提交仓库或粘贴到公开问题。
 
-正式发布脚本`publish-model.ps1`要求非合成、所有者批准、干净代码提交和明确公开确认；Release标签绑定训练代码提交，不默认指向旧main。当前所有模型为候选/合成验证模型，审批字段默认false。今后必须先完成真实数据校验和候选模型评价，再由用户决定是否修改批准状态及升级正式模型。
-
-## Windows换电脑恢复
-
-首次新电脑下载`feature/quant-mvp`代码或克隆：
+1. 在新Windows电脑下载开发分支。已装Git可运行下方命令；未装Git可在上方分支网页用Code → Download ZIP，解压后在项目文件夹打开PowerShell。`setup.ps1`会尝试通过winget安装缺少的Git和Python3.12，并创建环境、安装锁定依赖及运行测试。安装器、网络和系统重启若要求人工处理，应按系统提示完成；尚未在干净新Windows电脑实测整个安装过程。
 
 ```powershell
 git clone --branch feature/quant-mvp https://github.com/AustinYI111/agent_quant_2.git
 cd agent_quant_2
-powershell -ExecutionPolicy Bypass -File setup.ps1
+.\setup.ps1
 ```
 
-若先下载ZIP解压，也可直接运行setup.ps1。安装脚本使用脚本所在目录，创建项目`.venv`并安装锁定依赖；缺Python/Git时通过winget尝试安装，不写死用户目录。安装可能需系统许可、网络或重启终端；干净新电脑尚未实机测试，已做PowerShell语法检查。若机器已安装Python/Git，则不会因模型恢复要求重新训练。
-
-私有仓库第一次访问需在新电脑登录GitHub一次：
+2. 登录有权访问私有备份仓库的账号。若刚安装Git，重新打开PowerShell再执行；账号会通过浏览器授权，不要求把Token写进配置。
 
 ```powershell
 git credential-manager github login --username AustinYI111 --browser
 ```
 
-从私有Releases下载并恢复：
+3. 一条命令下载并恢复；交互输入另存的备份口令。目标必须不存在或为空，不覆盖已有数据。下载验证GitHub资产SHA-256与长度，解密后验证所有文件哈希／长度及路径安全，再写入目标。数据恢复到`restored/real-20261020/artifacts/`，不是项目根`artifacts/`；因此不需要手动搬动文件。
 
 ```powershell
-./scripts/restore-cloud.ps1 -Tag backup-20261014-initial -Asset pqr-state-20261014.pqr -Out restored
+.\scripts\restore-cloud.ps1 -Tag backup-real-research-20261020 -Asset pqr-real-research-20261020.pqr -Out restored/real-20261020
 ```
 
-按提示输入私下保存的备份密码。下载校验GitHub返回的SHA-256/大小，解密验证每个文件哈希及安全路径，拒绝覆盖已有恢复目录。密码丢失不能恢复；不要放到公开或私有备份仓库内，应在个人密码管理器或离线安全位置另存。
-
-首份快照的验证模型与输入明确为合成数据。验证恢复后不重训的路径：
+4. 先执行低内存恢复检查。它分块读取已封存因子，检查哈希及环境，加载全部9模型，核对41,087条原预测及60条历史Top20。不重训、不重算指标、不使用新行情；输出的股票键是稳定发行人键，不能当成当前可交易代码或实时买入指令。
 
 ```powershell
-./scripts/check-environment.ps1 -Model restored/artifacts/candidate_model
-.venv/Scripts/python -m ashare_mvp.model_registry predict --model restored/artifacts/candidate_model --data restored/artifacts/demo_validation_data --out restored/reloaded_top20.csv
+.\.venv\Scripts\python.exe scripts/check_saved_research_models.py --root restored/real-20261020 --out artifacts/restored_saved_model_check
 ```
 
-恢复后的真实历史缓存同样保留在`restored/artifacts/`，它们仍是部分数据，不可直接用于宣称真实全市场收益。后续正式模型可用相同check/predict命令，指定正式模型及真实已验证数据目录。已保存环境配置、模型和数据不需要手动重建；GitHub登录、私下密码和其他服务凭据必须由所有者提供。
-
-## 自己制作后续备份
-
-先生成模型导出目录，再选择**已封存、不再写入**的数据、模型、预测台账和报告；不要备份正在变化的数据库文件。备份在写入前/后检查源哈希，检测变化即失败。SQLite应先导出一致性快照并包含必要元数据。
+5. 有足够可用内存时，再使用现有模型从原始特征输入直接预测。这里示范20日周期最新历史折；5日可用`5d/20250211`，12个月用`12m/20250228`。预测不会重新训练、自动下载新行情或升级正式模型。输出目录必须为空。
 
 ```powershell
-./scripts/model-backup.ps1 -Run artifacts/model_run -Out artifacts/model_bundle
-./scripts/backup.ps1 -Include artifacts/model_bundle,artifacts/validated_dataset,artifacts/prediction_ledger.csv -Out backups/state-next.pqr
-./scripts/upload-private-backup.ps1 -Archive backups/state-next.pqr -Tag backup-next
+.\scripts\check-environment.ps1 -Model restored/real-20261020/artifacts/portable_real_horizons_20261020/20d/20250325
+.\.venv\Scripts\python.exe -m ashare_mvp.horizon_inference predict --model restored/real-20261020/artifacts/portable_real_horizons_20261020/20d/20250325 --data restored/real-20261020/artifacts/market_ratios_causal_quality1 --asof 2025-12-31 --out artifacts/restored_20d_prediction --exploratory
 ```
 
-加密采用PBKDF2-SHA256随机盐及分块AES-GCM，压缩使用Zip64、逐文件SHA-256及认证终止帧；恢复拒绝损坏、截断、错密码、目录逃逸和已有目标覆盖。上传前再次确认目的仓库为私有，拒绝明文数据库。密码通过交互提示读取，不作为命令参数、不写日志；客户端复用Git登录，仅向GitHub官方API认证，不打印或保存GitHub令牌。
+完整预测结果为`top20.csv`与含模型／数据／结果哈希的`prediction.json`。分数仅为排序值，不是预期收益率；2025-12-31结果只是历史快照。全历史特征计算仍需读取大数据，占用时间与内存，模型加载成功不代表任意配置电脑都能快速处理全历史。本轮执行前仅约2.6GB空闲内存，因此没有重跑完整原始行情特征预测入口；实际通过的是上述封存特征低内存检查，不将其当作新行情特征计算验证。
 
-## GitHub工作流和日常运行
+实际依赖：Python3.12.14、LightGBM4.6.0、NumPy2.3.5、pandas3.0.1；锁文件`requirements-tested.txt`，操作依赖`requirements-operations.txt`。模型检查要求Python主次版本、关键库版本、模型／特征合约哈希、因子实现及身份口径匹配。封存元信息内可能保留旧来源路径作为审计记录，运行脚本使用相对路径／项目目录，不依赖旧电脑绝对路径。
 
-已有GitHub Actions运行MVP、旧代码离线回归及合成完整运行检查；新增加密备份/模型迁移测试属于同一套测试。开发分支成功测试后创建或更新草稿PR，说明测试范围与数据边界；没有自动合并步骤。仓库设置若限制Actions创建PR，直接通过所有者账号创建，后续工作流更新现有PR。
+模型包含模型文本、模型版本哈希、训练时间、数据及标签截止、特征顺序、预处理规则、超参数、依赖与代码哈希、训练数据元信息。9折训练／验证记录和完整样本外评价位于恢复实验目录，不把组合全周期收益误归为最后一折的未来已实现收益。更多导出命令见[三周期模型迁移](HORIZON_MODEL_PORTABILITY.md)。
 
-每日收盘后自动行情→特征→正式模型→Top20→报告→预测台账，以及月度候选训练，**尚未启用**：仍缺完整真实行情/公司行动/终值、当前交易日增量管线、正式模型和升级评价规则。配置定时任务前应先令本地完整流程通过，并采用交易所日历判定交易日，上海时区17:20对应09:20 UTC；不能用工作日代替A股交易日。
+## 后续备份
 
-[GitHub官方schedule说明](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)明确可能延迟，公共仓库60天无活动可能停用，定时工作流需要进入默认分支，因此仍须用户批准main合并。[托管runner作业上限](https://docs.github.com/en/enterprise-cloud%40latest/actions/reference/limits)为6小时；[runner资源](https://docs.github.com/en/actions/reference/runners/github-hosted-runners)与私有仓库账户配额有限。不能假设完整历史采集、长期数据库保存和训练全部稳定免费运行。
-
-备用方案是用户电脑Windows任务计划或自托管runner，持久化缓存、本地训练及私有Release快照；机器需保持运行，接口限流/失败要断点恢复。云端仅跑测试、轻量日更、发布，重训练可在本地完成。月度新模型始终先作candidate，与当前模型在相同样本外窗口比较，再由用户批准升级；不能因一次测试通过自动替换正式模型。
-
-## 当前不足
-
-全市场真实训练/无泄漏绩效、退市终值和完整公司行动仍未完成；行业和原年报正文自动解读尚未实现；实际持仓等待用户填写CSV。正式模型Releases尚无资产。定时日更与月度训练升级未部署；大于2 GiB快照分卷未实现。新电脑安装尚未实际在干净系统验证。测试证明工程行为，不证明策略真实盈利。
-
-
-## 公开估值比率探索模型的迁移
-
-`run-public --exploratory` 现在也保存文本模型及完整元数据，可复用相同 export/check 命令。使用该模型预测时运行：
+先封存数据，再选择需要的数据库、模型、预测台账和报告；正在变化的SQLite应先导出一致性快照。备份前后及写入过程中核对源哈希，文件变化即失败。示例须替换成实际存在的目录，并为每次备份使用新名称／tag。
 
 ```powershell
-.venv/Scripts/python -m ashare_mvp.model_registry predict --model artifacts/public_model_bundle --data artifacts/public_ratio_dataset --out artifacts/public_top20.csv --exploratory
+.\scripts\backup.ps1 -Include artifacts/validated_dataset,artifacts/model_bundle,artifacts/prediction_ledger.csv -Out backups/state-next.pqr
+.\scripts\upload-private-backup.ps1 -Archive backups/state-next.pqr -Tag backup-next
 ```
 
-数据仍必须是经过哈希校验的 `public_ratios_v1` 目录。PE/PB 直接转换为估值收益率，缺少绝对市值、利润和净资产时不会伪造这些数值。探索模型仍为候选，加载成功不能证明原始财报版本、复权价格或全市场收益可靠。
+加密采用PBKDF2-SHA256随机盐及分块AES-GCM，Zip64压缩、逐文件SHA-256及认证终止帧；恢复拒绝损坏、截断、错误口令、目录逃逸及覆盖已有非空目录。上传只接受加密`.pqr`，先验证仓库属于当前账号且为私有；口令通过交互读取，GitHub凭据只留在凭据管理器中。
 
+当前实现拒绝单资产大于等于2GiB，未实现任意分卷。若后续超限，可按可独立恢复的数据域制作多个加密资产，或改用用户控制的私有对象存储；不要反复提交数据库到普通Git。公开数据的再分发许可仍须核验，当前仅私有备份。不将GitHub当无限免费数据库；本次体积是否可行由上述实际上传／恢复证明确认。[GitHub Releases说明](https://docs.github.com/en/repositories/releasing-projects-on-github/about-releases)。
 
-若模型由 `prepare-public-events` 数据训练，迁移时恢复整个封存数据目录，包括 `event_raw_prices.csv`、`event_corporate_actions.csv`、价格、财务、日历和 metadata。原始事件文件的哈希参与训练／回测校验；恢复后仍使用相同事件价格口径预测。模型兼容性严格检查训练时的代码与依赖版本，历史模型应检出其元数据记录的 Git 提交，而不是假设最新代码可直接加载所有旧模型。最初的合成备份模型可能没有 Git 提交记录，不能据此宣称在任意最新版本均兼容。
+本轮压缩快照约1.50GB，在当前网络下上传耗时较长。建议按经过验证的版本或每周封存快照，日常预测与轻量报告单独留档；全量数据库不宜每个交易日重复上传。增量快照链尚未实现，不应把定期全量备份称作自动增量备份。
 
+当前云端下载尚无断点续传，慢速或中断时可能需要重新下载；这次完整云端重新下载未跑完，只验证了部分传输，不能标记全量端到端迁移已通过。若通过浏览器完整下载资产，也可使用 `python -m ashare_mvp.backup restore --archive backups/pqr-real-research-20261020.pqr --out restored/real-20261020` 独立恢复；先按上述SHA-256核对下载文件。不要使用本机的`.partial`文件恢复。
 
-全市场 `prepare-market-ratios` 产生的数据与审计目录也应纳入私有快照。恢复时先检查 `readiness.json`：`blocked` 只恢复了检查证据，尚无可训练数据；`prepared_exploratory` 仍需显式探索模式。审计目录封存原输入清单与证据哈希，数据目录保留原始事件文件和转换后的价格／财务，不能只复制 Top 20 报告来替代数据库和模型。
+## GitHub工作流和日常运行边界
+
+GitHub Actions运行自动测试及合成工程验证；真实大规模研究在本地执行，轻量证据进Git，完整数据与模型入私有快照。每个经过验证的功能提交推送开发分支，更新草稿PR11，用户确认后才合并main。测试通过不证明策略盈利。
+
+每日收盘后行情→特征→正式模型→Top20→日报→预测台账、月度候选训练，**尚未部署**。现有真实历史研究不是2026实时增量服务；还需可靠增量行情／公告／公司行动、交易日历、正式模型与失败告警。月度候选应在相同独立窗口比较，由用户批准后升级，不自动用一次测试结果替换。
+
+GitHub定时工作流需进入默认分支，仍须用户批准main合并；调度可能延迟或停用，托管runner资源／时限及私有配额有限，数据接口可能限流，不能承诺稳定免费。备用方案是Windows任务计划或自托管runner，保持本地缓存并定期私有快照，机器需要持续运行。[schedule说明](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)、[Actions限制](https://docs.github.com/en/actions/reference/limits)。
+
+未完成的研究限制包括财报原始版本认证、全库所有参考价／退市结算、真实券商成交约束和税费、行业及年报正文解读；个人持仓等待CSV。三周期结果、最大回撤与口径见[真实报告](reports/REAL_MODELS_AND_VALUATION_REPLAY_20261020.md)，不能把成功恢复或测试通过等同于真实盈利能力。
