@@ -4,11 +4,11 @@
 
 ## 版本与存储
 
-- 公开代码：[agent_quant_2，feature/quant-mvp](https://github.com/AustinYI111/agent_quant_2/tree/feature/quant-mvp)。源代码、依赖锁、测试、脚本、轻量报告及历史Top20进入Git。main仅由用户确认合并。
+- 公开代码：[agent_quant_2，main](https://github.com/AustinYI111/agent_quant_2/tree/main)。main用于经所有者批准的历史研究版本交付；源代码、依赖锁、测试、脚本、轻量报告及历史Top20进入Git。后续阶段继续在feature/quant-mvp开发，通过新PR经所有者确认后合并。
 - 私有数据：[agent_quant_2-backups](https://github.com/AustinYI111/agent_quant_2-backups)。本次快照放在私有Releases资产，压缩并加密，不将数据库反复提交Git。
 - 本次备份：`backup-real-research-20261020` / `pqr-real-research-20261020.pqr`。其上传、大小、哈希、本地独立恢复及云端下载未完成边界见[备份与恢复审计](reports/evidence/real_cloud_restore_audit_20261020.json)。实际资产1,503,141,560字节，SHA-256 `3dc6606fb7a5fd2b728896e3945382659b318c6d38081e09ddefb965ce014ff7`；GitHub完整资产digest和大小均已验证。使用相同SHA的本地密文独立恢复2,225文件，9模型41,087条预测误差0.0，60条历史Top20一致、未重训。云端重下载实际取得67,108,864字节后因速度慢停止，**完整云端下载未验证通过**。本页由上述审计成功后发布；旧2026-10-14合成候选快照保留，不能代表本轮真实成果。
 - 兼容代码提交：`ee790211ea0a60b4fa0f0b702aa75647ed930a5b`。后续增加了低内存恢复检查工具及交付文档，训练、特征和账户逻辑未改变，模型运行兼容；以后更改代码导致模型检查失败时，应检出此版本或使用对应独立环境，不能绕过检查。
-- 9个模型为**研究候选**，备份不代表正式升级。公开模型Releases尚无经过用户批准的正式模型；未自动发布、升级或合并main。
+- 9个模型为**研究候选**，备份不代表正式升级。公开模型Releases尚无经过用户批准的正式模型；正式模型未自动发布或升级；代码经所有者授权作为历史研究MVP合并main，不等同于实盘批准。
 
 快照包含：完整2018—2025原始行情及采集凭证、整理后的真实行情／财务／日历／公司行动、相关身份／分红／准备审计、沪深300价格指数、封存代码、原始因子／标签／排序／9个模型、最终三周期净值／订单／绩效、9个可加载候选包、历史Top20与11份估值公告原文和来源。完整相对路径清单见审计的`included_paths`；`artifacts/migration_real_20261020/state.json`记录版本与实际依赖。
 
@@ -18,10 +18,10 @@
 
 **先在旧电脑将备份口令另存到密码管理器或其他安全位置。口令不在GitHub，只有GitHub账号不能解密。丢失口令无法恢复。** 本次口令文件保存在本任务本机私有输出中，由用户自行妥善保存；不要把它提交仓库或粘贴到公开问题。
 
-1. 在新Windows电脑下载开发分支。已装Git可运行下方命令；未装Git可在上方分支网页用Code → Download ZIP，解压后在项目文件夹打开PowerShell。`setup.ps1`会尝试通过winget安装缺少的Git和Python3.12，并创建环境、安装锁定依赖及运行测试。安装器、网络和系统重启若要求人工处理，应按系统提示完成；尚未在干净新Windows电脑实测整个安装过程。
+1. 在新Windows电脑下载main交付分支。已装Git可运行下方命令；未装Git可在上方分支网页用Code → Download ZIP，解压后在项目文件夹打开PowerShell。`setup.ps1`会尝试通过winget安装缺少的Git和Python3.12，并创建环境、安装锁定依赖及运行测试。安装器、网络和系统重启若要求人工处理，应按系统提示完成；尚未在干净新Windows电脑实测整个安装过程。
 
 ```powershell
-git clone --branch feature/quant-mvp https://github.com/AustinYI111/agent_quant_2.git
+git clone --branch main https://github.com/AustinYI111/agent_quant_2.git
 cd agent_quant_2
 .\setup.ps1
 ```
@@ -76,7 +76,7 @@ git credential-manager github login --username AustinYI111 --browser
 
 ## GitHub工作流和日常运行边界
 
-GitHub Actions运行自动测试及合成工程验证；真实大规模研究在本地执行，轻量证据进Git，完整数据与模型入私有快照。每个经过验证的功能提交推送开发分支，更新草稿PR11，用户确认后才合并main。测试通过不证明策略盈利。
+GitHub Actions运行自动测试及合成工程验证；真实大规模研究在本地执行，轻量证据进Git，完整数据与模型入私有快照。每个经过验证的功能提交推送开发分支，创建或更新相应PR（本阶段为#11），用户确认后才合并main；后续阶段使用新的PR。测试通过不证明策略盈利。
 
 每日收盘后行情→特征→正式模型→Top20→日报→预测台账、月度候选训练，**尚未部署**。现有真实历史研究不是2026实时增量服务；还需可靠增量行情／公告／公司行动、交易日历、正式模型与失败告警。月度候选应在相同独立窗口比较，由用户批准后升级，不自动用一次测试结果替换。
 

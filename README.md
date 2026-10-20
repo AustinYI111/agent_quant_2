@@ -34,7 +34,7 @@ python -m venv .venv
 
 ## 云端版本管理与换电脑恢复
 
-见[完整迁移教程与当前边界](docs/MIGRATION.md)。公开代码继续保存在`feature/quant-mvp`；独立私有仓库[agent_quant_2-backups](https://github.com/AustinYI111/agent_quant_2-backups)保存加密Release快照，数据库不反复提交普通Git。API凭据和备份密码不上传。
+见[完整迁移教程与当前边界](docs/MIGRATION.md)。`main`作为经批准研究版本的交付分支，后续开发继续在`feature/quant-mvp`进行，并通过新PR经用户确认后合并；独立私有仓库[agent_quant_2-backups](https://github.com/AustinYI111/agent_quant_2-backups)保存加密Release快照，数据库不反复提交普通Git。API凭据和备份密码不上传。
 
 新电脑先运行`setup.ps1`，登录GitHub，再运行`scripts/restore-cloud.ps1`。用`scripts/check-environment.ps1`验证模型后可直接预测，不重训。当前已有9个真实候选模型和完整三周期结果；备份版本、恢复证明及命令以迁移教程为准，正式模型和自动日更尚未启用。
 
