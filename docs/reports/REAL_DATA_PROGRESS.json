@@ -1,0 +1,412 @@
+{
+  "date": "2026-10-14",
+  "balance_panel": {
+    "securities": 2651,
+    "records": 62674,
+    "visible_records": 56954,
+    "missing_debt_ratio": 61
+  },
+  "combined_financial_events": {
+    "records": 106912,
+    "symbols": 5555,
+    "debt_records": 46567
+  },
+  "market_sessions_saved": 1089,
+  "market_sessions_requested": 1479,
+  "partial_source": true,
+  "model_ready": false,
+  "real_profitability_proven": false,
+  "event_account_tests": 3,
+  "pipeline_regression_with_event_account_tests": 39,
+  "limitations": [
+    "Provider financial versions not independently archived original vintages",
+    "Corporate action and terminal valuation coverage incomplete",
+    "Gross fractional account excludes dividend tax and delayed tradability of share entitlements"
+  ],
+  "alignment": {
+    "price_rows": 3131162,
+    "symbols": 4380,
+    "matched_financial_rows": 1882548,
+    "unpriced_financial_symbols": 1416,
+    "first_date": "2018-01-02",
+    "last_date": "2021-06-08",
+    "model_ready": false
+  },
+  "event_run_integration": "standard run API and CLI accept paired raw quote/action inputs; sealed hashes and model return basis",
+  "event_run_and_model_registry_tests": 5,
+  "full_test_suite": {
+    "passed": 153,
+    "seconds": 145.98
+  },
+  "missing_absolute_valuation_fields": [
+    "market_cap",
+    "earnings_ttm",
+    "book_equity"
+  ],
+  "dividend_payment_reconciliation": {
+    "records": 23369,
+    "in_scope_records": 18248,
+    "excluded_exchanges": [
+      "BJ"
+    ],
+    "evaluation_start": "2018-01-02",
+    "evaluation_end": "2024-01-31",
+    "status_counts": {
+      "matched_payment_evidence": 18203,
+      "outside_evaluation_window": 3746,
+      "excluded_exchange": 1375,
+      "not_implemented": 13,
+      "matched_reviewed_notice": 13,
+      "unresolved": 11,
+      "missing_payment_evidence": 8
+    },
+    "matched_events": 18216,
+    "partial_market_source": false,
+    "certified": false,
+    "model_ready": false,
+    "market_manifest_sha256": "962efef400699350e2a39f8d74e4e30748c25acf1f44d69f6f3b7254bbb6c82a",
+    "payment_actions_sha256": "ed19f20da70211566ca3f16be005004f469ef96ad7a9607f646eb03486551b81",
+    "actions_sha256": "fcef39c91cf21f804201b24573d8fb7443f3bb943f26f1de3b778deeb75a9756",
+    "limitations": [
+      "unmatched plans never receive assumed payment dates",
+      "matched subset is not a complete market event history",
+      "original event vintages unverified; economic entitlement is not tradable share settlement"
+    ],
+    "coverage_sha256": "e00729d550fea2d4397294d6d108bfed248a3265608f9045dfb9e7e20ff5b0e7",
+    "reviewed_distributions_sha256": "4806ee6b6ce69d44c88731caee0ee5f94077354bf701c2a38df9144aa3033a09",
+    "reviewed_notice_events": 13
+  },
+  "dividend_reconciliation_tests": 5,
+  "cninfo_normalization_after_transfer_terms": {
+    "accepted": 18234,
+    "rejected": 319,
+    "outside_calendar": 33997
+  },
+  "preliminary_raw_price_audit": {
+    "summary": {
+      "rows": 3131162,
+      "symbols": 4380,
+      "affected_symbols": 4380,
+      "issue_counts": {
+        "missing_sessions_or_terminal_valuation": 2846149,
+        "nonpositive_or_invalid_valuation": 2,
+        "unreconciled_adjustment": 8204
+      },
+      "model_ready": false,
+      "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+    },
+    "payment_events_used": 15549,
+    "note": "Before newly parsed transfer events; full requested calendar includes missing acquisition interval after 2021-06-08"
+  },
+  "price_action_audit_tests": 3,
+  "latest_raw_price_audit": {
+    "summary": {
+      "rows": 3131162,
+      "symbols": 4380,
+      "affected_symbols": 4380,
+      "issue_counts": {
+        "missing_sessions_or_terminal_valuation": 2846149,
+        "nonpositive_or_invalid_valuation": 2,
+        "unreconciled_adjustment": 3782
+      },
+      "model_ready": false,
+      "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+    },
+    "payment_events_used": 18203,
+    "adjacent_sessions_only": true,
+    "half_cent_difference_candidates": 3192,
+    "larger_differences": 590,
+    "note": "Precision candidates are not accepted as verified corrections; full calendar includes acquisition gaps after 2021-06-08"
+  },
+  "balance_acquisition_completed_latest": 3586,
+  "provider_session": {
+    "reuses_logged_in_worker": true,
+    "hard_query_deadlines": true,
+    "reconnect_after_error": true,
+    "tests_passed": 9,
+    "real_sessions_saved_after_resume": 836,
+    "previous_saved_sessions": 832,
+    "full_acquisition_complete": false
+  },
+  "explicit_reference_precision_audit": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 3323,
+    "rows": 3131162,
+    "symbols": 4380,
+    "affected_symbols": 4380,
+    "issue_counts": {
+      "missing_sessions_or_terminal_valuation": 2846149,
+      "nonpositive_or_invalid_valuation": 2,
+      "unreconciled_adjustment": 590
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+  },
+  "reference_precision_checks": {
+    "initial_related_tests_passed": 25,
+    "default_validation_unchanged": true,
+    "cash_and_wealth_not_rounded": true,
+    "larger_differences_still_rejected": true
+  },
+  "same_issuer_code_change_audit": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 3323,
+    "rows": 3130445,
+    "symbols": 4378,
+    "affected_symbols": 4378,
+    "issue_counts": {
+      "missing_sessions_or_terminal_valuation": 2843908,
+      "unreconciled_adjustment": 587
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation",
+    "inactive_code_rows_quarantined": 717,
+    "code_changes_applied": [
+      {
+        "old_symbol": "sz.000022",
+        "new_symbol": "sz.001872",
+        "announcement_date": "2018-12-21",
+        "effective_date": "2018-12-26",
+        "share_ratio": 1,
+        "source_url": "https://static.cninfo.com.cn/finalpage/2018-12-21/1205681867.PDF"
+      },
+      {
+        "old_symbol": "sz.000043",
+        "new_symbol": "sz.001914",
+        "announcement_date": "2019-12-06",
+        "effective_date": "2019-12-16",
+        "share_ratio": 1,
+        "source_url": "https://static.cninfo.com.cn/finalpage/2019-12-06/1207141416.PDF"
+      }
+    ]
+  },
+  "same_issuer_code_change_tests": 5,
+  "identity_integration_limit": "Standard training, backtest, model reload and personal holdings/report identity supported; public-ratio identity adapter and full terminal settlement pending",
+  "identity_pipeline_tests": {
+    "passed": 12,
+    "seconds": 17.96,
+    "restored_prediction_identical": true,
+    "trading_code_not_a_factor": true
+  },
+  "holdings_identity_integration": {
+    "research_tests_passed": 23,
+    "input_and_current_code_preserved": true,
+    "duplicate_aliases_rejected": true,
+    "real_user_holdings_loaded": false
+  },
+  "notice_backed_reference_audit": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 3324,
+    "rows": 3130445,
+    "symbols": 4378,
+    "affected_symbols": 4378,
+    "issue_counts": {
+      "missing_sessions_or_terminal_valuation": 2843908,
+      "unreconciled_adjustment": 586
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation",
+    "inactive_code_rows_quarantined": 717,
+    "code_changes_applied": [
+      {
+        "old_symbol": "sz.000022",
+        "new_symbol": "sz.001872",
+        "announcement_date": "2018-12-21",
+        "effective_date": "2018-12-26",
+        "share_ratio": 1,
+        "source_url": "https://static.cninfo.com.cn/finalpage/2018-12-21/1205681867.PDF"
+      },
+      {
+        "old_symbol": "sz.000043",
+        "new_symbol": "sz.001914",
+        "announcement_date": "2019-12-06",
+        "effective_date": "2019-12-16",
+        "share_ratio": 1,
+        "source_url": "https://static.cninfo.com.cn/finalpage/2019-12-06/1207141416.PDF"
+      }
+    ]
+  },
+  "reviewed_reference_evidence": {
+    "records": 3,
+    "tests_passed": 9,
+    "tests_seconds": 22.14,
+    "config_file_sha256": "f074c43859e13401ec132fbc861e7ddd09d3ed35e7b5a96c140882f4369dda1d",
+    "actual_payout_unchanged": true,
+    "source_pdf_kept_local": true
+  },
+  "source_network_retry": {
+    "max_attempts": 2,
+    "initial_delay_seconds": 1.0,
+    "scope": "transient transport only",
+    "does_not_retry": [
+      "permission errors",
+      "HTTP 429",
+      "explicit Retry-After",
+      "schema/identity/business validation"
+    ],
+    "cache_hash_validation_preserved": true,
+    "market_sessions_observed": 1003,
+    "market_sessions_requested": 1479,
+    "balance_securities_completed_observed": 4302,
+    "collectors_verified_live": true,
+    "observed_at": "2026-10-15",
+    "certified": false,
+    "model_ready": false,
+    "tests_passed": 22,
+    "tests_seconds": 11.08
+  },
+  "public_event_pipeline": {
+    "date": "2026-10-15",
+    "new_integration_tests_passed": 4,
+    "new_integration_test_seconds": 79.03,
+    "existing_public_and_model_tests_passed": 7,
+    "synthetic_validation": {
+      "synthetic": true,
+      "trained_months": 20,
+      "latest_selection_count": 20,
+      "label_return_basis": "gross_new_entry_entitlements",
+      "account_nav_basis": "raw_share_account_gross_dividends",
+      "restored_scores_match": true,
+      "asof": "2021-04-01"
+    },
+    "absolute_valuation_fields_fabricated": false,
+    "midmonth_score_is_not_monthly_rebalance": true,
+    "whole_market_ratio_adapter_complete": true,
+    "real_training_complete": false,
+    "certified": false,
+    "whole_market_ratio_conversion_complete": false
+  },
+  "market_collection_observed_at_utc": "2026-10-15T08:43:39.667948+00:00",
+  "market_collection_status_observed": "failed",
+  "market_ratio_preparation": {
+    "date": "2026-10-15",
+    "code_implemented": true,
+    "real_dataset_prepared": false,
+    "status": "blocked",
+    "validation_stage": "source_inventory",
+    "issue_counts": {
+      "missing_daily_cross_section": 390,
+      "unresolved_event_evidence": 12,
+      "unresolved_security_identity": 3
+    },
+    "requested_sessions": 1479,
+    "listed_daily_files": 1089,
+    "raw_files_hash_checked": 0,
+    "not_implemented_plans_ignored": 13,
+    "event_coverage_prior_hash_verified": true,
+    "source_hashes": {
+      "market_manifest": "db5d89206e54b860d8560619b2ef5524e74659730391d32c6219d6f996ba8fce",
+      "financial_summary": "eb833000b262c829c85897897f377d582d87e8199dc3cd91a875a63f3af258fd",
+      "master_manifest": "cf08cde1e3fdb171cf1b297c40bdcdd64afabc763f83a7a149bcc68ea3b2f258",
+      "action_summary": "037ed590d1b9ef06fc451ebaa021edf4e14acb6d009d9be4fa07efa75b5a75aa",
+      "code_changes": "7bbec3e099a7361a8029209cb953ba84eef77515f85eb139605e05350b0b91f6",
+      "reference_overrides": "0d87b5bdffa2088a23cf90e1d5221465ee5f56fcd051ff3afe04410491714ce3",
+      "non_listing_evidence": "728c1e4f33e9d23251cb65f40d7487af7dc9d473772e824b1b11eaa410d9f828",
+      "master": "5a17099830c9dfd8306a6537abf3fabd65e9b1974f50e2d1c176580561487b75",
+      "targets": "a673dc0374cc1c768716f6ef691a9b423c064f2168c4546075afd6c1765efe9e",
+      "financial_panel": "87def6c56a1836c7e33db2cc30a914b817300fba8028b4b8c87c6eeaf18be3e6",
+      "actions": "fcef39c91cf21f804201b24573d8fb7443f3bb943f26f1de3b778deeb75a9756",
+      "event_coverage": "e00729d550fea2d4397294d6d108bfed248a3265608f9045dfb9e7e20ff5b0e7"
+    },
+    "new_conversion_tests_passed": 9,
+    "new_conversion_test_seconds": 3.16,
+    "combined_related_tests_passed": 19,
+    "combined_related_test_seconds": 94.08,
+    "source_audit_files_local_only": true,
+    "model_ready": false,
+    "reviewed_prelisting_exclusions": 7
+  },
+  "reviewed_non_listing_bounds": {
+    "date": "2026-10-15",
+    "verified_records": 7,
+    "historical_window_end": "2024-01-31",
+    "remaining_unresolved_identities": 3,
+    "tests_passed": 19,
+    "tests_seconds": 3.86,
+    "policy_sha256": "728c1e4f33e9d23251cb65f40d7487af7dc9d473772e824b1b11eaa410d9f828",
+    "config_sha256": "b806b180b2381b04bd4e7d201a7ab306e413dbc20387be7b1d91b2fafa7740d7",
+    "raw_evidence_local_only": true,
+    "empty_response_is_not_evidence": true,
+    "historical_quotes_not_deleted": true,
+    "used_as_predictive_feature": false
+  },
+  "reviewed_distribution_notices": {
+    "date": "2026-10-15",
+    "reviewed_events": 13,
+    "tests_passed": 22,
+    "tests_seconds": 4.45,
+    "config_sha256": "ecdbfb21717cf93ac542a7d0d499429faa08ce1509f4e7b3beb93797e691c98b",
+    "supported_unresolved_events_before": 25,
+    "supported_unresolved_events_after": 12,
+    "same_historical_quote_prefix_unreconciled_before": 586,
+    "same_historical_quote_prefix_unreconciled_after": 578,
+    "original_provider_rows_unchanged": true,
+    "raw_pdf_and_images_local_only": true,
+    "gross_ordinary_and_special_cash_separate": true,
+    "certified": false,
+    "latest_batch_records": 2,
+    "latest_batch_regression_tests_passed": 38,
+    "latest_batch_test_seconds": 2.5,
+    "actual_exported_records_verified": 13,
+    "provider_total_preserved_when_already_inclusive": true,
+    "public_holder_scope_correction_anchored": true
+  },
+  "price_action_audit_after_reviewed_payments": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 3329,
+    "rows": 3130445,
+    "symbols": 4378,
+    "affected_symbols": 4378,
+    "issue_counts": {
+      "missing_sessions_or_terminal_valuation": 2843908,
+      "unreconciled_adjustment": 578
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation",
+    "inactive_code_rows_quarantined": 717,
+    "code_changes_applied": [
+      {
+        "old_symbol": "sz.000022",
+        "new_symbol": "sz.001872",
+        "announcement_date": "2018-12-21",
+        "effective_date": "2018-12-26",
+        "share_ratio": 1,
+        "source_url": "https://static.cninfo.com.cn/finalpage/2018-12-21/1205681867.PDF"
+      },
+      {
+        "old_symbol": "sz.000043",
+        "new_symbol": "sz.001914",
+        "announcement_date": "2019-12-06",
+        "effective_date": "2019-12-16",
+        "share_ratio": 1,
+        "source_url": "https://static.cninfo.com.cn/finalpage/2019-12-06/1207141416.PDF"
+      }
+    ],
+    "input_hashes": {
+      "aligned_market.csv": "0cad566481efbc35818b70d1e53c8f2945957c108f008164bc542c697a534546",
+      "actions.csv": "fcef39c91cf21f804201b24573d8fb7443f3bb943f26f1de3b778deeb75a9756"
+    }
+  },
+  "market_connection_diagnostic": {
+    "date": "2026-10-15",
+    "host": "public-api.baostock.com",
+    "port": 10030,
+    "dns_resolved": true,
+    "tcp_result": "ConnectionRefusedError",
+    "isolated_login_error": "10002007 receive error",
+    "bounded_probe_seconds": 8,
+    "duplicated_collector_started": false,
+    "interpretation": "Current connection path refused the official endpoint; not a factor or data conversion failure"
+  },
+  "financial_refresh_status": "restarted after fixing unfinished legacy issuer count check; new normalized panel and merge not yet verified",
+  "partial_legacy_balance_fix": {
+    "date": "2026-10-15",
+    "actual_failed_issuer_legacy_responses_identified": 7,
+    "all_raw_hash_checks_preserved": true,
+    "completed_issuer_total_count_check_preserved": true,
+    "unfinished_issuers_remain_rejected": true,
+    "tests_passed": 17,
+    "tests_seconds": 2.13,
+    "real_normalization_rerun_complete": false
+  }
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "old_symbol": "sz.000022",
+    "new_symbol": "sz.001872",
+    "announcement_date": "2018-12-21",
+    "effective_date": "2018-12-26",
+    "share_ratio": 1,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2018-12-21/1205681867.PDF"
+  },
+  {
+    "old_symbol": "sz.000043",
+    "new_symbol": "sz.001914",
+    "announcement_date": "2019-12-06",
+    "effective_date": "2019-12-16",
+    "share_ratio": 1,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2019-12-06/1207141416.PDF"
+  },
+  {
+    "old_symbol": "sz.300114",
+    "new_symbol": "sz.302132",
+    "announcement_date": "2025-02-15",
+    "effective_date": "2025-02-17",
+    "share_ratio": 1,
+    "source_url": "https://static.cninfo.com.cn/finalpage/2025-02-15/1222544408.PDF",
+    "source_sha256": "dd68049c48df826848f361fd9e7b23dd20b6805144a2e5bc36e54db638611488",
+    "source_page": 2,
+    "reviewed": true
+  }
+]

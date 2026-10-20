@@ -1,0 +1,58 @@
+{
+  "records": 33275,
+  "in_scope_records": 27698,
+  "excluded_exchanges": [
+    "BJ"
+  ],
+  "evaluation_start": "2018-01-02",
+  "evaluation_end": "2025-12-31",
+  "status_counts": {
+    "matched_payment_evidence": 27314,
+    "outside_evaluation_window": 3675,
+    "excluded_exchange": 1902,
+    "supplemental_payment_evidence": 304,
+    "matched_reviewed_notice": 40,
+    "not_implemented": 36,
+    "unresolved": 4
+  },
+  "matched_events": 27655,
+  "partial_market_source": false,
+  "certified": false,
+  "model_ready": false,
+  "market_manifest_sha256": "ed85c8b1043487126c23189d4b82d1cec136e12569595deda18aee2c43e32528",
+  "actions_sha256": "9c150aebac707584bb1a00d7beb838fc50fb29f7cf802f45bce8ccd0db960467",
+  "limitations": [
+    "unmatched plans never receive assumed payment dates",
+    "matched subset is not a complete market event history",
+    "original event vintages unverified; economic entitlement is not tradable share settlement",
+    "supplemental records are not independent proof of complete event history; original vintages unverified"
+  ],
+  "coverage_sha256": "28f2e2b4beac8f8e16f78b52d0948d2cca4d3f710c87a2d585195d2b2be5d17f",
+  "reviewed_distributions_sha256": "3cf7aeae6b35c2117290fd7274f3be4ddb9b14586c7967e9fc7766d0defe097b",
+  "reviewed_notice_events": 31,
+  "code_changes_sha256": "44e1f3070c6ef143c431f37103cee75852f19369604a0eebc6f1e6e825dafef1",
+  "event_identity_policy": "stable verified issuer; original provider symbols retained; never a predictive feature",
+  "schema": "reviewed_payment_groups_v1",
+  "supplemental_events_added": 304,
+  "supplemental_records_checked": 568,
+  "supplement_audit_sha256": "8c8b2adbe17fa8b7057be751cec7e809b7b9fdb125250d39419e76c2e4483a42",
+  "input_hashes": {
+    "parent_summary.json": "16ab851361c4e4d007e45ffd5dd38bd5d5bdd88a3ee69813055ec9a831b47d23",
+    "market_manifest.json": "ed85c8b1043487126c23189d4b82d1cec136e12569595deda18aee2c43e32528",
+    "calendar.csv": "0238a0272c063af10f0dae34089fa34c5e7351b819a6cd171a226a24d16ce4f4",
+    "parent_actions.csv": "d3b3dd3e8e46534fb0b57a41be65df5eea6664f0a68409cdfd0f27c7aca5e6e2",
+    "parent_coverage.csv": "ee8f613e19107b133da102b9ebd1135a90b5121d4b4934ab7c9a75404beb2358",
+    "reviewed_groups.json": "6341836ac2f6a10fba1673814d4611824762922c8933bc21a2c89dd2f316b07e",
+    "code_changes.json": "44e1f3070c6ef143c431f37103cee75852f19369604a0eebc6f1e6e825dafef1"
+  },
+  "payment_gap_events_added": 181,
+  "old_events_preserved": 27469,
+  "payment_gap_audit_sha256": "9fc7f0be27a20817463b1893fc1853efe2bfc991b28b35a0725b6b9f75426c5e",
+  "payment_reconciliation_source_sha256": "fc5b4fcdbe580402fde0f0fc8bea93022ff10b80a8a78224d5f609e164cd66f0",
+  "supplemental_payment_source_partial": true,
+  "supplemental_payment_rejected_records": 7,
+  "base_payment_actions_sha256": "6328db521dbfddf2af76571cecdb1e06d3b7cacfbc7ea30355dcb794387d9351",
+  "payment_lineage_policy": "Composite parent events plus explicitly reconciled missing-plan payments; original 7 rejected rows retained; no unresolved plan silently cleared",
+  "reviewed_payment_groups": 6,
+  "reviewed_group_audit_sha256": "55bb2681bc6c62e95ec43d1a05dadcafff5f9c93ab0ace14cd5705965232c7d4"
+}

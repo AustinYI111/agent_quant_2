@@ -1,0 +1,22 @@
+{
+  "accepted": 208,
+  "rejected": 7,
+  "certified": false,
+  "model_ready": false,
+  "reviewed_version_groups": 0,
+  "precision_refinements": 1,
+  "precision_audit_sha256": "44f0d3343df7142a3b1d7392051467f58235caef31b468e705542a8ffef07c23",
+  "duplicate_groups": 2,
+  "duplicate_rows_coalesced": 0,
+  "duplicate_audit_sha256": "d472cddeb080c267c483029282cd9d41555261097b8a0c85c4cb8454928f8bf6",
+  "rejected_sha256": "255fd378b5908c6648309a764622fe189265a50b3a044a32c101eeea8547efa4",
+  "status": "partial",
+  "input_manifest_sha256": "d1bd21a9bb0eb76e264e9996e8f3c4fb49a4324584991c27b882e77e351c0879",
+  "calendar_sha256": "0238a0272c063af10f0dae34089fa34c5e7351b819a6cd171a226a24d16ce4f4",
+  "actions_sha256": "4839b1e12783ddd7e46d900ca2b6a7fb12c175556c81a55b1fe4e137bf10d07b",
+  "limitations": [
+    "source vintage unverified",
+    "gross economic share entitlements; stock tradability date retained separately",
+    "no independent full-market company-action/terminal coverage certification"
+  ]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "symbol": "sh.600019",
+    "ex_date": "2021-10-15",
+    "before": 1,
+    "after": 0,
+    "actual_cash": 0.35,
+    "reference_cash": 0.3434,
+    "source_sha256": "59dcfefd5b8a65ed1726a6a080f3361a89bda0379b2762ad0bda57ef3092ee01",
+    "quote_sha256": "31a479bc18da7e637cde747855bda487c2c5dd47987e0de6b3f2fd668da4d91c"
+  },
+  {
+    "symbol": "sh.600114",
+    "ex_date": "2019-06-06",
+    "before": 1,
+    "after": 0,
+    "actual_cash": 0.4,
+    "reference_cash": 0.39,
+    "source_sha256": "d3f76c8911b489aee0def21361aa08320f62333c8a2ac511a10e182db7d7e4de",
+    "quote_sha256": "2bef0a17e9ac4e1082e0dc8d539a77ced4719370c4ee78d326b210fee186bb67"
+  }
+]

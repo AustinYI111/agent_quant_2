@@ -1,0 +1,71 @@
+{
+  "schema": "saved_real_model_verification_v1",
+  "observed_at_utc": "2026-10-20T02:12:46.390691+00:00",
+  "models_checked": 9,
+  "predictions_checked": 41087,
+  "max_absolute_error": 0.0,
+  "historical_top20_verified": 60,
+  "asof": "2025-12-31",
+  "factor_sha256": "00bced86090d154f49d949113d7129a2b45caa53985079637c3c3beb1bbcb565",
+  "records": [
+    {
+      "horizon": "5d",
+      "fold": "2023-02-01",
+      "predictions": 4271,
+      "max_absolute_error": 0.0
+    },
+    {
+      "horizon": "5d",
+      "fold": "2024-02-05",
+      "predictions": 4589,
+      "max_absolute_error": 0.0
+    },
+    {
+      "horizon": "5d",
+      "fold": "2025-02-11",
+      "predictions": 4831,
+      "max_absolute_error": 0.0
+    },
+    {
+      "horizon": "20d",
+      "fold": "2023-02-01",
+      "predictions": 4271,
+      "max_absolute_error": 0.0
+    },
+    {
+      "horizon": "20d",
+      "fold": "2024-02-27",
+      "predictions": 4607,
+      "max_absolute_error": 0.0
+    },
+    {
+      "horizon": "20d",
+      "fold": "2025-03-25",
+      "predictions": 4830,
+      "max_absolute_error": 0.0
+    },
+    {
+      "horizon": "12m",
+      "fold": "2023-01-31",
+      "predictions": 4271,
+      "max_absolute_error": 0.0
+    },
+    {
+      "horizon": "12m",
+      "fold": "2024-01-31",
+      "predictions": 4587,
+      "max_absolute_error": 0.0
+    },
+    {
+      "horizon": "12m",
+      "fold": "2025-02-28",
+      "predictions": 4830,
+      "max_absolute_error": 0.0
+    }
+  ],
+  "retrained": false,
+  "indicators_recomputed": false,
+  "certified": false,
+  "formal_model": false,
+  "scope": "Saved research features only. Stable issuer keys, not live trading instructions. Does not test fresh raw-data feature engineering or a clean Windows installation."
+}

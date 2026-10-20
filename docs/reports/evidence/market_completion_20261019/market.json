@@ -1,0 +1,17 @@
+{
+  "schema": "market_range_union_v1",
+  "status": "downloaded_raw",
+  "sessions_requested": 1942,
+  "sessions_saved": 1942,
+  "missing_sessions": 0,
+  "continuous_prefix_sessions": 1942,
+  "rows": 8612897,
+  "overlapping_equal_sessions": 0,
+  "source_statuses": [
+    "downloaded_raw",
+    "downloaded_raw"
+  ],
+  "certified": false,
+  "model_ready": false,
+  "limitation": "raw session coverage only; security lifetime, terminal prices, corporate actions and financial vintages still require validation"
+}

@@ -1,0 +1,4 @@
+security,symbol,ex_date,source_period,original_status,classification,instrument_type,source_url,source_sha256,source_page
+689009.SH,sh.689009,2024-05-24,2023-12-31,unresolved,excluded_instrument,cdr,https://static.cninfo.com.cn/finalpage/2020-10-28/1208634455.PDF,527b37a7ce65a24ba52d85ef5789b49bc2a92fe13879100a7479ecff9b881442,20
+689009.SH,sh.689009,2025-06-13,2024-12-31,unresolved,excluded_instrument,cdr,https://static.cninfo.com.cn/finalpage/2020-10-28/1208634455.PDF,527b37a7ce65a24ba52d85ef5789b49bc2a92fe13879100a7479ecff9b881442,20
+689009.SH,sh.689009,2025-10-31,2025-06-30,unresolved,excluded_instrument,cdr,https://static.cninfo.com.cn/finalpage/2020-10-28/1208634455.PDF,527b37a7ce65a24ba52d85ef5789b49bc2a92fe13879100a7479ecff9b881442,20

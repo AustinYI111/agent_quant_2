@@ -1,0 +1,7 @@
+symbol,ex_date,source_periods_json,previous_cash_per_share,cash_per_share,reference_cash_per_share,source_url,source_sha256
+sh.600720,2024-06-13,"[""2022-12-31"", ""2023-12-31""]",0.257,0.3674,0.3674,https://static.cninfo.com.cn/finalpage/2024-06-04/1220246448.PDF,dcc50f953cdd16cd763444f0ac60c62b2b7bc48a98edef17110510d23a2cafb8
+sh.600803,2024-08-01,"[""2023-12-31""]",,0.91,0.9054,https://static.cninfo.com.cn/finalpage/2024-07-26/1220731024.PDF,c610a0242cc13bbde06917cfaad3549365afc16e10a5bf278b4751f5be497917
+sh.600803,2025-07-22,"[""2024-12-31""]",,1.03,1.03,https://static.cninfo.com.cn/finalpage/2025-07-16/1224176257.PDF,a47a387e531faaf13584f3b88a6d2af998427e034298e1503ada7146b6921f99
+sh.601966,2024-06-14,"[""2023-12-31"", ""2024-03-31""]",,0.377,0.37444,https://static.cninfo.com.cn/finalpage/2024-06-07/1220288229.PDF,f7659034cb64362e870f2f16f25f89ca683b10a779bb18e6e14ac6ea4d5b97a5
+sz.002352,2024-11-07,"[""2024-06-30""]",,1.4,1.393962,https://static.cninfo.com.cn/finalpage/2024-10-31/1221573964.PDF,338b6f3fe077d74966638cf0caf937e0d5e53aa86d06ed518b23e15c94cdc871
+sz.300760,2025-05-29,"[""2024-12-31"", ""2025-03-31""]",,1.97,1.97,https://static.cninfo.com.cn/finalpage/2025-05-22/1223626414.PDF,98470e8000f0d2c45c4b2584be0e92bb2741668cdba0a358858f8120c37d4fb9

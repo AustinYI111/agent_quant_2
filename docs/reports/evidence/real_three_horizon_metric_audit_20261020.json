@@ -1,0 +1,94 @@
+{
+  "schema": "independent_real_horizon_metric_audit_v1",
+  "observed_at_utc": "2026-10-20T01:25:40.469663+00:00",
+  "passed": true,
+  "comparison_start": "2023-02-01",
+  "comparison_end": "2025-12-31",
+  "horizons": [
+    {
+      "horizon": "5d",
+      "sessions": 711,
+      "net": {
+        "total_return": -0.1380244123655019,
+        "annual_return": -0.04970880096766883,
+        "max_drawdown": -0.35007691663913987
+      },
+      "benchmark": {
+        "total_return": 0.11662647049894481,
+        "annual_return": 0.038594059024207095,
+        "max_drawdown": -0.24922549187775112
+      },
+      "excess_total_return": -0.2546508828644467,
+      "relative_wealth_return": -0.22805377589755726,
+      "annual_one_way_turnover": 19.43306355969918,
+      "filled_orders": 3929,
+      "blocked_orders": 2,
+      "paid_cost_initial_equity_units": 0.10776376138217478,
+      "nav_sha256": "87109aca57552b6b99b9b33f910454baaeb02d1889d889c1a888d153951942bd",
+      "orders_sha256": "f6204e5f6cf538997142b6703714d9718a32972502542b99d2654925edb75f85"
+    },
+    {
+      "horizon": "20d",
+      "sessions": 711,
+      "net": {
+        "total_return": 0.4036600824124916,
+        "annual_return": 0.12344571756923917,
+        "max_drawdown": -0.33803511016218935
+      },
+      "benchmark": {
+        "total_return": 0.11662647049894481,
+        "annual_return": 0.038594059024207095,
+        "max_drawdown": -0.24922549187775112
+      },
+      "excess_total_return": 0.2870336119135468,
+      "relative_wealth_return": 0.2570542786660708,
+      "annual_one_way_turnover": 8.063637886878512,
+      "filled_orders": 1173,
+      "blocked_orders": 2,
+      "paid_cost_initial_equity_units": 0.04983887455538208,
+      "nav_sha256": "a6fe227afc703146e31af9264bb8fa62af6ef3f5524676fed1671bf865967029",
+      "orders_sha256": "670224c47d443d20e10596854a2c7b27de7a8a41d6c1ebefce21d21b6dd915d6"
+    },
+    {
+      "horizon": "12m",
+      "sessions": 711,
+      "net": {
+        "total_return": 0.2732280314320945,
+        "annual_return": 0.08645615668283613,
+        "max_drawdown": -0.3558490983494772
+      },
+      "benchmark": {
+        "total_return": 0.11662647049894481,
+        "annual_return": 0.038594059024207095,
+        "max_drawdown": -0.24922549187775112
+      },
+      "excess_total_return": 0.1566015609331497,
+      "relative_wealth_return": 0.1402452521685027,
+      "annual_one_way_turnover": 0.8116242077210863,
+      "filled_orders": 97,
+      "blocked_orders": 0,
+      "paid_cost_initial_equity_units": 0.004473305546687458,
+      "nav_sha256": "667112e7872e0e2765920c85ee3c43bd922f40c180be1fd3153724aee7815a50",
+      "orders_sha256": "18cd01294e07787bee431cc645515b478904afede4dbc3b3d9011841ad5c5bca"
+    }
+  ],
+  "fixed_models_and_forecasts": true,
+  "reference_evidence_records": 11,
+  "checks": [
+    "all711observedcomparison sessions",
+    "positivefiniteNAVandnonnegativecash/receivables",
+    "netreturnandcalendarannualization",
+    "initialcapitalincludedmaxdrawdown",
+    "everyfilledordercostanddatedselltax",
+    "blockedorderscostzero",
+    "turnoverfromfillednotionalsandpre-costequity",
+    "benchmarkopenalignmentwithoutfill",
+    "previouscompletedNAVseriesexactlyunchanged"
+  ],
+  "limitations": [
+    "priceindexdividendbasisdiffers",
+    "fractionalresearchfillsnotbrokerexecution",
+    "sourcefinancialvintagesunverified",
+    "availabilitybiasfromunknowntrainingtargets"
+  ]
+}

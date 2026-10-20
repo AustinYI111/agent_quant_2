@@ -1,0 +1,143 @@
+{
+  "observed_at_utc": "2026-10-19T07:15:03.646132+00:00",
+  "status": "real_experiment_running_not_complete",
+  "dataset_metadata_sha256": "e6a58c95483a3bb654465d5ca724bb8314a68ccff61beb054eeb5b446e1ff0e7",
+  "source_input_hashes": {
+    "market_manifest": "c2cc84a9281c7a0303ed4657a5f9b9393596ca17da2e6dcecc67a28692120acf",
+    "financial_summary": "d770a60741c4e5dc9fdc36c82b8f5069889b22d301cef6218e2f6bbba70b4be7",
+    "master_manifest": "2eeae16a4481d4d672a07b90268d49ac7094ef3cca23424d10647c82d83471d0",
+    "action_summary": "aefcc412f12dd60b858329d2f2e7d49d65ce41dddaf01d756aa778008a2b5bc2",
+    "event_code_changes": "44e1f3070c6ef143c431f37103cee75852f19369604a0eebc6f1e6e825dafef1",
+    "financial_code_changes": "44e1f3070c6ef143c431f37103cee75852f19369604a0eebc6f1e6e825dafef1",
+    "code_changes": "3e5abe7e4d199fed06cda0c5e3ea33a12e6be07731a4e476abcad1b0b4876296",
+    "reference_overrides": "d72375c034c6f1225caa6f553c7ee1327bb5a649672fb18faed54cfe1ede10e5",
+    "non_listing_evidence": "baaa22166c80df2449d542294499c106ed2f60812a28f8d9908c478df3758d7d",
+    "instrument_evidence": "7264be239c399f2d76f8a0b5928c2100974bef19fd079f6c5774ed47c786649d",
+    "master": "1bba939f80207e972ef3b84615d6db987bcb480703f7ab34955f63f42e3b9401",
+    "targets": "edb0af02b811c629e2401f34ca0434bbac0411181e568305d312f4d51f3dcf7d",
+    "financial_panel": "79726285baca1de19778e1d877124bab87ca04f1c23eb0eb4e9e26ff08195e2d",
+    "actions": "9c150aebac707584bb1a00d7beb838fc50fb29f7cf802f45bce8ccd0db960467",
+    "event_coverage": "28f2e2b4beac8f8e16f78b52d0948d2cca4d3f710c87a2d585195d2b2be5d17f"
+  },
+  "converted_hashes": {
+    "prices.csv": "d946075ad13792e14ae7f063c22909553fb3734102c3a11d67046de38bb329eb",
+    "fundamentals.csv": "5244841f44c38ad6bce89d143aec8c44021fe366e15584505e0cdfbdf8cdfc05",
+    "calendar.csv": "03f80b287afcd54e46bd2e78aa25564383a5193e6734a27221bda85868447553",
+    "event_raw_prices.csv": "327e392dd61a4674156c567a31df38f377be8af4ebc918c95fada2aaf1450785",
+    "event_corporate_actions.csv": "e54dadc9b424e185586f1a228cd4e591a21dabcebaaa341123ad65d992021631"
+  },
+  "price_basis": "causal_segment_feature_index",
+  "quality_policy": {
+    "schema": "causal_quality_research_v1",
+    "summary": {
+      "reference_faults": 1607,
+      "observed_gap_starts": 0,
+      "segments": 7008,
+      "rows": 8609196,
+      "symbols": 5401,
+      "audit": {
+        "reference_tick_size": 0.01,
+        "rounded_reference_matches": 9000,
+        "rows": 8609196,
+        "symbols": 5401,
+        "affected_symbols": 1156,
+        "issue_counts": {
+          "missing_sessions_or_terminal_valuation": 154432,
+          "unreconciled_adjustment": 1607
+        },
+        "model_ready": false,
+        "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+      }
+    },
+    "feature_only_segments": true,
+    "unknown_targets": "retain_prediction_candidates",
+    "portfolio": "strict_held_raw_paths",
+    "limitation": "Unknown training outcomes may cause availability bias; actual held missing values still fail"
+  },
+  "code_snapshot": {
+    "frozen_at_utc": "2026-10-19T06:50:00.198472+00:00",
+    "files": {
+      "ashare_mvp/backup.py": "55a56619463bda2aab3d525b0b40fb772ecd95dfbd611eeeccb636597012e9dd",
+      "ashare_mvp/balance_download.py": "7b13c407ff56b523c6fd23a078a52f0ac97375e5e153877207d5e6a6df38c976",
+      "ashare_mvp/balance_sheet.py": "c21c5ccaf6b06659fec033da00e361f88656f9a9ec8d69b32189e6748c3cc2b4",
+      "ashare_mvp/calendar_union.py": "14658702c69879792aa7f265c43970f696f776c47ff1a0fb22a02489e0df70a6",
+      "ashare_mvp/causal_quality.py": "97b77cebdf61a2bc1eed0db48ee155d469b559953ea0bbafdb419c7e9f262a4d",
+      "ashare_mvp/checkpoint.py": "dec8a4ea9d2184b8d1091d631a5e89bf28f96b256ec58698e19cadecdf3f1c8d",
+      "ashare_mvp/cli.py": "f331a1e1f9a21d11ae5b2b689b332c1ad7ed4e486a62c47805af8585f6c386cb",
+      "ashare_mvp/cninfo_dividends.py": "dfd5faff7c4b14bf1f5f52ed805bf55b12b5709cc108429012b7df9a49cb2729",
+      "ashare_mvp/corporate_actions.py": "6eae4d0d371f632b7a43fb7d35c960747c5e08c293e4df12373ad71b8648f028",
+      "ashare_mvp/costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e",
+      "ashare_mvp/data.py": "e3a8fd8ce994ecbd9cc1f469049851efc6d86367ed56b5268fc8529fdb22a50c",
+      "ashare_mvp/demo.py": "0f9197523e04434837cf4332eb37935b359549d7346b7ff46d38e3ce4fab35c3",
+      "ashare_mvp/dividend_download.py": "4c89992cff49670aa2c0ecdb1564e9c5a20802d5e237912647caa78216116b9e",
+      "ashare_mvp/dividend_market.py": "da26dca457af2c187692f8e0126928338965337106025949e84bf9a447e66623",
+      "ashare_mvp/dividend_normalization.py": "fbd4455169a53240459bcf4e67a033226fa141114a73bcb365143f74925a4c65",
+      "ashare_mvp/dividend_reconciliation.py": "b2a908331b92ce1683db8e42251813237b759f4c36bf3318a938679fab62e0f7",
+      "ashare_mvp/dividend_union.py": "71fce2bde09f1a5d19426af16726036609f408e071b438827ca86d06027386f0",
+      "ashare_mvp/experiments.py": "67224f1a8fc15d4a6ce8a7352bcc31ca65df2492aa28c19c6ab8f70936b06801",
+      "ashare_mvp/factors.py": "a04a90b86179989688b0a305abacbb2c3b73f349993fec8177cb5e845a5a91f1",
+      "ashare_mvp/financial_batch.py": "64c227e06ce5afdd322a6c259c501986fcedc26a7556cde4b0ebd5364ca4928f",
+      "ashare_mvp/financial_dependencies.py": "b72800e562a053e01ca8143f59aa8b02df31f7bbf516c8c1c54f9917f1c53e2f",
+      "ashare_mvp/financial_union.py": "6e4d2392dacb8202599520094847d7fcd924715c4d1eb1755d50f7280dd7722e",
+      "ashare_mvp/github_backup.py": "a3e066869af7b3c4742ab01344e7395f859a2eb5a392bc78d805f0f91b895194",
+      "ashare_mvp/horizon_labels.py": "4fddb73e04e954d414c3b5fb04f2ae36b69a73c52eab3589022ff95c19d47320",
+      "ashare_mvp/horizon_research.py": "afebbc889f87a9970598fd9e4c3962b4da6e741835bee10805a5680ae436a7f6",
+      "ashare_mvp/instrument_scope.py": "d841213c817efcd7520b8feba5fc3a52d16534755ca219a94b36ed8809a158a2",
+      "ashare_mvp/lifetime_coverage.py": "b50351de542bcea122d8eef77f1b7b60a888eb32c7916e1cdf396675220083d2",
+      "ashare_mvp/market_alignment.py": "c385f822a0b2f7e899b01f40c9cb6088bd067ce2885ccf6c8760f51144096f39",
+      "ashare_mvp/market_dataset.py": "9fe17e225bf87cb2cc6c3b17e08decc185f8fdb8405d5e77af4ff61f47e1acce",
+      "ashare_mvp/market_download.py": "4c21c0b647a36f9a68da778a4139abf34e4628967f0046ec948d70937b52f7aa",
+      "ashare_mvp/market_merge.py": "1ae833edfb2a8858727122d4eef791750050114ebb55754e870767560b6beedf",
+      "ashare_mvp/market_range_union.py": "bb9ca747807205dd2024fc4858645f6f5947f1f1d7918baf055c1ccf692ff03c",
+      "ashare_mvp/model.py": "d00db438805829ba4d672a0243587cc71374645a5efd691b211879ab9fe1ff4f",
+      "ashare_mvp/model_registry.py": "289198026b1ae1df6cfd5a37b6bb2c0fdf4924d8238413163bbbf540598435b6",
+      "ashare_mvp/network_retry.py": "a82ba77b9619083964afd78145d19fc849e8f8a2e5ab02f8027c685ea78108f4",
+      "ashare_mvp/pipeline.py": "ea199c05f43e800cacd791d5ab8962bc6b1a2c5b58622a71d1b5db0a90fa83bd",
+      "ashare_mvp/price_action_audit.py": "50fa556059b1129953378043c8d737bf8c62c2630c3b554678c238dc6cf1af5e",
+      "ashare_mvp/price_reference.py": "5e922a572a643ff42d3001f31149054c38c80c6ba188a5f5bbb5a4a237341628",
+      "ashare_mvp/provider_session.py": "73b3ea21657f1820b2e8a0dfccfcc269a5296c26382acdb70c0e349620bfbbf4",
+      "ashare_mvp/public_conversion.py": "e8af5c7e765a2e8e80f0dda07df896928417eb3af27470370500d2d7a5a785ca",
+      "ashare_mvp/public_data.py": "71d43cf5574887b61ca32dea99a3fbe4f9459e1ed540e35cb71d2048d8ca4188",
+      "ashare_mvp/reference_overrides.py": "4cdf673f7967b60425373a766db9335c7ab852c82da9bd1e74ca9a5a7e9bb320",
+      "ashare_mvp/release_check.py": "951e585c831bd1df750b18ece9a54c93b1ad78d0d52bf453c1aa15a7dc515b95",
+      "ashare_mvp/research.py": "bf8dd7a281dd25e39d2bbdf77f4f6862d43c83e175d23b2fdd3f7538f7c5e15d",
+      "ashare_mvp/research_provenance.py": "7dbfeb4fa6d9352e23da57e4900d95162cbca516fb2452a994383eb4415e6a1c",
+      "ashare_mvp/reviewed_dividends.py": "70459f960692764c1ec79edd97ad26f6d36f4c1e2caef7c641f64aecd8e649a1",
+      "ashare_mvp/reviewed_dividend_versions.py": "22e57ee39d6375c9de6b582c2cfcde0a80df98b330b9def54d1f7de8d7a8dbcd",
+      "ashare_mvp/reviewed_payment_groups.py": "d114e7ae7c379731f1a27e26f3fbfc4509ef60406ae03b6e8f3b1abde2f7b1b1",
+      "ashare_mvp/security_identity.py": "6fba48f6218f338a31a68dd8f6792f9cefca60147d83b6062f2c08a8d3db00c5",
+      "ashare_mvp/security_master.py": "d8e2b8c89a2420098a4da6cbc74b8f5af137b321dc8d4f68ca04821b5634f5c4",
+      "ashare_mvp/universe.py": "500da86e55b9af984a6c15a9c0b3e8fa9eae2c42ddd2d70054477e5b6d79cd6a",
+      "ashare_mvp/universe_audit.py": "5046e7359c13d6241390551c3e52b3e17184bf32d1a75ad5f32bd8ec0b4fa731",
+      "ashare_mvp/universe_evidence.py": "33ff573ed0124e1d70e63a6f6121938a0915e8ec45986d4bbcb8d2b24d102eda",
+      "ashare_mvp/__init__.py": "b5c08ead565698bb808584c80beb0c74fe83f0a7c2c5246dea649e571ddb1ca0"
+    },
+    "protocol_sha256": "55a7585271bdea01905af00217952873fac0d1d4161ca65bfcb33e3f6a73084e",
+    "dataset_metadata_sha256": "e6a58c95483a3bb654465d5ca724bb8314a68ccff61beb054eeb5b446e1ff0e7"
+  },
+  "observed_progress": {
+    "factor_dates": 388,
+    "factor_samples": 1509411,
+    "stage": "5d labels",
+    "attempted_factor_dates": 405
+  },
+  "real_performance_available": false,
+  "formal_model_released": false,
+  "remaining_global_issues": {
+    "unreconciled_adjustments": 1607,
+    "post_terminal_periods": 154432,
+    "affected_terminal_issuers": 220,
+    "missing_live_quotes": 0
+  },
+  "limitation": "This is an input/export and running-experiment checkpoint, not completed performance evidence.",
+  "final_tests": {
+    "passed": 471,
+    "seconds": 238.17,
+    "exit_code": 0,
+    "warning": "sandbox prevented optional pytest cache write; no failed tests"
+  },
+  "date_count_correction": {
+    "audited_at_utc": "2026-10-19T08:17:32.379450+00:00",
+    "reason": "405 attempted,17 before first financial visibility,388 nonempty;sample count unchanged"
+  }
+}

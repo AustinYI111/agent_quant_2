@@ -1,0 +1,3 @@
+-r requirements-tested.txt
+baostock==0.9.4
+cryptography==50.0.2

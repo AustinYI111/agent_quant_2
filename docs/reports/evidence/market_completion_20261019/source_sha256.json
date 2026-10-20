@@ -1,0 +1,11 @@
+{
+  "market": "e25a2cb5f684e086f2eef88ee00a19d2be4fa1ba863954f08029096b114ea523",
+  "universe": "29dcfc3cc8fcedbafedd1275cc5da1b4b0bccd0cf5fb7e5d3e1fc05e2e722b91",
+  "old_readiness": "5fe758f2d9fe6de6eff510a8688b69fb7ba4a483295677058c522aabad9c41ce",
+  "extended_price": "23f89e5b1527f8286930e88446d22c2a8e7062abee057bc5a9c9f4a17995403c",
+  "reference_checks": "815a7e7e88f66e2bdb043030ca9b01f80997daff128afb13a0cc223647e809f8",
+  "extended_price_after_payments": "4881929f6285cfe406210faa29550cdec51c3e39fee002be4532d23ff83367fa",
+  "payment_normalization": "5086c557829c646618f9f72ce098e80e165771c9761c05ac92b6bfc4bfe18b63",
+  "payment_adoption": "16ab851361c4e4d007e45ffd5dd38bd5d5bdd88a3ee69813055ec9a831b47d23",
+  "full_range_readiness": "4ff7fb6be060a9b9dad7089739d0349f205f57b129830f8e8428b719bf89b4b2"
+}

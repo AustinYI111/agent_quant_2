@@ -1,0 +1,14 @@
+[
+  {
+    "symbol": "sh.689009",
+    "instrument_type": "cdr",
+    "effective_from": "2020-10-29",
+    "valid_through": "2025-12-31",
+    "announcement_date": "2020-10-28",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2020-10-28/1208634455.PDF",
+    "source_sha256": "527b37a7ce65a24ba52d85ef5789b49bc2a92fe13879100a7479ecff9b881442",
+    "source_page": 20,
+    "source_locator": "PDF page20 (printed page19), section2: SSE approval identifies CDR, code689009, first listing2020-10-29",
+    "reviewed": true
+  }
+]

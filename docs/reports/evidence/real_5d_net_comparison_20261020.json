@@ -1,0 +1,65 @@
+{
+  "net_portfolio": {
+    "sessions": 711,
+    "total_return": -0.1380244123655019,
+    "annual_return": -0.04970880096766883,
+    "max_drawdown": -0.35007691663913987,
+    "sharpe": -0.056611592477412064
+  },
+  "benchmark": {
+    "sessions": 711,
+    "total_return": 0.11662647049894481,
+    "annual_return": 0.038594059024207095,
+    "max_drawdown": -0.24922549187775112,
+    "sharpe": 0.2914283743368874
+  },
+  "benchmark_kind": "price_index",
+  "valuation_basis": "same-session open; benchmark starts at first portfolio open",
+  "excess_total_return": -0.2546508828644467,
+  "relative_wealth_return": -0.22805377589755726,
+  "relative_wealth_annual_return": -0.0850215338944258,
+  "relative_max_drawdown": -0.35537350538757395,
+  "annual_mean_daily_active_return": -0.07488074359791295,
+  "tracking_error": 0.18361278858711996,
+  "information_ratio": -0.40781878089272533,
+  "paid_cost_initial_equity_units": 0.10776376138217478,
+  "two_way_turnover_sum": 113.21987475712486,
+  "one_way_turnover_sum": 56.60993737856243,
+  "annual_one_way_turnover": 19.43306355969918,
+  "one_way_turnover_ex_initial": 56.11033705881823,
+  "initial_allocation_date": "2023-02-02",
+  "filled_orders": 3929,
+  "blocked_orders": 2,
+  "turnover_definition": "filled buy+sell notional / pre-cost open equity; one-way is half; initial allocation included; ex_initial removes first filled buy date",
+  "dividend_basis_warning": "price index excludes dividends; dividend differential is not isolated selection alpha",
+  "comparison_start": "2023-02-01",
+  "comparison_end": "2025-12-31",
+  "pre_signal_cash_sessions": 1,
+  "horizon": {
+    "key": "5d",
+    "unit": "trading_sessions",
+    "length": 5
+  },
+  "scheduled_rebalances": 142,
+  "costs": {
+    "commission_bps": 3,
+    "slippage_bps": 5,
+    "sell_stamp_duty": {
+      "mode": "dated_A_share_sell_stamp_duty",
+      "schedule": [
+        {
+          "effective_date": "2008-09-19",
+          "basis_points": 10,
+          "source": "https://www.mof.gov.cn/zhengwuxinxi/caizhengxinwen/200809/t20080919_76432.htm"
+        },
+        {
+          "effective_date": "2023-08-28",
+          "basis_points": 5,
+          "source": "https://m.mof.gov.cn/czxw/202308/t20230827_3904226.htm"
+        }
+      ]
+    }
+  },
+  "accounting": "existing fractional-share research account; initial costs included; no forced final liquidation",
+  "certified": false
+}

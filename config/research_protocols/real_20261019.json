@@ -1,0 +1,38 @@
+{
+  "frozen_at_utc": "2026-10-19T06:26:26.148698+00:00",
+  "validation_start": "2021-07-30",
+  "test_start": "2023-01-31",
+  "test_end": "2025-12-31",
+  "horizons": [
+    "5d",
+    "20d",
+    "12m"
+  ],
+  "candidate_estimators": [
+    30,
+    60
+  ],
+  "top_k": 20,
+  "seed": 42,
+  "retrain_months": 12,
+  "train_months": 60,
+  "min_train_dates": 12,
+  "min_group_size": 20,
+  "embargo_sessions": 1,
+  "commission_bps": 3,
+  "slippage_bps": 5,
+  "sell_stamp_duty": "dated schedule already implemented",
+  "feature_mode": "explicit causal quality research; full historical ordinary A-share universe; native missing ratios",
+  "held_valuation": "raw share account; unresolved positive holdings stop, never imputed",
+  "benchmark_kind": "CSI300 price index, dividend basis limitation disclosed",
+  "boundary_reason": "fixed before any real OOS NAV: 252-session feature warmup plus 12-month outcomes need enough mature monthly training groups; July2021 validation gives more than one year of mature initial long-horizon training and multiple pre-test validation cohorts",
+  "source_metadata_sha256": {
+    "market_manifest": "c2cc84a9281c7a0303ed4657a5f9b9393596ca17da2e6dcecc67a28692120acf",
+    "financial_summary": "d770a60741c4e5dc9fdc36c82b8f5069889b22d301cef6218e2f6bbba70b4be7",
+    "event_summary": "aefcc412f12dd60b858329d2f2e7d49d65ce41dddaf01d756aa778008a2b5bc2",
+    "master_manifest": "2eeae16a4481d4d672a07b90268d49ac7094ef3cca23424d10647c82d83471d0",
+    "benchmark_summary": "0fd3fb91b8b5642858e3b47ecb81abc15214cb1e8bdb13272ef575b4cfa56c15"
+  },
+  "real_oos_nav_inspected": false,
+  "real_models_trained": false
+}
