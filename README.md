@@ -1,8 +1,8 @@
 # agent_quant_2 — A股多因子选股 MVP
 
-当前第一阶段目标是分别训练未来 **5／20 个交易日及约 12 个月**的 LightGBM 排序模型，并按周期完成严格时间样本外的成本、指数收益、回撤与换手比较。三周期标签、独立模型、滚动训练及统一净成本指数评估已完成合成数据端到端验证；真实三周期9个年度滚动模型已训练并通过原生恢复检查；5日完整回测已完成且落后基准，20日／12个月仍在补证重放。 真实财务跨年份输入与依赖已合并，见[财务准备进展](docs/reports/FINANCIAL_RANGE_UNION_20261019.md)。 跨年份行情快照与扩展事件验证见[行情合并说明](docs/reports/MARKET_RANGE_UNION_20261019.md)。见[三周期研究入口](docs/reports/THREE_HORIZON_RESEARCH_20261016.md)及[标签协议](docs/reports/THREE_HORIZON_PROTOCOL_20261016.md)。
+真实5／20交易日及12自然月的9个年度滚动LightGBM候选模型和三周期完整样本外回测已完成。2023-02-01—2025-12-31累计净收益分别 **-13.80%、+40.37%、+27.32%**，沪深300价格指数+11.66%；三策略最大回撤均超过33%。完整回归488项通过，独立指标及模型恢复检查通过；这不证明真实盈利。见[最新真实报告与历史Top20](docs/reports/REAL_MODELS_AND_VALUATION_REPLAY_20261020.md)，旧日期报告保留当时状态。
 
-2026-10-19：2018—2025 的 1,942 日原始行情已采集并封存完成；价格及退市终值仍待校验，真实三周期回测未完成。最新范围、证据与剩余问题见[行情完成及价格／终值检查](docs/reports/MARKET_COMPLETION_AND_TERMINAL_AUDIT_20261019.md)。
+2026-10-20：2018—2025 的1,942日行情已采齐，11条官方估值补证后实际三周期持仓路径全部通过严格价格／终值检查；全库原始差异仍有门禁。以下2026-10-19链接为过程记录。最新范围、证据与剩余问题见[行情完成及价格／终值检查](docs/reports/MARKET_COMPLETION_AND_TERMINAL_AUDIT_20261019.md)。
 
 同日多报告期与完整现金支付已补充公告审阅：剩余支付缺口8→0，435项测试通过，真实回测仍待范围、价格和退市结算核验。见[同日分红合并实测](docs/reports/REVIEWED_PAYMENT_GROUPS_20261019.md)。
 
@@ -26,7 +26,7 @@ python -m venv .venv
 
 示例输入为**合成数据**，仅用于检验训练/回测工程。真实选股需要提供具备公告版本、历史股票池、退市和停牌记录的数据。
 
-新增公开数据采集与审计、同期限因子对照、技术观察区间、CSV持仓和中文日报，见[四阶段进度与运行说明](docs/PHASE_PROGRESS.md)。公开源实测取得行情和财务样本，但完整股票池与财报版本仍待验证；当前不能宣称真实全市场回测完成。
+新增公开数据采集与审计、同期限因子对照、技术观察区间、CSV持仓和中文日报，见[四阶段进度与运行说明](docs/PHASE_PROGRESS.md)。公开源真实历史三周期研究已完成；该页为早期阶段记录，完整历史财报版本及所有证券终值仍未认证，最新结果以上述报告为准。
 
 本版完整运行检查与已知边界见 [MVP 0.1.0交付说明](docs/RELEASE_0_1_0.md)。运行 `python -m ashare_mvp.release_check --out artifacts/release_check` 可在离线环境生成并验证基准模型、可选指标模型和持仓日报；所有输入明确为合成数据。
 
@@ -34,7 +34,7 @@ python -m venv .venv
 
 见[完整迁移教程与当前边界](docs/MIGRATION.md)。公开代码继续保存在`feature/quant-mvp`；独立私有仓库[agent_quant_2-backups](https://github.com/AustinYI111/agent_quant_2-backups)保存加密Release快照，数据库不反复提交普通Git。API凭据和备份密码不上传。
 
-新电脑先运行`setup.ps1`，登录GitHub，再运行`scripts/restore-cloud.ps1`。用`scripts/check-environment.ps1`验证模型后可直接预测，不重训。当前可恢复模型为合成候选验证模型，真实全市场模型与自动日更尚未完成，完整状态及命令请按教程执行。
+新电脑先运行`setup.ps1`，登录GitHub，再运行`scripts/restore-cloud.ps1`。用`scripts/check-environment.ps1`验证模型后可直接预测，不重训。当前已有9个真实候选模型和完整三周期结果；备份版本、恢复证明及命令以迁移教程为准，正式模型和自动日更尚未启用。
 
 ### 选股池范围
 
