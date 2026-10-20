@@ -1,0 +1,66 @@
+{
+  "schema": "phase2_payment_review_evidence_v1",
+  "review_config": "config/phase2_payment_review_20261020.json",
+  "review_sha256": "b68710b476c8b45fde76719f2ac1258c60f0a374467ee55c85e5a667b698e403",
+  "plan_manifest_sha256": "7a2174a1bbd64599ddda5049b53c5c6165236ab02e255df25b438e1b18414a32",
+  "normalized_payment_summary": {
+    "records": 54960,
+    "accepted": 4328,
+    "rejected": 395,
+    "outside_calendar": 50237,
+    "partial_source": false,
+    "certified": false,
+    "model_ready": false,
+    "status": "partial",
+    "input_manifest_sha256": "60da5051ea914f6a227ef14c244c663985b22d7c9f77a9ae762ce0af3ed03a05",
+    "actions_sha256": "38527e5d5d7d55aad486aa4d776b5f32b7a5a08aeff0cb111ae76006cd85aa75",
+    "limitations": [
+      "original event vintages unverified",
+      "share credit is not proof of exchange tradability",
+      "accepted subset does not certify complete market or terminal coverage"
+    ]
+  },
+  "reviewed_event_count": 4327,
+  "status_counts": {
+    "matched_payment_evidence": 4319,
+    "outside_evaluation_window": 979,
+    "excluded_exchange": 305,
+    "not_implemented": 285,
+    "matched_reviewed_notice": 12,
+    "excluded_instrument": 1
+  },
+  "output_hashes": {
+    "actions.csv": "80b0919dbfa2a6e42b6a8c8d3d944ab4772c1de99de7a628e8c1d4c2268dcd87",
+    "coverage.csv": "ece63b670486d9cd866138b87b5f04385fc0c23876f96ea8fc404a89f44c7d67",
+    "group_audit.csv": "aa2e5ff299fc6d8f916486478bf20d01abe914af5103912041a77559d9883551",
+    "instrument_scope_audit.csv": "88c41d0093bac7a4dcd15753da9089da4decf64b76fd0ed484e0d6d314396797",
+    "unmatched_accepted_payment_events.csv": "318667af59b423191b95c573b1c8143037ae7f8e00d86f6c2afd1b0b2a825e2e"
+  },
+  "unmatched_accepted_payment_events": 8,
+  "extra_notice_collection": {
+    "securities": 9,
+    "downloaded": 9,
+    "reviewed": false
+  },
+  "reorganization_quarantine": {
+    "symbol": "sz.300091",
+    "source_row": 0,
+    "reason": "Provider labels this reorganization capital transfer; ordinary-holder entitlements must be reviewed separately."
+  },
+  "model_ready": false,
+  "certified": false,
+  "limitations": [
+    "Original event vintages remain unverified.",
+    "Gross cash; account-level cent truncation and investor-specific taxes are not represented.",
+    "Nine notices cover only explicit event keys, not the entire market.",
+    "Unmatched independent events remain explicit and are not silently dropped.",
+    "Price-reference continuity still requires raw-quote validation."
+  ],
+  "validation": {
+    "full_suite": {
+      "passed": 600,
+      "seconds": 183.74,
+      "scope": "Full local worktree including benchmark extension, source timing, industry and technical candidate modules; no strategy-profit claim."
+    }
+  }
+}
