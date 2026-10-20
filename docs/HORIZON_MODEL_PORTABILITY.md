@@ -34,3 +34,15 @@ python -m ashare_mvp.horizon_inference check --model artifacts/portable_horizon_
 ## 本轮实际验证
 
 新增9项模型导出／加载／预测测试通过（19.08秒），完整480项测试通过（278.79秒）。合成模型的独立`check`和`predict`命令也实际退出0，输出20条排序，`retrained=false`；保存后分数一致、未来输入不改过去预测、不同数据类型／价格／身份约定拒绝、数据元信息／特征实现／依赖／模型篡改拒绝、早于训练时点与覆盖已有结果拒绝均已验证。Windows脚本通过PowerShell语法解析。后续完整488项通过，真实9模型独立恢复最大误差0.0，三周期绩效见最新真实报告。
+
+## 低内存的封存特征恢复检查
+
+如果新电脑空闲内存不足以重算整库指标，可先运行：
+
+```powershell
+.\.venv\Scripts\python.exe scripts/check_saved_research_models.py --root restored/real-20261020 --out artifacts/restored_saved_model_check
+```
+
+该脚本分块读取封存因子，验证因子／原预测／历史Top20哈希与模型环境，加载9模型逐折对照原预测，再核对2025-12-31的三周期Top20。实际本机验证41,087条原预测最大误差0.0、60条Top20一致，见[审计](reports/evidence/saved_real_model_verification_20261020.json)。无训练调用，不重算技术指标；仅重放已封存研究特征，不下载新行情、不形成实时交易指令。输出中的symbol为稳定发行人键。
+
+本轮资源检查仅约2.6GB空闲内存，因此没有再启动原始全历史输入的直接特征重算预测命令；不能把封存特征评分通过等同于新行情管线或干净新Windows安装已经验证。恢复后应先做此轻量检查，再按实际电脑资源运行完整入口。
