@@ -3,13 +3,13 @@ from datetime import datetime, timezone
 from pathlib import Path
 import hashlib
 import json
-import re
 import sqlite3
 
 import numpy as np
 import pandas as pd
 
 from .phase2_protocol import day, forecast_role, load_seal, sha256, utc
+from .public_data import is_ashare
 
 
 def _json(value):
@@ -104,7 +104,7 @@ def record_predictions(database, *, project, seal_directory, horizon, signal_dat
             or set(frame.symbol) != set(expected)):
         raise ValueError('scores must cover the complete eligible universe exactly once')
     if frame.trading_symbol.duplicated().any() or not frame.trading_symbol.map(
-            lambda item: isinstance(item, str) and re.fullmatch(r'(?:sh\.6[08]\d{4}|sz\.(?:00|30)\d{4})', item) is not None).all():
+            lambda item: isinstance(item, str) and is_ashare(item)).all():
         raise ValueError('unique Shanghai/Shenzhen A-share identities required; Beijing excluded')
     for column, expected_flag in [('is_st', False), ('eligible', True)]:
         if not frame[column].map(lambda value: isinstance(value, (bool, np.bool_)) and bool(value) == expected_flag).all():

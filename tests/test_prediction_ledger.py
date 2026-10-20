@@ -57,7 +57,7 @@ def test_late_first_publication_is_never_prospective(arguments, monkeypatch):
     assert not result['prospective'] and result['role'] == 'retrospective_independent_snapshot'
 
 
-@pytest.mark.parametrize('bad_code', ['bj.830001', 'sz.200001', 'sh.900901', 'sh.000001', None])
+@pytest.mark.parametrize('bad_code', ['bj.830001', 'sz.200001', 'sh.900901', 'sh.000001', 'sh.689009', 'sz.009001', 'sh.680001', None])
 def test_beijing_bshares_and_unknown_trading_identity_are_blocked(arguments, bad_code):
     arguments['scores'].loc[0, 'trading_symbol'] = bad_code
     with pytest.raises(ValueError, match='A-share identities'):
