@@ -24,3 +24,6 @@ backups/
 *.zip
 restored/
 pqr-private-*/
+
+# Legacy provider caches remain local; raw data is not a code deliverable.
+agent_quant-main/multi_agent_quant/data/raw/akshare_cache/
