@@ -39,7 +39,7 @@
 python -m ashare_mvp.phase2_protocol check --seal artifacts/phase2/protocol_20261020 --project .
 ```
 
-新电脑恢复基线模型后可封存相同协议到新目录，不覆盖原运行：
+继续既有预测和统一归档时，必须恢复原封存目录及其精确哈希；不能重新封存替代。以下命令只用于另起独立研究实验，不会接上旧归档：
 
 ```powershell
 python -m ashare_mvp.phase2_protocol seal --protocol config/research_protocols/phase2_20261020.json --project . --out artifacts/phase2/protocol_restored
@@ -116,3 +116,8 @@ python -m ashare_mvp.phase2_protocol seal --protocol config/research_protocols/p
 ## 最新参考价检查点（2026-10-21）
 
 补入一条官方明确的差异化现金参考价，4,337个实际事件权益不变。全市场重跑后差异65→64，精确消除对应事件且无新增。已保存的旧排名和账本不改写，详见[最新参考价复核](reports/PHASE2_RECENT_REFERENCE_20261021.md)。
+
+
+## 每日预测统一归档（2026-10-21）
+
+新增原子三周期归档与每日推理自动投递入口。真实单日14,805条分数、时间、角色和名次完整保存；重复导入数据库哈希不变，备份恢复后账户继续排除事后预测。全量688项、相关56项通过。多日衔接使用合成数据验证，连续真实日更、前瞻成交、收益归因、候选增量检验及第二阶段云备份尚未完成。详见[统一归档说明](PREDICTION_ARCHIVE.md)。

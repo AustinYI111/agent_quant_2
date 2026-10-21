@@ -192,7 +192,25 @@ def run_frozen_daily(project,inputs,signal,out,exploratory=False):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--project',default='.');p.add_argument('--inputs',required=True);p.add_argument('--signal',required=True);p.add_argument('--out',required=True);p.add_argument('--exploratory',action='store_true')
-    args=p.parse_args();run_frozen_daily(**vars(args))
+    p.add_argument('--archive',help='append the completed snapshot to this project-relative prediction archive')
+    args=vars(p.parse_args());archive=args.pop('archive');root=Path(args['project']).resolve()
+    def local(value):
+        relative=Path(value)
+        if relative.is_absolute() or '..' in relative.parts or ':' in value:raise ValueError('portable project-relative daily archive paths required')
+        result=(root/relative).resolve()
+        if not result.is_relative_to(root):raise ValueError('daily archive path escapes project')
+        return result
+    if archive is not None:
+        from .prediction_archive import archive_daily_snapshot,validate_archive_destination
+        archive_file=local(archive);snapshot=local(args['out'])
+        if archive_file.is_relative_to(snapshot) or snapshot.is_relative_to(archive_file):raise ValueError('daily archive must be separate from its snapshot')
+        validate_archive_destination(archive_file)
+    run_frozen_daily(**args)
+    # Delivery failure must not rewrite a successfully completed inference run.
+    if archive is not None:
+        config=json.loads(local(args['inputs']).read_text(encoding='utf8'))
+        result=archive_daily_snapshot(snapshot,sha256(snapshot/'manifest.json'),archive_file,root,local(config['seal']),pd.to_datetime(pd.read_csv(snapshot/'forecast_calendar.csv').date))
+        print(json.dumps(dict(archive_import=result),ensure_ascii=False),flush=True)
 
 
 if __name__=='__main__':main()

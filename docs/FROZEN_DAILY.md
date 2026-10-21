@@ -12,6 +12,8 @@
 python -m ashare_mvp.frozen_daily --project . --inputs config/frozen_daily_inputs_20261021.json --signal 2026-10-20 --out artifacts/phase2/my_research_snapshot_20261020 --exploratory
 ```
 
+需要自动统一归档时，在命令末尾增加`--archive artifacts/phase2/prediction_archive/predictions.sqlite`；三周期成功保存后原子追加，投递失败不改写成功快照。重试与备份见[统一归档说明](PREDICTION_ARCHIVE.md)。
+
 这份输入配置绑定本轮本地快照，不能只改信号日期就宣称数据已更新。后续日期需要先采集、校验对应交易日行情，并登记财务、公司行动和证券变更来源。日历采用供应商实际交易日；17:20 前不接受当日收盘快照。
 
 ## 输出
