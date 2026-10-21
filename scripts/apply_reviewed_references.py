@@ -13,7 +13,7 @@ def run(data,calendar,review,notice_root,out):
         if out.resolve()==source.resolve() or out.resolve() in source.resolve().parents or source.resolve() in out.resolve().parents:raise ValueError('reference output must be separate from inputs')
     hashes={p:sha256(p) for p in [data/'summary.json',review,calendar]}
     parent=json.loads((data/'summary.json').read_text(encoding='utf8'))
-    if parent.get('schema')!='reviewed_cash_supplemented_payments_v1':raise ValueError('cash-supplemented payment source required')
+    if parent.get('schema') not in {'reviewed_cash_supplemented_payments_v1','phase2_reference_reviewed_payments_v1'}:raise ValueError('cash-supplemented or reference-reviewed payment source required')
     action_file=data/'actions.csv';hashes[action_file]=sha256(action_file)
     if hashes[action_file]!=parent['output_hashes']['actions.csv']:raise ValueError('payment source changed')
     config=json.loads(review.read_text(encoding='utf8'))

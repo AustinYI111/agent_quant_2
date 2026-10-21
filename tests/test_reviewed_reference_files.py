@@ -34,6 +34,37 @@ def test_reference_files_accept_sibling_output_and_mixed_dates_preserving_assets
     with pytest.raises(ValueError,match='new reference'):module.run(**args)
 
 
+def test_reference_chain_retains_prior_terms_and_all_original_entitlements(tmp_path):
+    module,args,config,original=fixture(tmp_path)
+    module.run(**args)
+    first=args['out']
+    change=config['overrides'][0]
+    change.update(symbol='sh.600001',ex_date='2026-02-12',reference_cash_per_share=.09,expected_cash_per_share=.1)
+    args['review'].write_text(json.dumps(config),encoding='utf8')
+    args.update(data=first,out=tmp_path/'out2')
+    module.run(**args)
+    current=pd.read_csv(args['out']/'actions.csv')
+    assert current.reference_cash_per_share.tolist()==[.02,.09]
+    for name in ['symbol','cash_per_share','share_multiplier','pay_date']:
+        pd.testing.assert_series_equal(current[name],original[name])
+
+
+def test_share_reference_changes_denominator_without_creating_holder_shares(tmp_path):
+    module,args,config,original=fixture(tmp_path)
+    original.loc[0,'share_multiplier']=1.4
+    original.to_csv(args['data']/'actions.csv',index=False)
+    parent=json.loads((args['data']/'summary.json').read_text(encoding='utf8'))
+    parent['output_hashes']['actions.csv']=sha256(args['data']/'actions.csv')
+    (args['data']/'summary.json').write_text(json.dumps(parent),encoding='utf8')
+    config['overrides'][0].update(expected_share_multiplier=1.4,reference_share_multiplier=1.3985036)
+    args['review'].write_text(json.dumps(config),encoding='utf8')
+    module.run(**args)
+    current=pd.read_csv(args['out']/'actions.csv')
+    assert current.reference_share_multiplier.iloc[0]==1.3985036
+    assert current.share_multiplier.iloc[0]==1.4
+    assert current.cash_per_share.iloc[0]==.03
+
+
 @pytest.mark.parametrize('fault',['pdf_changed','payment_changed','unsealed_notice','path_escape','unreviewed','cash_conflict','late_notice'])
 def test_reference_files_reject_conflicts_before_export(tmp_path,fault):
     module,args,config,_=fixture(tmp_path)
