@@ -18,7 +18,7 @@ python -m ashare_mvp.candidate_dataset --project . --dataset artifacts/market_ra
 
 python -m ashare_mvp.rolling_candidates --project . --inputs artifacts/phase2/research_candidate_inputs_20261022_v2 --experiment artifacts/three_horizon_real_causal_quality1 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/matched_candidate_models_20261022_v2
 
-python -m ashare_mvp.candidate_portfolios --project . --training artifacts/phase2/matched_candidate_models_20261022_v2 --dataset artifacts/market_ratios_causal_quality1 --replay artifacts/three_horizon_valuation_replay5 --benchmark artifacts/benchmark_csi300_price_2018_2025 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/candidate_ranking_accounts_20261022_v2
+python -m ashare_mvp.candidate_portfolios --project . --training artifacts/phase2/matched_candidate_models_20261022_v2 --dataset artifacts/market_ratios_causal_quality1 --replay artifacts/three_horizon_valuation_replay5 --benchmark artifacts/benchmark_csi300_price_2018_2025 --seal-directory artifacts/phase2/protocol_20261020 --reference-evidence config/reviewed_candidate_valuation_refs_20261022_v1.json --out artifacts/phase2/candidate_ranking_accounts_20261022_v3
 ```
 
 只有前一步的 manifest 显示成功，才能执行下一步。训练结束状态为 `candidate_fits_complete_selection_pending`，表示拟合完成、选模仍待完成。
@@ -37,6 +37,8 @@ python -m ashare_mvp.candidate_portfolios --project . --training artifacts/phase
 未知的实际持仓价格、公司行动参考价或终值会停止该账户，保存有效前缀和持仓；不能只比较“活到最后”的共同前缀。完整账户才计算相同日期的扣费后配对差异。日历块抽样固定 63 日、2,000 次、种子 42，保留 24 项比较的家族阈值；极端尾部的模拟精度有限。
 
 当前排名对照不替代择时账户、等权可选池对照、行业归因及最终选模审查。配对差异和区块区间是研究诊断，不能据此自动推广模型。沪深300为价格指数，不含分红；原始历史版本、涨跌停成交及部分终值仍未认证。
+
+`--reference-evidence` 为可选的原公告参考参数证据。它验证原始PDF、采集记录、实际观察时间和真实现金／股份锚点，只补除权参考参数。原股东权益、模型、特征和训练标签都不改写。新持仓可能暴露新的历史缺口，已有六项证据不表示全市场所有年份均已校准。实际检查点见[本轮进展](reports/CANDIDATE_RESEARCH_PROGRESS_20261022.md)。
 
 ## 保存在哪里
 

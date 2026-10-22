@@ -66,7 +66,7 @@ def paired_net_returns(candidate,baseline,block=63,repetitions=2000,seed=42):
     return excess,result
 
 
-def evaluate_candidate_rankings(project,training,dataset,replay,benchmark,seal_directory,out):
+def evaluate_candidate_rankings(project,training,dataset,replay,benchmark,seal_directory,out,reference_evidence=None):
     root=Path(project).resolve()
     def local(value):
         p=Path(value)
@@ -103,6 +103,11 @@ def evaluate_candidate_rankings(project,training,dataset,replay,benchmark,seal_d
     benchmark_frame=pd.read_csv(index/'raw_prices.csv',parse_dates=['date'],float_precision='round_trip')
     actions=pd.read_csv(original/'effective_valuation_actions.csv',float_precision='round_trip',low_memory=False)
     for column in ['ex_date','available_date','pay_date']:actions[column]=pd.to_datetime(actions[column],format='mixed')
+    overlay=None
+    if reference_evidence is not None:
+        from .valuation_overlay import reviewed_valuation_references
+        actions,overlay=reviewed_valuation_references(actions,reference_evidence,root,calendar,protocol['research_end'])
+        for name,digest in overlay['source_hashes'].items():bind(local(name),digest)
     groups=['baseline','market_state','oneil_box'];validation=protocol['validation']
     expected={(h,g,t,s) for h in protocol['horizons'] for g in groups for t in validation['candidate_estimators'] for s,e in validation['research_validation_windows']}
     actual=[(r['horizon'],r['group'],r['n_estimators'],r['validation_start']) for r in fitting['models']]
@@ -111,15 +116,16 @@ def evaluate_candidate_rankings(project,training,dataset,replay,benchmark,seal_d
         model=local((trained/record['relative_model_path']).relative_to(root).as_posix())
         bind(model,record['model_sha256']);bind(model.with_name('metadata.json'),record['metadata_sha256']);bind(model.with_name('rankings.csv'),record['rankings_sha256'])
     target.mkdir(parents=True)
-    code_names=['candidate_portfolios.py','pipeline.py','corporate_actions.py','causal_quality.py','price_action_audit.py','price_reference.py','horizon_research.py','horizon_labels.py','costs.py']
+    code_names=['candidate_portfolios.py','pipeline.py','corporate_actions.py','causal_quality.py','price_action_audit.py','price_reference.py','horizon_research.py','horizon_labels.py','costs.py','valuation_overlay.py','reference_overrides.py']
     code_hashes={n:hashlib.sha256((root/'ashare_mvp'/n).read_text(encoding='utf-8-sig').replace('\r\n','\n').encode()).hexdigest() for n in code_names}
     proof=dict(schema='phase2_candidate_ranking_accounts_v1',status='evaluating',started_at_utc=datetime.now(timezone.utc).isoformat(),
         protocol_sha256=seal['protocol_sha256'],source_hashes=sources,code_hashes=code_hashes,independent_data_used=False,
-        model_selection_performed=False,formal_model_promoted=False,certified=False,accounts=[],paired_diagnostics=[],
+        model_selection_performed=False,formal_model_promoted=False,certified=False,accounts=[],paired_diagnostics=[],reference_overlay=overlay,
         design='continuous research accounts across fixed refit windows; only full calendar-mature cycles; no fold reset or final liquidation',
         pending=['industry historical evidence','industry and combined candidate fits','timing accounts','eligible equal-weight control','final selection review','independent mature validation'],
         limitations=['original source vintages and executable limit states unverified','fractional shares and gross dividend entitlements','CSI300 price index excludes dividends'])
     def save():(target/'manifest.json').write_text(json.dumps(proof,ensure_ascii=False,indent=2,allow_nan=False)+'\n',encoding='utf8')
+    actions.to_csv(target/'effective_valuation_actions.csv',index=False)
     save()
     try:
         for horizon in protocol['horizons']:
@@ -190,6 +196,7 @@ def evaluate_candidate_rankings(project,training,dataset,replay,benchmark,seal_d
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--project',default='.')
     for name in ['training','dataset','replay','benchmark','seal-directory','out']:p.add_argument('--'+name,required=True)
+    p.add_argument('--reference-evidence')
     evaluate_candidate_rankings(**vars(p.parse_args()))
 
 
