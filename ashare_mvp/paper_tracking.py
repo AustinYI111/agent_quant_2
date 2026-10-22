@@ -16,6 +16,7 @@ from .horizon_research import compare_index
 from .phase2_protocol import day,load_seal,forecast_role,completed_date_limit,sha256
 from .prediction_ledger import read_predictions,_digest
 from .streaming_feature_index import ExchangeCalendar
+from .accounting_attribution import attribute_open_account
 
 
 def scheduled_signals(calendar,independent_start,horizon):
@@ -144,13 +145,21 @@ def replay_paper_books(database,batch_ids,project,seal_directory,raw_prices,acti
         positions=position_snapshot(nav,orders,quotes,events)
         positions.to_csv(directory/'positions.csv',index=False)
         result['position_rows']=len(positions);result['shares_cash_receivables_reconciled']=not nav.empty
+        accounting,position_history,asset_pnl=attribute_open_account(nav,orders,quotes,events,benchmark=benchmark)
+        accounting.to_csv(directory/'open_account_attribution.csv',index=False)
+        position_history.to_csv(directory/'position_history.csv',index=False)
+        asset_pnl.to_csv(directory/'asset_attribution.csv',index=False)
+        result['accounting_identity_verified']=not accounting.empty
+        result['accounting_max_absolute_error']=float(accounting.reconciliation_error.abs().max()) if not accounting.empty else None
+        result['market_reference_method']='prior invested value times CSI300 price-index open return; unit-beta reference, not causal alpha' if benchmark is not None else 'not_supplied'
+        result['industry_attribution_status']='pending_dated_membership_and_sector_return_evidence'
         if benchmark is not None and not nav.empty:
             comparison,metrics=compare_index(nav,orders,benchmark,'price_index')
             comparison.to_csv(directory/'benchmark_comparison.csv',index=False);result['price_index_comparison']=metrics
         proof['books'][horizon]=result
     proof['prediction_database_sha256']=sha256(database)
     proof['input_frame_sha256']={name:hashlib.sha256(frame.to_csv(index=False).encode()).hexdigest() for name,frame in [('raw_quotes',raw),('actions',a),('calendar',pd.DataFrame({'date':cal}))]}
-    proof['code_sha256']={name:hashlib.sha256(Path(__file__).with_name(name).read_text(encoding='utf-8-sig').replace('\r\n','\n').encode()).hexdigest() for name in ['paper_tracking.py','pipeline.py','corporate_actions.py','causal_quality.py','costs.py']}
+    proof['code_sha256']={name:hashlib.sha256(Path(__file__).with_name(name).read_text(encoding='utf-8-sig').replace('\r\n','\n').encode()).hexdigest() for name in ['paper_tracking.py','accounting_attribution.py','pipeline.py','corporate_actions.py','causal_quality.py','costs.py']}
     proof['outputs_sha256']={p.relative_to(target).as_posix():sha256(p) for p in target.rglob('*.csv')}
     (target/'manifest.json').write_text(json.dumps(proof,ensure_ascii=False,indent=2,allow_nan=False)+'\n',encoding='utf8')
     return proof

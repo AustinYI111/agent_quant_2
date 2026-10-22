@@ -38,3 +38,14 @@ python -m ashare_mvp.frozen_daily --project . --inputs config/frozen_daily_input
 - 保存实际创建时间；下一交易日开盘后才形成的记录标为 `retrospective_independent_snapshot`，不能用于声称前瞻模拟收益。2026数据不参与选参。
 
 本轮真实执行、模型重新加载及账本备份读回结果见[执行记录](reports/FROZEN_DAILY_RESEARCH_20261021.md)。测试和保存成功均不证明盈利能力，也不表示模拟跟踪、收益归因或候选因子增量验证已经完成。
+
+
+## 连续财务观察历史
+
+先合并每个依赖的历史，再按同一报告期关联，保留旧可见版本直至新版本可用。用新财务快照替换旧文件会丢失此前已知信息；历史输入文件保持不变。`financials`绑定本次组合，`financial_history`可列出仍需保留的原组合快照。联合首次观察时间取利润与已用余额两者的较晚时间，未知依赖时间不会推断补齐。
+
+```powershell
+python scripts/build_financial_history.py --snapshot artifacts/phase2/normalized/financials_observed_v2_20261020 --snapshot artifacts/phase2/normalized/financials_observed_close_20261021 --out artifacts/phase2/normalized/my_financial_history
+```
+
+21日实际推理输入见`config/frozen_daily_inputs_close_20261021.json`，已在22日事后生成并归档；改动输出目录后可复现研究，归档会拒绝替换已存在的不同版本。[最新真实执行](reports/CLOSE_REFRESH_AND_ACCOUNTING_20261022.md)。

@@ -20,6 +20,7 @@ from .streaming_snapshot import FEATURE_COLUMNS,iter_seed_bars,advance_feature_s
 from .source_timing import audit_market_observations
 from .horizon_inference import check_bundle
 from .prediction_ledger import record_predictions,read_predictions,backup_ledger
+from .financial_snapshot_history import FUND_COLUMNS,merge_observed_financial_history
 
 
 def _utc_now():return datetime.now(timezone.utc).isoformat()
@@ -53,7 +54,7 @@ def run_frozen_daily(project,inputs,signal,out,exploratory=False):
         if directory==target or directory in target.parents or target in directory.parents:raise ValueError('daily output must be separate from input datasets')
     meta=json.loads((baseline/'metadata.json').read_text(encoding='utf8'));store_meta=json.loads((store/'manifest.json').read_text(encoding='utf8'));seed_meta=json.loads((seed/'manifest.json').read_text(encoding='utf8'))
     if meta.get('synthetic') is not False or store_meta.get('synthetic') is not False or meta.get('missing_policy')!='native_nan' or meta.get('quality_policy',{}).get('schema')!='causal_quality_research_v1':raise ValueError('frozen real native-NaN causal baseline required')
-    code_names=['frozen_daily.py','streaming_snapshot.py','streaming_feature_index.py','factors.py','public_conversion.py','data.py','prediction_ledger.py','horizon_inference.py']
+    code_names=['frozen_daily.py','financial_snapshot_history.py','streaming_snapshot.py','streaming_feature_index.py','factors.py','public_conversion.py','data.py','prediction_ledger.py','horizon_inference.py']
     def code_hash(name):return hashlib.sha256((root/'ashare_mvp'/name).read_text(encoding='utf-8-sig').replace('\r\n','\n').encode()).hexdigest()
     code_hashes={name:code_hash(name) for name in code_names}
     bind(baseline/'metadata.json',store_meta['baseline_metadata_sha256'])
@@ -96,17 +97,16 @@ def run_frozen_daily(project,inputs,signal,out,exploratory=False):
     latest_raw=additional[additional.date.eq(signal)].copy()
     if latest_raw.empty:raise ValueError('latest signal lacks raw quotes')
     additions={symbol:group.sort_values('date') for symbol,group in additional.groupby('symbol',sort=False)}
-    financial=path(config['financials']);bind(financial/'summary.json');fm=json.loads((financial/'summary.json').read_text(encoding='utf8'));bind(financial/'financial_panel.csv',fm['panel_sha256'])
-    fund_columns=['symbol','report_date','available_date','roe','revenue_growth','earnings_growth','debt_ratio']
     bind(baseline/'fundamentals.csv',meta['converted_hashes']['fundamentals.csv'])
-    old_f=pd.read_csv(baseline/'fundamentals.csv',parse_dates=['report_date','available_date'],usecols=fund_columns).assign(_source_order=0)
-    new_f=pd.read_csv(financial/'financial_panel.csv',parse_dates=['report_date','available_date'])
-    observed=pd.to_datetime(new_f.first_observed_at_utc,utc=True)
-    visible=new_f.available_date.notna()
-    if observed[visible].isna().any() or new_f.loc[visible,'available_date'].lt(observed[visible].dt.tz_convert('Asia/Shanghai').dt.tz_localize(None).dt.normalize()).any() or observed.max()>pd.Timestamp.now(tz='UTC'):raise ValueError('financial availability precedes first observation or uses future input')
-    funds=pd.concat([old_f,new_f[fund_columns].assign(_source_order=1)],ignore_index=True)
-    if (funds.available_date.notna()&funds.report_date.gt(funds.available_date)).any():raise ValueError('financial report period is in its availability future')
-    funds=funds.sort_values(['symbol','report_date','available_date','_source_order']).drop_duplicates(['symbol','report_date','available_date'],keep='last').drop(columns='_source_order')
+    old_f=pd.read_csv(baseline/'fundamentals.csv',parse_dates=['report_date','available_date'],usecols=FUND_COLUMNS)
+    financial_dirs=[path(value) for value in config.get('financial_history',[])]+[path(config['financials'])]
+    if len(financial_dirs)!=len(set(financial_dirs)):raise ValueError('financial history repeats a snapshot')
+    observations=[]
+    for financial in financial_dirs:
+        if target.is_relative_to(financial) or financial.is_relative_to(target):raise ValueError('daily output must be separate from financial history')
+        bind(financial/'summary.json');fm=json.loads((financial/'summary.json').read_text(encoding='utf8'));bind(financial/'financial_panel.csv',fm['panel_sha256'])
+        observations.append(pd.read_csv(financial/'financial_panel.csv',parse_dates=['report_date','available_date']))
+    funds=merge_observed_financial_history(old_f,observations)
     master=[]
     for item in config['masters']:
         file=path(item['file']);bind(file,item['sha256']);frame=pd.read_csv(file,dtype={'code':str});frame['symbol']=frame.code.map(lambda code:roots.get(code,code));frame['listing_date']=pd.to_datetime(frame.ipoDate);master.append(frame[['symbol','listing_date']])
@@ -122,7 +122,7 @@ def run_frozen_daily(project,inputs,signal,out,exploratory=False):
         _,model,policy,training=models[horizon]
         if training['synthetic'] is not False or policy.get('price_basis')!=meta['price_basis'] or policy.get('quality_policy')!=meta['quality_policy']:raise ValueError('daily inputs differ from the frozen feature semantics')
     target.mkdir(parents=True)
-    proof=dict(schema='frozen_daily_research_snapshot_v1',status='building',signal_date=str(signal.date()),started_at_utc=_utc_now(),protocol_sha256=seal['protocol_sha256'],issuers=0,raw_bars=0,reference_faults=0,certified=False,model_ready=False,purpose='feature_only_never_a_portfolio',model_selection_performed=False,financial_policy='newest visible period/revision; new observed panel wins exact same-day keys; unverified original vintages')
+    proof=dict(schema='frozen_daily_research_snapshot_v1',status='building',signal_date=str(signal.date()),started_at_utc=_utc_now(),protocol_sha256=seal['protocol_sha256'],issuers=0,raw_bars=0,reference_faults=0,certified=False,model_ready=False,purpose='feature_only_never_a_portfolio',model_selection_performed=False,financial_policy='retained observation history; newest visible report/revision; latest observation wins same-day keys; unverified original vintages',financial_snapshots=len(financial_dirs))
     def save():(target/'manifest.json').write_text(json.dumps(proof,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     save();observations=audit_market_observations(market_dirs,target/'market_observations.json')
     seed_connection=sqlite3.connect((seed/'states.sqlite').resolve().as_uri()+'?mode=ro',uri=True);destination=sqlite3.connect(target/'states.sqlite')
