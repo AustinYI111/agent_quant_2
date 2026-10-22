@@ -5,6 +5,18 @@ from ashare_mvp.candidate_portfolios import mature_schedule,paired_net_returns
 from ashare_mvp.horizon_labels import label_interval,HORIZONS
 
 
+def test_sparse_terminal_dates_read_without_inference_or_filtering_held_names(tmp_path):
+    from ashare_mvp.candidate_portfolios import account_quotes
+    dates=pd.bdate_range('2021-01-01',periods=5)
+    raw=pd.DataFrame(dict(date=dates,symbol=['sh.600000']*5,open=10.,close=10.,preclose=10.,tradestatus=1,
+        terminal_date=['','','2021-01-05','','']))
+    raw.to_csv(tmp_path/'raw.csv',index=False)
+    result=account_quotes(tmp_path/'raw.csv',{'sh.600000'},dates[0],dates[-1])
+    assert len(result)==5 and result.terminal_date.notna().sum()==1
+    assert result.loc[2,'terminal_date']==pd.Timestamp('2021-01-05')
+    assert result.tradestatus.eq('1').all()
+
+
 def test_annual_schedule_keeps_full_twelve_month_cycles_and_excludes_calendar_unmatured():
     cal=pd.bdate_range('2020-01-01','2025-12-31')
     signals=pd.DatetimeIndex(pd.Series(cal,index=cal).groupby(cal.to_period('M')).max())

@@ -31,6 +31,7 @@ def validate_labels(labels, calendar, research_end):
             raise ValueError('normalized label dates required')
     if y[['date','symbol','horizon']].isna().any().any() or y.duplicated(['date','symbol','horizon']).any():
         raise ValueError('unique nonmissing label identities required')
+    y['symbol']=y.symbol.astype(str)
     if not y.horizon.isin(HORIZONS).all() or not y.date.isin(calendar).all() or y.date.gt(day(research_end)).any():
         raise ValueError('research-only known horizon sessions required')
     y['target']=pd.to_numeric(y.target,errors='raise')
@@ -55,6 +56,10 @@ def fold_frames(frame, calendar, start, end, validation):
     start,end=day(start),day(end)
     if start not in calendar or end not in calendar or end<start:
         raise ValueError('fold bounds must be ordered research sessions')
+    # CSV categorical dictionaries can have chunk-dependent category order.
+    # Canonical string codes preserve the original learner/query and tie order.
+    frame=frame.copy(deep=False)
+    frame['symbol']=frame.symbol.astype(str)
     config=SimpleNamespace(train_months=validation['train_months'],
         embargo_sessions=validation['embargo_sessions'],min_group_size=20)
     train,cutoff=training_slice(frame,start,calendar,config)

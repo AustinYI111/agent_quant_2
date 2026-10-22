@@ -16,9 +16,9 @@
 ```powershell
 python -m ashare_mvp.candidate_dataset --project . --dataset artifacts/market_ratios_causal_quality1 --experiment artifacts/three_horizon_real_causal_quality1 --benchmark artifacts/benchmark_csi300_price_2018_2025 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/research_candidate_inputs_20261022_v2
 
-python -m ashare_mvp.rolling_candidates --project . --inputs artifacts/phase2/research_candidate_inputs_20261022_v2 --experiment artifacts/three_horizon_real_causal_quality1 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/matched_candidate_models_20261022_v1
+python -m ashare_mvp.rolling_candidates --project . --inputs artifacts/phase2/research_candidate_inputs_20261022_v2 --experiment artifacts/three_horizon_real_causal_quality1 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/matched_candidate_models_20261022_v2
 
-python -m ashare_mvp.candidate_portfolios --project . --training artifacts/phase2/matched_candidate_models_20261022_v1 --dataset artifacts/market_ratios_causal_quality1 --replay artifacts/three_horizon_valuation_replay5 --benchmark artifacts/benchmark_csi300_price_2018_2025 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/candidate_ranking_accounts_20261022_v1
+python -m ashare_mvp.candidate_portfolios --project . --training artifacts/phase2/matched_candidate_models_20261022_v2 --dataset artifacts/market_ratios_causal_quality1 --replay artifacts/three_horizon_valuation_replay5 --benchmark artifacts/benchmark_csi300_price_2018_2025 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/candidate_ranking_accounts_20261022_v2
 ```
 
 只有前一步的 manifest 显示成功，才能执行下一步。训练结束状态为 `candidate_fits_complete_selection_pending`，表示拟合完成、选模仍待完成。

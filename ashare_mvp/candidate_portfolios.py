@@ -26,6 +26,20 @@ def mature_schedule(signal_dates,calendar,horizon):
     return pd.DatetimeIndex([x[0] for x in complete]),complete[-1][2]
 
 
+def account_quotes(path,symbols,first,last):
+    """Explicit terminal-date dtype avoids chunk-inference failures on sparse dates."""
+    parts=[]
+    for chunk in pd.read_csv(path,usecols=['date','symbol','open','close','preclose','tradestatus','terminal_date'],
+            dtype={'symbol':str,'tradestatus':str,'terminal_date':'string'},parse_dates=['date'],
+            float_precision='round_trip',low_memory=False,chunksize=200000):
+        subset=chunk[chunk.symbol.isin(symbols)&chunk.date.between(first,last)]
+        if not subset.empty:parts.append(subset)
+    if not parts:raise ValueError('no requested raw account quotes')
+    raw=pd.concat(parts,ignore_index=True)
+    raw['terminal_date']=pd.to_datetime(raw.terminal_date,format='mixed')
+    return raw
+
+
 def paired_net_returns(candidate,baseline,block=63,repetitions=2000,seed=42):
     """Prespecified calendar blocks on paired daily net returns, initial fee included."""
     for frame in [candidate,baseline]:
@@ -128,12 +142,8 @@ def evaluate_candidate_rankings(project,training,dataset,replay,benchmark,seal_d
                     picks=rankings[rankings.date.isin(signals)].sort_values(['date','score','symbol'],ascending=[True,False,True]).groupby('date',sort=True,observed=True).head(protocol['execution']['top_k']).copy()
                     if not picks.groupby('date',observed=True).size().eq(protocol['execution']['top_k']).all():raise ValueError('full Top20 required at every rebalance')
                     picks['target_weight']=1/protocol['execution']['top_k']
-                    symbols=set(picks.symbol);first=signals[0];parts=[]
-                    for chunk in pd.read_csv(data/'event_raw_prices.csv',usecols=['date','symbol','open','close','preclose','tradestatus','terminal_date'],dtype={'symbol':str,'tradestatus':str},parse_dates=['date'],float_precision='round_trip',chunksize=200000):
-                        subset=chunk[chunk.symbol.isin(symbols)&chunk.date.between(first,last)]
-                        if not subset.empty:parts.append(subset)
-                    raw=pd.concat(parts,ignore_index=True);del parts
-                    raw['terminal_date']=pd.to_datetime(raw.terminal_date,format='mixed')
+                    symbols=set(picks.symbol);first=signals[0]
+                    raw=account_quotes(data/'event_raw_prices.csv',symbols,first,last)
                     prices=raw[['date','symbol']].copy();tradable=raw.tradestatus.eq('1')&raw.open.gt(0)
                     prices['can_buy']=tradable;prices['can_sell']=tradable;prices['total_return_open']=raw.open.where(tradable,raw.preclose)
                     dates=calendar[calendar<=last]

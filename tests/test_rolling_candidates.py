@@ -46,6 +46,16 @@ def test_retrain_baseline_and_candidate_use_identical_queries_and_native_missing
         assert key_hash(train)==original
 
 
+def test_csv_category_dictionary_order_cannot_change_training_queries_or_ranking_ties():
+    cal,frame=fold_input()
+    category=frame.copy();category['symbol']=pd.Categorical(category.symbol,categories=sorted(category.symbol.unique(),reverse=True))
+    config=dict(train_months=60,embargo_sessions=1,min_train_dates=12)
+    train,test,_=fold_frames(frame,cal,'2021-07-30','2022-06-30',config)
+    other_train,other_test,_=fold_frames(category,cal,'2021-07-30','2022-06-30',config)
+    pd.testing.assert_frame_equal(train,other_train)
+    pd.testing.assert_frame_equal(test,other_test)
+
+
 def labels():
     cal=pd.bdate_range('2020-01-01','2022-12-30');rows=[]
     for key,horizon in HORIZONS.items():
