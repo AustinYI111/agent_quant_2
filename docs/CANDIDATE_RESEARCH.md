@@ -1,0 +1,43 @@
+# 候选模型：怎样验证新增指标
+
+目的：区分“重新训练带来的变化”和“新增指标的变化”。现有冻结模型继续用于每日排名；本流程生成的模型都是研究候选，不自动替换正式模型。
+
+## 本轮范围
+
+- 原因子重训对照、增加市场状态、增加欧奈尔风格箱体，三个特征组使用相同的股票、训练标签和截止日。
+- 5d／20d／12m 三周期 × 五个预定窗口 × 30／60 棵树 × 三组，共 90 次拟合。
+- 只使用 2018–2025 研究数据。2026 年既不训练，也不用于选参。行业及完整组合组等待可核实的历史分类版本。
+- 规则来自已封存的[验证协议](PHASE2_RESEARCH_PROTOCOL.md)，不能根据结果更换窗口、缩短周期或收窄原定 24 项比较范围。
+
+## 三步运行
+
+在项目根目录、已恢复真实研究数据和协议封存文件的环境运行。每次输出目录必须是新目录，已有结果不会覆盖。以下目录名是本次检查点；复跑请改输出名称，并让后续步骤指向新目录。
+
+```powershell
+python -m ashare_mvp.candidate_dataset --project . --dataset artifacts/market_ratios_causal_quality1 --experiment artifacts/three_horizon_real_causal_quality1 --benchmark artifacts/benchmark_csi300_price_2018_2025 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/research_candidate_inputs_20261022_v2
+
+python -m ashare_mvp.rolling_candidates --project . --inputs artifacts/phase2/research_candidate_inputs_20261022_v2 --experiment artifacts/three_horizon_real_causal_quality1 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/matched_candidate_models_20261022_v1
+
+python -m ashare_mvp.candidate_portfolios --project . --training artifacts/phase2/matched_candidate_models_20261022_v1 --dataset artifacts/market_ratios_causal_quality1 --replay artifacts/three_horizon_valuation_replay5 --benchmark artifacts/benchmark_csi300_price_2018_2025 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/candidate_ranking_accounts_20261022_v1
+```
+
+只有前一步的 manifest 显示成功，才能执行下一步。训练结束状态为 `candidate_fits_complete_selection_pending`，表示拟合完成、选模仍待完成。
+
+## 防止看见未来
+
+1. 特征逐发行人读取，核对原始文件、代码、样本和协议哈希。保持原选股样本键，不因未来收益缺失而删股票。
+2. 箱体边界及历史成交量均不含信号日；新质量分段不沿用旧段历史。股票特征按同日截面标准化，市场共同状态保留原值，缺失值不补零。
+3. 每折只训练标签结束日在隔离日之前的样本；五个窗口开始日之前的 60 个月为最大训练范围，至少 12 个训练信号日。所有特征组保持相同训练键和预测键。
+4. 保存全部树数候选的模型、完整排名、特征顺序、预处理、参数、依赖及哈希。重载后逐项验证预测分数，不能只检查文件存在。
+
+## 扣费对照的边界
+
+排名账户跨训练窗口连续运行，下一交易日开盘执行，不在窗口末人为清仓。只安排日历上已经走完的完整持有周期；12m 不以不足一年的收益替代。原始股份、现金及分红应收使用既有账户引擎，佣金 3bp、滑点 5bp，卖出印花税按日期变化，期末不额外假设清仓。
+
+未知的实际持仓价格、公司行动参考价或终值会停止该账户，保存有效前缀和持仓；不能只比较“活到最后”的共同前缀。完整账户才计算相同日期的扣费后配对差异。日历块抽样固定 63 日、2,000 次、种子 42，保留 24 项比较的家族阈值；极端尾部的模拟精度有限。
+
+当前排名对照不替代择时账户、等权可选池对照、行业归因及最终选模审查。配对差异和区块区间是研究诊断，不能据此自动推广模型。沪深300为价格指数，不含分红；原始历史版本、涨跌停成交及部分终值仍未认证。
+
+## 保存在哪里
+
+普通 Git 保存代码、测试、配置和轻量证据；完整特征、逐日择时标记数据库、模型及全部分数位于本地忽略目录 `artifacts/phase2/`。只有实际完成备份和恢复核验后，才能声称这些新增产物已可从私有云恢复。
