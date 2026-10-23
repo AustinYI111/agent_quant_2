@@ -1,0 +1,134 @@
+{
+  "schema": "official_migrated_industry_release_capture_v1",
+  "status": "all_five_raw_releases_captured",
+  "catalog_sha256": "80d01e801cce51f91f14f8d8ab53e0ffa3a3140f4de639f535704a150d67d83d",
+  "catalog_file": "artifacts/phase2/raw/capco_site_discovery_20261023_v1/official_bundle.js",
+  "historical_original_bytes_certified": false,
+  "observed_clocks_backdated": false,
+  "used_for_training": false,
+  "releases": [
+    {
+      "title": "2025年上半年上市公司行业分类结果",
+      "published_date": "2025-09-30",
+      "status": "raw_primary_release_captured",
+      "article": {
+        "url": "https://www.capco.org.cn/dataFile/zsxfb/hyfl/hyfljg/29adc9e66d844d6fba0001bb2cdc529c.js",
+        "response_url": "https://www.capco.org.cn/dataFile/zsxfb/hyfl/hyfljg/29adc9e66d844d6fba0001bb2cdc529c.js",
+        "file": "2025-09-30/article.js",
+        "sha256": "b408b41fd2c932c74e9704211ad82117458035483c933f722fca3ba85d0e1b8b",
+        "bytes": 1857,
+        "content_type": "application/javascript",
+        "observed_at_utc": "2026-10-23T02:03:23.476103+00:00"
+      },
+      "attachment": {
+        "url": "https://sp.capco.org.cn:82/file/202603/hangyefenlei/2025shangban/hangyefenleigupiaodaima.pdf",
+        "response_url": "https://sp.capco.org.cn:82/file/202603/hangyefenlei/2025shangban/hangyefenleigupiaodaima.pdf",
+        "file": "2025-09-30/industry_by_stock_code.pdf",
+        "sha256": "b622b76b96d59611db36b01888cf6afd8cd711c5753a19ab8547e74bb0bb8228",
+        "bytes": 4626417,
+        "content_type": "application/pdf",
+        "observed_at_utc": "2026-10-23T02:03:25.254655+00:00"
+      },
+      "attachment_title": "2025年上半年上市公司行业分类结果（按股票代码排序）.pdf"
+    },
+    {
+      "title": "2024年下半年上市公司行业分类结果",
+      "published_date": "2025-04-18",
+      "status": "raw_primary_release_captured",
+      "article": {
+        "url": "https://www.capco.org.cn/dataFile/zsxfb/hyfl/hyfljg/a34890d258e6473b8b61593ffeb8a9cf.js",
+        "response_url": "https://www.capco.org.cn/dataFile/zsxfb/hyfl/hyfljg/a34890d258e6473b8b61593ffeb8a9cf.js",
+        "file": "2025-04-18/article.js",
+        "sha256": "13e7f63c8afb966c2d9e2688501cdd96263c99d54d0935fa576775258c618337",
+        "bytes": 1702,
+        "content_type": "application/javascript",
+        "observed_at_utc": "2026-10-23T02:03:25.394130+00:00"
+      },
+      "attachment": {
+        "url": "https://sp.capco.org.cn:82/file/202603/hangyefenlei/2024xiaban/hangyefenleigupiaodaima.pdf",
+        "response_url": "https://sp.capco.org.cn:82/file/202603/hangyefenlei/2024xiaban/hangyefenleigupiaodaima.pdf",
+        "file": "2025-04-18/industry_by_stock_code.pdf",
+        "sha256": "e373ad9173b69c65291569c7d36679ee3e0cf85d03a03be61138f46692f41fa5",
+        "bytes": 4600775,
+        "content_type": "application/pdf",
+        "observed_at_utc": "2026-10-23T02:03:27.803959+00:00"
+      },
+      "attachment_title": "2024年下半年上市公司行业分类结果（按股票代码排序）.pdf"
+    },
+    {
+      "title": "2024年上半年上市公司行业分类结果",
+      "published_date": "2024-09-30",
+      "status": "raw_primary_release_captured",
+      "article": {
+        "url": "https://www.capco.org.cn/dataFile/zsxfb/hyfl/hyfljg/7ec325221eb64b409772b5527c7f16a5.js",
+        "response_url": "https://www.capco.org.cn/dataFile/zsxfb/hyfl/hyfljg/7ec325221eb64b409772b5527c7f16a5.js",
+        "file": "2024-09-30/article.js",
+        "sha256": "df652fadaa8b76a8450d3a98cb020eb02932865457ae491337ed279b884c32dd",
+        "bytes": 1147,
+        "content_type": "application/javascript",
+        "observed_at_utc": "2026-10-23T02:03:27.947902+00:00"
+      },
+      "attachment": {
+        "url": "https://sp.capco.org.cn:82/file/202603/hangyefenlei/2024shangban/2024shangbangupiaodaima.pdf",
+        "response_url": "https://sp.capco.org.cn:82/file/202603/hangyefenlei/2024shangban/2024shangbangupiaodaima.pdf",
+        "file": "2024-09-30/industry_by_stock_code.pdf",
+        "sha256": "6f77eae4471d87715d62f388785f7a914615ae87fa7f394a851a2e86d1af28a3",
+        "bytes": 4576329,
+        "content_type": "application/pdf",
+        "observed_at_utc": "2026-10-23T02:03:33.603071+00:00"
+      },
+      "attachment_title": "2024年上半年上市公司行业分类结果（按股票代码排序）.pdf"
+    },
+    {
+      "title": "2023年下半年上市公司行业分类结果",
+      "published_date": "2024-04-03",
+      "status": "raw_primary_release_captured",
+      "article": {
+        "url": "https://www.capco.org.cn/dataFile/zsxfb/hyfl/hyfljg/0ca8986fa29344898e01e24b27948051.js",
+        "response_url": "https://www.capco.org.cn/dataFile/zsxfb/hyfl/hyfljg/0ca8986fa29344898e01e24b27948051.js",
+        "file": "2024-04-03/article.js",
+        "sha256": "f2a9d52d43fd411d86c89afd9bd9682bef0839eae8bbaccd9039da90aee2706c",
+        "bytes": 1219,
+        "content_type": "application/javascript",
+        "observed_at_utc": "2026-10-23T02:03:33.919740+00:00"
+      },
+      "attachment": {
+        "url": "https://sp.capco.org.cn:82/file/202603/hangyefenlei/2023xiaban/2023xiabangupiaodaima.pdf",
+        "response_url": "https://sp.capco.org.cn:82/file/202603/hangyefenlei/2023xiaban/2023xiabangupiaodaima.pdf",
+        "file": "2024-04-03/industry_by_stock_code.pdf",
+        "sha256": "759a6b11a6b1d5e757ae9b726d956210c1649c6cd7ffa8789d524fd235037b05",
+        "bytes": 1178396,
+        "content_type": "application/pdf",
+        "observed_at_utc": "2026-10-23T02:03:34.569535+00:00"
+      },
+      "attachment_title": "2023年下半年上市公司行业分类结果（按股票代码排序）"
+    },
+    {
+      "title": "2023年上半年上市公司行业分类结果",
+      "published_date": "2024-02-08",
+      "status": "raw_primary_release_captured",
+      "article": {
+        "url": "https://www.capco.org.cn/dataFile/zsxfb/hyfl/hyfljg/46318a4cc28644fc9504c761540dc241.js",
+        "response_url": "https://www.capco.org.cn/dataFile/zsxfb/hyfl/hyfljg/46318a4cc28644fc9504c761540dc241.js",
+        "file": "2024-02-08/article.js",
+        "sha256": "f458046e8e13195092cdaffc1ed1284923e860113421356643416738e08793a1",
+        "bytes": 1139,
+        "content_type": "application/javascript",
+        "observed_at_utc": "2026-10-23T02:03:34.712470+00:00"
+      },
+      "attachment": {
+        "url": "https://sp.capco.org.cn:82/file/202603/hangyefenlei/2023shangban/2023shangbangupiaodaima.pdf",
+        "response_url": "https://sp.capco.org.cn:82/file/202603/hangyefenlei/2023shangban/2023shangbangupiaodaima.pdf",
+        "file": "2024-02-08/industry_by_stock_code.pdf",
+        "sha256": "8202be2cb68ff2668d9efeb9f57ea3f98486e9ef50bb64870931715c0ca759ca",
+        "bytes": 1100930,
+        "content_type": "application/pdf",
+        "observed_at_utc": "2026-10-23T02:03:35.153976+00:00"
+      },
+      "attachment_title": "2023年上半年上市公司行业分类结果（按股票代码排序）"
+    }
+  ],
+  "raw_manifest_sha256": "cdb529ba39998e01d83f53521adfd5a4e2c7813c0b10ebd2d60cf16145c53f77",
+  "membership_admitted_to_training": false,
+  "limitation": "Official website migrated these attachments; historical byte identity is not certified. Actual observation clocks remain in 2026. Publication dates cannot be replaced by reporting-period end dates."
+}

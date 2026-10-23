@@ -1,0 +1,52 @@
+{
+  "schema": "notice_cash_for_empty_sources_v1",
+  "events": [
+    {
+      "symbol": "sh.601059",
+      "ex_date": "2026-07-28",
+      "announcement_date": "2026-07-22",
+      "available_date": "2026-07-23",
+      "pay_date": "2026-07-28",
+      "cash_per_share": 0.04,
+      "share_multiplier": 1.0,
+      "payout_scope": "ordinary_a_share_holders",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-07-22/1225435864.PDF",
+      "source_sha256": "768e6bfe027b4e8395a2693e3025640891549dd4966f40fd8b258be49c087aa1",
+      "source_page": 1,
+      "payment_source_page": 1,
+      "reviewed": true,
+      "expected_vendor_json_sha256": "c3eafa7ef96b7f4bd4c5030dfb4a5913c09a1754245725b0d93a89a3f3f48c1b",
+      "expected_vendor_csv_sha256": "6059d2e4af385a1a50d59495bbee9bba1e35a36eff1d3518fa4b052ce9ee86e6"
+    },
+    {
+      "symbol": "sh.601198",
+      "ex_date": "2026-07-28",
+      "announcement_date": "2026-07-20",
+      "available_date": "2026-07-21",
+      "pay_date": "2026-07-28",
+      "cash_per_share": 0.09,
+      "share_multiplier": 1.0,
+      "payout_scope": "ordinary_a_share_holders",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-07-20/1225431398.PDF",
+      "source_sha256": "694e9f6ef77f6f5568553e61f1157f3c8d40978917c92a31da6d5f3c836bfea8",
+      "source_page": 1,
+      "payment_source_page": 1,
+      "reviewed": true,
+      "expected_vendor_json_sha256": "c3eafa7ef96b7f4bd4c5030dfb4a5913c09a1754245725b0d93a89a3f3f48c1b",
+      "expected_vendor_csv_sha256": "6059d2e4af385a1a50d59495bbee9bba1e35a36eff1d3518fa4b052ce9ee86e6"
+    }
+  ],
+  "notices": [
+    {
+      "file": "601059_1225435864.PDF",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-07-22/1225435864.PDF",
+      "sha256": "768e6bfe027b4e8395a2693e3025640891549dd4966f40fd8b258be49c087aa1"
+    },
+    {
+      "file": "601198_1225431398.PDF",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-07-20/1225431398.PDF",
+      "sha256": "694e9f6ef77f6f5568553e61f1157f3c8d40978917c92a31da6d5f3c836bfea8"
+    }
+  ],
+  "review_scope": "Two ordinary A-share gross-cash implementation notices read; pay/ex dates explicit; both vendor responses explicitly empty and quarterly issuer rows absent."
+}

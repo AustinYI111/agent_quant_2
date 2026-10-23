@@ -1,0 +1,49 @@
+{
+  "schema": "real_matched_candidate_training_verification_v1",
+  "verified_at_utc": "2026-10-22T08:29:32.550356+00:00",
+  "status": "all_ninety_research_models_verified",
+  "protocol_sha256": "d8a79ee894df5054c73289e101b9cf2bf77093c89b47b31e5551c5ffa7def04f",
+  "cache_manifest_sha256": "524bc203a38eeae5a23cf99ad6ab8f9f37abf07764631d7f57a83718f219b031",
+  "training_manifest_sha256": "5cbe628a2aef6ccc65be411068b156bf6fa94173b6c79799e6b0e069bbb70b7e",
+  "issuers": 5401,
+  "daily_bars": 8609196,
+  "eligible_feature_rows": 1509411,
+  "signals": 388,
+  "daily_timing_bounds": [
+    "2018-01-02",
+    "2025-12-31"
+  ],
+  "normalized_cross_sections_independently_checked": [
+    {
+      "date": "2019-04-30",
+      "rows": 2927
+    },
+    {
+      "date": "2022-08-31",
+      "rows": 4114
+    },
+    {
+      "date": "2025-12-31",
+      "rows": 4827
+    }
+  ],
+  "models": 90,
+  "independent_reload_score_rows": 1800,
+  "reload_max_abs_error": 0.0,
+  "matched_training_and_prediction_keys": true,
+  "labels_before_embargo_cutoff": true,
+  "independent_data_used": false,
+  "model_selection_performed": false,
+  "formal_model_promoted": false,
+  "certified": false,
+  "research_groups": [
+    "baseline",
+    "market_state",
+    "oneil_box"
+  ],
+  "pending_groups": {
+    "industry": "historical visible membership not established",
+    "combined": "requires dated industry evidence"
+  },
+  "limitation": "training and persistence verification only; paired portfolio diagnostics, timing, equal-weight, industry and independent mature validation remain separate requirements"
+}

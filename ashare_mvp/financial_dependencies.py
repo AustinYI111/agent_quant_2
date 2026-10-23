@@ -68,12 +68,21 @@ def combine_financial_dependencies(earnings, balances, code_changes=None):
         panel["debt_ratio"] = float("nan")
     else:
         debt_columns=keys+["available_date","debt_ratio"]+(["balance_provider_symbol","balance_provider_symbols"] if "balance_provider_symbol" in balances else [])
-        debt = balances[debt_columns].rename(columns={"available_date": "balance_available_date"})
+        if 'first_observed_at_utc' in balances:debt_columns+=['first_observed_at_utc']
+        debt = balances[debt_columns].rename(columns={"available_date": "balance_available_date",'first_observed_at_utc':'balance_first_observed_at_utc'})
         panel = pd.merge_asof(panel.sort_values("available_date"), debt.sort_values("balance_available_date"), by=keys,
                               left_on="available_date", right_on="balance_available_date", direction="backward")
     if not panel.earnings_available_date.le(panel.available_date).all() or not panel.balance_available_date.dropna().le(panel.loc[panel.balance_available_date.notna(), "available_date"]).all():
         raise AssertionError("future financial dependency")
     result=panel.sort_values(keys + ["available_date"]).reset_index(drop=True)
+    if 'first_observed_at_utc' in earnings or 'first_observed_at_utc' in balances:
+        missing=pd.Series(pd.NaT,index=result.index,dtype='datetime64[ns, UTC]')
+        income_clock=pd.to_datetime(result['first_observed_at_utc'],utc=True) if 'first_observed_at_utc' in result else missing.copy()
+        balance_clock=pd.to_datetime(result['balance_first_observed_at_utc'],utc=True) if 'balance_first_observed_at_utc' in result else missing.copy()
+        result['earnings_first_observed_at_utc']=income_clock
+        result['balance_first_observed_at_utc']=balance_clock
+        known=income_clock.notna()&(~result.balance_available_date.notna()|balance_clock.notna())
+        result['first_observed_at_utc']=pd.concat([income_clock,balance_clock],axis=1).max(axis=1).where(known)
     result.attrs["identity_alias_coalescing"]=alias_audit
     return result
 

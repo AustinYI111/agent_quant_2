@@ -1,0 +1,305 @@
+{
+  "schema": "phase2_official_payment_review_v1",
+  "groups": [
+    {
+      "symbol": "sz.002043",
+      "ex_date": "2026-06-01",
+      "announcement_date": "2026-05-26",
+      "available_date": "2026-05-27",
+      "pay_date": "2026-06-01",
+      "cash_per_share": 0.312,
+      "share_multiplier": 1.0,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-05-26/1225328690.PDF",
+      "source_sha256": "56119c4f332f7ae733bff068a16fd290281efa559006ba2547faafe2bbf21e70",
+      "source_page": 1,
+      "reviewed": true,
+      "reference_cash_per_share": 0.3080016,
+      "payment_source_page": 2,
+      "reference_source_page": 3,
+      "components": [
+        {
+          "source_period": "2025-12-31",
+          "expected_cash_per_share": 0.132,
+          "expected_description": "10派1.32元(含税,扣税后1.188元)",
+          "expected_status": "missing_payment_evidence"
+        },
+        {
+          "source_period": "2026-03-31",
+          "expected_cash_per_share": 0.18,
+          "expected_description": "10派1.80元(含税,扣税后1.62元)",
+          "expected_status": "missing_payment_evidence"
+        }
+      ],
+      "expected_existing": null
+    },
+    {
+      "symbol": "sz.301308",
+      "ex_date": "2026-06-02",
+      "announcement_date": "2026-05-26",
+      "available_date": "2026-05-27",
+      "pay_date": "2026-06-02",
+      "cash_per_share": 0.9907442,
+      "share_multiplier": 1.0,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-05-26/1225331662.PDF",
+      "source_sha256": "25ec59eab647f69b51f34936fef2a23f937f5d86c081f4b9d25e983a4f8c8a40",
+      "source_page": 3,
+      "reviewed": true,
+      "reference_cash_per_share": 0.9907442,
+      "payment_source_page": 3,
+      "reference_source_page": 2,
+      "components": [
+        {
+          "source_period": "2025-12-31",
+          "expected_cash_per_share": 0.3467605,
+          "expected_description": "10派3.467605元(含税,扣税后3.120845元)",
+          "expected_status": "missing_payment_evidence"
+        },
+        {
+          "source_period": "2026-03-31",
+          "expected_cash_per_share": 0.6439837,
+          "expected_description": "10派6.439837元(含税,扣税后5.795853元)",
+          "expected_status": "missing_payment_evidence"
+        }
+      ],
+      "expected_existing": null,
+      "limitation": "Official combined paid rate is authoritative; provider per-period allocations are anchors only."
+    },
+    {
+      "symbol": "sz.300760",
+      "ex_date": "2026-05-28",
+      "announcement_date": "2026-05-20",
+      "available_date": "2026-05-21",
+      "pay_date": "2026-05-28",
+      "cash_per_share": 1.56,
+      "share_multiplier": 1.0,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-05-20/1225320390.PDF",
+      "source_sha256": "c13e4f6fd029b359dfb349c7d370fcaa9a4bc3a59791a17c24c07f4539267457",
+      "source_page": 1,
+      "reviewed": true,
+      "reference_cash_per_share": 1.56,
+      "payment_source_page": 2,
+      "reference_source_page": 1,
+      "components": [
+        {
+          "source_period": "2025-12-31",
+          "expected_cash_per_share": 0.31,
+          "expected_description": "10派3.10元(含税,扣税后2.79元)",
+          "expected_status": "missing_payment_evidence"
+        },
+        {
+          "source_period": "2026-03-31",
+          "expected_cash_per_share": 1.25,
+          "expected_description": "10派12.50元(含税,扣税后11.25元)",
+          "expected_status": "missing_payment_evidence"
+        }
+      ],
+      "expected_existing": null
+    },
+    {
+      "symbol": "sz.301039",
+      "ex_date": "2026-07-06",
+      "announcement_date": "2026-06-26",
+      "available_date": "2026-06-29",
+      "pay_date": "2026-07-06",
+      "cash_per_share": 0.35,
+      "share_multiplier": 1.0,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-06-26/1225392089.PDF",
+      "source_sha256": "be7deb7995f7bf7caf29812b2c06890f3907323e339f2111abca69633d840024",
+      "source_page": 2,
+      "reviewed": true,
+      "reference_cash_per_share": 0.35,
+      "payment_source_page": 3,
+      "reference_source_page": 2,
+      "components": [
+        {
+          "source_period": "2025-12-31",
+          "expected_cash_per_share": 0.21,
+          "expected_description": "10派2.10元(含税,扣税后1.89元)",
+          "expected_status": "missing_payment_evidence"
+        },
+        {
+          "source_period": "2026-03-31",
+          "expected_cash_per_share": 0.14,
+          "expected_description": "10派1.40元(含税,扣税后1.26元)",
+          "expected_status": "missing_payment_evidence"
+        }
+      ],
+      "expected_existing": null
+    },
+    {
+      "symbol": "sh.600989",
+      "ex_date": "2026-04-28",
+      "announcement_date": "2026-04-22",
+      "available_date": "2026-04-23",
+      "pay_date": "2026-04-28",
+      "cash_per_share": 0.4921,
+      "share_multiplier": 1.0,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-22/1225136155.PDF",
+      "source_sha256": "8ebf1cd4b3dcb2f36ad60ffc5307f32faf43c16ab3f4f580d8b6e3bbef5d6c9b",
+      "source_page": 1,
+      "reviewed": true,
+      "reference_cash_per_share": 0.42,
+      "payment_source_page": 1,
+      "reference_source_page": 2,
+      "components": [
+        {
+          "source_period": "2025-12-31",
+          "expected_cash_per_share": 0.42,
+          "expected_description": "10派4.20元(含税,扣税后3.78元)(中小股东10派4.921元;大股东10派3.906元)",
+          "expected_status": "missing_payment_evidence"
+        }
+      ],
+      "expected_existing": null,
+      "payout_scope": "public_a_share"
+    },
+    {
+      "symbol": "sz.300750",
+      "ex_date": "2026-04-22",
+      "announcement_date": "2026-04-15",
+      "available_date": "2026-04-16",
+      "pay_date": "2026-04-22",
+      "cash_per_share": 6.957,
+      "share_multiplier": 1.0,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-15/1225107879.PDF",
+      "source_sha256": "3fc437d1dd558cb4455616960a9866905567ee0fda414a0d45d56236c8fbb6e2",
+      "source_page": 1,
+      "reviewed": true,
+      "reference_cash_per_share": 6.9065252,
+      "payment_source_page": 3,
+      "reference_source_page": 4,
+      "components": [
+        {
+          "source_period": "2025-12-31",
+          "expected_cash_per_share": 6.957,
+          "expected_description": "10派69.57元(含税,扣税后62.613元)",
+          "expected_status": "missing_payment_evidence"
+        }
+      ],
+      "expected_existing": null
+    },
+    {
+      "symbol": "sz.002709",
+      "ex_date": "2026-04-29",
+      "announcement_date": "2026-04-22",
+      "available_date": "2026-04-23",
+      "pay_date": "2026-04-29",
+      "cash_per_share": 0.3,
+      "share_multiplier": 1.0,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-04-22/1225139214.PDF",
+      "source_sha256": "cbdd94149088dc264f69f551711d00a3801936f9f1ddf3b421303b861723757e",
+      "source_page": 1,
+      "reviewed": true,
+      "reference_cash_per_share": 0.2987497,
+      "payment_source_page": 2,
+      "reference_source_page": 3,
+      "components": [
+        {
+          "source_period": "2025-12-31",
+          "expected_cash_per_share": 0.2,
+          "expected_description": "10派2.00元(含税,扣税后1.80元)",
+          "expected_status": "missing_payment_evidence"
+        }
+      ],
+      "expected_existing": null
+    }
+  ],
+  "standalone": [
+    {
+      "symbol": "sz.000650",
+      "ex_date": "2026-07-17",
+      "announcement_date": "2026-07-09",
+      "available_date": "2026-07-10",
+      "pay_date": "2026-07-17",
+      "cash_per_share": 0.1518153,
+      "share_multiplier": 1.0,
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-07-09/1225414995.PDF",
+      "source_sha256": "27bb4a6282b5650c59cbcf8b47544f0d1fedb9b5b8268cce41a19c31a236d7f4",
+      "source_page": 1,
+      "reviewed": true,
+      "source_period": "2025-12-31",
+      "expected_provider_cash_per_share": 0.1518153,
+      "expected_provider_share_multiplier": 1.0,
+      "expected_provider_description": "10派1.50元(含税)"
+    }
+  ],
+  "references": [
+    {
+      "symbol": "sz.000650",
+      "ex_date": "2026-07-17",
+      "reference_cash_per_share": 0.1499999,
+      "expected_cash_per_share": 0.1518153,
+      "announcement_date": "2026-07-09",
+      "available_date": "2026-07-10",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-07-09/1225414995.PDF",
+      "source_sha256": "27bb4a6282b5650c59cbcf8b47544f0d1fedb9b5b8268cce41a19c31a236d7f4",
+      "source_page": 3,
+      "reviewed": true
+    }
+  ],
+  "instrument_scope": [
+    {
+      "symbol": "sh.689009",
+      "instrument_type": "cdr",
+      "effective_from": "2026-08-07",
+      "valid_through": "2026-08-07",
+      "announcement_date": "2026-08-01",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-08-01/1225451185.PDF",
+      "source_sha256": "ff45afe6a46f2e3f3b312f35129c141305f2f18444b1a869f4ef3efd09125d7b",
+      "source_page": 1,
+      "source_locator": "PDF page 1 explicitly identifies domestic depositary receipts; bounded to this event only",
+      "reviewed": true
+    }
+  ],
+  "notices": [
+    {
+      "file": "002043_1225328690.PDF",
+      "sha256": "56119c4f332f7ae733bff068a16fd290281efa559006ba2547faafe2bbf21e70",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-05-26/1225328690.PDF"
+    },
+    {
+      "file": "301308_1225331662.PDF",
+      "sha256": "25ec59eab647f69b51f34936fef2a23f937f5d86c081f4b9d25e983a4f8c8a40",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-05-26/1225331662.PDF"
+    },
+    {
+      "file": "300760_1225320390.PDF",
+      "sha256": "c13e4f6fd029b359dfb349c7d370fcaa9a4bc3a59791a17c24c07f4539267457",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-05-20/1225320390.PDF"
+    },
+    {
+      "file": "301039_1225392089.PDF",
+      "sha256": "be7deb7995f7bf7caf29812b2c06890f3907323e339f2111abca69633d840024",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-06-26/1225392089.PDF"
+    },
+    {
+      "file": "600989_1225136155.PDF",
+      "sha256": "8ebf1cd4b3dcb2f36ad60ffc5307f32faf43c16ab3f4f580d8b6e3bbef5d6c9b",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-04-22/1225136155.PDF"
+    },
+    {
+      "file": "300750_1225107879.PDF",
+      "sha256": "3fc437d1dd558cb4455616960a9866905567ee0fda414a0d45d56236c8fbb6e2",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-04-15/1225107879.PDF"
+    },
+    {
+      "file": "002709_1225139214.PDF",
+      "sha256": "cbdd94149088dc264f69f551711d00a3801936f9f1ddf3b421303b861723757e",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-04-22/1225139214.PDF"
+    },
+    {
+      "file": "000650_1225414995.PDF",
+      "sha256": "27bb4a6282b5650c59cbcf8b47544f0d1fedb9b5b8268cce41a19c31a236d7f4",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-07-09/1225414995.PDF"
+    },
+    {
+      "file": "689009_1225451185.PDF",
+      "sha256": "ff45afe6a46f2e3f3b312f35129c141305f2f18444b1a869f4ef3efd09125d7b",
+      "url": "https://static.cninfo.com.cn/finalpage/2026-08-01/1225451185.PDF"
+    }
+  ],
+  "limitations": [
+    "Original event vintages remain unverified.",
+    "Gross cash; account-level cent truncation and investor-specific taxes are not represented.",
+    "Nine notices cover only explicit event keys, not the entire market."
+  ]
+}

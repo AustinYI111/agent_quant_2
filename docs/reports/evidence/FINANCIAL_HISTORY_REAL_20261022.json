@@ -1,0 +1,33 @@
+{
+  "schema": "financial_history_real_audit_v1",
+  "built_at_utc": "2026-10-22T06:49:23.377598+00:00",
+  "signal_date": "2026-10-21",
+  "raw_observation_dates": [
+    "2026-10-20",
+    "2026-10-21"
+  ],
+  "source_hashes": {
+    "artifacts/phase2/normalized/financials_observed_v2_20261020/combined/summary.json": "b65e701568408190783d1900abf0e41ec21ff6eee4f9638285af8328f6d0d6a3",
+    "artifacts/phase2/normalized/financials_observed_v2_20261020/combined/financial_panel.csv": "2f46050a59aeeb2992174d655bdd1eef50c8b50915cdfb658d9d108be805257c",
+    "artifacts/phase2/normalized/financials_observed_close_20261021/combined/summary.json": "b9d2926e2b1f7e2ebc269ed5f59fb1d55287ad99b0b91410804f023a325264fc",
+    "artifacts/phase2/normalized/financials_observed_close_20261021/combined/financial_panel.csv": "ddfca34bb0885a242aa255dcda35f6a6d0b9e02f0cfa2a03d05f4c0aea1d692e",
+    "artifacts/phase2/normalized/financial_dependency_history_20261021_v1/combined/summary.json": "3620a5147e6b0f268cd59d3c2d64de456fb3f71e881abe5244966d05dda0f751",
+    "artifacts/phase2/normalized/financial_dependency_history_20261021_v1/combined/financial_panel.csv": "ced816462ecea172aebf31d6011503dc1ae0295fcbdc6811a20a75e930913b50"
+  },
+  "old_observed_panel_rows": 17131,
+  "fresh_only_panel_rows": 17250,
+  "dependency_history_panel_rows": 34271,
+  "final_fundamental_versions": 182619,
+  "final_frame_sha256": "6edcdffdfc62580a00a8e88ef572f3b2021dceaa5fdcb123200daa552f06b11c",
+  "quoted_ashares": 5223,
+  "previously_known_quoted_symbols": 5223,
+  "currently_known_quoted_symbols": 5223,
+  "previous_known_report_periods_preserved": true,
+  "newer_period_preserved_vs_latest_only": 1,
+  "same_period_known_debt_preserved_vs_latest_only": 0,
+  "future_available_versions_retained_not_selected": 172,
+  "cross_period_fill_used": false,
+  "certified": false,
+  "model_ready": false,
+  "cli_panels_reproduce_exactly": true
+}

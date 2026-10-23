@@ -1,0 +1,20 @@
+{
+  "schema": "phase2_initial_capture_checkpoint_v1",
+  "observed_at_utc": "2026-10-20T03:22:47.972689+00:00",
+  "protocol_sha256": "d8a79ee894df5054c73289e101b9cf2bf77093c89b47b31e5551c5ffa7def04f",
+  "latest_session": "2026-10-19",
+  "latest_raw_rows": 5224,
+  "latest_manifest_sha256": "550cf6022225aa9006b1e2293cee0b480ec86ade12c43d78eb91562941e8bbbc",
+  "backfill_status_at_checkpoint": "running",
+  "backfill_saved_at_checkpoint": 16,
+  "backfill_requested": 188,
+  "models_retrained": false,
+  "predictions_generated": false,
+  "independent_performance_inspected": false,
+  "certified": false,
+  "testing": {
+    "protocol_cases": 12,
+    "full_suite_passed": 500,
+    "full_suite_seconds": 167.96
+  }
+}
