@@ -49,3 +49,5 @@ python -m ashare_mvp.candidate_portfolios --project . --training artifacts/phase
 可选参数 `--missing-payment-evidence config/reviewed_candidate_missing_cash_20261023_v1.json` 将经原公告复核的遗漏现金事件加到估值输入，再应用参考参数补证。它校验父文件哈希、原PDF与采集身份、公告可见日期及支付日期，拒绝覆盖既有事件。它与仅修正除权参考参数的 `--reference-evidence` 分开记录，不修改训练样本或原始文件，不将公告支付安排冒充银行到账证明。实际状态见[最新检查点](reports/FIRST_PROSPECTIVE_FORECAST_20261023.md)。
 
 最新历史账户与会计核验见[18 个完整账户检查点](reports/CANDIDATE_ACCOUNTS_VERIFIED_20261023.md)。复跑可在上面的账户命令使用 `--reference-evidence config/reviewed_candidate_valuation_refs_20261023_v2.json --missing-payment-evidence config/reviewed_candidate_missing_cash_20261023_v1.json`，并指定新的输出目录。
+
+第二阶段首份加密检查点已完成私有上传及新克隆恢复核验，覆盖最新 V2 的90个研究拟合和18个排名账户；后续行业修正另行保存。恢复命令和未实测边界见[分层迁移](PHASE2_MIGRATION.md)。
