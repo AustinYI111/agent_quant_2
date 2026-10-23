@@ -43,3 +43,7 @@ python -m ashare_mvp.candidate_portfolios --project . --training artifacts/phase
 ## 保存在哪里
 
 普通 Git 保存代码、测试、配置和轻量证据；完整特征、逐日择时标记数据库、模型及全部分数位于本地忽略目录 `artifacts/phase2/`。只有实际完成备份和恢复核验后，才能声称这些新增产物已可从私有云恢复。
+
+## 原估值事件遗漏的现金分红
+
+可选参数 `--missing-payment-evidence config/reviewed_candidate_missing_cash_20261023_v1.json` 将经原公告复核的遗漏现金事件加到估值输入，再应用参考参数补证。它校验父文件哈希、原PDF与采集身份、公告可见日期及支付日期，拒绝覆盖既有事件。它与仅修正除权参考参数的 `--reference-evidence` 分开记录，不修改训练样本或原始文件，不将公告支付安排冒充银行到账证明。实际状态见[最新检查点](reports/FIRST_PROSPECTIVE_FORECAST_20261023.md)。

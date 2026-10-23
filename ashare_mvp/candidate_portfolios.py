@@ -66,7 +66,7 @@ def paired_net_returns(candidate,baseline,block=63,repetitions=2000,seed=42):
     return excess,result
 
 
-def evaluate_candidate_rankings(project,training,dataset,replay,benchmark,seal_directory,out,reference_evidence=None):
+def evaluate_candidate_rankings(project,training,dataset,replay,benchmark,seal_directory,out,reference_evidence=None,missing_payment_evidence=None):
     root=Path(project).resolve()
     def local(value):
         p=Path(value)
@@ -103,6 +103,11 @@ def evaluate_candidate_rankings(project,training,dataset,replay,benchmark,seal_d
     benchmark_frame=pd.read_csv(index/'raw_prices.csv',parse_dates=['date'],float_precision='round_trip')
     actions=pd.read_csv(original/'effective_valuation_actions.csv',float_precision='round_trip',low_memory=False)
     for column in ['ex_date','available_date','pay_date']:actions[column]=pd.to_datetime(actions[column],format='mixed')
+    payment_supplement=None
+    if missing_payment_evidence is not None:
+        from .valuation_payments import supplement_missing_valuation_cash
+        actions,payment_supplement=supplement_missing_valuation_cash((original/'effective_valuation_actions.csv').relative_to(root).as_posix(),missing_payment_evidence,root,calendar,protocol['research_end'])
+        for name,digest in payment_supplement['source_hashes'].items():bind(local(name),digest)
     overlay=None
     if reference_evidence is not None:
         from .valuation_overlay import reviewed_valuation_references
@@ -116,11 +121,11 @@ def evaluate_candidate_rankings(project,training,dataset,replay,benchmark,seal_d
         model=local((trained/record['relative_model_path']).relative_to(root).as_posix())
         bind(model,record['model_sha256']);bind(model.with_name('metadata.json'),record['metadata_sha256']);bind(model.with_name('rankings.csv'),record['rankings_sha256'])
     target.mkdir(parents=True)
-    code_names=['candidate_portfolios.py','pipeline.py','corporate_actions.py','causal_quality.py','price_action_audit.py','price_reference.py','horizon_research.py','horizon_labels.py','costs.py','valuation_overlay.py','reference_overrides.py']
+    code_names=['candidate_portfolios.py','pipeline.py','corporate_actions.py','causal_quality.py','price_action_audit.py','price_reference.py','horizon_research.py','horizon_labels.py','costs.py','valuation_overlay.py','reference_overrides.py','valuation_payments.py']
     code_hashes={n:hashlib.sha256((root/'ashare_mvp'/n).read_text(encoding='utf-8-sig').replace('\r\n','\n').encode()).hexdigest() for n in code_names}
     proof=dict(schema='phase2_candidate_ranking_accounts_v1',status='evaluating',started_at_utc=datetime.now(timezone.utc).isoformat(),
         protocol_sha256=seal['protocol_sha256'],source_hashes=sources,code_hashes=code_hashes,independent_data_used=False,
-        model_selection_performed=False,formal_model_promoted=False,certified=False,accounts=[],paired_diagnostics=[],reference_overlay=overlay,
+        model_selection_performed=False,formal_model_promoted=False,certified=False,accounts=[],paired_diagnostics=[],reference_overlay=overlay,payment_supplement=payment_supplement,
         design='continuous research accounts across fixed refit windows; only full calendar-mature cycles; no fold reset or final liquidation',
         pending=['industry historical evidence','industry and combined candidate fits','timing accounts','eligible equal-weight control','final selection review','independent mature validation'],
         limitations=['original source vintages and executable limit states unverified','fractional shares and gross dividend entitlements','CSI300 price index excludes dividends'])
@@ -197,6 +202,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--project',default='.')
     for name in ['training','dataset','replay','benchmark','seal-directory','out']:p.add_argument('--'+name,required=True)
     p.add_argument('--reference-evidence')
+    p.add_argument('--missing-payment-evidence')
     evaluate_candidate_rankings(**vars(p.parse_args()))
 
 
