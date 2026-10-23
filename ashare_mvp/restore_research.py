@@ -13,7 +13,8 @@ def restore_artifact_layers(archives,project,password):
     archives=[Path(p).resolve() for p in archives]
     if not archives or len(set(archives))!=len(archives):raise ValueError('distinct research archives required')
     digests={str(p):sha(p) for p in archives}
-    with tempfile.TemporaryDirectory(prefix='pqr-layers-',dir=root.parent) as temporary:
+    # User-temp staging avoids extending an otherwise valid Windows target.
+    with tempfile.TemporaryDirectory(prefix='pqr-layers-') as temporary:
         files={};temporary=Path(temporary)
         # Authenticate and verify every archive before any installation.
         for index,archive in enumerate(archives):
