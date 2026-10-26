@@ -27,6 +27,12 @@ def test_b_share_and_beijing_rows_are_explicitly_excluded(changes):
     assert counts['excluded_b_beijing_or_other_codes']==4
 
 
+def test_cdr_does_not_enter_the_ordinary_a_share_reference_domain(changes):
+    result,counts=canonical_members(frame(['688001','689009']),changes)
+    assert result.symbol.tolist()==['sh.688001']
+    assert counts['a_share_rows']==1 and counts['excluded_b_beijing_or_other_codes']==1
+
+
 def test_two_aliases_never_silently_collapse_one_release(changes):
     with pytest.raises(ValueError,match='collide'):
         canonical_members(frame(['000022','001872']),changes)

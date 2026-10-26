@@ -1,0 +1,241 @@
+{
+  "schema": "verified_archived_industry_memberships_v1",
+  "status": "verified_archived_research_memberships_ready",
+  "created_at_utc": "2026-10-23T10:08:15.798497+00:00",
+  "protocol_sha256": "d8a79ee894df5054c73289e101b9cf2bf77093c89b47b31e5551c5ffa7def04f",
+  "source_hashes": {
+    "artifacts/phase2/industry_source_review_20261023_v1/csrc_review.json": "38b1dc1b1147268880634d2a0b291e79b57e21650ef5e1f2cae3b237f27a0487",
+    "artifacts/phase2/industry_source_review_20261023_v1/capco_review.json": "fd0641b52eeb12deaa0faee98008895d86e89bc5684f26960ec49c5ee09ec0c0",
+    "artifacts/phase2/raw/csrc_industry_standard_2012_20261023_retry1/official_gazette_2012_10.pdf": "d603d98c80d9c1bfd76be87e8d44c8fa04ac0bc078a5d28435f875042ee86dd3",
+    "artifacts/phase2/normalized/csrc_industry_archive_tables_20261023_v2/manifest.json": "104dce43fd5e20a7c0ebf1d74afd27bb09af7455e4f3c9d54d5de553faa80c1e",
+    "artifacts/phase2/normalized/csrc_industry_archive_tables_20261023_v2/memberships.csv": "8688a6c9858d2ec80c35c56b4fb5d0a8bc6c93419f90320b147a725065fac84e",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2017q4_0.pdf": "6868765d6383c7ca0a30ec51d5d1de50fab16226b782aad4c4097deceeaaf384",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2018q1_0.pdf": "b886c1cbce2cff74fa26cb4cccec6ac3b510c8bd8fbd9e8ab727c9e5dd6e0260",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2018q2_0.pdf": "6ae0bae953ff6efa8745ceec3aef2e3a38e453342272e42513d1dc1fe40e53b4",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2018q3_0.pdf": "153c6647ba84378343b12a35e8aded12369a6cc66d2d1122de544e9b4cb436d3",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2018q4_0.pdf": "a783b90505bec4a971d3ac78ce8dba67fd9afbf0087544951642648b25276210",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2019q1_0.pdf": "5a7eb8297bb8b30ac93de2e95ec71ba81380c1630857a0bbbd87c882ca207fec",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2019q2_0.pdf": "6df3c6b27cea15de75dc121cc569caa9e6142e0d3bbca713500b9bc509db6679",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2019q3_0.pdf": "5d6599b2e99c04acbc8f5258380e3464e9d64284bff5288192fd0a8230700d78",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2019q4_0.pdf": "c7a85040406ab9832ed6e1a531ac0ac09399c022d8aaf28a109b8aa0d6a6ea14",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2020q1_0.pdf": "88bc5dc855ec8282a9275ec92a30577d598f35db44fd36e276c7687c7636d119",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2020q2_0.pdf": "84e1e0382561a4627c6ad7076a57b1d3b51e88192f19b898db0bccaaed10a546",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2020q3_0.pdf": "8fd171823b3593fe0407fa3f8d83caf6809bff0e5a0c89af93e20743745784cb",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2020q4_0.pdf": "755f6dbaa58ecca733f9d3ed501dad12484db164bf4c5e21931e90df3feb9e97",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2021q1_0.pdf": "5023cc4d76e81047559fdfc8042b92c7e1ea2d7bc6bfbf2ee97c8884742661b0",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2021q2_0.pdf": "54469b0d93c1721818c14adf0fdb68c1eff2443d9f31d45f2b709ee4eb6a002c",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2021q3_0.pdf": "0e8af6662353037135bb8e8a08a409dcebea9c47f71e7e25b48fe66a24f8c62b",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/manifest.json": "9c2096ecd0bfed634621f31bb61910df27aab0f7d8b80e658cb67884127d5d56",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/manifest.json": "cdb529ba39998e01d83f53521adfd5a4e2c7813c0b10ebd2d60cf16145c53f77",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/manifest.json": "7af8080a22c1982cd89a2efd0049659334cda11b8adf7514337b6e8a6c907e90",
+    "config/same_issuer_code_changes.json": "0b274b682974d486dbb3e775c11359f9639070ed1cbe31544e94eb2696d860aa",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2017q4.html": "5a0f1e444ee308598d4c678997d22f5354a6d2b6dd071b054262f23827b9dccb",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2018q1.html": "fd841f4ee7ed8178f35b9997421c5a8e21abee49ad09fe7adc3454a4be87dcb8",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2018q2.html": "cc4f185317b647ab8ef04eb55f886c88adc7b2b10581f2b237eaa211ba6390af",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2018q3.html": "95ccebee106ac3bcb4920ac144753ef1dd957fb4aa7817f1c163e7868949e009",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2018q4.html": "3e04fd40897b02b37a01d753417361974960e15291387eb9dbf958ddb7fbcc71",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2019q1.html": "c8201b6ba5d9e722e477afac41d814a3236b0dbb605b5f43498cdd507ca37737",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2019q2.html": "3686c2fdf7540cbe3fcfd5bc1842623d545aa1a7b89f57e53f3ddf7cd8ac75e4",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2019q3.html": "335697ef02d926ee1f4b7bf9e0319a68d62bc9c58302d8a0c1c6b3c1a85ec3f6",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2019q4.html": "31f42fe76aedff79c292236dffd4e15bb1272ba31e29cfd704ea42191c84d972",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2020q1.html": "34b7b1d64a1f3b728a4e1c3c71ec6e03f59306835b3434b02c35ba3df52053db",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2020q2.html": "92d6dad6659f5bdd78045c2ae294321374bfacffd58789d6d6244cdc4248bab7",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2020q3.html": "0673c54f6577245ea75f128d1c900855db739dbea673306117a6ddc5fb410577",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2020q4.html": "3bc1c28378d1847f9d71dba688af423e0487099c7c94446c3adfd317af327e14",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2021q1.html": "3b961c9e87454b7542bbcbe5f873cda9e7782811ba2f3c8f7cd6aac65b52f6fd",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2021q2.html": "51f40c0b166a5a6a41c6f11792cf0a11cb47571233ca70f2dc83a3ee6917f9d7",
+    "artifacts/phase2/raw/csrc_industry_archives_20261022_v1/2021q3.html": "23342a25d6e2af038d6c18bd29f5634313239ec6cbb975993eff39891a9d836c",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2025-09-30/article.js": "b408b41fd2c932c74e9704211ad82117458035483c933f722fca3ba85d0e1b8b",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2025-09-30/industry_by_stock_code.pdf": "b622b76b96d59611db36b01888cf6afd8cd711c5753a19ab8547e74bb0bb8228",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/2025-09-30.csv": "33f538997c53540a872a2daaeacbd0c5e9b771ab05a70f9d75e961d1b9cb1064",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2025-04-18/article.js": "13e7f63c8afb966c2d9e2688501cdd96263c99d54d0935fa576775258c618337",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2025-04-18/industry_by_stock_code.pdf": "e373ad9173b69c65291569c7d36679ee3e0cf85d03a03be61138f46692f41fa5",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/2025-04-18.csv": "bc4f3ad1eff0a8471d46df19f9e2120697654f1418b1a99559d20fcbcfdb3c23",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-09-30/article.js": "df652fadaa8b76a8450d3a98cb020eb02932865457ae491337ed279b884c32dd",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-09-30/industry_by_stock_code.pdf": "6f77eae4471d87715d62f388785f7a914615ae87fa7f394a851a2e86d1af28a3",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/2024-09-30.csv": "487b65f02dbc800e80e4fc9bb716e83b59e945a1fb128d80ac163e3fa9e3b31f",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-04-03/article.js": "f2a9d52d43fd411d86c89afd9bd9682bef0839eae8bbaccd9039da90aee2706c",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-04-03/industry_by_stock_code.pdf": "759a6b11a6b1d5e757ae9b726d956210c1649c6cd7ffa8789d524fd235037b05",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/2024-04-03.csv": "625a9aab7a084e5c2ce1a09bcef436b8e8034d351418248ffc44990b4f57c2db",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-02-08/article.js": "f458046e8e13195092cdaffc1ed1284923e860113421356643416738e08793a1",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-02-08/industry_by_stock_code.pdf": "8202be2cb68ff2668d9efeb9f57ea3f98486e9ef50bb64870931715c0ca759ca",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/2024-02-08.csv": "f5e9eabd63b3e07b7cb0b54de9f9e0ca1cd09764e718269a297475c9475fb226",
+    "artifacts/market_ratios_causal_quality1/metadata.json": "e6a58c95483a3bb654465d5ca724bb8314a68ccff61beb054eeb5b446e1ff0e7",
+    "artifacts/market_ratios_causal_quality1/calendar.csv": "03f80b287afcd54e46bd2e78aa25564383a5193e6734a27221bda85868447553",
+    "artifacts/three_horizon_real_causal_quality1/models/summary.json": "66f9f745d52f453996148eefbf730bc988aeceec317068c3f548ef7268e7a836",
+    "artifacts/three_horizon_real_causal_quality1/factor_samples.csv": "00bced86090d154f49d949113d7129a2b45caa53985079637c3c3beb1bbcb565"
+  },
+  "code_hashes": {
+    "archived_industry_inputs.py": "71cb2acf402c131df43d17663a3db9bd310cf78e1b99dbaf20664a31a554640f",
+    "archived_industry_research.py": "a2f609c7a64004e67ecd435e197a634d429e9f155a178523d6b2673799113eb1",
+    "security_identity.py": "38a704604d0426356738b5c92b2bcd7225ec854763afa88703f54521dbf90cbc",
+    "public_data.py": "f30b1601ca3e42cfcdb40f0a5668e9743090bd887b1177ec44c2461ee6406bef"
+  },
+  "releases": 21,
+  "membership_rows": 86433,
+  "source_counts": [
+    {
+      "published_date": "2018-01-19",
+      "raw_rows": 3476,
+      "a_share_rows": 3458,
+      "excluded_b_beijing_or_other_codes": 18,
+      "same_issuer_aliases": 0
+    },
+    {
+      "published_date": "2018-05-21",
+      "raw_rows": 3517,
+      "a_share_rows": 3499,
+      "excluded_b_beijing_or_other_codes": 18,
+      "same_issuer_aliases": 0
+    },
+    {
+      "published_date": "2018-07-30",
+      "raw_rows": 3536,
+      "a_share_rows": 3519,
+      "excluded_b_beijing_or_other_codes": 17,
+      "same_issuer_aliases": 0
+    },
+    {
+      "published_date": "2018-11-02",
+      "raw_rows": 3563,
+      "a_share_rows": 3546,
+      "excluded_b_beijing_or_other_codes": 17,
+      "same_issuer_aliases": 0
+    },
+    {
+      "published_date": "2019-02-12",
+      "raw_rows": 3582,
+      "a_share_rows": 3564,
+      "excluded_b_beijing_or_other_codes": 18,
+      "same_issuer_aliases": 1
+    },
+    {
+      "published_date": "2019-04-19",
+      "raw_rows": 3612,
+      "a_share_rows": 3594,
+      "excluded_b_beijing_or_other_codes": 18,
+      "same_issuer_aliases": 1
+    },
+    {
+      "published_date": "2019-07-11",
+      "raw_rows": 3640,
+      "a_share_rows": 3622,
+      "excluded_b_beijing_or_other_codes": 18,
+      "same_issuer_aliases": 1
+    },
+    {
+      "published_date": "2019-10-28",
+      "raw_rows": 3702,
+      "a_share_rows": 3685,
+      "excluded_b_beijing_or_other_codes": 17,
+      "same_issuer_aliases": 1
+    },
+    {
+      "published_date": "2020-01-10",
+      "raw_rows": 3770,
+      "a_share_rows": 3753,
+      "excluded_b_beijing_or_other_codes": 17,
+      "same_issuer_aliases": 2
+    },
+    {
+      "published_date": "2020-04-14",
+      "raw_rows": 3822,
+      "a_share_rows": 3805,
+      "excluded_b_beijing_or_other_codes": 17,
+      "same_issuer_aliases": 2
+    },
+    {
+      "published_date": "2020-07-14",
+      "raw_rows": 3878,
+      "a_share_rows": 3861,
+      "excluded_b_beijing_or_other_codes": 17,
+      "same_issuer_aliases": 2
+    },
+    {
+      "published_date": "2020-11-05",
+      "raw_rows": 4025,
+      "a_share_rows": 4010,
+      "excluded_b_beijing_or_other_codes": 15,
+      "same_issuer_aliases": 2
+    },
+    {
+      "published_date": "2021-01-25",
+      "raw_rows": 4127,
+      "a_share_rows": 4113,
+      "excluded_b_beijing_or_other_codes": 14,
+      "same_issuer_aliases": 2
+    },
+    {
+      "published_date": "2021-04-14",
+      "raw_rows": 4228,
+      "a_share_rows": 4213,
+      "excluded_b_beijing_or_other_codes": 15,
+      "same_issuer_aliases": 2
+    },
+    {
+      "published_date": "2021-07-19",
+      "raw_rows": 4352,
+      "a_share_rows": 4338,
+      "excluded_b_beijing_or_other_codes": 14,
+      "same_issuer_aliases": 2
+    },
+    {
+      "published_date": "2021-11-10",
+      "raw_rows": 4492,
+      "a_share_rows": 4479,
+      "excluded_b_beijing_or_other_codes": 13,
+      "same_issuer_aliases": 2
+    },
+    {
+      "published_date": "2025-09-30",
+      "raw_rows": 5413,
+      "a_share_rows": 5137,
+      "excluded_b_beijing_or_other_codes": 276,
+      "same_issuer_aliases": 3
+    },
+    {
+      "published_date": "2025-04-18",
+      "raw_rows": 5384,
+      "a_share_rows": 5113,
+      "excluded_b_beijing_or_other_codes": 271,
+      "same_issuer_aliases": 3
+    },
+    {
+      "published_date": "2024-09-30",
+      "raw_rows": 5334,
+      "a_share_rows": 5075,
+      "excluded_b_beijing_or_other_codes": 259,
+      "same_issuer_aliases": 2
+    },
+    {
+      "published_date": "2024-04-03",
+      "raw_rows": 5332,
+      "a_share_rows": 5083,
+      "excluded_b_beijing_or_other_codes": 249,
+      "same_issuer_aliases": 2
+    },
+    {
+      "published_date": "2024-02-08",
+      "raw_rows": 5178,
+      "a_share_rows": 4966,
+      "excluded_b_beijing_or_other_codes": 212,
+      "same_issuer_aliases": 2
+    }
+  ],
+  "security_filter": "public_data.is_ashare; identical to original eligible universe",
+  "signal_dates": 388,
+  "eligible_rows": 1509411,
+  "eligible_with_known_industry": 1489907,
+  "maximum_publication_age_days": 817,
+  "output_hashes": {
+    "catalog.csv": "7554b9da511a3d4a946a5a94744e81c45d0665525e513bc8cc76f0a08ea2e26b",
+    "memberships.csv": "36767c6a51d3ab0d3c51594a4bf244d040c7b8f53faaaae747179c650e0716de",
+    "signal_coverage.csv": "653310af38e6b9ebb27b16f40e7ef528f98a346c5e069627676cd23238ad186d"
+  },
+  "research_training_admission": true,
+  "models_trained": 0,
+  "historical_original_vintages_certified": false,
+  "genuine_historical_observations_claimed": false,
+  "independent_data_used": false,
+  "limitation": "Archived primary-release research reconstruction. Observation timestamps remain in 2026. No 2022 release was found; retain only the last published full snapshot until the next release, and absent/new issuers remain unknown. Not a real-time membership source."
+}

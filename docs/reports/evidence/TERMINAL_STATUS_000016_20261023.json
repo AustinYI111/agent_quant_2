@@ -1,0 +1,32 @@
+{
+  "schema": "reviewed_primary_terminal_status_evidence_v1",
+  "symbol": "sz.000016",
+  "source_url": "https://static.cninfo.com.cn/finalpage/2026-10-23/1225615607.PDF",
+  "source_file": "artifacts/phase2/raw/terminal_notice_000016_20261023_v1/1225615607.PDF",
+  "source_sha256": "63d22af39ae73ee789d4492c4643f5a4b4ea02edfe51992d8752028b12dc320d",
+  "source_capture_sha256": "605b509f21f57d5ce412a2e22a3c3b18a18d49746df14de431f4fbc70ef7984b",
+  "observed_at_utc": "2026-10-23T10:13:44.260890+00:00",
+  "reviewed_at_utc": "2026-10-23T10:15:02.856918+00:00",
+  "reviewed_pages": [
+    1,
+    2
+  ],
+  "reviewed": true,
+  "publication_date": "2026-10-23",
+  "decision_date": "2026-10-16",
+  "delisting_effective_date": "2026-10-23",
+  "conservative_announcement_available_date": "2026-10-26",
+  "last_supplier_bar_date": "2026-10-22",
+  "last_supplier_trading_status": "0",
+  "last_actual_trading_date": null,
+  "last_supplier_bar_is_not_an_executable_terminal_value": true,
+  "terminal_value": null,
+  "unconditional_cash_recovery_confirmed": false,
+  "cash_payment_date": null,
+  "valuation_policy": "Do not infer zero recovery, a liquidation trade, or an unconditional cash payment from delisting. Positive holdings need separately verified executable prices or holder-specific entitlements.",
+  "source_notice_explains_quote_omission": true,
+  "historical_identity_deleted": false,
+  "original_quotes_or_frozen_recipe_modified": false,
+  "applied_to_current_frozen_snapshot": false,
+  "limitation": "Status evidence only, not proof of investor-specific receipt, cash-option exercise or OTC transfer value."
+}

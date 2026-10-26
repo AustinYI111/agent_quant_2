@@ -5,6 +5,7 @@ import argparse, hashlib, json
 import pandas as pd
 from .phase2_protocol import sha256, load_seal
 from .security_identity import code_change_maps
+from .public_data import is_ashare
 from .archived_industry_research import select_archived_research_memberships
 
 
@@ -17,9 +18,10 @@ def canonical_members(raw, changes):
     if not f.security_code.map(lambda x: isinstance(x, str)).all() or not f.security_code.astype(str).str.fullmatch('[0-9]{6}').all() or not f.industry_code.astype(str).str.fullmatch('[A-S][0-9]{2}').all():
         raise ValueError('literal six-digit stock and major-industry codes required')
     roots, _, _ = code_change_maps(changes)
-    eligible = f.security_code.str.fullmatch('(?:60|68|00|30)[0-9]{4}')
+    source_symbols = f.security_code.map(lambda x: ('sh.' if x.startswith(('6', '9')) else 'sz.') + x)
+    eligible = source_symbols.map(is_ashare)
     result = f[eligible].copy()
-    result['source_symbol'] = result.security_code.map(lambda x: ('sh.' if x.startswith(('60', '68')) else 'sz.') + x)
+    result['source_symbol'] = source_symbols[eligible]
     result['symbol'] = result.source_symbol.map(lambda x: roots.get(x, x))
     result['industry'] = result.industry_code
     if result.symbol.duplicated().any():
@@ -174,7 +176,7 @@ def build_archived_industry_inputs(project, out):
     proof = dict(schema='verified_archived_industry_memberships_v1', status='verified_archived_research_memberships_ready',
                  created_at_utc=datetime.now(timezone.utc).isoformat(), protocol_sha256=seal['protocol_sha256'], source_hashes=sources,
                  code_hashes=code_hashes,
-                 releases=len(catalog), membership_rows=len(membership), source_counts=counts, signal_dates=len(coverage), eligible_rows=len(keys),
+                 releases=len(catalog), membership_rows=len(membership), source_counts=counts, security_filter='public_data.is_ashare; identical to original eligible universe', signal_dates=len(coverage), eligible_rows=len(keys),
                  eligible_with_known_industry=sum(r['known'] for r in coverage), maximum_publication_age_days=max(r['publication_age_days'] for r in coverage),
                  output_hashes={p.name: sha256(p) for p in target.glob('*.csv')}, research_training_admission=True, models_trained=0,
                  historical_original_vintages_certified=False, genuine_historical_observations_claimed=False, independent_data_used=False,

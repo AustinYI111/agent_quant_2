@@ -6,7 +6,7 @@
 
 - 原因子重训对照、增加市场状态、增加欧奈尔风格箱体，三个特征组使用相同的股票、训练标签和截止日。
 - 5d／20d／12m 三周期 × 五个预定窗口 × 30／60 棵树 × 三组，共 90 次拟合。
-- 只使用 2018–2025 研究数据。2026 年既不训练，也不用于选参。行业及完整组合组等待可核实的历史分类版本。
+- 只使用 2018–2025 研究数据。2026 年既不训练，也不用于选参。行业及完整组合另有60次拟合，档案研究输入及重载核验已完成；扣费增量比较仍待完成。
 - 规则来自已封存的[验证协议](PHASE2_RESEARCH_PROTOCOL.md)，不能根据结果更换窗口、缩短周期或收窄原定 24 项比较范围。
 
 ## 三步运行
@@ -51,3 +51,15 @@ python -m ashare_mvp.candidate_portfolios --project . --training artifacts/phase
 最新历史账户与会计核验见[18 个完整账户检查点](reports/CANDIDATE_ACCOUNTS_VERIFIED_20261023.md)。复跑可在上面的账户命令使用 `--reference-evidence config/reviewed_candidate_valuation_refs_20261023_v2.json --missing-payment-evidence config/reviewed_candidate_missing_cash_20261023_v1.json`，并指定新的输出目录。
 
 第二阶段首份加密检查点已完成私有上传及新克隆恢复核验，覆盖最新 V2 的90个研究拟合和18个排名账户；后续行业修正另行保存。恢复命令和未实测边界见[分层迁移](PHASE2_MIGRATION.md)。
+
+## 行业及完整组合检查点
+
+先恢复原件及审核文件，运行历史输入构建，再构建缓存和拟合；以下路径已有结果，复跑必须更换输出名称并同步后续输入。
+
+```powershell
+python -m ashare_mvp.industry_candidate_dataset --project . --dataset artifacts/market_ratios_causal_quality1 --experiment artifacts/three_horizon_real_causal_quality1 --technical-cache artifacts/phase2/research_candidate_inputs_20261022_v2 --membership-inputs artifacts/phase2/archived_industry_memberships_20261023_v2 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/research_industry_inputs_20261023_v2
+python -m ashare_mvp.rolling_industry_candidates --project . --inputs artifacts/phase2/research_industry_inputs_20261023_v2 --experiment artifacts/three_horizon_real_causal_quality1 --matched-training artifacts/phase2/matched_candidate_models_20261022_v2 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/matched_industry_models_20261023_v1
+python scripts/verify_industry_training.py --project . --out artifacts/phase2/industry_training_verification_new.json
+```
+
+核验脚本针对此检查点固定路径，重载抽查1,200分数并核对全部排名与滚动样本键，不重新训练。60个新模型仅属研究候选，不能将其目录直接传给只接受旧90模型家族的账户命令。[当前进展与限制](reports/INDUSTRY_AND_CLOSE_PROGRESS_20261026.md)。
