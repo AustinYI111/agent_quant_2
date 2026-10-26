@@ -1,0 +1,193 @@
+{
+  "schema": "daily_close_progress_v1",
+  "recorded_at_utc": "2026-10-26T09:41:46.605331+00:00",
+  "signal_date": "2026-10-26",
+  "snapshot": "artifacts/frozen_daily_research_20261026_v1",
+  "snapshot_manifest_sha256": "75efaf2bd6250042426f99d4f928e45067ffe3cbf4bf413a493372dc412d4d2a",
+  "verification_sha256": "cc70317564c5e388703439fe1e7ab22079fa9b2f225f453a92283ea67ea5167f",
+  "started_at_utc": "2026-10-26T09:33:23.228623+00:00",
+  "completed_at_utc": "2026-10-26T09:38:20.341790+00:00",
+  "issuers": 5245,
+  "raw_bars": 1009052,
+  "eligible": 4936,
+  "quoted_ashares": 5223,
+  "reference_faults": 65,
+  "financial_snapshots": 5,
+  "merged_financial_records": 87258,
+  "merged_financial_symbols": 5659,
+  "merged_financial_debt_records": 80643,
+  "financial_panel_sha256": "0a8f46b87de6bf318b3eb8682ab40c6d02162ef924a2795f239a511a99d9c1dd",
+  "checks": [
+    {
+      "horizon": "5d",
+      "candidates": 4936,
+      "batch_id": "04056d56d78aa38c84ce6ecfb23bb973defac91db4a52e851bd68f917fdcbda3",
+      "created_at_utc": "2026-10-26T09:38:18.878635+00:00",
+      "next_entry_open_utc": "2026-10-27T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "70d76a7af37e47e0d2a99c0d88ec76f2dccb15b08d990945055cc8d66d5f0464",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    },
+    {
+      "horizon": "20d",
+      "candidates": 4936,
+      "batch_id": "2b6ef9b34fa0dcb86be65b4e5b74bb8aae6b5639b94ca1ed65f7f8a14b08e004",
+      "created_at_utc": "2026-10-26T09:38:19.448808+00:00",
+      "next_entry_open_utc": "2026-10-27T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "49f9d547da3b916b557ac6dc897a1bb19279eef3ab4901a79d537a1333116dd5",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    },
+    {
+      "horizon": "12m",
+      "candidates": 4936,
+      "batch_id": "e18ce25ecc5cf735c8b570b69db06abe6105362112baf791b3bf317a4fb0db94",
+      "created_at_utc": "2026-10-26T09:38:19.846775+00:00",
+      "next_entry_open_utc": "2026-10-27T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "5640734659445cf8df6d1d46f5657f7eb455f2c9d8d806193478f9e65febddf8",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    }
+  ],
+  "archive_counts": {
+    "batches": 15,
+    "scores": 74034,
+    "archive_imports": 5
+  },
+  "archive_retry_identical": true,
+  "archive_backup": {
+    "schema": "prediction_ledger_backup_v1",
+    "sha256": "b210618e8d1d51c00dc05b55a99a02f3f5f58d2a626ab6bd0a12d6379f4f0962",
+    "bytes": 21667840
+  },
+  "paper_books": {
+    "5d": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 3
+    },
+    "20d": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 3
+    },
+    "12m": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 3
+    }
+  },
+  "retrospective_batches_excluded": 6,
+  "next_known_rebalance_signals": {
+    "5d": "2026-10-28",
+    "20d": "2026-11-04",
+    "12m": null
+  },
+  "quality": {
+    "schema": "incoming_market_quality_v2",
+    "date": "2026-10-26",
+    "checked_at_utc": "2026-10-26T09:24:20.972117+00:00",
+    "grain": "one raw stock quote per exchange session and provider code",
+    "raw_rows": 5224,
+    "regular_ashare_rows": 5223,
+    "st_rows": 194,
+    "st_rate": 0.03714340417384645,
+    "suspended_rows": 7,
+    "invalid_numeric_rows": 7,
+    "invalid_active_price_rows": 0,
+    "invalid_active_ohlc_rows": 0,
+    "new_codes": [],
+    "missing_codes": [],
+    "prior_date": "2026-10-23",
+    "schema_added": [],
+    "schema_removed": [],
+    "preclose_disagreements": [
+      {
+        "symbol": "sh.601088",
+        "prior_close": 50.2,
+        "current_preclose": 49.22,
+        "difference": -0.980000000000004
+      },
+      {
+        "symbol": "sh.601866",
+        "prior_close": 2.35,
+        "current_preclose": 2.33,
+        "difference": -0.020000000000000018
+      },
+      {
+        "symbol": "sh.601990",
+        "prior_close": 6.44,
+        "current_preclose": 6.39,
+        "difference": -0.05000000000000071
+      },
+      {
+        "symbol": "sh.688379",
+        "prior_close": 46.84,
+        "current_preclose": 46.73,
+        "difference": -0.11000000000000654
+      },
+      {
+        "symbol": "sz.000630",
+        "prior_close": 5.1,
+        "current_preclose": 5.04,
+        "difference": -0.05999999999999961
+      },
+      {
+        "symbol": "sz.301217",
+        "prior_close": 82.52,
+        "current_preclose": 82.46,
+        "difference": -0.060000000000002274
+      }
+    ],
+    "checks": {
+      "unique_same_session_raw_keys": true,
+      "raw_adjustment_flag": true,
+      "known_historical_status_flags": true,
+      "same_supplier_universe_equal": true,
+      "same_supplier_trade_state_equal": true,
+      "finite_active_numeric_fields": true,
+      "finite_suspended_price_fields": true,
+      "positive_active_prices": true,
+      "valid_active_ohlc": true,
+      "nonnegative_volume_amount": true,
+      "unchanged_schema": true,
+      "observed_after_close_gate": true
+    },
+    "source_sha256": {
+      "current": "376d85c6f3a5cf74d6695c6ffa058badc37c9886bab5b0dc1335f275f605ec64",
+      "previous": "62e6c585056e615a7e2ecda64dfe2dd3963eaafd2159d900d372c01ca4b26da5",
+      "reference_capture": "5ddd43ad89355ce587d0d6ccda13bbcf1e681963bcaf4cf65733673e34ecd19b"
+    },
+    "usable_for_raw_capture": true,
+    "prediction_ready": false,
+    "certified": false,
+    "limitations": [
+      "Suspended volume and amount remain missing; acceptance checks require finite activity only for tradable rows and never replace missing values with zero.",
+      "Same-provider quote/list equality is not independent exchange coverage certification.",
+      "Preclose changes are review candidates, not automatically bad data or inferred dividends.",
+      "Raw capture does not establish adjusted feature continuity, financial timing or executable paper prices.",
+      "2026 data may feed frozen-model predictions and independent validation, never candidate parameter selection."
+    ]
+  },
+  "reviewed_current_actions": 6,
+  "actual_holder_terms_unchanged": true,
+  "encrypted_phase2_snapshot": {
+    "asset": "pqr-phase2-research-20261026-v1.pqr",
+    "bytes": 1467536369,
+    "sha256": "9de0d4d08556a7dac4dbf33b120ab2e6d04d3fa74d6ce16e4cb661a583460d4e",
+    "files": 15212,
+    "latest_daily_signal_included": "2026-10-23"
+  },
+  "latest_daily_in_cloud": false,
+  "private_upload_verified": false,
+  "restore_verified": false,
+  "candidate_selection_performed": false,
+  "formal_model_promoted": false,
+  "phase2_complete": false
+}
