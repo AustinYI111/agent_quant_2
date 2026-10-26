@@ -77,3 +77,5 @@ python -m ashare_mvp.industry_portfolios --project . --training artifacts/phase2
 ## 实际现金补证后重跑全部对照
 
 `--valuation-inputs <已审核估值目录> --full-family`会重跑全部30个排名账户，含6个基线；不沿用旧基线净值。输入同时绑定原始事件、原公告、真实观察时间及构建代码。只补参考参数与补实际现金分开记录。运行、测试及未解决项见[新检查点](reports/PRIMARY_CASH_COMPLETION_20261026.md)。第一轮12个停止账户保持原样，不覆写。
+
+最新V3估值版本增加由两份除权前原公告计算的参考参数，独立月报仅作事后交叉核对。会计核验支持`--resume`及已完成输出哈希校验。[来源、命令及当前状态](reports/PRIMARY_REFERENCE_AND_RESUMABLE_AUDIT_20261026.md)。此为历史研究重建，不声称认证当年原始字节或实际成交。
