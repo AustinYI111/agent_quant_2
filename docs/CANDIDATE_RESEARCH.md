@@ -83,3 +83,5 @@ python -m ashare_mvp.industry_portfolios --project . --training artifacts/phase2
 ## 行业收益归因
 
 按前一交易日开盘已公开的行业快照拆分实际损益，未知分类单列，并核对至独立账户总账。最新30组回放与上一轮27组归因的范围不同；[结果、限制与复跑命令](reports/INDUSTRY_ATTRIBUTION_20261026.md)。
+
+最新30组独立核账、24项配对复核及全30组行业归因已完成，另有独立脚本重算全部历史标签和逐日贡献。[完整核验与剩余工作](reports/FULL_RANKING_INDUSTRY_VERIFIED_20261026.md)。

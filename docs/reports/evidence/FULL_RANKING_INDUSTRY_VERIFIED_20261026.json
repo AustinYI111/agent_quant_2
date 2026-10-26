@@ -1,0 +1,26 @@
+{
+  "schema": "full_ranking_industry_verification_checkpoint_v1",
+  "recorded_at_utc": "2026-10-26T09:12:58.223354+00:00",
+  "source_manifests_sha256": {
+    "ranking": "43b9a674800e61249569d2a206a8442f929d5433c62e8070d2aaa64fa144eb49",
+    "audit": "ac30b5239c86977abc1e075c1f087f3ff17c4573181af6d6e3a013619991b543",
+    "industry": "02fe32be90c07cbc175f8afd029be77d9941f9467ce153682785db8663fdb478",
+    "verification": "81fab582283bc933e7b65287b24fefa5fddb80a331e257582171ec7318fd9aab"
+  },
+  "ranking_accounts": 30,
+  "independently_reconciled_accounts": 30,
+  "independently_recomputed_pairs": 24,
+  "industry_attributed_accounts": 30,
+  "industry_independently_verified_accounts": 30,
+  "maximum_accounting_error": 1.403391292065237e-15,
+  "maximum_industry_error": 1.6037518535405582e-15,
+  "maximum_industry_publication_age_days": 820,
+  "completed_checkpoint_resume_verified": true,
+  "related_tests": 47,
+  "previous_commit_full_regression_tests": 857,
+  "new_private_cloud_backup_verified": false,
+  "independent_data_used": false,
+  "model_selection_performed": false,
+  "formal_model_promoted": false,
+  "phase2_complete": false
+}
