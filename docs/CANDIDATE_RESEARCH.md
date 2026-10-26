@@ -63,3 +63,13 @@ python scripts/verify_industry_training.py --project . --out artifacts/phase2/in
 ```
 
 核验脚本针对此检查点固定路径，重载抽查1,200分数并核对全部排名与滚动样本键，不重新训练。60个新模型仅属研究候选，不能将其目录直接传给只接受旧90模型家族的账户命令。[当前进展与限制](reports/INDUSTRY_AND_CLOSE_PROGRESS_20261026.md)。
+
+## 行业与组合连续扣费账户
+
+复用原6个完整基线净值，不重训、不在每个窗口重置资金；需要全部旧账户和源文件已恢复。已有输出目录不可覆盖。
+
+```powershell
+python -m ashare_mvp.industry_portfolios --project . --training artifacts/phase2/matched_industry_models_20261023_v1 --baseline-accounts artifacts/phase2/candidate_ranking_accounts_20261023_v4 --controls artifacts/phase2/matched_candidate_models_20261022_v2 --verification artifacts/phase2/industry_training_verification_20261026_v1.json --dataset artifacts/market_ratios_causal_quality1 --benchmark artifacts/benchmark_csi300_price_2018_2025 --seal-directory artifacts/phase2/protocol_20261020 --out artifacts/phase2/industry_ranking_accounts_20261026_v1
+```
+
+本次12个账户均遇到参考价缺口停止，未生成完整周期绩效或配对推断。需要原公告补证及新目录重跑；详见[首次回放缺口](reports/INDUSTRY_ACCOUNT_GAPS_20261026.md)。`industry_ranking_accounts_evaluated_selection_pending`表示账户尝试流程已结束，是否完整须逐项检查`accounts[].status`，不能把顶层状态当成功回测。
