@@ -1,6 +1,6 @@
 from copy import deepcopy
 import pytest
-from ashare_mvp.industry_portfolios import matched_family
+from ashare_mvp.industry_portfolios import matched_family,complete_ranking_family,evaluate_industry_rankings
 
 
 @pytest.fixture
@@ -23,6 +23,32 @@ def family():
 
 def test_complete_family_reuses_six_baselines_without_refitting(family):
     assert len(matched_family(*family))==6
+
+
+def full_controls(family):
+    fitting,accounts,controls,protocol,*_=deepcopy(family)
+    controls['models']=[dict(r,group=g) for r in controls['models'] for g in ['baseline','market_state','oneil_box']]
+    return fitting,controls,protocol
+
+
+def test_full_replay_includes_original_controls_and_all_four_candidates(family):
+    fitting,controls,protocol=full_controls(family)
+    assert complete_ranking_family(fitting,controls,protocol)==['baseline','market_state','oneil_box','industry','combined']
+
+
+def test_new_cash_inputs_cannot_reuse_previous_baseline_nav(tmp_path):
+    with pytest.raises(ValueError,match='full-family baseline replay'):
+        evaluate_industry_rankings(tmp_path,'training','baseline','controls','verified.json','dataset','benchmark','seal','fresh',valuation_inputs='updated_cash',full_family=False)
+
+
+@pytest.mark.parametrize('fault',['missing_old_candidate','duplicate_old_candidate','different_test_keys','different_old_cutoff'])
+def test_full_replay_rejects_incomplete_or_different_original_candidate_family(family,fault):
+    fitting,controls,protocol=full_controls(family)
+    if fault=='missing_old_candidate':controls['models'].pop()
+    elif fault=='duplicate_old_candidate':controls['models'][1]=deepcopy(controls['models'][2])
+    elif fault=='different_test_keys':controls['models'][1]['prediction_keys_sha256']='different eligible names'
+    elif fault=='different_old_cutoff':controls['models'][1]['cutoff']='different purging'
+    with pytest.raises(ValueError):complete_ranking_family(fitting,controls,protocol)
 
 
 @pytest.mark.parametrize('changed',['lineage','same_count_wrong_fold','duplicate_fold','control_model','ordered_training_keys','partial_baseline','duplicate_baseline','selected','independent'])

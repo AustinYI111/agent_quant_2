@@ -73,3 +73,7 @@ python -m ashare_mvp.industry_portfolios --project . --training artifacts/phase2
 ```
 
 本次12个账户均遇到参考价缺口停止，未生成完整周期绩效或配对推断。需要原公告补证及新目录重跑；详见[首次回放缺口](reports/INDUSTRY_ACCOUNT_GAPS_20261026.md)。`industry_ranking_accounts_evaluated_selection_pending`表示账户尝试流程已结束，是否完整须逐项检查`accounts[].status`，不能把顶层状态当成功回测。
+
+## 实际现金补证后重跑全部对照
+
+`--valuation-inputs <已审核估值目录> --full-family`会重跑全部30个排名账户，含6个基线；不沿用旧基线净值。输入同时绑定原始事件、原公告、真实观察时间及构建代码。只补参考参数与补实际现金分开记录。运行、测试及未解决项见[新检查点](reports/PRIMARY_CASH_COMPLETION_20261026.md)。第一轮12个停止账户保持原样，不覆写。
