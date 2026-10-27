@@ -1,0 +1,84 @@
+{
+  "schema": "eligible_pool_first_replay_checkpoint_v1",
+  "recorded_at_utc": "2026-10-27T09:54:38.293215+00:00",
+  "source_manifest_sha256": "abc9bbcd73912955280d7012faaaf8b3315722cb7de57652f0da139ea286cb86",
+  "code_hashes": {
+    "eligible_equal_weight.py": "54d1762261fa48c6bf943db29a6206dc6c4788f14a0e2a49d324702d4c0ee95e",
+    "candidate_portfolios.py": "63fae7455ab4e7fc5d767867fa79e1e400f091099201873724840d3c3692b453",
+    "pipeline.py": "a0b848a6f4c3228e1875d0df7c8d4b931dac34c440daa6868ca40c5469822135",
+    "corporate_actions.py": "1dfa53f26ee7884b90905ce2da54b413bdd6775f966be161849477db5d808b6d",
+    "causal_quality.py": "cd4cecb6850a99a0c6333ec7005aa8c5eb07eef6160282c2c2459c85903ba369",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e",
+    "public_data.py": "f30b1601ca3e42cfcdb40f0a5668e9743090bd887b1177ec44c2461ee6406bef"
+  },
+  "attempted_accounts": 3,
+  "complete_accounts": 0,
+  "accounts": [
+    {
+      "horizon": "5d",
+      "status": "incomplete_held_valuation",
+      "first_signal": "2021-08-03",
+      "requested_end": "2025-12-25",
+      "minimum_pool_size": 1028,
+      "maximum_pool_size": 4835,
+      "symbol": "sh.600690",
+      "date": "2021-08-23",
+      "reason": "reference",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-08",
+          "rows": 269071,
+          "requested_full_endpoint": false
+        }
+      ],
+      "positive_held_names": 3572
+    },
+    {
+      "horizon": "20d",
+      "status": "incomplete_held_valuation",
+      "first_signal": "2021-08-03",
+      "requested_end": "2025-12-18",
+      "minimum_pool_size": 2300,
+      "maximum_pool_size": 4830,
+      "symbol": "sh.600690",
+      "date": "2021-08-23",
+      "reason": "reference",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-08",
+          "rows": 269071,
+          "requested_full_endpoint": false
+        }
+      ],
+      "positive_held_names": 3544
+    },
+    {
+      "horizon": "12m",
+      "status": "incomplete_held_valuation",
+      "first_signal": "2021-07-30",
+      "requested_end": "2025-09-02",
+      "minimum_pool_size": 3537,
+      "maximum_pool_size": 4790,
+      "symbol": "sh.600208",
+      "date": "2021-08-04",
+      "reason": "reference",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-04",
+          "rows": 268461,
+          "requested_full_endpoint": false
+        }
+      ],
+      "positive_held_names": 3535
+    }
+  ],
+  "related_tests_passed": 32,
+  "tests_in_new_module": 17,
+  "full_regression_rerun": false,
+  "independent_data_used": false,
+  "model_selection_performed": false,
+  "formal_model_promoted": false,
+  "phase2_complete": false,
+  "large_outputs_on_d_drive": true,
+  "backup_or_restore_run_this_checkpoint": false
+}

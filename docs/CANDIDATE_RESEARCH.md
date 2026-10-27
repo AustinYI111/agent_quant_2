@@ -85,3 +85,7 @@ python -m ashare_mvp.industry_portfolios --project . --training artifacts/phase2
 按前一交易日开盘已公开的行业快照拆分实际损益，未知分类单列，并核对至独立账户总账。最新30组回放与上一轮27组归因的范围不同；[结果、限制与复跑命令](reports/INDUSTRY_ATTRIBUTION_20261026.md)。
 
 最新30组独立核账、24项配对复核及全30组行业归因已完成，另有独立脚本重算全部历史标签和逐日贡献。[完整核验与剩余工作](reports/FULL_RANKING_INDUSTRY_VERIFIED_20261026.md)。
+
+## 合格池等权对照
+
+已实现并实际尝试三周期，全部因已持有股票的参考校验缺口停止，尚无完整对照收益。全部合格键保留，分红、费用、调仓与完整期限不变；支持独立研究盘及逐步扩大计算窗口。[实际缺口、测试及命令](reports/ELIGIBLE_POOL_FIRST_REPLAY_20261027.md)。
