@@ -31,6 +31,12 @@ def normalize_rights_case(spec,calendar):
     if e['offer_available_date']>e['record_date']:raise ValueError('offer not visible by registry close')
     e['expected_result_available_date']=next_session(e['expected_result_date'],cal)
     e['offer_ratio']=positive_decimal(e['offer_ratio']);e['subscription_price']=positive_decimal(e['subscription_price'])
+    if e.get('subscription_fee_bps') is not None:
+        if isinstance(e['subscription_fee_bps'],bool):raise ValueError('numeric nonnegative declared subscription fee required')
+        try:fee=Decimal(str(e['subscription_fee_bps']))
+        except Exception as error:raise ValueError('numeric declared subscription fee required') from error
+        if not fee.is_finite() or fee<0 or fee>=10000:raise ValueError('nonnegative finite declared subscription fee required')
+        e['subscription_fee_bps']=float(fee)
     if e.get('outcome') not in [None,'success','failed','canceled']:raise ValueError('unknown declared rights outcome')
     e['result_available_date']=None if not e.get('result_publication_date') else next_session(e['result_publication_date'],cal)
     if e['outcome'] is not None and e['result_available_date'] is None:raise ValueError('outcome requires its own publication clock')
@@ -44,10 +50,17 @@ def normalize_rights_case(spec,calendar):
         # subscription ratio available to a fully participating ordinary holder.
         before=e['registered_ordinary_shares'];issued=e['issued_ordinary_shares']
         if any(isinstance(x,bool) or not isinstance(x,int) or x<=0 for x in [before,issued]) or Decimal(issued)>Decimal(before)*e['offer_ratio']:raise ValueError('invalid ordinary-share issue counts')
+        eligible=e.get('eligible_ordinary_shares');treasury=e.get('treasury_ordinary_shares')
+        if eligible is not None or treasury is not None:
+            if any(isinstance(x,bool) or not isinstance(x,int) for x in [eligible,treasury]) or eligible<=0 or treasury<0 or eligible+treasury!=before:raise ValueError('eligible and treasury ordinary shares must reconcile to pre-issue total')
+            if Decimal(issued)>Decimal(eligible)*e['offer_ratio']:raise ValueError('issued shares exceed eligible offer capacity')
+        if e.get('reference_ratio_basis') not in [None,'issued_shares_over_preissue_total']:raise ValueError('explicit pre-issue capital basis required')
         with localcontext() as ctx:
             ctx.prec=50;e['exchange_ratio']=Decimal(issued)/Decimal(before)
-            literal=positive_decimal(e['quoted_exchange_ratio_per_10'])
-            if abs(e['exchange_ratio']*10-literal)>Decimal('0.000001'):raise ValueError('literal exchange ratio conflicts with ordinary issue counts')
+            if e.get('quoted_exchange_ratio_per_10') is not None:
+                literal=positive_decimal(e['quoted_exchange_ratio_per_10'])
+                if abs(e['exchange_ratio']*10-literal)>Decimal('0.000001'):raise ValueError('literal exchange ratio conflicts with ordinary issue counts')
+            elif e.get('reference_ratio_basis')!='issued_shares_over_preissue_total':raise ValueError('unquoted ratio requires declared capital-count basis; never fabricate a source literal')
         if e.get('post_issue_ordinary_shares') is not None and e['post_issue_ordinary_shares']!=before+issued:raise ValueError('ordinary post-issue capital does not reconcile')
         if e.get('aggregate_subscription_cash') is not None and Decimal(str(e['aggregate_subscription_cash']))!=Decimal(issued)*e['subscription_price']:raise ValueError('aggregate subscription cash conflicts with issuer price/counts')
         if e['tradable_from'] is not None and (e['listing_available_date'] is None or e['tradable_from']<max(e['listing_available_date'],e['ex_date'])):raise ValueError('new shares cannot trade before listing notice and listing date')
@@ -96,6 +109,8 @@ def load_rights_evidence(config,project,evidence_root,calendar):
             if item.get('reviewed') is not True or not item.get('reviewed_pages') or any(isinstance(x,bool) or not isinstance(x,int) or x<1 for x in item['reviewed_pages']):raise ValueError('explicit visually reviewed source pages required')
             if not item.get('parameter_pages') or not set(item['parameter_pages'].values()).issubset(set(item['reviewed_pages'])):raise ValueError('rights parameter pages not among reviewed pages')
             required_pages={'offer':{'record_date','subscription_start','subscription_end','offer_ratio','subscription_price','expected_result_date'},'result':{'outcome','ex_date','registered_ordinary_shares','issued_ordinary_shares','aggregate_subscription_cash'} if e['outcome']=='success' else {'outcome'},'listing':{'tradable_from','post_issue_ordinary_shares'}}[role]
+            if role=='offer' and e.get('subscription_fee_bps') is not None:required_pages.add('subscription_fee_bps')
+            if role=='result' and e['outcome']=='success' and e.get('eligible_ordinary_shares') is not None:required_pages.update({'eligible_ordinary_shares','treasury_ordinary_shares'})
             if not required_pages.issubset(item['parameter_pages']):raise ValueError('missing rights parameter-to-source page mapping')
             pdf=under(evidence,item['source_file']);capture=under(evidence,item['capture_file'])
             if sha256(pdf)!=item['source_sha256'] or sha256(capture)!=item['capture_sha256']:raise ValueError('rights original PDF/capture changed')

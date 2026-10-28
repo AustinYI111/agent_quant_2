@@ -252,3 +252,47 @@ def test_source_evidence_loader_checks_primary_identity_and_tampering(tmp_path):
     (sources/'offer.PDF').write_bytes(b'%PDF-changed')
     with pytest.raises(ValueError, match='changed'):
         load_rights_evidence('rights.json', root, sources, CAL)
+
+
+def test_declared_zero_fee_is_not_replaced_by_global_research_fallback():
+    wallet, holdings = registered([event(subscription_fee_bps=0.)], cash=1000.)
+    cash, claim, fees, rows = wallet.open('2024-01-04', 1000., holdings, {})
+    assert (cash, claim, fees) == (0., 1000., 0.)
+    assert wallet.subscribed['rights-a'] == 100.
+    assert wallet.snapshot()['event_subscription_fee_bps'] == {'rights-a': 0.}
+    assert rows[0]['cash_delta'] == -1000.
+
+
+@pytest.mark.parametrize('value', [-1, float('nan'), float('inf'), True, 10000, 'unknown'])
+def test_invalid_declared_subscription_fee_rejected(value):
+    with pytest.raises(ValueError):event(subscription_fee_bps=value)
+
+
+def test_each_issue_uses_its_own_declared_fee_in_cash_allocation():
+    a=event(subscription_fee_bps=0.)
+    b=event(event_id='rights-b',symbol='sh.600030',subscription_fee_bps=10.)
+    wallet=RightsWallet([a,b],'cash_limited_subscribe')
+    holdings={'sz.002142':1000.,'sh.600030':1000.}
+    wallet.open('2024-01-03',1000.,holdings,{})
+    wallet.close('2024-01-03',holdings)
+    cash,claim,fees,rows=wallet.open('2024-01-04',1000.,holdings,{})
+    assert cash+claim+fees==pytest.approx(1000.)
+    assert rows[0]['quantity']==pytest.approx(rows[1]['quantity'])
+    assert rows[0]['fee']==0. and rows[1]['fee']>0.
+
+
+def test_treasury_exclusion_and_actual_capital_change_have_distinct_denominators():
+    e=event(registered_ordinary_shares=1000,eligible_ordinary_shares=900,treasury_ordinary_shares=100,
+            issued_ordinary_shares=80,post_issue_ordinary_shares=1080,aggregate_subscription_cash='800',
+            quoted_exchange_ratio_per_10=None,reference_ratio_basis='issued_shares_over_preissue_total')
+    assert e['exchange_ratio']==Decimal('.08')
+    # The per-investor offered ratio remains .1, not80/900 or80/1000.
+    assert e['offer_ratio']==Decimal('.1')
+
+
+@pytest.mark.parametrize('change', [dict(eligible_ordinary_shares=900,treasury_ordinary_shares=99),
+    dict(eligible_ordinary_shares=500,treasury_ordinary_shares=500),
+    dict(eligible_ordinary_shares=900,treasury_ordinary_shares=None),
+    dict(quoted_exchange_ratio_per_10=None)])
+def test_capital_sources_must_reconcile_without_invented_ratio_literal(change):
+    with pytest.raises(ValueError):event(**change)

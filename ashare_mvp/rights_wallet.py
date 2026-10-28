@@ -30,6 +30,9 @@ class RightsWallet:
         self.policy=policy;self.fee_rate=subscription_commission_bps/10000
         self.entitlements={};self.subscribed={};self.claims={};self.lapsed=set();self.confirmed=set();self.last_open=None
 
+    def subscription_rate(self,event):
+        return float(event['subscription_fee_bps'])/10000 if event.get('subscription_fee_bps') is not None else self.fee_rate
+
     def _row(self,date,event,kind,quantity=0.,principal=0.,fee=0.,cash_delta=0.,phase='open'):
         return dict(date=str(date.date()),phase=phase,event_id=event['event_id'],symbol=event['symbol'],kind=kind,quantity=float(quantity),principal=float(principal),fee=float(fee),cash_delta=float(cash_delta))
 
@@ -83,12 +86,12 @@ class RightsWallet:
             if e['offer_available_date']<=date and e['subscription_start']<=date<=e['subscription_end'] and self.policy=='cash_limited_subscribe':
                 if self._result_known(e,date) and e['outcome'] in ['failed','canceled']:continue
                 remaining=max(0.,self.entitlements.get(identifier,0.)-self.subscribed.get(identifier,0.))
-                if remaining>0:requests.append((e,remaining,remaining*float(e['subscription_price'])*(1+self.fee_rate)))
+                if remaining>0:requests.append((e,remaining,remaining*float(e['subscription_price'])*(1+self.subscription_rate(e))))
         required=math.fsum(cost for _,_,cost in requests);factor=min(1.,float(cash)/required) if required>0 else 0.
         for e,remaining,_ in requests:
             quantity=remaining*factor
             if quantity<=0:continue
-            principal=quantity*float(e['subscription_price']);fee=principal*self.fee_rate;identifier=e['event_id']
+            principal=quantity*float(e['subscription_price']);fee=principal*self.subscription_rate(e);identifier=e['event_id']
             claim=self.claims.setdefault(identifier,dict(quantity=0.,principal=0.));claim['quantity']+=quantity;claim['principal']+=principal;self.subscribed[identifier]=self.subscribed.get(identifier,0.)+quantity
             cash-=principal+fee;fees+=fee;rows.append(self._row(date,e,'subscribe',quantity,principal,fee,-principal-fee))
         if cash<-1e-9:raise AssertionError('rights subscription borrowed cash')
@@ -116,4 +119,4 @@ class RightsWallet:
         return rows
 
     def snapshot(self):
-        return dict(policy=self.policy,subscription_commission_bps=self.fee_rate*10000,registered_rights={k:float(v) for k,v in self.entitlements.items()},subscribed_rights={k:float(v) for k,v in self.subscribed.items()},locked_claims={k:dict(symbol=self.by_id[k]['symbol'],quantity=float(v['quantity']),principal=float(v['principal'])) for k,v in self.claims.items()})
+        return dict(policy=self.policy,subscription_commission_bps=self.fee_rate*10000,event_subscription_fee_bps={e['event_id']:self.subscription_rate(e)*10000 for e in self.events},registered_rights={k:float(v) for k,v in self.entitlements.items()},subscribed_rights={k:float(v) for k,v in self.subscribed.items()},locked_claims={k:dict(symbol=self.by_id[k]['symbol'],quantity=float(v['quantity']),principal=float(v['principal'])) for k,v in self.claims.items()})

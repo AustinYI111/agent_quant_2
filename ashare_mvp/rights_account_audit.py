@@ -12,7 +12,7 @@ from .costs import stamp_duty_rate
 
 def reconstruct_rights_account(store, reference, folder, first, last, out, policy,
                                stop_date=None, expected_holdings=None,
-                               expected_rights_state=None, subscription_fee_bps=3.):
+                               expected_rights_state=None, subscription_fee_bps=3.,eligible_symbols=None):
     if policy not in ['cash_limited_subscribe','decline']:
         raise ValueError('explicit rights audit policy required')
     source=Path(folder);target=Path(out)
@@ -21,7 +21,7 @@ def reconstruct_rights_account(store, reference, folder, first, last, out, polic
     target.mkdir(parents=True)
     dates=store.calendar[(store.calendar>=pd.Timestamp(first))&(store.calendar<=pd.Timestamp(last))]
     if stop_date is not None:dates=dates[dates<pd.Timestamp(stop_date)]
-    events={e['event_id']:e for e in reference.events}
+    events={e['event_id']:e for e in reference.events if eligible_symbols is None or e['symbol'] in eligible_symbols}
     actions={d:g for d,g in reference.actions.groupby('ex_date')}
     quantities={};marks={};receivables=[];cash=1.;previous_nav=1.;previous_claim=0.
     registered={};paid={};claims={};confirmed=set();lapsed=set()
@@ -82,13 +82,13 @@ def reconstruct_rights_account(store, reference, folder, first, last, out, polic
             for identifier,e in sorted(events.items()):
                 if policy=='cash_limited_subscribe' and e['offer_available_date']<=date and e['subscription_start']<=date<=e['subscription_end'] and not (visible(e) and e['outcome'] in ['failed','canceled']):
                     q=max(0.,registered.get(identifier,0.)-paid.get(identifier,0.))
-                    if q>0:requests.append((identifier,q,float(e['subscription_price'])))
-            demand=math.fsum(q*p*(1+rate) for _,q,p in requests)
+                    if q>0:requests.append((identifier,q,float(e['subscription_price']),float(e['subscription_fee_bps'])/10000 if e.get('subscription_fee_bps') is not None else rate))
+            demand=math.fsum(q*p*(1+fee_rate) for _,q,p,fee_rate in requests)
             fraction=min(1.,cash/demand) if demand else 0.
-            for identifier,q,p in requests:
+            for identifier,q,p,fee_rate in requests:
                 q*=fraction
                 if q<=0:continue
-                principal=q*p;fee=principal*rate;fees+=fee;cash-=principal+fee
+                principal=q*p;fee=principal*fee_rate;fees+=fee;cash-=principal+fee
                 old=claims.get(identifier,(0.,0.));claims[identifier]=(old[0]+q,old[1]+principal);paid[identifier]=paid.get(identifier,0.)+q
                 flow(identifier,'subscribe',q,principal,fee,-principal-fee)
             if cash<-1e-9:raise ValueError('rights funding borrowed cash')
@@ -147,9 +147,12 @@ def reconstruct_rights_account(store, reference, folder, first, last, out, polic
         if trades is not None or rights is not None or next(daily,None) is not None or next(totals,None) is not None:raise ValueError('ledger beyond valid prefix')
     if expected_holdings is not None and (set(expected_holdings)!=set(quantities) or any(abs(quantities[s]-expected_holdings[s])>1e-12 for s in quantities)):raise ValueError('stopped ordinary shares changed')
     if expected_rights_state is not None:
+        if 'event_subscription_fee_bps' in expected_rights_state:
+            actual_fees={i:float(e['subscription_fee_bps']) if e.get('subscription_fee_bps') is not None else subscription_fee_bps for i,e in events.items()}
+            if set(actual_fees)!=set(expected_rights_state['event_subscription_fee_bps']) or any(abs(actual_fees[i]-expected_rights_state['event_subscription_fee_bps'][i])>1e-12 for i in actual_fees):raise ValueError('stopped per-event fee state differs')
         for name,actual in [('registered_rights',registered),('subscribed_rights',paid)]:
             wanted=expected_rights_state[name]
             if set(wanted)!=set(actual) or any(abs(actual[k]-wanted[k])>1e-12 for k in actual):raise ValueError('stopped rights state differs')
         wanted=expected_rights_state['locked_claims']
         if set(wanted)!=set(claims) or any(wanted[i]['symbol']!=events[i]['symbol'] or not np.allclose([wanted[i]['quantity'],wanted[i]['principal']],c,rtol=0,atol=1e-12) for i,c in claims.items()):raise ValueError('stopped locked claims differ')
-    return dict(status='valid_rights_prefix_reconciled' if stop_date else 'complete_rights_account_reconciled',sessions=sessions,orders_checked=orders,max_absolute_reconciliation_error=maximum,full_period_performance_verified=stop_date is None,stopped_state_checked=expected_holdings is not None and expected_rights_state is not None)
+    return dict(status='valid_rights_prefix_reconciled' if stop_date else 'complete_rights_account_reconciled',sessions=sessions,orders_checked=orders,max_absolute_reconciliation_error=maximum,full_period_performance_verified=stop_date is None,stopped_state_checked=expected_holdings is not None and expected_rights_state is not None,audited_rights_event_ids=sorted(events))
