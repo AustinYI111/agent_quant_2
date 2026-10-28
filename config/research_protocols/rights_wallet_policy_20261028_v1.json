@@ -1,0 +1,23 @@
+{
+  "schema": "rights_wallet_research_policy_v1",
+  "recorded_at_utc": "2026-10-28T08:59:25.858372+00:00",
+  "default_policy": "cash_limited_subscribe",
+  "alternate_policy": "decline",
+  "originally_prespecified": false,
+  "prior_historical_research_already_inspected": true,
+  "independent_data_used_for_policy": false,
+  "model_selection_performed": false,
+  "original_seal_rewritten": false,
+  "policy_performance_used_for_default": false,
+  "user_default_preference_pending": true,
+  "rules": {
+    "registry": "Settled shares after registry-session open orders; no intraday trades assumed.",
+    "funding": "At each allowed subscription-window open before stock rebalance, allocate only free account cash pro rata to remaining entitlements. No loan, external capital or forced sales. Unfunded rights lapse after the window.",
+    "fees": "Research assumption:3bp subscription commission, no subscription slippage or stamp duty; commission not refunded on issue failure. Actual brokerage charges not certified.",
+    "valuation": "Subscription principal stays as a deposit at cost until success is publicly visible and ex-date has occurred; successful locked-share claims then use raw underlying valuation.",
+    "availability": "Date-only publications become visible next exchange session. Unknown expected result/refund stops the account, not zeroed. New shares tradable only after both listing date and listing-notice availability.",
+    "failed_or_cancelled": "Do not subscribe after cancellation/failure is visible; previously paid principal returns only after disclosed refund date and publication availability. No assumed refund interest.",
+    "comparison": "Both policies versioned separately. No return-based default selection or automatic promotion."
+  },
+  "rights_coverage": "Documented cases only; complete successful/failed/cancelled issuer-offer universe not yet certified. No final-family strategy claim from this extension."
+}

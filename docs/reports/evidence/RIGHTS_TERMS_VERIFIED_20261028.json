@@ -1,0 +1,66 @@
+{
+  "schema": "reviewed_rights_terms_verification_v1",
+  "status": "primary_terms_and_raw_reference_verified",
+  "verified_at_utc": "2026-10-28T09:07:56.292533+00:00",
+  "events": [
+    {
+      "terms": {
+        "event_id": "sz.002142_20211123_rights",
+        "symbol": "sz.002142",
+        "offer_publication_date": "2021-11-19",
+        "record_date": "2021-11-23",
+        "subscription_start": "2021-11-24",
+        "subscription_end": "2021-11-30",
+        "expected_result_date": "2021-12-02",
+        "offer_ratio": "0.10",
+        "subscription_price": "19.97",
+        "outcome": "success",
+        "result_publication_date": "2021-12-02",
+        "ex_date": "2021-12-02",
+        "registered_ordinary_shares": 6008016286,
+        "issued_ordinary_shares": 595574506,
+        "quoted_exchange_ratio_per_10": "0.991299",
+        "aggregate_subscription_cash": "11893622884.82",
+        "listing_publication_date": "2021-12-13",
+        "tradable_from": "2021-12-15",
+        "post_issue_ordinary_shares": 6603590792,
+        "refund_date": null,
+        "offer_available_date": "2021-11-22",
+        "expected_result_available_date": "2021-12-03",
+        "result_available_date": "2021-12-03",
+        "listing_available_date": "2021-12-14",
+        "exchange_ratio": "0.099129975294477755348747734736083902819167557762509"
+      },
+      "previous_session": "2021-12-01",
+      "previous_close": 38.88,
+      "quote_reconciliation": {
+        "matches": true,
+        "expected_unrounded": "37.174516685966691559345792969904547047227150473621",
+        "expected_half_up": "37.17",
+        "observed_preclose": "37.17",
+        "exact_exchange_ratio": "0.099129975294477755348747734736083902819167557762509",
+        "reference_role": "retrospective quote reconciliation only; not an input to offer subscription or earlier ranking"
+      }
+    }
+  ],
+  "project_source_hashes": {
+    "config/reviewed_rights_cases_20261028_v1.json": "d2a7beeed8a158f9ddc67dc7a2b14192454c301ddfec9b34c2b9c68898b2627b"
+  },
+  "evidence_source_hashes": {
+    "research/rights_002142_sources_20261028_v1/1211627064.PDF": "eeb07c5bac99234b7453815cc92b3d49fb780fd25dce2f96ae3ba36280ef9079",
+    "research/rights_002142_sources_20261028_v1/manifest.json": "81db39f01818201a0695242967c8822eb09650e4826050d87618a10a3aa9cfa8",
+    "research/rights_002142_sources_20261028_v1/1211763892.PDF": "4375dadafc13620b5069c538b488c4f90f41bddabd6afa71d3aa1bd42e8eff80",
+    "research/rights_002142_sources_20261028_v1/1211875623.PDF": "e939a7dac8221372fb98cc05fa9b990deae6b4d4a49a81d331b877229853754d"
+  },
+  "original_vintages_verified": false,
+  "reference_only_not_ranking_or_training": true,
+  "account_replay_performed": false,
+  "original_model_or_forecasts_changed": false,
+  "module_code_hashes": {
+    "rights_terms.py": "7e02269baf496089f3c0fb6968ebd72638bec7c0f53b353c0d793bf7b8d41010",
+    "rights_wallet.py": "cd4355b25f3b14b55483aa58099c87ee46a0ca00de89b2b6d5ccf21148ae9ef6"
+  },
+  "new_wallet_tests_passed": 32,
+  "related_tests_passed": 75,
+  "scope": "Rights state machine and primary-source terms only; not integrated into full historical accounts or independently audited rights account returns."
+}
