@@ -1,0 +1,14 @@
+{
+  "schema": "real_disk_quote_store_resource_receipt_v1",
+  "recorded_at_utc": "2026-10-28T03:56:32.456960+00:00",
+  "manifest_sha256": "f9347a2464036754a3429b80353fe445e58f6b974546cf21fc514971fbfc45cf",
+  "rows": 8609196,
+  "issuers": 5401,
+  "max_issuer_rows": 1942,
+  "database_bytes": 545738752,
+  "peak_process_working_set_mb": 117.6875,
+  "memory_measurement_error": null,
+  "raw_source_sha256": "327e392dd61a4674156c567a31df38f377be8af4ebc918c95fada2aaf1450785",
+  "storage_drive": "research_drive",
+  "backup_or_restore_performed": false
+}
