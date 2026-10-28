@@ -92,4 +92,4 @@ python -m ashare_mvp.industry_portfolios --project . --training artifacts/phase2
 
 等权对照可用`--reference-evidence config/reviewed_equal_weight_refs_20261028_v3.json`加载新增原公告参考证据；原股东现金、股份和支付日不变。补证后的实际结果、全池风险清单及27日冻结预测见[核心进展](reports/CORE_PROGRESS_20261027.md)，仍未获得完整等权绩效。
 
-下一开盘择时执行与原协议后补细则已实现，真实账户回放正在进行。[规则、测试与限制](reports/TIMING_EXECUTION_20261028.md)。
+下一开盘择时执行与原协议后补细则已实现，18组完整账户及独立会计／意图／配对核验已完成，完整等权和最终选模仍待完成。[规则、测试与限制](reports/TIMING_EXECUTION_20261028.md)。
