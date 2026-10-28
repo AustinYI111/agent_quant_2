@@ -90,4 +90,4 @@ python -m ashare_mvp.industry_portfolios --project . --training artifacts/phase2
 
 已实现并实际尝试三周期，全部因已持有股票的参考校验缺口停止，尚无完整对照收益。全部合格键保留，分红、费用、调仓与完整期限不变；支持独立研究盘及逐步扩大计算窗口。[实际缺口、测试及命令](reports/ELIGIBLE_POOL_FIRST_REPLAY_20261027.md)。
 
-等权对照可用`--reference-evidence config/reviewed_equal_weight_refs_20261027_v1.json`加载新增原公告参考证据；原股东现金、股份和支付日不变。补证后的实际结果、全池风险清单及27日冻结预测见[核心进展](reports/CORE_PROGRESS_20261027.md)，仍未获得完整等权绩效。
+等权对照可用`--reference-evidence config/reviewed_equal_weight_refs_20261028_v2.json`加载新增原公告参考证据；原股东现金、股份和支付日不变。补证后的实际结果、全池风险清单及27日冻结预测见[核心进展](reports/CORE_PROGRESS_20261027.md)，仍未获得完整等权绩效。
