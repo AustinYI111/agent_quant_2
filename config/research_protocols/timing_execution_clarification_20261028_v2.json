@@ -1,0 +1,32 @@
+{
+  "schema": "phase2_timing_operational_clarification_v1",
+  "implementation": "close_timing_policy_v1",
+  "recorded_at_utc": "2026-10-28T02:55:37.383664+00:00",
+  "original_protocol_sha256": "d8a79ee894df5054c73289e101b9cf2bf77093c89b47b31e5551c5ffa7def04f",
+  "originally_prespecified": false,
+  "performance_used_for_clarification": false,
+  "prior_ranking_results_already_inspected": true,
+  "timing_account_results_already_inspected": false,
+  "independent_data_used": false,
+  "original_seal_rewritten": false,
+  "rules": {
+    "universe": "Latest original scheduled Top20, refreshed only on original horizon calendar; same requested full endpoint.",
+    "entries": "Flat intended issuers may enter on the preceding close technical signal between scheduled refreshes; fixed original 1/20 weight, unused allocation remains cash.",
+    "execution": "Close signal executes at next exchange open. Blocked buys persist until filled, explicit exit, or universe removal; unknown inputs create no new intent.",
+    "exits": "Explicit close exit or removal from intended Top20 creates persistent exit until flat; never cancel a blocked exit with an on-state before liquidation.",
+    "holding": "No daily resizing of positive holdings outside original scheduled refresh. At refresh, non-exiting held intended names resize to original equal target.",
+    "reentry": "After an exit fills, a new later close entry may reopen at following open; never exit and reenter same open.",
+    "unknown": "Unknown exit alone preserves existing positions; unresolved positive holding valuation stops account without full metrics.",
+    "industry": "No separate standalone industry timing formula specified originally; remains unresolved rather than inventing an outcome-fitted gate.",
+    "family": "All original 24 comparisons retain family threshold; partial technical runs cannot establish full-family selection.",
+    "new_buys": "Buy execution additionally requires a known non-ST current-session status from the bound original historical provider file. Missing status or ST blocks a buy, never deletes an existing holding. Beijing/CDR absent from original intended Top20 keys."
+  },
+  "limitations": [
+    "Clarification is after original protocol and ranking research; cannot claim originally prespecified execution semantics.",
+    "No 2026 data used for fitting, timing account selection or this historical replay."
+  ],
+  "prior_timing_attempt_accounts_produced": 1,
+  "prior_timing_attempt_accepted": false,
+  "prior_timing_attempt_numeric_metrics_inspected": false,
+  "prior_attempt_status": "interrupted_for_missing_daily_st_buy_gate"
+}

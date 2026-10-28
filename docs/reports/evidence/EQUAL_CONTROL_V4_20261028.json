@@ -1,0 +1,75 @@
+{
+  "schema": "equal_control_four_reference_checkpoint_v1",
+  "recorded_at_utc": "2026-10-28T02:58:31.075160+00:00",
+  "source_manifest_sha256": "e31b2cca41524c3833a72d0579182dc1e7ffff8edd7e5a204eeddfc2c973fa32",
+  "reference_config_sha256": "6763985f641ca69caed18c38c96bdd9e83d8448e60f1a677a4080bfdd7479e3c",
+  "reference_events": 4,
+  "actual_holder_terms_changed": false,
+  "accounts": [
+    {
+      "horizon": "5d",
+      "status": "incomplete_held_valuation",
+      "symbol": "sz.002042",
+      "date": "2021-11-23",
+      "reason": "reference",
+      "requested_end": "2025-12-25",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-08",
+          "rows": 269071,
+          "requested_full_endpoint": false
+        },
+        {
+          "end": "2022-02-11",
+          "rows": 545184,
+          "requested_full_endpoint": false
+        }
+      ]
+    },
+    {
+      "horizon": "20d",
+      "status": "incomplete_held_valuation",
+      "symbol": "sz.002042",
+      "date": "2021-11-23",
+      "reason": "reference",
+      "requested_end": "2025-12-18",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-08",
+          "rows": 269071,
+          "requested_full_endpoint": false
+        },
+        {
+          "end": "2022-02-11",
+          "rows": 545184,
+          "requested_full_endpoint": false
+        }
+      ]
+    },
+    {
+      "horizon": "12m",
+      "status": "incomplete_held_valuation",
+      "symbol": "sz.002042",
+      "date": "2021-11-23",
+      "reason": "reference",
+      "requested_end": "2025-09-02",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-04",
+          "rows": 268461,
+          "requested_full_endpoint": false
+        },
+        {
+          "end": "2022-02-09",
+          "rows": 543950,
+          "requested_full_endpoint": false
+        }
+      ]
+    }
+  ],
+  "complete_accounts": 0,
+  "independent_data_used": false,
+  "model_selection_performed": false,
+  "formal_model_promoted": false,
+  "backup_and_restore_deferred": true
+}
