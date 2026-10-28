@@ -137,3 +137,61 @@ def test_invisible_or_ambiguous_schedule_is_rejected_before_execution(tmp_path,b
     try:
         with pytest.raises(ValueError):simulate_disk_account(store,reference,tmp_path/'picks.csv',cal,c,tmp_path/'account')
     finally:reference.close();store.close()
+
+
+@pytest.mark.parametrize('kind',['normal','dividend','split','suspension','blocked_sale','missing_buy'])
+def test_independent_disk_audit_reconstructs_cash_shares_receivables_and_dated_costs(tmp_path,kind):
+    from ashare_mvp.disk_account_audit import reconstruct_disk_account
+    data,picks,raw,actions,c=inputs(tmp_path,kind);store,reference,m,a=build(tmp_path,data)
+    try:
+        simulate_disk_account(store,reference,tmp_path/'picks.csv',data.calendar,c,tmp_path/'account')
+        proof=reconstruct_disk_account(store,reference,tmp_path/'account',data.calendar[1],data.calendar[-1],tmp_path/'audit')
+    finally:reference.close();store.close()
+    assert proof['full_period_performance_verified'] and proof['sessions']==len(data.calendar)-1 and proof['max_absolute_reconciliation_error']<1e-12
+
+
+@pytest.mark.parametrize('kind',['reference','missing','terminal'])
+def test_independent_disk_audit_verifies_every_partial_row_and_actual_held_shares(tmp_path,kind):
+    from ashare_mvp.disk_account_audit import reconstruct_disk_account
+    data,picks,raw,actions,c=inputs(tmp_path,kind);picks=picks[picks.date.eq(data.calendar[0])];picks.to_csv(tmp_path/'picks.csv',index=False)
+    store,reference,m,a=build(tmp_path,data)
+    try:
+        with pytest.raises(DiskHeldValuationError) as caught:simulate_disk_account(store,reference,tmp_path/'picks.csv',data.calendar,c,tmp_path/'account')
+        for before,after in [('daily_nav.csv','partial_valid_nav.csv'),('orders.csv','partial_orders.csv')]: (tmp_path/'account'/before).rename(tmp_path/'account'/after)
+        e=caught.value;proof=reconstruct_disk_account(store,reference,tmp_path/'account',data.calendar[1],data.calendar[-1],tmp_path/'audit',e.date,e.holdings)
+    finally:reference.close();store.close()
+    assert not proof['full_period_performance_verified'] and proof['holdings_at_stop_checked'] and proof['sessions']==5
+
+
+@pytest.mark.parametrize('tamper',['order','nav','missing_day','stamp','totals'])
+def test_independent_disk_audit_rejects_altered_money_or_dropped_sessions(tmp_path,tamper):
+    from ashare_mvp.disk_account_audit import reconstruct_disk_account
+    data,picks,raw,actions,c=inputs(tmp_path);store,reference,m,a=build(tmp_path,data)
+    try:
+        simulate_disk_account(store,reference,tmp_path/'picks.csv',data.calendar,c,tmp_path/'account')
+        if tamper in ['order','stamp']:
+            file=tmp_path/'account/orders.csv';t=pd.read_csv(file,float_precision='round_trip')
+            if tamper=='order':t.loc[0,'notional']*=1.1
+            else:t.loc[0,'stamp_duty']=.001
+        elif tamper=='totals':
+            file=tmp_path/'account/daily_execution_totals.csv';t=pd.read_csv(file,float_precision='round_trip');t.loc[0,'notional']+=.01
+        else:
+            file=tmp_path/'account/daily_nav.csv';t=pd.read_csv(file,float_precision='round_trip')
+            if tamper=='nav':t.loc[0,'cash']+=.01
+            else:t=t.iloc[1:]
+        t.to_csv(file,index=False)
+        with pytest.raises(ValueError):reconstruct_disk_account(store,reference,tmp_path/'account',data.calendar[1],data.calendar[-1],tmp_path/'audit')
+    finally:reference.close();store.close()
+
+
+@pytest.mark.parametrize('tamper',[False,True])
+def test_old_prefix_check_also_rejects_an_extra_trade_after_last_old_trade_before_prefix_end(tmp_path,tamper):
+    from ashare_mvp.disk_account_audit import prefix_matches
+    old=tmp_path/'old';new=tmp_path/'new';old.mkdir();new.mkdir()
+    nav=pd.DataFrame(dict(date=['2023-01-03','2023-01-04'],nav=[.9992,1.],cash=[0.,0.],positions=[1,1],dividend_receivable=[0.,0.],return_basis=['raw']*2))
+    trade=pd.DataFrame(dict(date=['2023-01-03'],symbol=['sh.600001'],side=['buy'],notional=[.9992],stamp_duty_bps=[0.],stamp_duty=[0.],cost=[.0008],status=['filled']))
+    for p in [old,new]:nav.to_csv(p/'partial_valid_nav.csv',index=False);trade.to_csv(p/'partial_orders.csv',index=False)
+    assert prefix_matches(old,new)['old_valid_prefix_exact']
+    if tamper:
+        extra=trade.copy();extra.date='2023-01-04';extra.side='sell';pd.concat([trade,extra]).to_csv(new/'partial_orders.csv',index=False)
+        with pytest.raises(ValueError,match='extra new trade'):prefix_matches(old,new)

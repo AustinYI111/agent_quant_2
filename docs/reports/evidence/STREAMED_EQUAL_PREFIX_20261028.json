@@ -1,0 +1,39 @@
+{
+  "schema": "streamed_equal_prefix_conservation_v1",
+  "verified_at_utc": "2026-10-28T04:15:03.467203+00:00",
+  "producer_manifest_sha256": "855e9bb045445356b0d7e6d3f7595876ba336293c7ac03599b3ac8e331ce43d3",
+  "independent_manifest_sha256": "64c1ba40f6be3cdc5c32a2eb39243fff344cd4c50928a3b494e08929479e4011",
+  "previous_four_reference_manifest_sha256": "e31b2cca41524c3833a72d0579182dc1e7ffff8edd7e5a204eeddfc2c973fa32",
+  "prefixes": [
+    {
+      "old_valid_prefix_exact": true,
+      "through_date": "2021-11-22",
+      "rows": {
+        "partial_valid_nav.csv": 72,
+        "partial_orders.csv": 54737
+      },
+      "horizon": "5d"
+    },
+    {
+      "old_valid_prefix_exact": true,
+      "through_date": "2021-11-22",
+      "rows": {
+        "partial_valid_nav.csv": 72,
+        "partial_orders.csv": 14569
+      },
+      "horizon": "20d"
+    },
+    {
+      "old_valid_prefix_exact": true,
+      "through_date": "2021-11-22",
+      "rows": {
+        "partial_valid_nav.csv": 74,
+        "partial_orders.csv": 3537
+      },
+      "horizon": "12m"
+    }
+  ],
+  "independently_reconciled_prefixes": 3,
+  "complete_equal_weight_accounts": 0,
+  "full_period_performance_available": false
+}

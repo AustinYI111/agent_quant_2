@@ -1,0 +1,52 @@
+{
+  "schema": "bounded_equal_independent_audit_v1",
+  "status": "all_available_valid_prefixes_reconciled",
+  "started_at_utc": "2026-10-28T04:14:51.588171+00:00",
+  "source_manifest_sha256": "855e9bb045445356b0d7e6d3f7595876ba336293c7ac03599b3ac8e331ce43d3",
+  "verification_code_hashes": {
+    "disk_account_audit.py": "03498795f6019fb315a40f6d6455e7537817bbd96fcad5bfcf7322495f4e53f3",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e"
+  },
+  "accounts": [
+    {
+      "status": "valid_prefix_independently_reconciled",
+      "sessions": 79,
+      "orders_checked": 58465,
+      "max_absolute_reconciliation_error": 4.7187947993521107e-14,
+      "max_day_quotes": 4559,
+      "holdings_at_stop_checked": true,
+      "full_period_performance_verified": false,
+      "horizon": "5d"
+    },
+    {
+      "status": "valid_prefix_independently_reconciled",
+      "sessions": 79,
+      "orders_checked": 14569,
+      "max_absolute_reconciliation_error": 3.6178850713886046e-14,
+      "max_day_quotes": 4559,
+      "holdings_at_stop_checked": true,
+      "full_period_performance_verified": false,
+      "horizon": "20d"
+    },
+    {
+      "status": "valid_prefix_independently_reconciled",
+      "sessions": 81,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "max_day_quotes": 4559,
+      "holdings_at_stop_checked": true,
+      "full_period_performance_verified": false,
+      "horizon": "12m"
+    }
+  ],
+  "independent_data_used": false,
+  "model_selection_performed": false,
+  "formal_model_promoted": false,
+  "completed_at_utc": "2026-10-28T04:15:02.883896+00:00",
+  "complete_accounts": 0,
+  "output_hashes": {
+    "12m/daily_reconstruction.csv": "de5fcd3f83c939ec0980c9d487fbce98787e036d0cd2f805167af4aacfe7ffb3",
+    "20d/daily_reconstruction.csv": "5bdd8b270b56d1bdd5a9a77d78671ebdf412494e9bc77fe497f063bcb11eb976",
+    "5d/daily_reconstruction.csv": "907966f4feeab03bd9cfa78cc13c0e693b58ac436e9d65d76731bf26cfd927e7"
+  }
+}

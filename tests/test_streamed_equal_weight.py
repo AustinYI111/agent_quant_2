@@ -64,6 +64,11 @@ def test_full_three_horizon_producer_keeps_original_eligible_keys_and_exact_ledg
             assert r['metrics']==next(x['metrics'] for x in prior['accounts'] if x['horizon']==h)
         for name in names:pd.testing.assert_frame_equal(pd.read_csv(new/name,float_precision='round_trip'),pd.read_csv(old/name,float_precision='round_trip'),check_exact=True)
     for name,digest in result['output_hashes'].items():assert sha256(work/'new'/name)==digest
+    from ashare_mvp.disk_account_audit import audit_streamed_equal
+    audit=audit_streamed_equal(tmp_path,work,'new','quotes','references','independent')
+    assert audit['status']=='all_available_valid_prefixes_reconciled' and len(audit['accounts'])==3
+    assert audit['complete_accounts']==(0 if unresolved else 3)
+    assert all(r['full_period_performance_verified'] is not unresolved for r in audit['accounts'])
 
 
 @pytest.mark.parametrize('bad',['duplicate','future','unequal','non_a'])
