@@ -12,7 +12,7 @@ import ashare_mvp.timing_portfolios as module
 def test_actual_producer_binds_full_family_and_replays_full_three_horizons(tmp_path,monkeypatch,unresolved):
     cal=pd.bdate_range('2023-01-02','2024-02-01');names=['sh.'+str(600000+i) for i in range(20)]
     for folder in ['source','cache','data','benchmark','ashare_mvp']:(tmp_path/folder).mkdir()
-    for name in ['timing_portfolios.py','timing_policy.py','timing_account.py','pipeline.py','candidate_portfolios.py','corporate_actions.py','causal_quality.py','costs.py','technical_candidates.py','valuation_overlay.py','reference_overrides.py']:
+    for name in ['timing_portfolios.py','timing_policy.py','timing_account.py','pipeline.py','candidate_portfolios.py','corporate_actions.py','causal_quality.py','costs.py','technical_candidates.py','valuation_overlay.py','reference_overrides.py','timing_account_audit.py','timing_verification.py','accounting_attribution.py']:
         (tmp_path/'ashare_mvp'/name).write_bytes(Path(module.__file__).with_name(name).read_bytes())
     pd.DataFrame(dict(date=cal)).to_csv(tmp_path/'data/calendar.csv',index=False)
     raw=pd.DataFrame([dict(date=d,symbol=s,open=10.,close=10.,preclose=10.,tradestatus='1',terminal_date=pd.NaT) for d in cal for s in names])
@@ -57,6 +57,12 @@ def test_actual_producer_binds_full_family_and_replays_full_three_horizons(tmp_p
         nav=pd.read_csv(tmp_path/'external/out/12m/30/market_state/daily_nav.csv')
         assert nav.date.iloc[-1]==annual['requested_end']
     for name,digest in result['output_hashes'].items():assert sha256(tmp_path/'external/out'/name)==digest
+    from ashare_mvp.timing_account_audit import audit_timing
+    audit=audit_timing(tmp_path,'out',tmp_path/'external','source','data','cache','benchmark','verified',tmp_path/'independent')
+    assert audit['status']=='available_complete_timing_accounts_verified'
+    assert audit['completed_accounts']==(0 if unresolved else 6)
+    assert len(audit['paired_checks'])==(0 if unresolved else 12)
+    if not unresolved:assert max(r['max_absolute_reconciliation_error'] for r in audit['accounts'])<1e-12
 
 
 def test_new_buy_permissions_exclude_st_keep_missing_unknown_and_do_not_forward_fill(tmp_path):

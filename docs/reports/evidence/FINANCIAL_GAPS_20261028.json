@@ -1,0 +1,31 @@
+{
+  "schema": "financial_gap_completion_independent_checks_v1",
+  "verified_at_utc": "2026-10-28T03:08:22.929194+00:00",
+  "assembly_sha256": "1fa53319e34678e541287b61facf5fc53082538f882be9e8ce608b9a40be4d12",
+  "complete_requested_partitions": 12,
+  "retried_partitions": 4,
+  "quarter_manifest_hashes": {
+    "financials": "168082ca7dc58cb7be5ca8b19a134b28e59487fc6a1fc91fc623a9fcaf45fb15",
+    "balances": "b04c85314e15ba0675df9f335d1d80dcb2d6e1e6e430857956103027f603db9d",
+    "dividend_plans": "11b18980d87e1f2ae033a9a839bb1857f2a72f9144c4e3e51965affc6897e42a"
+  },
+  "income_records": 31115,
+  "balance_records": 18173,
+  "combined_records": 21024,
+  "combined_symbols": 5658,
+  "debt_records": 17797,
+  "panel_sha256": "c2fc5deb9ef236b830ee36f2b5b15874b39d20696dc48791f0ef9a4b5bd52079",
+  "observation_clocks_preserved": true,
+  "unique_visible_dependency_versions": true,
+  "previous_forecast_archive_unchanged": true,
+  "previous_forecast_archive_sha256": "da72396378218c99bc72fe59b5ff6a2aca7a3b73b0ec62171dec9111b23e4299",
+  "new_panel_used_for_existing_predictions": false,
+  "independent_training_or_selection_performed": false,
+  "original_vintages_verified": false,
+  "limitations": [
+    "Mixed 27/28 October actual observations, not a single complete 27 October snapshot.",
+    "Complete provider request pages do not mean all issuers have filed current-quarter statements.",
+    "Normalized data is prepared on research drive; not yet connected to a new close prediction.",
+    "Original provider updates and bank receipts remain uncertified."
+  ]
+}
