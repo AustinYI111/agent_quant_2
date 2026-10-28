@@ -94,7 +94,7 @@ def test_real_control_producer_runs_all_three_full_holding_calendars_and_seals_o
     from ashare_mvp.horizon_labels import label_interval,HORIZONS
     cal=pd.bdate_range('2023-01-02','2024-02-01');names=['sh.'+str(600000+i) for i in range(20)]
     for name in ['source','dataset','experiment/models','benchmark','ashare_mvp']:(tmp_path/name).mkdir(parents=True,exist_ok=True)
-    for name in ['eligible_equal_weight.py','candidate_portfolios.py','pipeline.py','corporate_actions.py','causal_quality.py','costs.py','public_data.py']:
+    for name in ['eligible_equal_weight.py','candidate_portfolios.py','pipeline.py','corporate_actions.py','causal_quality.py','costs.py','public_data.py','valuation_overlay.py','reference_overrides.py','phase2_protocol.py']:
         (tmp_path/'ashare_mvp'/name).write_bytes(Path(module.__file__).with_name(name).read_bytes())
     pd.DataFrame({'date':cal}).to_csv(tmp_path/'dataset/calendar.csv',index=False)
     raw=pd.DataFrame([dict(date=d,symbol=s,open=10.,close=10.,preclose=10.,tradestatus='1',terminal_date=pd.NaT) for d in cal for s in names])

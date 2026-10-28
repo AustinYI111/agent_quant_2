@@ -1,0 +1,50 @@
+[
+  {
+    "symbol": "sh.600208",
+    "ex_date": "2021-08-04",
+    "announcement_date": "2021-07-29",
+    "available_date": "2021-07-30",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2021-07-29/1210590622.PDF",
+    "source_sha256": "b69222e4dbac9cad3e877d17475091e9ec5873829b3989859760cd7b7383c351",
+    "source_page": 2,
+    "reviewed": true,
+    "source_file": "artifacts/reviewed_equal_weight_notices_20261027/600208_20210804_core_20261027/1210590622.PDF",
+    "source_capture_file": "artifacts/reviewed_equal_weight_notices_20261027/600208_20210804_core_20261027/manifest.json",
+    "source_capture_sha256": "efc32fe5ba9650aac5b43c10f80edf507a97f21409c930d4f41a950760090fb5",
+    "observed_at_utc": "2026-10-27T09:52:19.640424+00:00",
+    "reviewed_at_utc": "2026-10-27T09:57:48.453768+00:00",
+    "expected_cash_per_share": 0.056,
+    "expected_share_multiplier": 1.0,
+    "reference_cash_per_share": 0.055,
+    "reference_share_multiplier": 1.0,
+    "reviewed_actual_entitlement_pages": [
+      1,
+      2
+    ],
+    "review_scope": "Primary pages 1-2 visually reviewed; literal reference cash only. Actual cash, shares and pay dates unchanged. Research source reconstruction; original byte vintage uncertified."
+  },
+  {
+    "symbol": "sh.600690",
+    "ex_date": "2021-08-23",
+    "announcement_date": "2021-08-17",
+    "available_date": "2021-08-18",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2021-08-17/1210760602.PDF",
+    "source_sha256": "a1d20792bbac13ed719ea4f3005f882925b28260996cab60ea26e19f2451757f",
+    "source_page": 2,
+    "reviewed": true,
+    "source_file": "artifacts/reviewed_equal_weight_notices_20261027/600690_20210823_core_20261027/1210760602.PDF",
+    "source_capture_file": "artifacts/reviewed_equal_weight_notices_20261027/600690_20210823_core_20261027/manifest.json",
+    "source_capture_sha256": "d23720c067331d73098b7089ed2c0bfe86d9e05fcf64dddf2086d6f018745526",
+    "observed_at_utc": "2026-10-27T09:52:17.943877+00:00",
+    "reviewed_at_utc": "2026-10-27T09:57:48.483769+00:00",
+    "expected_cash_per_share": 0.366,
+    "expected_share_multiplier": 1.0,
+    "reference_cash_per_share": 0.3633,
+    "reference_share_multiplier": 1.0,
+    "reviewed_actual_entitlement_pages": [
+      1,
+      2
+    ],
+    "review_scope": "Primary pages 1-2 visually reviewed; literal reference cash only. Actual cash, shares and pay dates unchanged. Research source reconstruction; original byte vintage uncertified."
+  }
+]

@@ -41,7 +41,7 @@ def evaluation_windows(calendar,first,last):
     return ends+[dates[-1]]
 
 
-def evaluate_equal_weight(project,accounts,dataset,experiment,benchmark,seal_directory,out,output_root=None):
+def evaluate_equal_weight(project,accounts,dataset,experiment,benchmark,seal_directory,out,output_root=None,reference_evidence=None):
     root=Path(project).resolve()
     def local(value):
         p=Path(value)
@@ -88,11 +88,19 @@ def evaluate_equal_weight(project,accounts,dataset,experiment,benchmark,seal_dir
     samples=pd.read_csv(old/'factor_samples.csv',usecols=['date','symbol','available_date'],dtype={'symbol':str},parse_dates=['date','available_date'])
     actions=pd.read_csv(source/'effective_valuation_actions.csv',float_precision='round_trip',low_memory=False)
     for name in ['ex_date','available_date','pay_date']:actions[name]=pd.to_datetime(actions[name],format='mixed')
+    overlay=None
+    if reference_evidence is not None:
+        from .valuation_overlay import reviewed_valuation_references
+        actions,overlay=reviewed_valuation_references(actions,reference_evidence,root,calendar,protocol['research_end'])
+        for name,digest in overlay['source_hashes'].items():bind(local(name),digest)
     benchmark_frame=pd.read_csv(index/'raw_prices.csv',parse_dates=['date'],float_precision='round_trip')
-    code_names=['eligible_equal_weight.py','candidate_portfolios.py','pipeline.py','corporate_actions.py','causal_quality.py','costs.py','public_data.py']
+    code_names=['eligible_equal_weight.py','candidate_portfolios.py','pipeline.py','corporate_actions.py','causal_quality.py','costs.py','public_data.py','valuation_overlay.py','reference_overrides.py','phase2_protocol.py']
     def codes():return {n:hashlib.sha256((root/'ashare_mvp'/n).read_text(encoding='utf-8-sig').replace('\r\n','\n').encode()).hexdigest() for n in code_names}
     initial_codes=codes();target.mkdir(parents=True)
+    actions.to_csv(target/'effective_valuation_actions.csv',index=False)
     proof=dict(schema='eligible_equal_weight_control_v1',status='running',started_at_utc=datetime.now(timezone.utc).isoformat(),protocol_sha256=seal['protocol_sha256'],source_hashes=sources,code_hashes=initial_codes,accounts=[],independent_data_used=False,model_selection_performed=False,formal_model_promoted=False,certified=False,definition='All original eligible keys at the matched ranking decision dates; equal target weight; same raw shares, gross dividend entitlement, dated costs and no final liquidation.',limitations=['Not a Top20 strategy or investor-fill certification.','Blocked old holdings remain; unknown positive holdings stop without full-period metrics.','Control comparisons are descriptive, not additional candidate-family significance tests.'])
+    proof['reference_overlay']=overlay
+    proof['actual_holder_terms_changed']=False
     def save():
         temporary=target/'manifest.next.json';temporary.write_text(json.dumps(proof,ensure_ascii=False,indent=2,allow_nan=False)+'\n',encoding='utf8');temporary.replace(target/'manifest.json')
     save()
@@ -153,4 +161,5 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     for name in ['project','accounts','dataset','experiment','benchmark','seal-directory','out']:p.add_argument('--'+name,required=True)
     p.add_argument('--output-root',help='explicit separate drive/directory for control outputs; input paths stay project-relative')
+    p.add_argument('--reference-evidence',help='additional visually reviewed primary-notice references; holder terms cannot change')
     evaluate_equal_weight(**vars(p.parse_args()))
