@@ -1,0 +1,225 @@
+{
+  "schema": "ranking_st_control_execution_parity_v1",
+  "checked_at_utc": "2026-10-28T03:29:19.687430+00:00",
+  "ranking_manifest_sha256": "43b9a674800e61249569d2a206a8442f929d5433c62e8070d2aaa64fa144eb49",
+  "price_status_sha256": "d946075ad13792e14ae7f063c22909553fb3734102c3a11d67046de38bb329eb",
+  "order_hashes": {
+    "5d/30/baseline/orders.csv": "94ecfa8870e7e95c6a9391185af198bdff817373c2d94c8a779a1983860da36a",
+    "5d/30/market_state/orders.csv": "ecf9d2495a3f1b285103a93677c9b59b1ea66126aa5748ddf49de931e7429be7",
+    "5d/30/oneil_box/orders.csv": "aada58a7e64993dcc7407c2d2dca807bd3343754bdc47d84f51d434cc4a56a04",
+    "5d/30/industry/orders.csv": "43f293a178a49e4384559d6a08d5746672c25ffc98cb77f1d7c57c3da907c283",
+    "5d/30/combined/orders.csv": "5bd0698645cb7945d74bded0c0841be5007cb24bfeff5ea0882a0c0f32baac9f",
+    "5d/60/baseline/orders.csv": "03a986ac67c234fc14318303e73f84a7828d02b3ceb7ffad8a51b8c8a942eea3",
+    "5d/60/market_state/orders.csv": "3bb6f10994a2c34dfc6a3a8cb89ab5df591e4c98837029dd09d8d950f0f34d70",
+    "5d/60/oneil_box/orders.csv": "d339a36210c23542df26db9f225407cafc1edbe82d17550915ddaec4ac6e6bbd",
+    "5d/60/industry/orders.csv": "bafe136ea5d3b1f6042cecb4e75f403d6bdc3196a609b2ce7a4b18a54df183c0",
+    "5d/60/combined/orders.csv": "47e4cae6a42e48bae616a6cc9d39d6320d670c2d8f7ca349c4fb186dc952045a",
+    "20d/30/baseline/orders.csv": "44e5212263cc24f6579224b057773251ebfb21002846927c2b89711995a68354",
+    "20d/30/market_state/orders.csv": "b4e523926ef85a1f04bf194545078cf033b6261b9011aaf7089e79d2f4860b42",
+    "20d/30/oneil_box/orders.csv": "05f89aeef39fcc88e5decc63f966cb15e31c6b7a77511bfe45e2a66a237269e3",
+    "20d/30/industry/orders.csv": "aeb2caca5ffbe6c1cb69e2534d7452af4d472b60360328965abf97483a530ad4",
+    "20d/30/combined/orders.csv": "857ee35c5b546f765c2328c15f3d0ace696717f91d5bf1803949db601a25471c",
+    "20d/60/baseline/orders.csv": "5f67388f26892d771aa377a784ce58e25c33a512406f0dc310218d7a123728c7",
+    "20d/60/market_state/orders.csv": "aafc850752febe05c9fb8596c398101c3fa31a1b07f189d1c849ab84441cb484",
+    "20d/60/oneil_box/orders.csv": "68d81b928dc73dc2ba265b697f93e658231665af107fda65bc4088bead378fe9",
+    "20d/60/industry/orders.csv": "7d73148f29f1748873588e8564b1115de3fe028ede8398f212bf24aecda0243c",
+    "20d/60/combined/orders.csv": "53d3ac5cbb6860733e2c859c017e8a70d9efb904b895190f934535f46d64e1cf",
+    "12m/30/baseline/orders.csv": "e41990df90fafff8b9babaa0c1b73eccc27bbacdfb7c8e68f02c86d969ff1635",
+    "12m/30/market_state/orders.csv": "b6d9d18bd68d7746637679becaf36cd42aef426b7916940accdbe3b42b9a3904",
+    "12m/30/oneil_box/orders.csv": "4a36a453bb08915cec4278c232b1a33073043e8eabfb986bd5d266030b15386a",
+    "12m/30/industry/orders.csv": "6223a8500a1ca176f687ac2d60a56eddb61066ca184819987200854090663445",
+    "12m/30/combined/orders.csv": "189546fc45fa5085102f3acff52d947e8e0817a0948dbe0faa47c35fef60b6bf",
+    "12m/60/baseline/orders.csv": "1d48b3d78be660c74cbd0a07eefa18880dee8728a02bef24ed25bcda57469af1",
+    "12m/60/market_state/orders.csv": "c25e2d82b4a0b8afd323c91e72177fba37e031bf877b0d9db314d25c2ab9ed68",
+    "12m/60/oneil_box/orders.csv": "b5a1c7770c71b44402373e69413f23eba024658168408a209121de82bfef7c95",
+    "12m/60/industry/orders.csv": "b0eafb2a57ec387c2c3568bb27e9c5019eccc95f05356fd827e14c7e7e7f48ea",
+    "12m/60/combined/orders.csv": "d05276d539d14b3956ce9d1a47cff6c6e29967c88eaffd4ec718e333c307cd09"
+  },
+  "accounts_checked": 30,
+  "unique_filled_buy_keys": 21765,
+  "st_or_unknown_keys": 0,
+  "accounts": [
+    {
+      "account": "5d/30/baseline",
+      "filled_positive_buy_keys": 2961,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "5d/30/market_state",
+      "filled_positive_buy_keys": 3124,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "5d/30/oneil_box",
+      "filled_positive_buy_keys": 3312,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "5d/30/industry",
+      "filled_positive_buy_keys": 3339,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "5d/30/combined",
+      "filled_positive_buy_keys": 3481,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "5d/60/baseline",
+      "filled_positive_buy_keys": 3035,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "5d/60/market_state",
+      "filled_positive_buy_keys": 3128,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "5d/60/oneil_box",
+      "filled_positive_buy_keys": 3292,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "5d/60/industry",
+      "filled_positive_buy_keys": 3354,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "5d/60/combined",
+      "filled_positive_buy_keys": 3455,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "20d/30/baseline",
+      "filled_positive_buy_keys": 903,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "20d/30/market_state",
+      "filled_positive_buy_keys": 909,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "20d/30/oneil_box",
+      "filled_positive_buy_keys": 902,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "20d/30/industry",
+      "filled_positive_buy_keys": 968,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "20d/30/combined",
+      "filled_positive_buy_keys": 959,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "20d/60/baseline",
+      "filled_positive_buy_keys": 884,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "20d/60/market_state",
+      "filled_positive_buy_keys": 906,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "20d/60/oneil_box",
+      "filled_positive_buy_keys": 905,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "20d/60/industry",
+      "filled_positive_buy_keys": 965,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "20d/60/combined",
+      "filled_positive_buy_keys": 965,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "12m/30/baseline",
+      "filled_positive_buy_keys": 77,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "12m/30/market_state",
+      "filled_positive_buy_keys": 79,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "12m/30/oneil_box",
+      "filled_positive_buy_keys": 77,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "12m/30/industry",
+      "filled_positive_buy_keys": 74,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "12m/30/combined",
+      "filled_positive_buy_keys": 77,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "12m/60/baseline",
+      "filled_positive_buy_keys": 76,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "12m/60/market_state",
+      "filled_positive_buy_keys": 76,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "12m/60/oneil_box",
+      "filled_positive_buy_keys": 74,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "12m/60/industry",
+      "filled_positive_buy_keys": 74,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    },
+    {
+      "account": "12m/60/combined",
+      "filled_positive_buy_keys": 77,
+      "st_or_unknown_buy_keys": 0,
+      "affected": []
+    }
+  ],
+  "interpretation": "Checks actual original ranking buy fills against the same current-session ST execution gate used by timing; no hypothetical ranking replay or original-vintage certification.",
+  "controls_require_rerun": false
+}

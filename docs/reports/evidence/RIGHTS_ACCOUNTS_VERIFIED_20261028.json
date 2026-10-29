@@ -1,0 +1,231 @@
+{
+  "schema": "rights_account_checkpoint_v1",
+  "recorded_at_utc": "2026-10-28T09:29:37.098369+00:00",
+  "producer_manifest_sha256": "ac448e6cd8939355864552125c6a5885b3f015842746ce7342c09332f837c37b",
+  "audit_manifest_sha256": "373edc6a56f3d0b67dc913bc2802a867f9da26ff0d1588a05410d756d0cfc969",
+  "code_hashes": {
+    "rights_disk_account.py": "2e3839d3ad6cf8352ce98f9daf6eec144cf92e7e94dac6f3fb887e8e8eb51613",
+    "rights_wallet.py": "cd4355b25f3b14b55483aa58099c87ee46a0ca00de89b2b6d5ccf21148ae9ef6",
+    "rights_terms.py": "7e02269baf496089f3c0fb6968ebd72638bec7c0f53b353c0d793bf7b8d41010",
+    "rights_reference_audit.py": "be1501d3d4b4fa1ed0b5820fadb5468b50cd562188643d386c7cf6e213d185dd",
+    "disk_account.py": "71e8a78d2b4050bce18542d3ae0a36b8c4a875986cfd5e8d62b35fa05f58fa18",
+    "disk_market.py": "cf5126abb454641043498481c4d700ed067e3262ae021807de3e9fb3188c019e",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e"
+  },
+  "verification_code_hashes": {
+    "rights_account_audit.py": "6c03afbbad259c61f93112d9ed9ff9d07356a3a614d6a6ee49078761672948ed",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e"
+  },
+  "accounts": [
+    {
+      "policy": "cash_limited_subscribe",
+      "horizon": "5d",
+      "first_signal": "2021-08-03",
+      "requested_end": "2025-12-25",
+      "status": "incomplete_positive_equity",
+      "reason": "reference",
+      "symbol": "sh.601555",
+      "date": "2021-12-23",
+      "valid_sessions": 94,
+      "orders": 69702,
+      "full_period_performance_available": false
+    },
+    {
+      "policy": "cash_limited_subscribe",
+      "horizon": "20d",
+      "first_signal": "2021-08-03",
+      "requested_end": "2025-12-18",
+      "status": "incomplete_positive_equity",
+      "reason": "reference",
+      "symbol": "sh.601555",
+      "date": "2021-12-23",
+      "valid_sessions": 94,
+      "orders": 18304,
+      "full_period_performance_available": false
+    },
+    {
+      "policy": "cash_limited_subscribe",
+      "horizon": "12m",
+      "first_signal": "2021-07-30",
+      "requested_end": "2025-09-02",
+      "status": "incomplete_positive_equity",
+      "reason": "reference",
+      "symbol": "sh.601555",
+      "date": "2021-12-23",
+      "valid_sessions": 96,
+      "orders": 3537,
+      "full_period_performance_available": false
+    },
+    {
+      "policy": "decline",
+      "horizon": "5d",
+      "first_signal": "2021-08-03",
+      "requested_end": "2025-12-25",
+      "status": "incomplete_positive_equity",
+      "reason": "reference",
+      "symbol": "sh.601555",
+      "date": "2021-12-23",
+      "valid_sessions": 94,
+      "orders": 69702,
+      "full_period_performance_available": false
+    },
+    {
+      "policy": "decline",
+      "horizon": "20d",
+      "first_signal": "2021-08-03",
+      "requested_end": "2025-12-18",
+      "status": "incomplete_positive_equity",
+      "reason": "reference",
+      "symbol": "sh.601555",
+      "date": "2021-12-23",
+      "valid_sessions": 94,
+      "orders": 18304,
+      "full_period_performance_available": false
+    },
+    {
+      "policy": "decline",
+      "horizon": "12m",
+      "first_signal": "2021-07-30",
+      "requested_end": "2025-09-02",
+      "status": "incomplete_positive_equity",
+      "reason": "reference",
+      "symbol": "sh.601555",
+      "date": "2021-12-23",
+      "valid_sessions": 96,
+      "orders": 3537,
+      "full_period_performance_available": false
+    }
+  ],
+  "independent_checks": [
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 94,
+      "orders_checked": 69702,
+      "max_absolute_reconciliation_error": 4.7187947993521107e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "policy": "cash_limited_subscribe",
+      "horizon": "5d"
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 94,
+      "orders_checked": 18304,
+      "max_absolute_reconciliation_error": 3.6178850713886046e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "policy": "cash_limited_subscribe",
+      "horizon": "20d"
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 96,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "policy": "cash_limited_subscribe",
+      "horizon": "12m"
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 94,
+      "orders_checked": 69702,
+      "max_absolute_reconciliation_error": 4.7187947993521107e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "policy": "decline",
+      "horizon": "5d"
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 94,
+      "orders_checked": 18304,
+      "max_absolute_reconciliation_error": 5.417888360170764e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "policy": "decline",
+      "horizon": "20d"
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 96,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "policy": "decline",
+      "horizon": "12m"
+    }
+  ],
+  "prefix_conservation": [
+    {
+      "through_date": "2021-11-23",
+      "exact_numeric_prefix": true,
+      "rows": {
+        "partial_valid_nav.csv": 73,
+        "partial_orders.csv": 54737
+      },
+      "policy": "cash_limited_subscribe",
+      "horizon": "5d"
+    },
+    {
+      "through_date": "2021-11-23",
+      "exact_numeric_prefix": true,
+      "rows": {
+        "partial_valid_nav.csv": 73,
+        "partial_orders.csv": 14569
+      },
+      "policy": "cash_limited_subscribe",
+      "horizon": "20d"
+    },
+    {
+      "through_date": "2021-11-23",
+      "exact_numeric_prefix": true,
+      "rows": {
+        "partial_valid_nav.csv": 75,
+        "partial_orders.csv": 3537
+      },
+      "policy": "cash_limited_subscribe",
+      "horizon": "12m"
+    },
+    {
+      "through_date": "2021-12-01",
+      "exact_numeric_prefix": true,
+      "rows": {
+        "partial_valid_nav.csv": 79,
+        "partial_orders.csv": 58465
+      },
+      "policy": "decline",
+      "horizon": "5d"
+    },
+    {
+      "through_date": "2021-12-01",
+      "exact_numeric_prefix": true,
+      "rows": {
+        "partial_valid_nav.csv": 79,
+        "partial_orders.csv": 14569
+      },
+      "policy": "decline",
+      "horizon": "20d"
+    },
+    {
+      "through_date": "2021-12-01",
+      "exact_numeric_prefix": true,
+      "rows": {
+        "partial_valid_nav.csv": 81,
+        "partial_orders.csv": 3537
+      },
+      "policy": "decline",
+      "horizon": "12m"
+    }
+  ],
+  "new_account_tests_passed": 25,
+  "related_tests_passed": 100,
+  "complete_accounts": 0,
+  "default_policy_confirmed": false,
+  "full_rights_offer_universe_verified": false,
+  "original_protocol_resealed": false,
+  "model_selection_performed": false,
+  "formal_model_promoted": false
+}

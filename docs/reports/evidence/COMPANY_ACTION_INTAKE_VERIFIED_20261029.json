@@ -1,0 +1,34 @@
+{
+  "schema": "independent_current_action_intake_audit_v1",
+  "status": "raw_intake_and_cash_extensions_independently_verified",
+  "audited_at_utc": "2026-10-29T01:23:39.567097+00:00",
+  "intake_manifest_sha256": "f9325f8c0b87a685d152ec79e5eb73bc0b39c3de8279a4183b91da41f0e80840",
+  "staged_summary_sha256": "8230c771d001be44db20060070c1633f4effd541bd0abdd5126b0b701a911673",
+  "records": 4883,
+  "status_counts": {
+    "outside_review_window": 4174,
+    "excluded_instrument": 279,
+    "not_implemented": 391,
+    "new_event_needs_notice": 34,
+    "existing_terms_match": 5
+  },
+  "maximum_provider_term_error": 1.1102230246251565e-16,
+  "notice_review_queue": 34,
+  "reviewed_current_cash_events": 2,
+  "remaining_unreviewed_candidates": 32,
+  "prior_events_preserved_exactly": 4343,
+  "staged_events": 4345,
+  "all_new_sources_observed_before_ex_open": true,
+  "raw_quote_check_completed": false,
+  "prediction_ready": false,
+  "prediction_archive_verified_unchanged": true,
+  "verification_code_sha256": "1cf0c9688a0a1f258fc2caaf7acfc3f06eb8426c165919f83d4f493d6e12b74d",
+  "limitations": [
+    "Checks this actual four-period capture and its uncomplicated unique cash keys; not a general independent verifier for all malformed or overlapping future inputs.",
+    "Unreviewed candidates remain pending. Rights, terminal events, original vintages and investor bank receipts remain unverified."
+  ],
+  "prior_comparison_policy": "Exact original field values; normalized date values compared, not CSV date spellings. Parent source bytes/hash unchanged.",
+  "frozen_models_verified_unchanged": true,
+  "prediction_archive_batches": 21,
+  "prediction_archive_scores": 103659
+}

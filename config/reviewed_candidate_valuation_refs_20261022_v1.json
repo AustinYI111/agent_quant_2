@@ -1,0 +1,138 @@
+[
+  {
+    "symbol": "sz.300308",
+    "ex_date": "2024-06-06",
+    "expected_cash_per_share": 0.45,
+    "expected_share_multiplier": 1.4,
+    "reference_cash_per_share": 0.4408015,
+    "reference_share_multiplier": 1.3918236,
+    "announcement_date": "2024-05-30",
+    "available_date": "2024-05-31",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-05-30/1220213405.PDF",
+    "source_sha256": "43776bd0a4bd26d2b5660fedd1724041103f4bee1505844dfc61de15a4658a1b",
+    "source_page": 1,
+    "reviewed_actual_entitlement_pages": [
+      2,
+      3
+    ],
+    "reviewed": true,
+    "source_file": "artifacts/phase2/official_candidate_references_20261022/300308_20240606/1220213405.PDF",
+    "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/300308_20240606/manifest.json",
+    "source_capture_sha256": "1a5731666b884c83d02e7f98a7384ce5a25ec634902ea91a39f51d889223fb78",
+    "observed_at_utc": "2026-10-22T08:35:32.597052+00:00",
+    "review_scope": "primary notice literal reference parameters only; actual cash, shares and payment clocks remain unchanged; historical vintages uncertified"
+  },
+  {
+    "symbol": "sh.600873",
+    "ex_date": "2022-07-26",
+    "expected_cash_per_share": 0.4,
+    "expected_share_multiplier": 1.0,
+    "reference_cash_per_share": 0.3928,
+    "reference_share_multiplier": 1.0,
+    "announcement_date": "2022-07-18",
+    "available_date": "2022-07-19",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2022-07-18/1214060539.PDF",
+    "source_sha256": "345e482d7a55d423646267479e4c90fe5d7ab4b3ca9ef97eb94cbe4e19080b86",
+    "source_page": 2,
+    "reviewed_actual_entitlement_pages": [
+      1,
+      2
+    ],
+    "reviewed": true,
+    "source_file": "artifacts/phase2/official_candidate_references_20261022/600873_20220726/1214060539.PDF",
+    "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/600873_20220726/manifest.json",
+    "source_capture_sha256": "a74c83b42c33c1209db496d77ff2d6cf6fb48c79f60f3eb982d94a3c220774b4",
+    "observed_at_utc": "2026-10-22T08:35:10.791862+00:00",
+    "review_scope": "primary notice literal reference parameters only; actual cash, shares and payment clocks remain unchanged; historical vintages uncertified"
+  },
+  {
+    "symbol": "sh.600694",
+    "ex_date": "2023-06-07",
+    "expected_cash_per_share": 0.5,
+    "expected_share_multiplier": 1.0,
+    "reference_cash_per_share": 0.48,
+    "reference_share_multiplier": 1.0,
+    "announcement_date": "2023-05-31",
+    "available_date": "2023-06-01",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2023-05-31/1216944428.PDF",
+    "source_sha256": "74785df5af1746a658ea00fc8f3fba16c4e6d8df6d7a802313f692407b9b8a7b",
+    "source_page": 2,
+    "reviewed_actual_entitlement_pages": [
+      1,
+      2
+    ],
+    "reviewed": true,
+    "source_file": "artifacts/phase2/official_candidate_references_20261022/600694_20230607/1216944428.PDF",
+    "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/600694_20230607/manifest.json",
+    "source_capture_sha256": "820993bfb3a81d365dbc78e4dac18a0ab2fbafe5413eb0e99d375fa15656d76e",
+    "observed_at_utc": "2026-10-22T08:35:33.576416+00:00",
+    "review_scope": "primary notice literal reference parameters only; actual cash, shares and payment clocks remain unchanged; historical vintages uncertified"
+  },
+  {
+    "symbol": "sz.300760",
+    "ex_date": "2022-05-19",
+    "expected_cash_per_share": 3.5,
+    "expected_share_multiplier": 1.0,
+    "reference_cash_per_share": 3.4911993,
+    "reference_share_multiplier": 1.0,
+    "announcement_date": "2022-05-11",
+    "available_date": "2022-05-12",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2022-05-11/1213323180.PDF",
+    "source_sha256": "c1c1447f63bbc9d6d7cbc25a70ef80b83b33faa4734a34218aac1df2e1eb623a",
+    "source_page": 1,
+    "reviewed_actual_entitlement_pages": [
+      2
+    ],
+    "reviewed": true,
+    "source_file": "artifacts/phase2/official_candidate_references_20261022/300760_20220519/1213323180.PDF",
+    "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/300760_20220519/manifest.json",
+    "source_capture_sha256": "331ee6e7ae4534f24143782faf4ac719825f1cf375e9ad79552091b87ce5be1d",
+    "observed_at_utc": "2026-10-22T08:39:53.104513+00:00",
+    "review_scope": "primary notice literal reference parameters only; actual cash, shares and payment clocks remain unchanged; historical vintages uncertified"
+  },
+  {
+    "symbol": "sz.002432",
+    "ex_date": "2024-06-04",
+    "expected_cash_per_share": 0.3,
+    "expected_share_multiplier": 1.0,
+    "reference_cash_per_share": 0.2583449,
+    "reference_share_multiplier": 1.0,
+    "announcement_date": "2024-05-29",
+    "available_date": "2024-05-30",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2024-05-29/1220185644.PDF",
+    "source_sha256": "331ef61c31b383ea980ddb62bfc053b5bd2d235b3d6f2b276b0f278df91dc365",
+    "source_page": 1,
+    "reviewed_actual_entitlement_pages": [
+      1
+    ],
+    "reviewed": true,
+    "source_file": "artifacts/phase2/official_candidate_references_20261022/002432_20240604/1220185644.PDF",
+    "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/002432_20240604/manifest.json",
+    "source_capture_sha256": "f7bec820b6d9d96487832f2155c04b4de52a99d569890517848b1521f8eed1f0",
+    "observed_at_utc": "2026-10-22T08:39:54.554331+00:00",
+    "review_scope": "primary notice literal reference parameters only; actual cash, shares and payment clocks remain unchanged; historical vintages uncertified"
+  },
+  {
+    "symbol": "sh.600104",
+    "ex_date": "2023-07-19",
+    "expected_cash_per_share": 0.3371,
+    "expected_share_multiplier": 1.0,
+    "reference_cash_per_share": 0.33157,
+    "reference_share_multiplier": 1.0,
+    "announcement_date": "2023-07-12",
+    "available_date": "2023-07-13",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2023-07-12/1217273560.PDF",
+    "source_sha256": "aa9749ed7a3040202ff626e18dd1f1e51845ce1aa468a7140696ae54f6bfaaf8",
+    "source_page": 2,
+    "reviewed_actual_entitlement_pages": [
+      1,
+      2
+    ],
+    "reviewed": true,
+    "source_file": "artifacts/phase2/official_candidate_references_20261022/600104_20230719/1217273560.PDF",
+    "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/600104_20230719/manifest.json",
+    "source_capture_sha256": "812ddec79121e84f5c09d6e6d2b229de20c641bcffc8774a517707e82866b454",
+    "observed_at_utc": "2026-10-22T08:39:54.722772+00:00",
+    "review_scope": "primary notice literal reference parameters only; actual cash, shares and payment clocks remain unchanged; historical vintages uncertified"
+  }
+]

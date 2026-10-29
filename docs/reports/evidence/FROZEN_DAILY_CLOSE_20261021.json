@@ -1,0 +1,113 @@
+{
+  "schema": "close_snapshot_real_verification_v1",
+  "signal_date": "2026-10-21",
+  "snapshot": "artifacts/phase2/frozen_daily_research_20261021_v1",
+  "manifest_sha256": "0b035f447102bbdf59f316d5d3c4c0b5f4413143c86b0230360bcd9fcffba4f3",
+  "started_at_utc": "2026-10-22T06:31:56.827053+00:00",
+  "completed_at_utc": "2026-10-22T06:37:20.544974+00:00",
+  "issuers": 5244,
+  "raw_bars": 993382,
+  "quoted_ashares": 5223,
+  "eligible": 4934,
+  "reference_faults": 64,
+  "suspended_missing_volume_bars": 2167,
+  "financial_snapshots": 2,
+  "financial_policy": "retained observation history; newest visible report/revision; latest observation wins same-day keys; unverified original vintages",
+  "factor_missing_counts": {
+    "roe": 11,
+    "revenue_growth": 0,
+    "earnings_growth": 0,
+    "low_debt": 0,
+    "earnings_yield": 0,
+    "book_yield": 0,
+    "momentum_63": 6,
+    "momentum_126": 57,
+    "momentum_252_skip21": 95,
+    "low_volatility": 6
+  },
+  "checks": [
+    {
+      "horizon": "5d",
+      "candidates": 4934,
+      "batch_id": "61cceac93bd8cc29d23ea18c9f3e8a7faba1468622d92eb5851545b6f81669e3",
+      "created_at_utc": "2026-10-22T06:37:19.582264+00:00",
+      "next_entry_open_utc": "2026-10-22T01:30:00+00:00",
+      "role": "retrospective_independent_snapshot",
+      "model_sha256": "70d76a7af37e47e0d2a99c0d88ec76f2dccb15b08d990945055cc8d66d5f0464",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    },
+    {
+      "horizon": "20d",
+      "candidates": 4934,
+      "batch_id": "61b6855ae44f74454eac08051d0a23e2ab549dd2ab67d5c01241f20b018ae454",
+      "created_at_utc": "2026-10-22T06:37:19.967615+00:00",
+      "next_entry_open_utc": "2026-10-22T01:30:00+00:00",
+      "role": "retrospective_independent_snapshot",
+      "model_sha256": "49f9d547da3b916b557ac6dc897a1bb19279eef3ab4901a79d537a1333116dd5",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    },
+    {
+      "horizon": "12m",
+      "candidates": 4934,
+      "batch_id": "af004560aa11c6ead34906f8fd6b37380131246bfd79b5dbd66797c8468af97a",
+      "created_at_utc": "2026-10-22T06:37:20.244460+00:00",
+      "next_entry_open_utc": "2026-10-22T01:30:00+00:00",
+      "role": "retrospective_independent_snapshot",
+      "model_sha256": "5640734659445cf8df6d1d46f5657f7eb455f2c9d8d806193478f9e65febddf8",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    }
+  ],
+  "archive_counts": {
+    "batches": 6,
+    "scores": 29607,
+    "archive_imports": 2
+  },
+  "archive_sha256": "85e237cadd487b7b791db60a29edd35b9bea267e431fdd18988a8eebc7eaaea7",
+  "archive_retry_identical": true,
+  "archive_backup": {
+    "schema": "prediction_ledger_backup_v1",
+    "sha256": "dba19a99e5d0e9deebfeb36ae3a1165b8f5ed75e9424e1a349e52370c9b46259",
+    "bytes": 8613888
+  },
+  "source_hashes": {
+    "config/frozen_daily_inputs_close_20261021.json": "9144113149829cdfcc0d48d53227c060429dad79260b254b9b460c916189d849",
+    "artifacts/market_ratios_causal_quality1/metadata.json": "e6a58c95483a3bb654465d5ca724bb8314a68ccff61beb054eeb5b446e1ff0e7",
+    "artifacts/phase2/raw_feature_store_20261020/manifest.json": "23df32fd07a0df880e5d48e316a83f1cea54f5413bc2003cfce937c600214319",
+    "artifacts/phase2/streaming_baseline_seed_20261020/manifest.json": "6798c5f6b1d3607f8c78d67d6df0c8372a64a9daa8cbb5c10452277aa00ec169",
+    "artifacts/phase2/streaming_baseline_seed_20261020/states.sqlite": "2d38fb462cb6f2cc74d44c1d3f0e1c3f57b671cffc22fc766d08bb85d9168b8f",
+    "artifacts/phase2/streaming_baseline_seed_20261020/feature_seed_bars.csv": "bc7e15ba4ca20c6c05dbdd62af076b0834a4d6516464fa68f1f116dd813e17cd",
+    "artifacts/phase2/raw_feature_store_20261020/calendar.csv": "9b0b8d3576311d198ae4fc920cce06a33507dddcae856d57c83ed594b60fe683",
+    "artifacts/phase2/raw/market_capture_20261021_close/exchange_calendar.csv": "4ec1d92d71515e40f6607a2dcc66842c4d6ff85f6eb97f9542293fed9624f79e",
+    "config/same_issuer_code_changes.json": "0b274b682974d486dbb3e775c11359f9639070ed1cbe31544e94eb2696d860aa",
+    "artifacts/phase2/raw/market_capture_20261021/latest/manifest.json": "83e34aa04467ae9cf75a61b7b684ccb33a8ab209685c944475d290a4280aec4a",
+    "artifacts/phase2/raw/market_capture_20261021/latest/calendar.csv": "87a79772ecd9f5ae877ec81ca0df50519e250a053366bdff07dbbba2e8a641ea",
+    "artifacts/phase2/raw/market_capture_20261021/latest/daily_20261020.csv": "48f74bb30d0189181ba7d62cb9f13dcbcec37299be921890fe5ab0963ff4cdcc",
+    "artifacts/phase2/raw/market_capture_20261021_close/latest/manifest.json": "37a6ccc6740087d0b5074ee45cd35e4a26347994ade554a5f762160373855928",
+    "artifacts/phase2/raw/market_capture_20261021_close/latest/calendar.csv": "710888517c1457e6d478b0be491228b664895d96c61bf44b1569dab97cbbcdf3",
+    "artifacts/phase2/raw/market_capture_20261021_close/latest/daily_20261021.csv": "cd382a0d21fc52f66e7ecbe22c572ba099bc821023536b9c7fe02ad860d96d23",
+    "artifacts/market_ratios_causal_quality1/fundamentals.csv": "5244841f44c38ad6bce89d143aec8c44021fe366e15584505e0cdfbdf8cdfc05",
+    "artifacts/phase2/normalized/financials_observed_v2_20261020/combined/summary.json": "b65e701568408190783d1900abf0e41ec21ff6eee4f9638285af8328f6d0d6a3",
+    "artifacts/phase2/normalized/financials_observed_v2_20261020/combined/financial_panel.csv": "2f46050a59aeeb2992174d655bdd1eef50c8b50915cdfb658d9d108be805257c",
+    "artifacts/phase2/normalized/financial_dependency_history_20261021_v1/combined/summary.json": "3620a5147e6b0f268cd59d3c2d64de456fb3f71e881abe5244966d05dda0f751",
+    "artifacts/phase2/normalized/financial_dependency_history_20261021_v1/combined/financial_panel.csv": "ced816462ecea172aebf31d6011503dc1ae0295fcbdc6811a20a75e930913b50",
+    "artifacts/master_union2/security_master.csv": "1bba939f80207e972ef3b84615d6db987bcb480703f7ab34955f63f42e3b9401",
+    "artifacts/phase2/raw/master_delta_capture_20261020/master/security_master.csv": "206d1b2a4390a88ac7644d9aef6a3ff6471e44f24142c13c4cffd2a17318b619",
+    "artifacts/phase2/normalized/payments_recent_reference_20261021/summary.json": "5e232877f23e9e8738e1b554caba05a5495478059466fadaedd4cdcc9959a86c",
+    "artifacts/phase2/normalized/payments_recent_reference_20261021/actions.csv": "6caee268125e11a4abf60657abb6482a451c449535aa5a3f391cfd702286b0b3",
+    "artifacts/phase2/raw_feature_store_20261020/quotes.sqlite": "22446e46f0047886b5217b05cd1f7098ae94d256c3fa7223aa9eba40ba5d145f"
+  },
+  "paper_gate": {
+    "snapshot": "artifacts/phase2/paper_tracking_archived_20261021_v1",
+    "manifest_sha256": "5077ee3f336745ef9ec0e7838129817494a4a010132c59f0725cf23949570a37",
+    "excluded_batches": 6,
+    "real_orders": 0,
+    "real_nav_rows": 0
+  },
+  "model_selection_performed": false,
+  "certified": false,
+  "model_ready": false,
+  "real_prospective_performance_verified": false
+}

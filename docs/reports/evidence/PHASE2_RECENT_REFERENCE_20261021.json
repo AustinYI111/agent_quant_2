@@ -1,0 +1,73 @@
+{
+  "schema": "recent_reference_verification_v1",
+  "payment_review": {
+    "schema": "phase2_reference_reviewed_payments_v1",
+    "status": "reference_subset_reviewed",
+    "events": 4337,
+    "reference_overrides": 1,
+    "input_hashes": {
+      "artifacts/phase2/normalized/payments_notice_cash_20261021/summary.json": "02d516ecb8fb6b1975c9599a1ea8688b373f39d79aa91de1b8b6aff7ba49ff6d",
+      "config/reviewed_recent_cash_reference_20261021.json": "04dafe5660798321d5589b78702e7cd2e3c776d1bae3eac6950491ffe92c9b2c",
+      "artifacts/phase2/raw/market_capture_20261021/exchange_calendar.csv": "4ec1d92d71515e40f6607a2dcc66842c4d6ff85f6eb97f9542293fed9624f79e",
+      "artifacts/phase2/normalized/payments_notice_cash_20261021/actions.csv": "9264e4337f6c88ed3855a63c7998cd932e2a42f98a5b451f1cb1052efd79b6a7",
+      "artifacts/phase2/official_new_reference_fault_20261021/688016_1225603847.PDF": "9d219880f6b3b14d214f863dce52d5a9542a0e2ac6c05c8732d7fdafbe38e8be"
+    },
+    "output_hashes": {
+      "actions.csv": "6caee268125e11a4abf60657abb6482a451c449535aa5a3f391cfd702286b0b3"
+    },
+    "shareholder_entitlements_unchanged": true,
+    "certified": false,
+    "model_ready": false,
+    "limitations": [
+      "Explicit reviewed reference terms only; remaining source conflicts and quote faults are not certified.",
+      "Full-market raw quote continuity must be rechecked before ranking."
+    ]
+  },
+  "diagnostic": {
+    "schema": "phase2_streaming_reference_diagnostic_v1",
+    "status": "diagnostic_complete",
+    "prediction_ready": false,
+    "issuers": 5244,
+    "bars": 988159,
+    "reference_faults": 64,
+    "gap_breaks": 0,
+    "started_at_utc": "2026-10-21T08:30:21.052096+00:00",
+    "limitations": [
+      "Independent accepted cash events supplemented; rejected provider events and unverified notice reference terms remain. Diagnostic only, not rankings or a portfolio replay."
+    ],
+    "latest_raw_sha256": "48f74bb30d0189181ba7d62cb9f13dcbcec37299be921890fe5ab0963ff4cdcc",
+    "latest_observation": {
+      "schema": "closed_market_observations_v1",
+      "created_at_utc": "2026-10-21T08:30:21.088234+00:00",
+      "sessions": 1,
+      "records": [
+        {
+          "date": "2026-10-20",
+          "observed_at_utc": "2026-10-21T01:21:15.268832+00:00",
+          "raw_sha256": "48f74bb30d0189181ba7d62cb9f13dcbcec37299be921890fe5ab0963ff4cdcc",
+          "source_manifest_sha256": "83e34aa04467ae9cf75a61b7b684ccb33a8ab209685c944475d290a4280aec4a"
+        }
+      ],
+      "latest_input_observed_at_utc": "2026-10-21T01:21:15.268832+00:00",
+      "certified": false,
+      "limitation": "Post-cutoff observation only; not original supplier vintage or execution certification."
+    },
+    "payment_actions_sha256": "6caee268125e11a4abf60657abb6482a451c449535aa5a3f391cfd702286b0b3",
+    "completed_at_utc": "2026-10-21T08:32:15.247841+00:00",
+    "output_hashes": {
+      "calendar_gaps.csv": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "reference_faults.csv": "b0497b50beff38412e683bf3f62ee385825e2dc8d74103a41ae3a22faf43fe9a"
+    }
+  },
+  "source_manifest_sha256": "5e232877f23e9e8738e1b554caba05a5495478059466fadaedd4cdcc9959a86c",
+  "diagnostic_manifest_sha256": "5911e5d04c45f1243bc03202c32cbaea8a8e5f7ee5865d38777d539a6e68dc13",
+  "removed": [
+    [
+      "sh.688016",
+      "2026-10-20"
+    ]
+  ],
+  "added": [],
+  "original_forecasts_changed": false,
+  "first_observed_at_utc": "2026-10-21T01:50:43.394318+00:00"
+}

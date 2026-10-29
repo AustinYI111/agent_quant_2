@@ -1,0 +1,132 @@
+{
+  "schema": "independent_raw_close_recapture_comparison_v1",
+  "status": "comparison_complete",
+  "signal_date": "2026-10-28",
+  "audited_at_utc": "2026-10-29T00:43:53.891537+00:00",
+  "source_hashes": {
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/capture.json": "0ed0e3cbc884ef80b9756c35d3bf1fca03e47d1119caabfdedc85180623787fd",
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/market/capture.json": "6450615db819335093e2732d73563763dd18eea3e6cb3d99e5ef606b3670a417",
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/market/closed_market_observations.json": "17f692feac70802d0c81830d12bccc5db1ca8779ae8eeffee9f69091ab2d92df",
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/market/exchange_calendar.csv": "89dd25ed3c98641c8d9d7d1f36144e93d6f4ca97f22775a5b666fa858576174d",
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/reference/capture.json": "e152dbd3917a6aacfb623a15ba20fb10b7fdf819c19e96643e5860eabe863ff3",
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/reference/csi300_20261026_20261028.csv": "21f752934114d4198c6af2f6ca2f9e41590c4c5050aa755853c73ed1747d2482",
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/reference/industry_20261028.csv": "8586a67ba03b827a6c55793492025be696e7fc7ee629bddb2e505cb07e645d91",
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/reference/stock_all_20261028.csv": "c6eb91c793028217eb1660d767c22ecf695f8034884e9c6c427a25fa8d9d19a9",
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/market/latest/calendar.csv": "cbbcf21bc53f03d8e44e4d35d9b39cb577605757836ad81f96947c927678eebc",
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/market/latest/daily_20261028.csv": "5a496e44b318ce254b89895dc72ed17f3dc743f28ef8480c88ec3cb1b7c300d2",
+    "@work/incoming-20261029/close_capture_20261028_reobserved_v1/market/latest/manifest.json": "ee2156b0ff79ee2d14974f2aee12f53d43959405a19c4d247d0bbde80f3d8175",
+    "@work/incoming-20261028/market_capture_20261028_close/latest/manifest.json": "433af0394eacf5b864da2449cec3ee3da55816b8571438549f45b2bd1a6a1247",
+    "@work/incoming-20261028/reference_capture_20261028_close/capture.json": "9b4fe7a1182591a49c4043f59c92bea67d4838824fd6b9fd6b124ce826cd4db2",
+    "@work/incoming-20261028/market_capture_20261028_close/latest/daily_20261028.csv": "5a496e44b318ce254b89895dc72ed17f3dc743f28ef8480c88ec3cb1b7c300d2",
+    "@work/incoming-20261028/reference_capture_20261028_close/csi300_20261026_20261028.csv": "21f752934114d4198c6af2f6ca2f9e41590c4c5050aa755853c73ed1747d2482",
+    "@work/incoming-20261028/reference_capture_20261028_close/stock_all_20261028.csv": "ae854140cea475658ea3c2279f2b4310158f05f39ce2326e81f13d0f872b647d",
+    "@work/incoming-20261028/reference_capture_20261028_close/industry_20261028.csv": "8586a67ba03b827a6c55793492025be696e7fc7ee629bddb2e505cb07e645d91"
+  },
+  "comparisons": {
+    "market": {
+      "original_rows": 5223,
+      "new_rows": 5223,
+      "shared_rows": 5223,
+      "added_keys": [],
+      "removed_keys": [],
+      "added_columns": [],
+      "removed_columns": [],
+      "changed_cells": {},
+      "all_common_values_exact": true,
+      "identical": true,
+      "original_sha256": "5a496e44b318ce254b89895dc72ed17f3dc743f28ef8480c88ec3cb1b7c300d2",
+      "new_sha256": "5a496e44b318ce254b89895dc72ed17f3dc743f28ef8480c88ec3cb1b7c300d2"
+    },
+    "csi300": {
+      "original_rows": 3,
+      "new_rows": 3,
+      "shared_rows": 3,
+      "added_keys": [],
+      "removed_keys": [],
+      "added_columns": [],
+      "removed_columns": [],
+      "changed_cells": {},
+      "all_common_values_exact": true,
+      "identical": true,
+      "original_sha256": "21f752934114d4198c6af2f6ca2f9e41590c4c5050aa755853c73ed1747d2482",
+      "new_sha256": "21f752934114d4198c6af2f6ca2f9e41590c4c5050aa755853c73ed1747d2482"
+    },
+    "stock_all": {
+      "original_rows": 7433,
+      "new_rows": 7444,
+      "shared_rows": 7433,
+      "added_keys": [
+        "sh.000816",
+        "sh.000833",
+        "sh.000842",
+        "sh.000939",
+        "sh.000940",
+        "sh.000950",
+        "sh.000951",
+        "sh.000957",
+        "sh.000958",
+        "sh.000963",
+        "sh.000975"
+      ],
+      "removed_keys": [],
+      "added_columns": [],
+      "removed_columns": [],
+      "changed_cells": {},
+      "all_common_values_exact": true,
+      "identical": false,
+      "original_sha256": "ae854140cea475658ea3c2279f2b4310158f05f39ce2326e81f13d0f872b647d",
+      "new_sha256": "c6eb91c793028217eb1660d767c22ecf695f8034884e9c6c427a25fa8d9d19a9"
+    },
+    "industry": {
+      "original_rows": 5561,
+      "new_rows": 5561,
+      "shared_rows": 5561,
+      "added_keys": [],
+      "removed_keys": [],
+      "added_columns": [],
+      "removed_columns": [],
+      "changed_cells": {},
+      "all_common_values_exact": true,
+      "identical": true,
+      "original_sha256": "8586a67ba03b827a6c55793492025be696e7fc7ee629bddb2e505cb07e645d91",
+      "new_sha256": "8586a67ba03b827a6c55793492025be696e7fc7ee629bddb2e505cb07e645d91"
+    }
+  },
+  "reference_observations": {
+    "csi300": {
+      "original_observed_at_utc": "2026-10-28T09:21:42.229676+00:00",
+      "new_observed_at_utc": "2026-10-29T00:38:35.227483+00:00"
+    },
+    "stock_all": {
+      "original_observed_at_utc": "2026-10-28T09:21:53.766197+00:00",
+      "new_observed_at_utc": "2026-10-29T00:39:44.984986+00:00"
+    },
+    "industry": {
+      "original_observed_at_utc": "2026-10-28T09:22:17.103258+00:00",
+      "new_observed_at_utc": "2026-10-29T00:40:47.817814+00:00"
+    }
+  },
+  "original_market_observed_at_utc": "2026-10-28T09:21:39.156728+00:00",
+  "new_market_observed_at_utc": "2026-10-29T00:41:08.646456+00:00",
+  "any_revision_observed": true,
+  "raw_market_exact": true,
+  "original_sources_changed": false,
+  "original_predictions_changed": false,
+  "recapture_may_replace_original_observation": false,
+  "verification_code_sha256": "6213f8e300cbb7e00cb54a99e28535570cf8c174ca43d55ffae30e661af9bec9",
+  "limitations": [
+    "Exact raw CSV values and key coverage compared; not certification of financial PIT or corporate-action economics.",
+    "Later supplier observations retain their own dates. A historical query can change; never backdate availability.",
+    "No forecast generated or traded, no parameters selected, no prior source replaced."
+  ],
+  "added_security_codes_are_regular_ashares": false,
+  "frozen_models_verified_unchanged": true,
+  "prediction_archive_verified_unchanged": true,
+  "actual_next_date_gate_check": {
+    "checked_at_utc": "2026-10-29T00:46:53.479014+00:00",
+    "requested_signal": "2026-10-29",
+    "status": "rejected_before_release_gate",
+    "output_created": false,
+    "provider_query_started": false
+  }
+}

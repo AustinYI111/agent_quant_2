@@ -1,0 +1,44 @@
+{
+  "schema": "official_missing_research_cash_v1",
+  "expected_parent_actions_sha256": "fcf7fca07b4bedf495318a96bb4c5f6df71d2f3ee253b7430e598e3deea18ca2",
+  "events": [
+    {
+      "symbol": "sz.000538",
+      "ex_date": "2025-09-24",
+      "announcement_date": "2025-09-17",
+      "available_date": "2025-09-18",
+      "pay_date": "2025-09-24",
+      "cash_per_share": 1.019,
+      "share_multiplier": 1.0,
+      "payout_scope": "ordinary_a_share_holders",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2025-09-17/1224663922.PDF",
+      "source_sha256": "8658b2d0a01f6d51d64a03bbaae9a28515594e9572bbb773275284e80b6b3eec",
+      "source_page": 1,
+      "payment_source_page": 2,
+      "reviewed": true,
+      "source_file": "artifacts/phase2/official_candidate_references_20261022/000538_20250924/1224663922.PDF",
+      "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/000538_20250924/manifest.json",
+      "source_capture_sha256": "49ae69b247526411fe97c0b732140ba9a9494215f046998b3ba8db39ef2d4d5e",
+      "observed_at_utc": "2026-10-22T09:03:50.891601+00:00"
+    },
+    {
+      "symbol": "sz.002911",
+      "ex_date": "2025-02-20",
+      "announcement_date": "2025-02-13",
+      "available_date": "2025-02-14",
+      "pay_date": "2025-02-20",
+      "cash_per_share": 0.25,
+      "share_multiplier": 1.0,
+      "payout_scope": "ordinary_a_share_holders",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2025-02-13/1222524319.PDF",
+      "source_sha256": "cf7f1688fa558a5a83087915031face253958db0c445723f9d72da9f55a9e87a",
+      "source_page": 1,
+      "payment_source_page": 2,
+      "reviewed": true,
+      "source_file": "artifacts/phase2/official_candidate_references_20261022/002911_20250220/1222524319.PDF",
+      "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/002911_20250220/manifest.json",
+      "source_capture_sha256": "1405117c3a654a71c424b6c46446c91fde6c25acfd8fea3ebb4097233ad2d746",
+      "observed_at_utc": "2026-10-22T09:03:51.715666+00:00"
+    }
+  ]
+}

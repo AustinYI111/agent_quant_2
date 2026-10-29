@@ -1,0 +1,40 @@
+{
+  "schema": "independent_observed_financial_refresh_audit_v1",
+  "status": "all_combined_versions_independently_selected",
+  "audited_at_utc": "2026-10-29T00:56:56.488087+00:00",
+  "refresh_manifest_sha256": "a440cf575112a4796f1dce3b56732ec4db23d1bde1cfda18c91fecf15b8d4d74",
+  "records": 110627,
+  "symbols": 5660,
+  "debt_records": 102379,
+  "versions_without_balance_dependency": 8236,
+  "maximum_factor_value_error": 4.440892098500626e-16,
+  "raw_requests": {
+    "earnings": {
+      "2026-09-30": {
+        "rows": 3686,
+        "pages": 8,
+        "observed_at_utc": "2026-10-29T00:54:53.186526+00:00"
+      }
+    },
+    "balances": {
+      "2026-09-30": {
+        "rows": 3395,
+        "pages": 7,
+        "observed_at_utc": "2026-10-29T00:54:56.464963+00:00"
+      }
+    }
+  },
+  "versions_visible_by_signal": 109696,
+  "versions_available_after_signal": 931,
+  "verification_code_sha256": "0afc8ee3375d6b78ebba995f77718ce9470e790d1686e1b76c19e757cdcc0bc1",
+  "prediction_generated": false,
+  "model_selection_performed": false,
+  "limitations": [
+    "Checks all four financial factor values, exact same-period version keys and dependency/observation clocks; not every descriptive source column.",
+    "Does not independently certify original supplier vintages, audited accounting figures or all-issuer reporting coverage."
+  ],
+  "frozen_models_verified_unchanged": true,
+  "prediction_archive_verified_unchanged": true,
+  "original_prediction_batches": 21,
+  "original_prediction_scores": 103659
+}

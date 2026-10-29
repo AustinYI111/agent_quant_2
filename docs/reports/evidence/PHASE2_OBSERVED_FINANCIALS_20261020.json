@@ -1,0 +1,136 @@
+{
+  "schema": "phase2_observed_financial_delivery_v1",
+  "created_at_utc": "2026-10-20T06:40:00.034517+00:00",
+  "protocol_sha256": "d8a79ee894df5054c73289e101b9cf2bf77093c89b47b31e5551c5ffa7def04f",
+  "market": {
+    "asof": "2026-10-19",
+    "sessions": 189,
+    "rows": 983125,
+    "manifest_sha256": {
+      "latest": "550cf6022225aa9006b1e2293cee0b480ec86ade12c43d78eb91562941e8bbbc",
+      "backfill": "8b1f374ea5dd7732913bd3cf3d82cf2d860446759d718012a271665e2ba5a829"
+    }
+  },
+  "balances": {
+    "rows": 15801,
+    "symbols": 5240,
+    "excluded_rows": 3,
+    "panel_sha256": "0f5511c49ce8da7dad2b661ff1a32a374354cf05d8d36958b0b7f22183120e15",
+    "input_manifest_sha256": "019a024d46b387187688c0cc6077412c72cfd5855fff33778bcf5b830066e932",
+    "original_vintages_verified": false
+  },
+  "earnings": {
+    "records": 28992,
+    "recognized_symbols": 5658,
+    "visible_records": 17076,
+    "panel_sha256": "01e897c86cfc3fcd257bed2739c28109f02474517b4c4259d4f376020b6c8283",
+    "input_manifest_sha256": "cb5b9a1728df469af720fec61a6a072e4f4c0e35bc143250908d98fea22d453d",
+    "original_vintages_verified": false
+  },
+  "combined": {
+    "records": 17131,
+    "symbols": 5658,
+    "debt_records": 15775,
+    "panel_sha256": "2f46050a59aeeb2992174d655bdd1eef50c8b50915cdfb658d9d108be805257c",
+    "certified": false
+  },
+  "references": {
+    "csi300_2024_20261019": {
+      "status": "raw_acquired",
+      "rows": 674,
+      "columns": [
+        "date",
+        "code",
+        "open",
+        "high",
+        "low",
+        "close",
+        "volume",
+        "amount",
+        "pctChg"
+      ],
+      "sha256": "f08bbd911348d7ac88a51bf1b3ccf4bee5d163bd20e495f1eeb69e847cf6f21a",
+      "observed_at_utc": "2026-10-20T06:26:53.914167+00:00",
+      "return_kind": "price_index"
+    },
+    "stock_basic_20261020": {
+      "status": "failed",
+      "error": "provider pagination ended on a full page; possible silent truncation"
+    },
+    "stock_all_20261019": {
+      "status": "raw_acquired",
+      "rows": 7439,
+      "columns": [
+        "code",
+        "tradeStatus",
+        "code_name"
+      ],
+      "sha256": "01ddc230b6d2d6adf015173bcd2645168d6a509916df2c649bf1a862fc01191a",
+      "observed_at_utc": "2026-10-20T06:31:23.265340+00:00"
+    },
+    "industry_20251231": {
+      "status": "raw_acquired",
+      "rows": 5493,
+      "columns": [
+        "updateDate",
+        "code",
+        "code_name",
+        "industry",
+        "industryClassification"
+      ],
+      "sha256": "38ac43512bda473476e49ce3d1e277e64368420afbb1fde8f13cb6e9d34f80e9",
+      "observed_at_utc": "2026-10-20T06:32:09.254874+00:00",
+      "original_vintages_verified": false,
+      "classification_dates": [
+        "2025-12-29"
+      ],
+      "limitation": "Requested dated supplier version; publication/first-availability certification not supplied."
+    },
+    "industry_20261019": {
+      "status": "raw_acquired",
+      "rows": 5560,
+      "columns": [
+        "updateDate",
+        "code",
+        "code_name",
+        "industry",
+        "industryClassification"
+      ],
+      "sha256": "7843cc135aa1dd7de74b16d5eb4217b5b6cd4933d9212778f323d5b9e9104d0c",
+      "observed_at_utc": "2026-10-20T06:34:56.265166+00:00",
+      "original_vintages_verified": false,
+      "classification_dates": [
+        "2026-10-19"
+      ],
+      "limitation": "Requested dated supplier version; publication/first-availability certification not supplied."
+    }
+  },
+  "master_delta": {
+    "schema": "phase2_master_delta_capture_v1",
+    "protocol_sha256": "d8a79ee894df5054c73289e101b9cf2bf77093c89b47b31e5551c5ffa7def04f",
+    "observed_at_utc": "2026-10-20T06:37:42.043945+00:00",
+    "market_securities": 5244,
+    "previous_master_sha256": "1bba939f80207e972ef3b84615d6db987bcb480703f7ab34955f63f42e3b9401",
+    "missing_codes": [
+      "sz.301569",
+      "sz.301660"
+    ],
+    "certified": false,
+    "scope": "Newly observed raw trading codes only; does not refresh old status or certify historical terminal dates.",
+    "status": "downloaded_raw",
+    "resolved": 2,
+    "manifest_sha256": "646db089493048b06a845743a8eab05789431c04cfdfb08b20544afa5a25a14e"
+  },
+  "payments_checkpoint": {
+    "status": "running",
+    "saved_securities": 1554,
+    "requested_securities": 5244,
+    "rows": 21577,
+    "updated_at": "2026-10-20T06:39:58.987378+00:00"
+  },
+  "synthetic": false,
+  "certified": false,
+  "latest_rankings_generated": false,
+  "independent_performance_evaluated": false,
+  "limitation": "Raw acquisition and observed financial normalization only; no latest market prediction, live tracking, source vintage certification or incremental strategy validation."
+}

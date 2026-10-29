@@ -1,0 +1,252 @@
+{
+  "schema": "independent_industry_attribution_verification_v1",
+  "status": "all_thirty_industry_accounts_independently_verified",
+  "verified_at_utc": "2026-10-26T09:12:03.886525+00:00",
+  "manifest_sha256": "02fe32be90c07cbc175f8afd029be77d9941f9467ce153682785db8663fdb478",
+  "accounts": [
+    {
+      "horizon": "5d",
+      "n_estimators": 30,
+      "group": "baseline",
+      "sessions": 1066,
+      "labels": 22849,
+      "maximum_error": 8.951173136040325e-16
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 30,
+      "group": "market_state",
+      "sessions": 1066,
+      "labels": 23190,
+      "maximum_error": 9.194034422677078e-16
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 30,
+      "group": "oneil_box",
+      "sessions": 1066,
+      "labels": 23699,
+      "maximum_error": 1.0647678485437018e-15
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 30,
+      "group": "industry",
+      "sessions": 1066,
+      "labels": 23593,
+      "maximum_error": 1.0456045751450205e-15
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 30,
+      "group": "combined",
+      "sessions": 1066,
+      "labels": 23901,
+      "maximum_error": 1.2975731600306517e-15
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 60,
+      "group": "baseline",
+      "sessions": 1066,
+      "labels": 23037,
+      "maximum_error": 8.465450562766819e-16
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 60,
+      "group": "market_state",
+      "sessions": 1066,
+      "labels": 23227,
+      "maximum_error": 8.916478666520788e-16
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 60,
+      "group": "oneil_box",
+      "sessions": 1066,
+      "labels": 23671,
+      "maximum_error": 8.94249951866044e-16
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 60,
+      "group": "industry",
+      "sessions": 1066,
+      "labels": 23676,
+      "maximum_error": 8.951173136040325e-16
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 60,
+      "group": "combined",
+      "sessions": 1066,
+      "labels": 23835,
+      "maximum_error": 1.0774801190160943e-15
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 30,
+      "group": "baseline",
+      "sessions": 1061,
+      "labels": 21885,
+      "maximum_error": 1.0096090630185017e-15
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 30,
+      "group": "market_state",
+      "sessions": 1061,
+      "labels": 21955,
+      "maximum_error": 7.016956460326185e-16
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 30,
+      "group": "oneil_box",
+      "sessions": 1061,
+      "labels": 21945,
+      "maximum_error": 1.1097893437561623e-15
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 30,
+      "group": "industry",
+      "sessions": 1061,
+      "labels": 22042,
+      "maximum_error": 8.239936510889834e-16
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 30,
+      "group": "combined",
+      "sessions": 1061,
+      "labels": 22088,
+      "maximum_error": 1.1622647289044608e-15
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 60,
+      "group": "baseline",
+      "sessions": 1061,
+      "labels": 21865,
+      "maximum_error": 6.817463260588852e-16
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 60,
+      "group": "market_state",
+      "sessions": 1061,
+      "labels": 21939,
+      "maximum_error": 1.2125717097077882e-15
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 60,
+      "group": "oneil_box",
+      "sessions": 1061,
+      "labels": 21968,
+      "maximum_error": 9.315465065995454e-16
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 60,
+      "group": "industry",
+      "sessions": 1061,
+      "labels": 22060,
+      "maximum_error": 1.6037518535405582e-15
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 60,
+      "group": "combined",
+      "sessions": 1061,
+      "labels": 22092,
+      "maximum_error": 8.808058449272238e-16
+    },
+    {
+      "horizon": "12m",
+      "n_estimators": 30,
+      "group": "baseline",
+      "sessions": 992,
+      "labels": 19894,
+      "maximum_error": 5.984795992119984e-16
+    },
+    {
+      "horizon": "12m",
+      "n_estimators": 30,
+      "group": "market_state",
+      "sessions": 992,
+      "labels": 19897,
+      "maximum_error": 5.447031714567174e-16
+    },
+    {
+      "horizon": "12m",
+      "n_estimators": 30,
+      "group": "oneil_box",
+      "sessions": 992,
+      "labels": 19893,
+      "maximum_error": 6.175615574477433e-16
+    },
+    {
+      "horizon": "12m",
+      "n_estimators": 30,
+      "group": "industry",
+      "sessions": 992,
+      "labels": 19893,
+      "maximum_error": 8.014422459012849e-16
+    },
+    {
+      "horizon": "12m",
+      "n_estimators": 30,
+      "group": "combined",
+      "sessions": 992,
+      "labels": 19896,
+      "maximum_error": 8.153200337090993e-16
+    },
+    {
+      "horizon": "12m",
+      "n_estimators": 60,
+      "group": "baseline",
+      "sessions": 992,
+      "labels": 19892,
+      "maximum_error": 7.251144129583054e-16
+    },
+    {
+      "horizon": "12m",
+      "n_estimators": 60,
+      "group": "market_state",
+      "sessions": 992,
+      "labels": 19894,
+      "maximum_error": 7.667477763817487e-16
+    },
+    {
+      "horizon": "12m",
+      "n_estimators": 60,
+      "group": "oneil_box",
+      "sessions": 992,
+      "labels": 19891,
+      "maximum_error": 7.077671781985373e-16
+    },
+    {
+      "horizon": "12m",
+      "n_estimators": 60,
+      "group": "industry",
+      "sessions": 992,
+      "labels": 19894,
+      "maximum_error": 6.765421556309548e-16
+    },
+    {
+      "horizon": "12m",
+      "n_estimators": 60,
+      "group": "combined",
+      "sessions": 992,
+      "labels": 19896,
+      "maximum_error": 7.008282842946301e-16
+    }
+  ],
+  "maximum_error": 1.6037518535405582e-15,
+  "verification_code_sha256": "a4bf488ad5a55d04b54c3a8812196241e656dc1ff9c5f823c162728d98c24099",
+  "model_selection_performed": false,
+  "formal_model_promoted": false
+}

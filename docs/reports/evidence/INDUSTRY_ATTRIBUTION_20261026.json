@@ -1,0 +1,20 @@
+{
+  "schema": "industry_attribution_progress_v1",
+  "recorded_at_utc": "2026-10-26T09:06:36.469775+00:00",
+  "new_full_ranking_accounts": 30,
+  "new_ranking_manifest_sha256": "43b9a674800e61249569d2a206a8442f929d5433c62e8070d2aaa64fa144eb49",
+  "new_account_audit_status_at_checkpoint": "reconstructing",
+  "new_accounts_independently_audited_at_checkpoint": 18,
+  "industry_attribution_source": "previous corrected 27 complete accounts, not the new full 30",
+  "industry_attribution_manifest_sha256": "1a2227fb78062da724c6eb084cfa6595095bb8f9315f7e210a90f74a4be409cd",
+  "industry_attributed_accounts": 27,
+  "industry_skipped_incomplete_accounts": 3,
+  "maximum_industry_reconciliation_error": 1.6037518535405582e-15,
+  "maximum_industry_publication_age_days": 820,
+  "tests": 47,
+  "test_seconds": 16.248,
+  "full_regression_for_preceding_commit": 857,
+  "new_artifacts_cloud_backed_up": false,
+  "phase2_complete": false,
+  "formal_model_promoted": false
+}

@@ -1,0 +1,198 @@
+{
+  "schema": "executed_daily_code_conservation_v1",
+  "recorded_at_utc": "2026-10-28T10:07:32.786516+00:00",
+  "transformation": "Remove extra blank lines at EOF only in three new modules; all parsed Python ASTs identical.",
+  "original_prediction_or_clock_changed": false,
+  "source_hash_normalization": "UTF8 without BOM; CRLF normalized to LF",
+  "files": {
+    "frozen_daily_workspace.py": {
+      "executed_sha256": "eae5951bdc91afc6ff165ed5a94ff91256f10c00f17bb83883429db6a44b7df5",
+      "delivered_sha256": "eae5951bdc91afc6ff165ed5a94ff91256f10c00f17bb83883429db6a44b7df5",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/frozen_daily_workspace.py",
+      "ast_sha256": "88d41c618115d53c44816087987316e119a947489750bad275474f95c063911d",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "workspace_paths.py": {
+      "executed_sha256": "f4d47c55bad49357b39dbdb847b533dfb222b932a234dfb57560833ccf272394",
+      "delivered_sha256": "f4d47c55bad49357b39dbdb847b533dfb222b932a234dfb57560833ccf272394",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/workspace_paths.py",
+      "ast_sha256": "1dcd410fc494da0d8182a3c194bea9fbbb611d460108a1e434189481e34c0b34",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "workspace_prediction_ledger.py": {
+      "executed_sha256": "1834e3a5fa6c6fd583eba2638145180bc557f5f8d4fc095949a5070386bcf9c4",
+      "delivered_sha256": "89716d3f4d097a488f5e6f57a87cf5589b5a939fecfd27de3f1360e02fec9759",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/workspace_prediction_ledger.py",
+      "ast_sha256": "a8c2e5f298627d87c0bfd9865a213db4d5cca9931bde7381509ad702ddb95589",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 2,
+      "delivered_trailing_newlines": 1
+    },
+    "frozen_daily.py": {
+      "executed_sha256": "9e3eab1cb939fadb8e2f270f28bc6f1d32cf66a6c6c6cef74ff22eb0ccfe08db",
+      "delivered_sha256": "9e3eab1cb939fadb8e2f270f28bc6f1d32cf66a6c6c6cef74ff22eb0ccfe08db",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/frozen_daily.py",
+      "ast_sha256": "b347e607b95c96e44d4df039c71c12cd682e8b1a2f9f61a5b3bb3aebf33550f8",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "financial_snapshot_history.py": {
+      "executed_sha256": "080773393bee8e9c00aad3e8a5662e74fa08a9b1d71079ada69b3ac4708a5368",
+      "delivered_sha256": "080773393bee8e9c00aad3e8a5662e74fa08a9b1d71079ada69b3ac4708a5368",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/financial_snapshot_history.py",
+      "ast_sha256": "bfb94ce88f1ea1c02bb5fb8a76330e235dfa21a5343d74b7a9c99c34e6291863",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "streaming_snapshot.py": {
+      "executed_sha256": "cb93b5b1cab82b1ed0db35cdf3b21f676f7a0201f37d999237b0f4dc12e68c3f",
+      "delivered_sha256": "cb93b5b1cab82b1ed0db35cdf3b21f676f7a0201f37d999237b0f4dc12e68c3f",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/streaming_snapshot.py",
+      "ast_sha256": "7815da1769c7b42f755fd667853165eca0fc336e3c8c246efc0a8f2f4ad2956f",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "streaming_feature_index.py": {
+      "executed_sha256": "3c2dc78d1ffb8573e938102a126cd50151113c320df2bb1ae36983ab2200b016",
+      "delivered_sha256": "3c2dc78d1ffb8573e938102a126cd50151113c320df2bb1ae36983ab2200b016",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/streaming_feature_index.py",
+      "ast_sha256": "12dcdb23be95af7581f506e66a2f4d434a74274efe11b4bed20eac6a437f10bf",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "factors.py": {
+      "executed_sha256": "7ca4298531f8f51cf8d512b319106371a2f1e6cb59ab07f92eb9da20840f1785",
+      "delivered_sha256": "7ca4298531f8f51cf8d512b319106371a2f1e6cb59ab07f92eb9da20840f1785",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/factors.py",
+      "ast_sha256": "dda00b201c1552062e630242c6bc9c787a5742788774809975439d0a95b83324",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "public_conversion.py": {
+      "executed_sha256": "cf6e7cb412af7631aa1b18ee063a5440da4c6ca63ab3c24a37ea5f81c411479c",
+      "delivered_sha256": "cf6e7cb412af7631aa1b18ee063a5440da4c6ca63ab3c24a37ea5f81c411479c",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/public_conversion.py",
+      "ast_sha256": "74fc1fdb022f7b31b1e039c9c9dd7a9c9963ea20b9f4849640bedd0299b00565",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "data.py": {
+      "executed_sha256": "6024ea42f05bc06fe89e412c682f57a3661d18c77e81ee6b9f4036774e3c9180",
+      "delivered_sha256": "6024ea42f05bc06fe89e412c682f57a3661d18c77e81ee6b9f4036774e3c9180",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/data.py",
+      "ast_sha256": "0e3d77dd6163f01614bcd99ecb51da4c1fcc41618e1d1fc30f3290b67634ffb8",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "prediction_ledger.py": {
+      "executed_sha256": "60ac74a2cdea6e03884f9274dd6c8ae29fdff9d2b9850bb2b1759d0b95318561",
+      "delivered_sha256": "60ac74a2cdea6e03884f9274dd6c8ae29fdff9d2b9850bb2b1759d0b95318561",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/prediction_ledger.py",
+      "ast_sha256": "4c7f463f4b27c98e164bf36d047986bf61580c5bfe5caa472a5029f88d2d3a4c",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "horizon_inference.py": {
+      "executed_sha256": "d63d55bc94425c2c40e80f27f50a76a8736470f4bfdcb85b6f0b5dfe9c6d68a1",
+      "delivered_sha256": "d63d55bc94425c2c40e80f27f50a76a8736470f4bfdcb85b6f0b5dfe9c6d68a1",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/horizon_inference.py",
+      "ast_sha256": "b23261f4e9f1c36c71e82f6785131161dd449eed76620501b6b4151a2c4cec91",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "workspace_paper_tracking.py": {
+      "executed_sha256": "71a921b6b3c419eaeaf7a771d952d31fa5825b8763c43e0347d4c7653ff761c0",
+      "delivered_sha256": "2ad60f3b2f4d7b4531a49b94d4f5c776b26d043d574b9cf60d47994ac2158261",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/workspace_paper_tracking.py",
+      "ast_sha256": "8b8f80f6b63383a891ae4eb68771cfb2462527d0fb9f3d4f2d35457bc3e510b7",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 2,
+      "delivered_trailing_newlines": 1
+    },
+    "risk_selection.py": {
+      "executed_sha256": "f4ca2a893deb1d1546203bca6468232667afaeb397a51d4700d21a7ee9986bd4",
+      "delivered_sha256": "f4ca2a893deb1d1546203bca6468232667afaeb397a51d4700d21a7ee9986bd4",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/risk_selection.py",
+      "ast_sha256": "ae2343c4db27a585e7aab19f336cbe8055eface9e929d586ad54f24dc96d6f9a",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "paper_tracking.py": {
+      "executed_sha256": "25a36980b44cd288220fadad0b8b9f6ea1227be32d0588ff66e591d29bf4744e",
+      "delivered_sha256": "25a36980b44cd288220fadad0b8b9f6ea1227be32d0588ff66e591d29bf4744e",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/paper_tracking.py",
+      "ast_sha256": "e8816163667e4660f432b222622ffe3d3dde438121586ff10e078a72c6b5dfb3",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "accounting_attribution.py": {
+      "executed_sha256": "7141ea867bb3ed7711c01333630fa087c04414899aa365b5bd5872f63f35d341",
+      "delivered_sha256": "7141ea867bb3ed7711c01333630fa087c04414899aa365b5bd5872f63f35d341",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/accounting_attribution.py",
+      "ast_sha256": "d2c6c338282dae94ed1e686898142253324466ecd60ffeb5ce092d3623181ef0",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "pipeline.py": {
+      "executed_sha256": "a0b848a6f4c3228e1875d0df7c8d4b931dac34c440daa6868ca40c5469822135",
+      "delivered_sha256": "a0b848a6f4c3228e1875d0df7c8d4b931dac34c440daa6868ca40c5469822135",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/pipeline.py",
+      "ast_sha256": "5d49284c70892968c7f56e9a040389570e090be24715d3f4160750e3551d848e",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "corporate_actions.py": {
+      "executed_sha256": "1dfa53f26ee7884b90905ce2da54b413bdd6775f966be161849477db5d808b6d",
+      "delivered_sha256": "1dfa53f26ee7884b90905ce2da54b413bdd6775f966be161849477db5d808b6d",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/corporate_actions.py",
+      "ast_sha256": "3b41b16cb0d9f2703dda255865e2794bb9adbd87a6be54af5212740e61de96f9",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "causal_quality.py": {
+      "executed_sha256": "cd4cecb6850a99a0c6333ec7005aa8c5eb07eef6160282c2c2459c85903ba369",
+      "delivered_sha256": "cd4cecb6850a99a0c6333ec7005aa8c5eb07eef6160282c2c2459c85903ba369",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/causal_quality.py",
+      "ast_sha256": "e19555840f293a39dd1f22b663b555f9b591f9d49fb2969eb94317236d40d984",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "costs.py": {
+      "executed_sha256": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e",
+      "delivered_sha256": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/costs.py",
+      "ast_sha256": "09091373de1b95af8564d1ff19f088658e3266c4413d5fec6146ebe389d036de",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 1,
+      "delivered_trailing_newlines": 1
+    },
+    "workspace_prediction_archive.py": {
+      "executed_sha256": "ab3875a891ded3ada0c5305cd7ce1ffc4a625b7c1aeef395bfe5b7a37217757a",
+      "delivered_sha256": "fa016fe789634b9c061bdd560fd2325070f9f418f1c272ccca1c779fe3f902b6",
+      "executed_snapshot": "@work/research/executed_daily_code_20261028_v2/workspace_prediction_archive.py",
+      "ast_sha256": "89260952957498e2c2d2a46c163b5b1a4b72c7f3f2bf9415c6cafc98fcc15d95",
+      "ast_unchanged": true,
+      "executed_trailing_newlines": 2,
+      "delivered_trailing_newlines": 1
+    }
+  }
+}

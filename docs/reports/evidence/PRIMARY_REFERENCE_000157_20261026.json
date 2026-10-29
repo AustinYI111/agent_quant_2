@@ -1,0 +1,51 @@
+{
+  "schema": "reviewed_000157_primary_reference_derivation_v1",
+  "reviewed_at_utc": "2026-10-26T02:35:44.051474+00:00",
+  "status": "derived_reference_verified_not_yet_applied",
+  "config_file": "config/reviewed_industry_valuation_refs_20261026_v2.json",
+  "config_sha256": "08599dcf0b9eecb0346131e4ce7a7903c43dc5bb0b6c0db93897fdc4a3e5e258",
+  "derivation": {
+    "schema": "verified_primary_reference_derivations_v1",
+    "events": 1,
+    "source_hashes": {
+      "artifacts/phase2/official_candidate_references_20261022/000157_20230721_industry_20261026/1217291719.PDF": "8e6a4b10b6d84a550edbd8d21ab1b021aa682697c29d2954ba14cbae091aefb3",
+      "artifacts/phase2/official_candidate_references_20261022/000157_20230721_industry_20261026/manifest.json": "ec9c8e2983b1f7c08624b1af4e8548b507c8fced00ff0dd560d2373dc6451538",
+      "artifacts/phase2/official_candidate_references_20261022/000157_20230721_scope_20261026/1217331842.PDF": "872f030635b0284627ad2739fab8abb9bc6062e3d9a430183c82b5e8f461e335",
+      "artifacts/phase2/official_candidate_references_20261022/000157_20230721_scope_20261026/manifest.json": "b6e8d804db6c4f03fc123ee10e9a8e90c33dcd518400e533b33932441ef80692"
+    },
+    "derivations": [
+      {
+        "symbol": "sz.000157",
+        "ex_date": "2023-07-21",
+        "available_date": "2023-07-21",
+        "reference_cash_per_share": 0.3008813929306641,
+        "holder_cash_per_share": 0.32,
+        "reference_terms_literal": false,
+        "prices_or_outcomes_used_in_derivation": false
+      }
+    ],
+    "actual_holder_economics_changed": false,
+    "prices_or_outcomes_used_in_derivation": false,
+    "independent_data_used": false,
+    "historical_vintages_certified": false
+  },
+  "corroboration": {
+    "source_file": "artifacts/phase2/raw/szse_monthly_reference_202307_20261026_v1/monthly.html",
+    "source_sha256": "977173fc2c7c851c00bb46c008e0b0b15c2460e08eb54ef74af06683f82fd5e9",
+    "source_url": "https://docs.static.szse.cn/www/market/periodical/month/W020230808524522886945.html",
+    "parsed_file": "artifacts/phase2/normalized/szse_monthly_reference_202307_20261026_v1/review_queue.json",
+    "parsed_sha256": "9d74790695f6622b788e4d632be2068a41953bbacc291d9e8fd37c356045606c",
+    "two_independent_parsers_agree": true,
+    "official_reference_price": "6.680",
+    "official_previous_close": "6.980",
+    "formula_expected_rounded_reference": "6.68",
+    "official_holder_cash": "0.320",
+    "publication_date_not_verified": true,
+    "filename_date": "2023-08-08",
+    "admitted_as_pre_event_information": false,
+    "only_retrospective_quote_corroboration": true
+  },
+  "actual_holder_cash_or_shares_changed": false,
+  "training_features_or_labels_changed": false,
+  "independent_data_used": false
+}

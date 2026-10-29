@@ -1,0 +1,91 @@
+{
+  "schema": "real_prediction_archive_verification_v1",
+  "source_snapshot": "artifacts/phase2/frozen_daily_research_20261020_v3",
+  "source_manifest_sha256": "48c83a1865b1d8a92cfe2bcf07bfebd7d1e86b5c7acf2b088c9f77abf2b625cc",
+  "archive": "artifacts/phase2/prediction_archive/predictions.sqlite",
+  "archive_sha256": "03d354fe746eda85c338dd5a0c6a1667c90ec7937dabda9f66d1b8fa382eb77c",
+  "backup": "artifacts/phase2/prediction_archive/backup_20261021_v1.sqlite",
+  "backup_sha256": "53a850ae8d4f0c9d4170aca0996365d286a256647e5359a1afef83a830ebf6a9",
+  "counts": {
+    "batches": 3,
+    "scores": 14805,
+    "archive_imports": 1
+  },
+  "import_receipt": {
+    "batch_ids": [
+      "d749d8f120247f113d463e473ffcbd4cd21b57e544084f81f97ef616d9780d03",
+      "c5f505b450a47ed7405f1d51fe79df24da2fe6ec2d405206ad38848b3b060e18",
+      "613310c58e28684469295c517f6bf6caeae8e0585aa4a897f3ee865343c8d5eb"
+    ],
+    "certified": false,
+    "duplicate_batches": 0,
+    "forecast_roles_preserved": true,
+    "imported_at_utc": "2026-10-21T08:55:50.412268+00:00",
+    "model_ready": false,
+    "new_batches": 3,
+    "new_scores": 14805,
+    "original_clocks_preserved": true,
+    "protocol_sha256": "d8a79ee894df5054c73289e101b9cf2bf77093c89b47b31e5551c5ffa7def04f",
+    "schema": "daily_prediction_archive_import_v1",
+    "source_backup_sha256": "70d31a6f86e56703c97beb9ed0b95d37ce6a926fb2e3c40b26dd54db86ca5723",
+    "source_manifest_sha256": "48c83a1865b1d8a92cfe2bcf07bfebd7d1e86b5c7acf2b088c9f77abf2b625cc",
+    "synthetic": false
+  },
+  "retry_receipt_identical": true,
+  "retry_database_hash_identical": true,
+  "checks": [
+    {
+      "horizon": "5d",
+      "candidate_count": 4935,
+      "batch_id": "d749d8f120247f113d463e473ffcbd4cd21b57e544084f81f97ef616d9780d03",
+      "created_at_utc": "2026-10-21T08:07:57.536094+00:00",
+      "role": "retrospective_independent_snapshot",
+      "scores_and_ranks_exact": true,
+      "receipt_exact": true,
+      "backup_restored_exact": true
+    },
+    {
+      "horizon": "20d",
+      "candidate_count": 4935,
+      "batch_id": "c5f505b450a47ed7405f1d51fe79df24da2fe6ec2d405206ad38848b3b060e18",
+      "created_at_utc": "2026-10-21T08:07:57.861844+00:00",
+      "role": "retrospective_independent_snapshot",
+      "scores_and_ranks_exact": true,
+      "receipt_exact": true,
+      "backup_restored_exact": true
+    },
+    {
+      "horizon": "12m",
+      "candidate_count": 4935,
+      "batch_id": "613310c58e28684469295c517f6bf6caeae8e0585aa4a897f3ee865343c8d5eb",
+      "created_at_utc": "2026-10-21T08:07:58.161192+00:00",
+      "role": "retrospective_independent_snapshot",
+      "scores_and_ranks_exact": true,
+      "receipt_exact": true,
+      "backup_restored_exact": true
+    }
+  ],
+  "restored_append_only_guards_verified": true,
+  "paper_gate": {
+    "snapshot": "artifacts/phase2/paper_tracking_archived_20261020_v1",
+    "manifest_sha256": "46ea45815cb4016c1ae95cdc00ad8f8af29096b7a278ab069d9b5bfdb594bf02",
+    "excluded_batches": 3,
+    "real_orders": 0,
+    "real_nav_rows": 0
+  },
+  "source_snapshot_unchanged": true,
+  "certified": false,
+  "model_ready": false,
+  "real_prospective_performance_verified": false,
+  "verification_receipt_sha256": "eeaa99df05b2a6f53774fafc945d7fe0d1da01e5915c273e986deb740377e9cb",
+  "validation": {
+    "full_suite_passed": 688,
+    "full_suite_seconds": 176.19,
+    "related_tests_passed": 56,
+    "archive_tests_passed": 17,
+    "real_signal_dates": 1,
+    "multiday_test_data_kind": "synthetic_fixture",
+    "real_daily_auto_delivery_verified": false,
+    "real_prospective_performance_verified": false
+  }
+}
