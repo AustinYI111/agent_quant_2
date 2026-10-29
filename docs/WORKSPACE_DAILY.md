@@ -24,6 +24,10 @@ python -m ashare_mvp.close_capture `
 
 利润与资产负债可通过`python -m ashare_mvp.financial_refresh`统一采集并保留各自观察历史，详细配方、输出和失败处理见[财务刷新](FINANCIAL_REFRESH.md)。本入口可以日内运行，不冒称最终收盘财务快照；完成后仍需公司行动和行情质量复核，再接入冻结推理。
 
+## 公司行动候选
+
+`company_action_intake`统一采集计划并生成公告复核队列，`reviewed_cash_extension`在原公告核对后暂存现金事件。计划不是支付，实际现金与参考金额分别保存；暂存后仍需真实收盘行情门禁。详见[公司行动接入](COMPANY_ACTION_INTAKE.md)。
+
 ## 冻结模型与名单
 
 原`frozen_daily.py`、模型和封存协议保持不变。新增入口复用相同因子、时点、原生缺失值和模型顺序，将新的状态库与快照写入工作目录。

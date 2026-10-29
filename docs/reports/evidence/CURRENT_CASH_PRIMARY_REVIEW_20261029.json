@@ -1,0 +1,86 @@
+{
+  "schema": "current_primary_company_action_review_v2",
+  "status": "terms_reviewed_quote_check_pending",
+  "events": [
+    {
+      "symbol": "sz.000878",
+      "record_date": "2026-10-28",
+      "ex_date": "2026-10-29",
+      "pay_date": "2026-10-29",
+      "announcement_date": "2026-10-21",
+      "available_date": "2026-10-29",
+      "source_period": "2026-06-30",
+      "cash_per_share": 0.04,
+      "share_multiplier": 1.0,
+      "reference_cash_per_share": 0.04,
+      "reference_share_multiplier": 1.0,
+      "differential_distribution": false,
+      "reference_basis": "ordinary_cash_distribution_no_share_change",
+      "source_file": "@work/incoming-20261029/official_company_actions/000878_20261029_core_20261029/1225612077.PDF",
+      "source_sha256": "ddf33e77a4e1a6e4bc74a92e4b30c2a27ac063b57356f6b818381fbe05018460",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-10-21/1225612077.PDF",
+      "capture_file": "@work/incoming-20261029/official_company_actions/000878_20261029_core_20261029/manifest.json",
+      "capture_sha256": "7b54275953e88cf1a7dcd5e15ecd73f75dbdfd79106e128a061be205c1578277",
+      "first_observed_at_utc": "2026-10-29T01:09:27.100991+00:00",
+      "reviewed_at_utc": "2026-10-29T01:12:38.162194+00:00",
+      "reviewed": true,
+      "reviewed_pages": [
+        1,
+        2
+      ],
+      "parameter_pages": {
+        "cash_per_share": 1,
+        "share_multiplier": 1,
+        "record_date": 2,
+        "ex_date": 2,
+        "pay_date": 2,
+        "reference_cash_per_share": 1
+      },
+      "bank_receipt_verified": false,
+      "original_vintages_verified": false
+    },
+    {
+      "symbol": "sh.688563",
+      "record_date": "2026-10-28",
+      "ex_date": "2026-10-29",
+      "pay_date": "2026-10-29",
+      "announcement_date": "2026-10-23",
+      "available_date": "2026-10-29",
+      "source_period": "2026-06-30",
+      "cash_per_share": 0.19153,
+      "share_multiplier": 1.0,
+      "reference_cash_per_share": 0.19112,
+      "reference_share_multiplier": 1.0,
+      "differential_distribution": true,
+      "reference_basis": "issuer_declared_rounded_reference",
+      "source_file": "@work/incoming-20261029/official_company_actions/688563_20261029_core_20261029/1225617093.PDF",
+      "source_sha256": "4afa28aa15e95bd4dcca46dc6cb24c59e48cac63acad797d1a27aa8a1f0352f6",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-10-23/1225617093.PDF",
+      "capture_file": "@work/incoming-20261029/official_company_actions/688563_20261029_core_20261029/manifest.json",
+      "capture_sha256": "cefd84d3bb8c85a07a849dcab164405155feaa7e11e220a3493c49f079499029",
+      "first_observed_at_utc": "2026-10-29T01:09:28.290133+00:00",
+      "reviewed_at_utc": "2026-10-29T01:12:38.179510+00:00",
+      "reviewed": true,
+      "reviewed_pages": [
+        1,
+        2
+      ],
+      "parameter_pages": {
+        "cash_per_share": 1,
+        "share_multiplier": 2,
+        "record_date": 1,
+        "ex_date": 1,
+        "pay_date": 1,
+        "reference_cash_per_share": 2
+      },
+      "bank_receipt_verified": false,
+      "original_vintages_verified": false
+    }
+  ],
+  "original_vintages_verified": false,
+  "raw_quote_check_completed": false,
+  "limitations": [
+    "Primary dates/holder and reference terms visually reviewed; actual29final quote not yet captured.",
+    "Observation dates are29October, never silently backdated to publication. Individual bank receipts and historical original vintages unverified."
+  ]
+}
