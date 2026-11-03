@@ -1,0 +1,130 @@
+{
+  "schema": "independent_archived_paper_followup_audit_v1",
+  "status": "saved_paper_followup_independently_verified",
+  "verified_at_utc": "2026-11-03T02:08:21.440380+00:00",
+  "followup_manifest_sha256": "13d6d5a4657a3c2c5572d553193bd86f221eac00ebf1dca38bb9d3a3f530527a",
+  "accounts": [
+    {
+      "horizon": "5d",
+      "status": "all_saved_account_opens_independently_reconstructed",
+      "sessions": 3,
+      "orders": 20,
+      "filled_non_st_buy_keys": 20,
+      "first_valuation": "2026-10-29",
+      "last_valuation": "2026-11-02",
+      "last_nav": 0.9849918524864194,
+      "total_return_from_initial_wealth": -0.015008147513580594,
+      "total_paid_cost_initial_wealth": 0.0007993605115907272,
+      "maximum_absolute_cash_share_error": 2.220446049250313e-16
+    },
+    {
+      "horizon": "20d",
+      "status": "awaiting_entry_no_invented_nav",
+      "sessions": 0,
+      "orders": 0
+    },
+    {
+      "horizon": "12m",
+      "status": "awaiting_entry_no_invented_nav",
+      "sessions": 0,
+      "orders": 0
+    }
+  ],
+  "archive_sha256": "177275fc49c17cef865db04f6e42b6117531aca84ad59416f7f33e0cae382852",
+  "archive_unchanged": true,
+  "new_predictions_created": false,
+  "filled_buy_forecast_authorization_checked": true,
+  "positive_holding_quote_references_checked": true,
+  "verification_code_sha256": "e6212ef288468de6aedb7552fb12009d0dafea7f05ac107d3cbafe919e455e00",
+  "limitations": [
+    "Research open-price simulation with fractional shares and frozen costs; not verified broker fills, preopen source vintages or after-tax performance.",
+    "Only the saved followup window is reconstructed; no claim of mature5d/20d/12m validation or causal alpha."
+  ],
+  "raw_sessions": [
+    {
+      "date": "2026-10-28",
+      "rows": 5223,
+      "regular_ashares": 5222,
+      "st_rows": 194,
+      "suspended_rows": 6,
+      "observed_at_utc": "2026-10-28T09:21:39.156728+00:00"
+    },
+    {
+      "date": "2026-10-29",
+      "rows": 5223,
+      "regular_ashares": 5222,
+      "st_rows": 194,
+      "suspended_rows": 7,
+      "observed_at_utc": "2026-11-03T01:51:36.023658+00:00"
+    },
+    {
+      "date": "2026-10-30",
+      "rows": 5223,
+      "regular_ashares": 5222,
+      "st_rows": 194,
+      "suspended_rows": 6,
+      "observed_at_utc": "2026-11-03T01:51:56.675504+00:00"
+    },
+    {
+      "date": "2026-11-02",
+      "rows": 5223,
+      "regular_ashares": 5222,
+      "st_rows": 194,
+      "suspended_rows": 6,
+      "observed_at_utc": "2026-11-03T01:49:16.725171+00:00"
+    }
+  ],
+  "whole_market_price_audit": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 1,
+    "rows": 20888,
+    "symbols": 5222,
+    "affected_symbols": 14,
+    "issue_counts": {
+      "unreconciled_adjustment": 14
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+  },
+  "current_primary_cash_reference_checks": [
+    {
+      "symbol": "sz.000878",
+      "date": "2026-10-29",
+      "previous_close": 14.01,
+      "observed_preclose": 13.97,
+      "holder_cash": 0.04,
+      "reference_cash": 0.04,
+      "matches": true
+    },
+    {
+      "symbol": "sh.688563",
+      "date": "2026-10-29",
+      "previous_close": 49.75,
+      "observed_preclose": 49.56,
+      "holder_cash": 0.19153,
+      "reference_cash": 0.19112,
+      "matches": true
+    }
+  ],
+  "benchmark": {
+    "kind": "CSI300 price index, first-to-last saved open",
+    "sessions": 3,
+    "total_return": -0.01706138284278036,
+    "arithmetic_return_difference": 0.002053235329199765,
+    "source_sha256": "df10cb67ea70bf7476f40c9aed861d1e25be865c414b4ddf05a2d1c639892cc4",
+    "saved_comparison_recomputed": true
+  },
+  "nav_summary_sha256": "bed17619d3086689c8bae8e85cbf44587b3b05999ae2f6ecb8a32b4d1395fded",
+  "forecast_signal_date": "2026-10-28",
+  "raw_observation_date_for_followup": "2026-11-03",
+  "models_retrained": false,
+  "local_followup": "@work/research/archived_tracking_20261102_observed_20261103_v1",
+  "local_independent_audit": "@work/research/archived_tracking_independent_20261103_v3.json",
+  "tests": {
+    "new_auditor": 8,
+    "related_risk_and_paper_regressions": 25
+  },
+  "omitted_from_public_summary": [
+    "Short-window annualized return and Sharpe are not meaningful mature evaluation results."
+  ]
+}
