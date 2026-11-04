@@ -20,6 +20,40 @@ def next_session(date,calendar):
     return cal[i]
 
 
+POST_EX_CAPITAL_FIELDS = (
+    'post_ex_other_ordinary_shares', 'post_ex_other_ordinary_kind',
+    'post_ex_other_ordinary_start', 'post_ex_other_ordinary_end',
+    'post_ex_other_ordinary_scope',
+)
+
+
+def normalize_post_ex_capital(event, calendar):
+    """Same-class issuer capital only; never an entitlement of this holder."""
+    if not any(k in event for k in POST_EX_CAPITAL_FIELDS):
+        return 0
+    if (not all(k in event for k in POST_EX_CAPITAL_FIELDS)
+            or event.get('outcome') != 'success'
+            or event.get('ex_date') is None
+            or event.get('listing_publication_date') is None
+            or event.get('tradable_from') is None):
+        raise ValueError('complete successful post-ex issuer capital evidence required')
+    count = event['post_ex_other_ordinary_shares']
+    post = event.get('post_issue_ordinary_shares')
+    if (isinstance(count, bool) or not isinstance(count, int) or count <= 0
+            or isinstance(post, bool) or not isinstance(post, int) or post <= 0
+            or event['post_ex_other_ordinary_kind'] != 'convertible_conversion'
+            or event['post_ex_other_ordinary_scope'] != 'same_share_class'):
+        raise ValueError('declared positive same-class convertible capital required')
+    for key in ['post_ex_other_ordinary_start', 'post_ex_other_ordinary_end']:
+        event[key] = day(event[key])
+        if event[key] not in calendar:
+            raise ValueError('issuer conversion dates must be known exchange sessions')
+    if not (event['ex_date'] < event['post_ex_other_ordinary_start']
+            <= event['post_ex_other_ordinary_end'] <= day(event['listing_publication_date'])):
+        raise ValueError('issuer conversion must follow ex-date and precede listing publication')
+    return count
+
+
 def normalize_rights_case(spec,calendar):
     if 'reviewed_exchange_quote' in spec:raise ValueError('exchange quotation must come from separately verified source evidence')
     cal=exchange_dates(calendar);e=dict(spec)
@@ -45,6 +79,7 @@ def normalize_rights_case(spec,calendar):
     for name in ['ex_date','tradable_from','refund_date']:
         e[name]=None if not e.get(name) else day(e[name])
         if e[name] is not None and e[name] not in cal:raise ValueError('rights settlement date outside original exchange calendar')
+    bridge=normalize_post_ex_capital(e,cal)
     if e['outcome']=='success':
         if e['ex_date'] is None or e['ex_date']<=e['subscription_end']:raise ValueError('successful issue requires actual ex-date after payment window')
         # Capital-count formula diagnostic. An explicit reviewed exchange quote
@@ -56,7 +91,7 @@ def normalize_rights_case(spec,calendar):
             if e.get('ordinary_share_scope')!='a_shares_only' or e.get('holder_scope')!='ordinary_non_locked_a_shareholder':raise ValueError('explicit A-only capital and non-locked ordinary holder scope required')
             other,total_before,total_after=[e.get(k) for k in scope_fields]
             if any(isinstance(x,bool) or not isinstance(x,int) for x in [other,total_before,total_after]) or other<0 or min(total_before,total_after)<=0:raise ValueError('integer issuer and other-share capital counts required')
-            if before+other!=total_before or before+issued+other!=total_after:raise ValueError('A-share and other-share capital must reconcile before and after issue')
+            if before+other!=total_before or before+issued+bridge+other!=total_after:raise ValueError('A-share and other-share capital must reconcile before and after issue')
         eligible=e.get('eligible_ordinary_shares');treasury=e.get('treasury_ordinary_shares')
         if eligible is not None or treasury is not None:
             if any(isinstance(x,bool) or not isinstance(x,int) for x in [eligible,treasury]) or eligible<=0 or treasury<0 or eligible+treasury!=before:raise ValueError('eligible and treasury ordinary shares must reconcile to pre-issue total')
@@ -68,7 +103,7 @@ def normalize_rights_case(spec,calendar):
                 literal=positive_decimal(e['quoted_exchange_ratio_per_10'])
                 if abs(e['exchange_ratio']*10-literal)>Decimal('0.000001'):raise ValueError('literal exchange ratio conflicts with ordinary issue counts')
             elif e.get('reference_ratio_basis')!='issued_shares_over_preissue_total':raise ValueError('unquoted ratio requires declared capital-count basis; never fabricate a source literal')
-        if e.get('post_issue_ordinary_shares') is not None and e['post_issue_ordinary_shares']!=before+issued:raise ValueError('ordinary post-issue capital does not reconcile')
+        if e.get('post_issue_ordinary_shares') is not None and e['post_issue_ordinary_shares']!=before+issued+bridge:raise ValueError('ordinary post-issue capital does not reconcile')
         if e.get('aggregate_subscription_cash') is not None and Decimal(str(e['aggregate_subscription_cash']))!=Decimal(issued)*e['subscription_price']:raise ValueError('aggregate subscription cash conflicts with issuer price/counts')
         if e['tradable_from'] is not None and (e['listing_available_date'] is None or e['tradable_from']<max(e['listing_available_date'],e['ex_date'])):raise ValueError('new shares cannot trade before listing notice and listing date')
     else:e['exchange_ratio']=None
@@ -119,6 +154,7 @@ def load_rights_evidence(config,project,evidence_root,calendar):
             if e.get('ordinary_share_scope')=='a_shares_only':
                 if role=='result':required_pages.update({'ordinary_share_scope', 'quoted_exchange_ratio_per_10' if e.get('quoted_exchange_ratio_per_10') is not None else 'reference_ratio_basis'})
                 if role=='listing':required_pages.update({'holder_scope','ordinary_share_scope','other_ordinary_shares','issuer_ordinary_shares_before','issuer_ordinary_shares_after'})
+            if role=='listing' and any(k in e for k in POST_EX_CAPITAL_FIELDS):required_pages.update(POST_EX_CAPITAL_FIELDS)
             if role=='offer' and e.get('subscription_fee_bps') is not None:required_pages.add('subscription_fee_bps')
             if role=='result' and e['outcome']=='success' and e.get('eligible_ordinary_shares') is not None:required_pages.update({'eligible_ordinary_shares','treasury_ordinary_shares'})
             if not required_pages.issubset(item['parameter_pages']):raise ValueError('missing rights parameter-to-source page mapping')
