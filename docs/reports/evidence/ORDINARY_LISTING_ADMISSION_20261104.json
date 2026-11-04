@@ -1,0 +1,20 @@
+{
+  "schema": "reviewed_ordinary_listing_admission_v1",
+  "status": "primary_captured_listing_contract_verified",
+  "verified_at_utc": "2026-11-04T09:54:26.218691+00:00",
+  "symbol": "sh.603578",
+  "ex_date": "2022-05-19",
+  "tradable_from": "2022-05-20",
+  "source_hashes": {
+    "config/reviewed_ordinary_listings_20261104_v1.json": "5c13a4c0d0aec74c63055a3ddb041d208ce56de6bda2785b4024ea6472f5cbd2",
+    "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+    "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab"
+  },
+  "physical_credit_date_inferred": false,
+  "historical_vintages_certified": false,
+  "account_engine_integrated": true,
+  "full_historical_replay_performed": false,
+  "independent_account_audit_implemented": false,
+  "legacy_outputs_changed": false,
+  "model_scores_changed": false
+}

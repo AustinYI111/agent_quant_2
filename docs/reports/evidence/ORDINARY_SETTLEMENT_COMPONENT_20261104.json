@@ -1,0 +1,43 @@
+{
+  "schema": "ordinary_share_settlement_component_validation_v1",
+  "recorded_at_utc": "2026-11-04T09:59:46.014951+00:00",
+  "status": "new_source_gated_component_and_sqlite_counterexample_tests_passed",
+  "test_result": {
+    "passed": 148,
+    "failed": 0,
+    "elapsed_seconds": 32.8,
+    "files": [
+      "tests/test_ordinary_share_settlement.py",
+      "tests/test_settled_disk_account.py",
+      "tests/test_rights_account.py",
+      "tests/test_rights_wallet.py",
+      "tests/test_disk_account.py"
+    ]
+  },
+  "source_hashes": {
+    "ashare_mvp/ordinary_share_settlement.py": "35a82718015f4535d5c016143ac7c44aeb05e68decc3bf702254253580a16363",
+    "ashare_mvp/settled_disk_account.py": "c1ae87f474762da4379cfaeb25e61417471b399c14422d20dfb3c7308d7429f3",
+    "tests/test_ordinary_share_settlement.py": "c18fde7fcf268a55a3e3a7702412c56ba4685795678339ecbdb23a4817c039f6",
+    "tests/test_settled_disk_account.py": "d4c15f46aebabf47e26a6c327da5284a9ff78bb1120460458bf2f8f67f91ae25",
+    "config/reviewed_ordinary_listings_20261104_v1.json": "5c13a4c0d0aec74c63055a3ddb041d208ce56de6bda2785b4024ea6472f5cbd2",
+    "docs/reports/evidence/ORDINARY_LISTING_ADMISSION_20261104.json": "cf1b520d6ade79237dbfd99c5bdf622c648a966c633c7f72d459005951181f3f"
+  },
+  "legacy_engine_and_auditor_hashes_unchanged": {
+    "ashare_mvp/disk_account.py": "71e8a78d2b4050bce18542d3ae0a36b8c4a875986cfd5e8d62b35fa05f58fa18",
+    "ashare_mvp/rights_disk_account.py": "2e3839d3ad6cf8352ce98f9daf6eec144cf92e7e94dac6f3fb887e8e8eb51613",
+    "ashare_mvp/rights_account_audit.py": "617c98a5ffeeb5e8ce3cdee9b250895db4a8012a4ff357a7127b1c6444f05759"
+  },
+  "assertions": [
+    "Bonus claim is valued from ex-date, separate from sellable shares until source-listed session.",
+    "SQLite probe sells only original shares on ex-date and bonus shares on the next listed session; wealth is conserved.",
+    "Unknown listing, missing mark, unsupported overlap/reduction and source tampering fail without applying a partial bonus batch.",
+    "No-bonus ordinary and paid-rights policy scenarios retain byte-identical original NAV, orders and rights ledgers.",
+    "Locked bonus value reduces buy targets."
+  ],
+  "independent_new_account_auditor_implemented": false,
+  "full_historical_replay_performed": false,
+  "full_company_action_coverage_verified": false,
+  "physical_credit_dates_inferred": false,
+  "model_scores_changed": false,
+  "profitability_proven": false
+}
