@@ -1,0 +1,29 @@
+[
+  {
+    "symbol": "sz.002014",
+    "ex_date": "2022-04-14",
+    "announcement_date": "2022-04-07",
+    "available_date": "2022-04-08",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-07/1212824724.PDF",
+    "source_sha256": "4c832d5c28b86c21d7a68299cc36173f92d5bd45e7c6a43e977daa68514e83e4",
+    "source_page": 2,
+    "reviewed": true,
+    "source_file": "research/ordinary_action_002014_sources_20261104_v1/002014_20220414_original/1212824724.PDF",
+    "source_capture_file": "research/ordinary_action_002014_sources_20261104_v1/002014_20220414_original/manifest.json",
+    "source_capture_sha256": "1506d5fdae254f3a6eddaec253b7d7a42d3c83bfa335ddaf92755cec86849f72",
+    "observed_at_utc": "2026-11-04T08:06:44.383237+00:00",
+    "reviewed_at_utc": "2026-11-04T08:07:53.935611+00:00",
+    "expected_cash_per_share": 0.5,
+    "expected_share_multiplier": 1.2,
+    "reference_cash_per_share": 0.496492,
+    "reference_share_multiplier": 1.198596,
+    "reviewed_actual_entitlement_pages": [
+      1,
+      2,
+      3
+    ],
+    "source_payment_page": 3,
+    "source_share_tradable_page": 3,
+    "review_scope": "All four original pages visually reviewed. Actual cash .5 and share multiplier1.2, dividend payment/share credit/unrestricted tradable14Apr; treasury3606835 excluded. Pages1/2 explicitly state virtual cash.496492 and share increment.198596; only quote parameters change. Fractional/gross simulation, not individual tax/rounding/limited-holder certification. Retrospective source, historical byte vintage unverified."
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "schema": "bounded_reference_audit_v1",
+  "status": "reference_audit_complete",
+  "started_at_utc": "2026-11-04T08:09:03.967298+00:00",
+  "quote_store_manifest_sha256": "f9347a2464036754a3429b80353fe445e58f6b974546cf21fc514971fbfc45cf",
+  "quote_database_sha256": "60ed6ec12b87dc5aaa90182fafafbb592bfb43b4a2d4e17045703e3aba3f6bad",
+  "raw_sha256": "327e392dd61a4674156c567a31df38f377be8af4ebc918c95fada2aaf1450785",
+  "actions_sha256": "06bb1983a0ad07ae0c0383add70f1fa20652243461bcb910be599eca913a64e7",
+  "reference_tick_size": 0.01,
+  "code_hashes": {
+    "disk_market.py": "cf5126abb454641043498481c4d700ed067e3262ae021807de3e9fb3188c019e",
+    "causal_quality.py": "cd4cecb6850a99a0c6333ec7005aa8c5eb07eef6160282c2c2459c85903ba369",
+    "price_action_audit.py": "9400668c68b2464bb91698e50b9fe3d5d2d41b68a0b57028021c1261bbfc6a1b",
+    "price_reference.py": "f3740b4282ce6213541a3a24c73b6d7d69ee555c1b26af04f69cd93ff6ee68a2"
+  },
+  "issuers": 5401,
+  "rows": 8609196,
+  "reference_faults": 1547,
+  "max_issuer_rows": 1942,
+  "actual_holder_terms_changed": false,
+  "completed_at_utc": "2026-11-04T08:13:41.242963+00:00",
+  "fault_database_sha256": "bde20e271656d1d425a5d645e8d4090ed2624b486ed2bb282c91ebe42f89add9"
+}
