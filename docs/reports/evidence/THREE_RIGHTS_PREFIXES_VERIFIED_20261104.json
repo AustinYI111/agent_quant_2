@@ -1,0 +1,196 @@
+{
+  "schema": "three_rights_scenario_verification_v1",
+  "status": "six_three_event_prefixes_reconciled_locked_claims_preserved",
+  "started_at_utc": "2026-11-04T02:26:43.963763+00:00",
+  "source_manifest_sha256": "8b58973bae742b04c077a801609f9538092ad8945208707522f5ca3f71e3408d",
+  "verification_code_hashes": {
+    "rights_account_audit.py": "617c98a5ffeeb5e8ce3cdee9b250895db4a8012a4ff357a7127b1c6444f05759",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e",
+    "disk_account.py": "71e8a78d2b4050bce18542d3ae0a36b8c4a875986cfd5e8d62b35fa05f58fa18"
+  },
+  "accounts": [
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 118,
+      "orders_checked": 88617,
+      "max_absolute_reconciliation_error": 4.7187947993521107e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "5d",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2022-01-27",
+        "symbol": "sh.600030",
+        "reason": "reference"
+      },
+      "002948_locked_claim_quantity": 1.782157321023048e-17,
+      "002948_locked_claim_principal": 5.702903427273753e-17,
+      "pre_002948_payment_nav_exactly_conserved": true,
+      "002948_flow_kinds": [
+        "allocation_confirmed",
+        "registry_entitlement",
+        "rights_lapsed",
+        "subscribe"
+      ],
+      "002948_not_unlocked_before_listing": true,
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 118,
+      "orders_checked": 22090,
+      "max_absolute_reconciliation_error": 3.6178850713886046e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "20d",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2022-01-27",
+        "symbol": "sh.600030",
+        "reason": "reference"
+      },
+      "002948_no_subscription_due_to_cash_constraint": true,
+      "pre_002948_payment_nav_exactly_conserved": true,
+      "002948_flow_kinds": [
+        "registry_entitlement",
+        "rights_lapsed"
+      ],
+      "002948_not_unlocked_before_listing": true,
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 120,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "12m",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2022-01-27",
+        "symbol": "sh.600030",
+        "reason": "reference"
+      },
+      "002948_locked_claim_quantity": 1.8394314791137256e-05,
+      "002948_locked_claim_principal": 5.886180733163922e-05,
+      "pre_002948_payment_nav_exactly_conserved": true,
+      "002948_flow_kinds": [
+        "allocation_confirmed",
+        "registry_entitlement",
+        "subscribe"
+      ],
+      "002948_not_unlocked_before_listing": true,
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 118,
+      "orders_checked": 88617,
+      "max_absolute_reconciliation_error": 4.7187947993521107e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "5d",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2022-01-27",
+        "symbol": "sh.600030",
+        "reason": "reference"
+      },
+      "pre_002948_payment_nav_exactly_conserved": true,
+      "002948_flow_kinds": [
+        "registry_entitlement",
+        "rights_lapsed"
+      ],
+      "002948_not_unlocked_before_listing": true,
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 118,
+      "orders_checked": 22090,
+      "max_absolute_reconciliation_error": 5.417888360170764e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "20d",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2022-01-27",
+        "symbol": "sh.600030",
+        "reason": "reference"
+      },
+      "pre_002948_payment_nav_exactly_conserved": true,
+      "002948_flow_kinds": [
+        "registry_entitlement",
+        "rights_lapsed"
+      ],
+      "002948_not_unlocked_before_listing": true,
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 120,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "12m",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2022-01-27",
+        "symbol": "sh.600030",
+        "reason": "reference"
+      },
+      "pre_002948_payment_nav_exactly_conserved": true,
+      "002948_flow_kinds": [
+        "registry_entitlement",
+        "rights_lapsed"
+      ],
+      "002948_not_unlocked_before_listing": true,
+      "subscription_fees_zero": true
+    }
+  ],
+  "complete_accounts": 0,
+  "default_policy_confirmed": false,
+  "historical_original_vintage_verified": false,
+  "full_period_performance_available": false,
+  "completed_at_utc": "2026-11-04T02:27:15.227592+00:00",
+  "output_hashes": {
+    "cash_limited_subscribe/12m/daily_reconstruction.csv": "34f00afa9c5a859df98bc1c7fb9359f76f5a9788ffd1db7fa7feab953606ffe9",
+    "cash_limited_subscribe/20d/daily_reconstruction.csv": "7424a2dfaad8527940332635b8f42628489b5fbfb251b29bf52c7d4677ed1c75",
+    "cash_limited_subscribe/5d/daily_reconstruction.csv": "087ce5acf893ec284160463f1f473861d68e45212f361b5b2c98dcd20dae773b",
+    "decline/12m/daily_reconstruction.csv": "781ecec55fd433cea5ef243df7147207079ad2262c26f34524e7533a39a7b6ce",
+    "decline/20d/daily_reconstruction.csv": "841bfc6721a0f4fc4cb99dc16c2621dd15da7fd01db06ad76d89da63e94637aa",
+    "decline/5d/daily_reconstruction.csv": "a8611723127d6e434cda1ca5fb175942899253fc8e8aaf81e95459931c6a852a"
+  }
+}

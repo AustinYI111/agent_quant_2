@@ -51,6 +51,12 @@ def normalize_rights_case(spec,calendar):
         # may supersede it for price reconciliation, never for holder economics.
         before=e['registered_ordinary_shares'];issued=e['issued_ordinary_shares']
         if any(isinstance(x,bool) or not isinstance(x,int) or x<=0 for x in [before,issued]) or Decimal(issued)>Decimal(before)*e['offer_ratio']:raise ValueError('invalid ordinary-share issue counts')
+        scope_fields=['other_ordinary_shares','issuer_ordinary_shares_before','issuer_ordinary_shares_after']
+        if e.get('ordinary_share_scope') is not None or any(k in e for k in scope_fields):
+            if e.get('ordinary_share_scope')!='a_shares_only' or e.get('holder_scope')!='ordinary_non_locked_a_shareholder':raise ValueError('explicit A-only capital and non-locked ordinary holder scope required')
+            other,total_before,total_after=[e.get(k) for k in scope_fields]
+            if any(isinstance(x,bool) or not isinstance(x,int) for x in [other,total_before,total_after]) or other<0 or min(total_before,total_after)<=0:raise ValueError('integer issuer and other-share capital counts required')
+            if before+other!=total_before or before+issued+other!=total_after:raise ValueError('A-share and other-share capital must reconcile before and after issue')
         eligible=e.get('eligible_ordinary_shares');treasury=e.get('treasury_ordinary_shares')
         if eligible is not None or treasury is not None:
             if any(isinstance(x,bool) or not isinstance(x,int) for x in [eligible,treasury]) or eligible<=0 or treasury<0 or eligible+treasury!=before:raise ValueError('eligible and treasury ordinary shares must reconcile to pre-issue total')
@@ -110,6 +116,9 @@ def load_rights_evidence(config,project,evidence_root,calendar):
             if item.get('reviewed') is not True or not item.get('reviewed_pages') or any(isinstance(x,bool) or not isinstance(x,int) or x<1 for x in item['reviewed_pages']):raise ValueError('explicit visually reviewed source pages required')
             if not item.get('parameter_pages') or not set(item['parameter_pages'].values()).issubset(set(item['reviewed_pages'])):raise ValueError('rights parameter pages not among reviewed pages')
             required_pages={'offer':{'record_date','subscription_start','subscription_end','offer_ratio','subscription_price','expected_result_date'},'result':{'outcome','ex_date','registered_ordinary_shares','issued_ordinary_shares','aggregate_subscription_cash'} if e['outcome']=='success' else {'outcome'},'listing':{'tradable_from','post_issue_ordinary_shares'}}[role]
+            if e.get('ordinary_share_scope')=='a_shares_only':
+                if role=='result':required_pages.update({'ordinary_share_scope','quoted_exchange_ratio_per_10'})
+                if role=='listing':required_pages.update({'holder_scope','ordinary_share_scope','other_ordinary_shares','issuer_ordinary_shares_before','issuer_ordinary_shares_after'})
             if role=='offer' and e.get('subscription_fee_bps') is not None:required_pages.add('subscription_fee_bps')
             if role=='result' and e['outcome']=='success' and e.get('eligible_ordinary_shares') is not None:required_pages.update({'eligible_ordinary_shares','treasury_ordinary_shares'})
             if not required_pages.issubset(item['parameter_pages']):raise ValueError('missing rights parameter-to-source page mapping')
@@ -126,6 +135,7 @@ def load_rights_evidence(config,project,evidence_root,calendar):
             if c.get('code')!=e['symbol'].split('.')[1]:raise ValueError('rights capture issuer differs from ordinary issuer')
             notices=[n for n in c.get('notices',[]) if n.get('url')==url and n.get('sha256')==item['source_sha256'] and utc(n['observed_at_utc'])==observed]
             if len(notices)!=1 or expected_title not in notices[0].get('title',''):raise ValueError('ordinary rights source role or observation identity differs')
+            if e.get('ordinary_share_scope')=='a_shares_only' and not notices[0]['title'].startswith('A股配股'):raise ValueError('A-only rights evidence must identify the A-share offering')
             sources[pdf.relative_to(evidence).as_posix()]=item['source_sha256'];sources[capture.relative_to(evidence).as_posix()]=item['capture_sha256']
         if record['sources'].get('exchange_quote') is not None:
             from .exchange_rights_quote import load_exchange_quote

@@ -1,0 +1,260 @@
+{
+  "schema": "reviewed_a_only_rights_case_verification_v1",
+  "status": "three_event_typed_reference_built",
+  "verified_at_utc": "2026-11-04T02:23:46.396485+00:00",
+  "config": "config/reviewed_rights_cases_20261104_v4.json",
+  "config_sha256": "8bebf55157cd9afb9bd43e383ce6e284bc3dc34722d95831a1e5e6786227bf56",
+  "reviewed_case": {
+    "terms": {
+      "event_id": "sz.002948_20220104_rights",
+      "symbol": "sz.002948",
+      "offer_publication_date": "2021-12-30",
+      "record_date": "2022-01-04",
+      "subscription_start": "2022-01-05",
+      "subscription_end": "2022-01-11",
+      "expected_result_date": "2022-01-13",
+      "offer_ratio": "0.3",
+      "subscription_price": "3.20",
+      "subscription_fee_bps": 0.0,
+      "fee_basis": "A-share offering page7 expressly waives shareholder subscription commission and other charges.",
+      "outcome": "success",
+      "result_publication_date": "2022-01-13",
+      "ex_date": "2022-01-13",
+      "registered_ordinary_shares": 2746655020,
+      "issued_ordinary_shares": 781754230,
+      "quoted_exchange_ratio_per_10": "2.846204",
+      "reference_ratio_basis": "issued_shares_over_preissue_total",
+      "aggregate_subscription_cash": "2501613536.00",
+      "listing_publication_date": "2022-01-27",
+      "tradable_from": "2022-01-28",
+      "post_issue_ordinary_shares": 3528409250,
+      "refund_date": null,
+      "ordinary_share_scope": "a_shares_only",
+      "holder_scope": "ordinary_non_locked_a_shareholder",
+      "other_ordinary_shares": 1763034980,
+      "issuer_ordinary_shares_before": 4509690000,
+      "issuer_ordinary_shares_after": 5291444230,
+      "holder_scope_note": "Listing page4 names specific locked major holders. This anonymous fractional research account represents an ordinary non-locked A-share holder, not those entities; no personal holding identity is asserted."
+    },
+    "sources": {
+      "offer": {
+        "source_file": "research/rights_002948_sources_20261104_v1/002948_20220113_original/1212056470.PDF",
+        "source_sha256": "e7f26663e5fd233edef63e50ef76db39ba204ad5fd5fbb4528458ce9ff1eaadb",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2021-12-30/1212056470.PDF",
+        "capture_file": "research/rights_002948_sources_20261104_v1/002948_20220113_original/manifest.json",
+        "capture_sha256": "285d3462257126c6451d3260e33dd8460bc41dcaec10022e50231f5c5fba0780",
+        "observed_at_utc": "2026-11-04T02:18:09.096848+00:00",
+        "reviewed_at_utc": "2026-11-04T02:23:44.055389+00:00",
+        "reviewed": true,
+        "reviewed_pages": [
+          4,
+          5,
+          7
+        ],
+        "parameter_pages": {
+          "record_date": 5,
+          "subscription_start": 5,
+          "subscription_end": 5,
+          "offer_ratio": 4,
+          "subscription_price": 4,
+          "expected_result_date": 5,
+          "subscription_fee_bps": 7
+        }
+      },
+      "result": {
+        "source_file": "research/rights_002948_sources_20261104_v1/002948_20220113_original/1212161604.PDF",
+        "source_sha256": "dbb36fcabf033bc470ca5bf672aeff6d9cdb8a5b2e7f9b05e18871acbae8c2e2",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2022-01-13/1212161604.PDF",
+        "capture_file": "research/rights_002948_sources_20261104_v1/002948_20220113_original/manifest.json",
+        "capture_sha256": "285d3462257126c6451d3260e33dd8460bc41dcaec10022e50231f5c5fba0780",
+        "observed_at_utc": "2026-11-04T02:18:08.796329+00:00",
+        "reviewed_at_utc": "2026-11-04T02:23:44.055389+00:00",
+        "reviewed": true,
+        "reviewed_pages": [
+          1,
+          2,
+          3
+        ],
+        "parameter_pages": {
+          "outcome": 3,
+          "ex_date": 3,
+          "registered_ordinary_shares": 1,
+          "issued_ordinary_shares": 1,
+          "aggregate_subscription_cash": 1,
+          "ordinary_share_scope": 1,
+          "quoted_exchange_ratio_per_10": 3
+        }
+      },
+      "listing": {
+        "source_file": "research/rights_002948_sources_20261104_v1/002948_20220113_original/1212288217.PDF",
+        "source_sha256": "f8e9850e3246fce7a5a0eecae7b4879b4b49a35ce8826a5766977624682ca455",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2022-01-27/1212288217.PDF",
+        "capture_file": "research/rights_002948_sources_20261104_v1/002948_20220113_original/manifest.json",
+        "capture_sha256": "285d3462257126c6451d3260e33dd8460bc41dcaec10022e50231f5c5fba0780",
+        "observed_at_utc": "2026-11-04T02:18:08.580244+00:00",
+        "reviewed_at_utc": "2026-11-04T02:23:44.055389+00:00",
+        "reviewed": true,
+        "reviewed_pages": [
+          1,
+          4
+        ],
+        "parameter_pages": {
+          "tradable_from": 4,
+          "post_issue_ordinary_shares": 4,
+          "holder_scope": 4,
+          "ordinary_share_scope": 4,
+          "other_ordinary_shares": 4,
+          "issuer_ordinary_shares_before": 4,
+          "issuer_ordinary_shares_after": 4
+        }
+      }
+    }
+  },
+  "raw_sql_rows": [
+    [
+      "2022-01-04",
+      4.63,
+      4.7,
+      4.63,
+      "1"
+    ],
+    [
+      "2022-01-05",
+      4.7,
+      4.7,
+      4.7,
+      "0"
+    ],
+    [
+      "2022-01-06",
+      4.7,
+      4.7,
+      4.7,
+      "0"
+    ],
+    [
+      "2022-01-07",
+      4.7,
+      4.7,
+      4.7,
+      "0"
+    ],
+    [
+      "2022-01-10",
+      4.7,
+      4.7,
+      4.7,
+      "0"
+    ],
+    [
+      "2022-01-11",
+      4.7,
+      4.7,
+      4.7,
+      "0"
+    ],
+    [
+      "2022-01-12",
+      4.7,
+      4.7,
+      4.7,
+      "0"
+    ],
+    [
+      "2022-01-13",
+      4.41,
+      4.49,
+      4.37,
+      "1"
+    ],
+    [
+      "2022-01-14",
+      4.45,
+      4.44,
+      4.49,
+      "1"
+    ]
+  ],
+  "independent_reference": "4.367660052472654638914122561",
+  "independent_reference_half_up": "4.37",
+  "independent_actual_ratio_per_10": "2.846204653688179595266390608",
+  "source_literal_ratio_per_10": "2.846204",
+  "source_literal_not_used_to_increase_holder_entitlement": true,
+  "A_plus_H_capital_reconciled": true,
+  "non_locked_ordinary_holder_assumption_explicit": true,
+  "typed_reference": "research/three_rights_reference_20261104_v1",
+  "typed_reference_sha256": "037e6e9b0fa6dae103fc4926fa06130b5a0d0c9dd997b2b92a0c43c09463e0ed",
+  "original_vintages_verified": false,
+  "result_preopen_timestamp_verified": false,
+  "historical_ranking_or_models_changed": false,
+  "ordinary_reference_unchanged": true,
+  "complete_equal_benchmark_verified": false,
+  "reconciliations": [
+    {
+      "event_id": "sz.002142_20211123_rights",
+      "symbol": "sz.002142",
+      "date": "2021-12-02",
+      "previous_session": "2021-12-01",
+      "previous_close": 38.88,
+      "parent_fault_present": true,
+      "matches": true,
+      "expected_unrounded": "37.174516685966691559345792969904547047227150473621",
+      "expected_half_up": "37.17",
+      "observed_preclose": "37.17",
+      "exact_exchange_ratio": "0.099129975294477755348747734736083902819167557762509",
+      "reference_role": "retrospective quote reconciliation only; not an input to offer subscription or earlier ranking"
+    },
+    {
+      "event_id": "sh.601555_20211214_rights",
+      "symbol": "sh.601555",
+      "date": "2021-12-23",
+      "previous_session": "2021-12-22",
+      "previous_close": 8.87,
+      "parent_fault_present": true,
+      "matches": true,
+      "observed_preclose": "8.48",
+      "reference_basis": "reviewed_primary_exchange_quotation",
+      "exchange_quote": {
+        "symbol": "sh.601555",
+        "event_id": "sh.601555_20211214_rights",
+        "ex_date": "2021-12-23",
+        "previous_close": "8.87",
+        "ex_reference": "8.48",
+        "source_sha256": "2519894133664ff2ed88b75221c5713bca72d6a15a6fb459f6589f7ab7845e35",
+        "source_url": "https://www.sse.com.cn/aboutus/publication/monthly/documents/c/10061118/files/2e31b357ff4641f1956279cd7decc195.pdf",
+        "reviewed_pages": [
+          29,
+          30
+        ],
+        "row_number": 3,
+        "observed_at_utc": "2026-11-04T02:01:44.291408+00:00",
+        "reviewed_at_utc": "2026-11-04T02:07:13.488741+00:00",
+        "retrospective_reference_only": true,
+        "historical_availability_asserted": false
+      },
+      "capital_count_formula_diagnostic": {
+        "matches": false,
+        "expected_unrounded": "8.4919008116027855099382153077965489827955360177802",
+        "expected_half_up": "8.49",
+        "observed_preclose": "8.48",
+        "exact_exchange_ratio": "0.29042088692742429487474101491995616375952986337053",
+        "reference_role": "retrospective quote reconciliation only; not an input to offer subscription or earlier ranking"
+      },
+      "reference_role": "retrospective quote reconciliation only; not an input to offer subscription or earlier ranking"
+    },
+    {
+      "event_id": "sz.002948_20220104_rights",
+      "symbol": "sz.002948",
+      "date": "2022-01-13",
+      "previous_session": "2022-01-12",
+      "previous_close": 4.7,
+      "parent_fault_present": true,
+      "matches": true,
+      "expected_unrounded": "4.3676600524726546389141225610379521593193873414770",
+      "expected_half_up": "4.37",
+      "observed_preclose": "4.37",
+      "exact_exchange_ratio": "0.28462046536881795952663906077291060746318261694182",
+      "reference_role": "retrospective quote reconciliation only; not an input to offer subscription or earlier ranking"
+    }
+  ]
+}
