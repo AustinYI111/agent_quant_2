@@ -1,0 +1,52 @@
+{
+  "schema": "ordinary_share_timing_gap_probe_v1",
+  "status": "both_existing_engines_sell_unlisted_bonus_in_synthetic_probe",
+  "recorded_at_utc": "2026-11-04T09:15:08.827217+00:00",
+  "synthetic": true,
+  "real_strategy_performance": false,
+  "source_code_hashes": {
+    "disk_account.py": "71e8a78d2b4050bce18542d3ae0a36b8c4a875986cfd5e8d62b35fa05f58fa18",
+    "rights_disk_account.py": "2e3839d3ad6cf8352ce98f9daf6eec144cf92e7e94dac6f3fb887e8e8eb51613",
+    "rights_account_audit.py": "617c98a5ffeeb5e8ce3cdee9b250895db4a8012a4ff357a7127b1c6444f05759"
+  },
+  "examples": [
+    {
+      "engine": "legacy",
+      "sale_date": "2024-01-04",
+      "declared_new_share_tradable_from": "2024-01-05",
+      "actual_legacy_sale_notional": 1.0,
+      "original_share_only_sale_notional": 0.7692307692307693,
+      "unlisted_bonus_notional_in_sale": 0.23076923076923073,
+      "synthetic_counterexample_reproduced": true
+    },
+    {
+      "engine": "rights",
+      "sale_date": "2024-01-04",
+      "declared_new_share_tradable_from": "2024-01-05",
+      "actual_legacy_sale_notional": 1.0,
+      "original_share_only_sale_notional": 0.7692307692307693,
+      "unlisted_bonus_notional_in_sale": 0.23076923076923073,
+      "synthetic_counterexample_reproduced": true
+    }
+  ],
+  "primary_review": {
+    "symbol": "sh.603578",
+    "ex_date": "2022-05-19",
+    "new_share_tradable_from": "2022-05-20",
+    "source_file": "research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF",
+    "source_sha256": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2022-05-12/1213323962.PDF",
+    "visually_reviewed_pages": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "existing_share_credit_date_missing": true,
+    "physical_credit_date_not_inferred": true
+  },
+  "implication": "Existing independent accounting validates immediate ordinary-share multiplication arithmetic, not separate bonus-share tradability. Preserve legacy results and add a source-gated locked ordinary-share account plus an independent reconstruction before claiming an executable full-period benchmark.",
+  "historical_outputs_modified": false,
+  "fix_implemented": false,
+  "raw_quote_store_rebuilt": false
+}
