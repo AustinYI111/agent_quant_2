@@ -1,0 +1,55 @@
+{
+  "schema": "independent_archived_paper_followup_audit_v1",
+  "status": "saved_paper_followup_independently_verified",
+  "verified_at_utc": "2026-11-04T01:01:34.638154+00:00",
+  "followup_manifest_sha256": "3ea9c7f0d493049cedb3228404acb71a182fb5bd3824d3b087c2e10116d5052e",
+  "accounts": [
+    {
+      "horizon": "5d",
+      "status": "all_saved_account_opens_independently_reconstructed",
+      "sessions": 4,
+      "orders": 20,
+      "filled_non_st_buy_keys": 20,
+      "first_valuation": "2026-10-29",
+      "last_valuation": "2026-11-03",
+      "last_nav": 0.9825746474589612,
+      "total_return_from_initial_wealth": -0.01742535254103883,
+      "total_paid_cost_initial_wealth": 0.0007993605115907272,
+      "maximum_absolute_cash_share_error": 2.220446049250313e-16
+    },
+    {
+      "horizon": "20d",
+      "status": "awaiting_entry_no_invented_nav",
+      "sessions": 0,
+      "orders": 0
+    },
+    {
+      "horizon": "12m",
+      "status": "awaiting_entry_no_invented_nav",
+      "sessions": 0,
+      "orders": 0
+    }
+  ],
+  "archive_sha256": "f798c96967d2ef3218c5daaf01b63bb0263026962a3cde43dd9509f1baec6757",
+  "archive_unchanged": true,
+  "new_predictions_created": false,
+  "filled_buy_forecast_authorization_checked": true,
+  "positive_holding_quote_references_checked": true,
+  "verification_code_sha256": "e6212ef288468de6aedb7552fb12009d0dafea7f05ac107d3cbafe919e455e00",
+  "limitations": [
+    "Research open-price simulation with fractional shares and frozen costs; not verified broker fills, preopen source vintages or after-tax performance.",
+    "Only the saved followup window is reconstructed; no claim of mature5d/20d/12m validation or causal alpha."
+  ],
+  "benchmark": {
+    "kind": "CSI300 price index, first-to-last saved open",
+    "total_return": -0.017230295764218972,
+    "arithmetic_return_difference": -0.00019505677681985745,
+    "original_opens_recomputed": true,
+    "source_hashes": {
+      "incoming-20261103/close_capture_20261102_observed_20261103_v1/reference/csi300_20261029_20261102.csv": "df10cb67ea70bf7476f40c9aed861d1e25be865c414b4ddf05a2d1c639892cc4",
+      "incoming-20261103/close_capture_20261103_v1/reference/csi300_20261030_20261103.csv": "6c4a445c68bc4fb5525424b190d8208f6db4fae390dc8a30138c222c44676c7f"
+    }
+  },
+  "nav_summary_sha256": "443d9de58b0264d737aefccac3cf8fd8c3056e224736c10d3f7997c890d99a00",
+  "local_followup": "@work/research/archived_tracking_20261103_observed_20261104_v1"
+}

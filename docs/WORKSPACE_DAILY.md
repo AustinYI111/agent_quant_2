@@ -65,12 +65,14 @@ python -m ashare_mvp.risk_selection `
 
 ## 已归档模拟的独立重建
 
-[截至11月2日的实际三时点结果](reports/PAPER_FOLLOWUP_20261103.md)只跟踪原有预测，不补造历史信号。以下命令核对已有跟踪文件、买入授权、名单时点、持仓参考价及现金股份；输出路径必须为新的本地工作文件。
+[截至11月3日的实际四时点结果](reports/DAILY_RESEARCH_20261103.md#原模拟延伸至3日开盘)只跟踪原有预测，不补造历史信号。以下命令核对已有跟踪文件、买入授权、名单时点、持仓参考价及现金股份；输出路径必须为新的本地工作文件。
 
 ```powershell
-python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoot --source "@work/research/archived_tracking_20261102_observed_20261103_v1" --actions "@work/incoming-20261029/cash_events_staged_20261029_v2/actions.csv" --archive artifacts/prediction_archive_20261026/predictions.sqlite --expected-archive-sha256 177275fc49c17cef865db04f6e42b6117531aca84ad59416f7f33e0cae382852 --out "@work/research/paper_followup_recheck.json"
+python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoot --source "@work/research/archived_tracking_20261103_observed_20261104_v1" --actions "@work/incoming-20261029/cash_events_staged_20261029_v2/actions.csv" --archive artifacts/prediction_archive_20261026/predictions.sqlite --expected-archive-sha256 f798c96967d2ef3218c5daaf01b63bb0263026962a3cde43dd9509f1baec6757 --out "@work/research/paper_followup_recheck.json"
 ```
 
 需要本地已有相应原始数据、风险名单及预测档；Git中的轻量证据不能替代这些输入。上述校验是这段固定成本、开盘模拟的独立重建，不是任意交易引擎或所有历史税率的通用认证。
 
 可用`--skip-ledger-copy`跳过重复预测库副本；与`--archive`一起使用时，直接核对新生成的原库。调用`archive_daily_snapshot`导入这类快照时须传`expected_ledger_sha256`，值应来自原库的独立核验。[11月3日日更实际结果与边界](reports/DAILY_RESEARCH_20261103.md)。
+
+上述跟踪校验要求总档与该次跟踪收据中的哈希一致；后续追加新预测会改变总档哈希，应先生成新的跟踪收据再核对，不能只替换旧收据中的哈希。旧三时点证据对应当时21批总档，本次四时点证据对应24批。
