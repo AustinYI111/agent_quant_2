@@ -1,0 +1,21 @@
+{
+  "schema": "a_rights_company_title_compatibility_v1",
+  "status": "event_terms_and_quote_reconciliations_exactly_preserved",
+  "verified_at_utc": "2026-11-04T02:31:37.273602+00:00",
+  "executed_accounts_source_git": "6f4aac4dc17c157f5896867bbbd5eb6216bff997",
+  "executed_reference": "research/three_rights_reference_20261104_v1",
+  "executed_reference_sha256": "037e6e9b0fa6dae103fc4926fa06130b5a0d0c9dd997b2b92a0c43c09463e0ed",
+  "compatible_reference": "research/three_rights_reference_20261104_v2",
+  "compatible_reference_sha256": "22cf007e76da36845707aae981b10648d9357ef5f10dc7599e069ed1da7f8edf",
+  "preserved_fields": [
+    "events",
+    "reconciliations",
+    "project_source_hashes",
+    "evidence_source_hashes"
+  ],
+  "producer_account_outputs_rewritten": false,
+  "source_identity_checks_weakened": false,
+  "company_prefixed_a_notices_supported": true,
+  "H_only_notice_still_rejected": true,
+  "related_tests_passed": 145
+}

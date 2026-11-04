@@ -135,7 +135,7 @@ def load_rights_evidence(config,project,evidence_root,calendar):
             if c.get('code')!=e['symbol'].split('.')[1]:raise ValueError('rights capture issuer differs from ordinary issuer')
             notices=[n for n in c.get('notices',[]) if n.get('url')==url and n.get('sha256')==item['source_sha256'] and utc(n['observed_at_utc'])==observed]
             if len(notices)!=1 or expected_title not in notices[0].get('title',''):raise ValueError('ordinary rights source role or observation identity differs')
-            if e.get('ordinary_share_scope')=='a_shares_only' and not notices[0]['title'].startswith('A股配股'):raise ValueError('A-only rights evidence must identify the A-share offering')
+            if e.get('ordinary_share_scope')=='a_shares_only' and 'A股配股' not in notices[0]['title']:raise ValueError('A-only rights evidence must identify the A-share offering')
             sources[pdf.relative_to(evidence).as_posix()]=item['source_sha256'];sources[capture.relative_to(evidence).as_posix()]=item['capture_sha256']
         if record['sources'].get('exchange_quote') is not None:
             from .exchange_rights_quote import load_exchange_quote

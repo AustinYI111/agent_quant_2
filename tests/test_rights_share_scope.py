@@ -53,10 +53,12 @@ def primary_sources(root):
     return records,capture
 
 
-@pytest.mark.parametrize('fault',[None,'H_title','missing_scope_page','missing_lock_page','missing_other_page'])
+@pytest.mark.parametrize('fault',[None,'issuer_prefix','H_title','missing_scope_page','missing_lock_page','missing_other_page'])
 def test_a_scope_requires_a_offering_identity_and_page_evidence(tmp_path,fault):
     project=tmp_path/'project';project.mkdir();raw=tmp_path/'raw';raw.mkdir()
     records,capture=primary_sources(raw)
+    if fault=='issuer_prefix':
+        for n in capture['notices']:n['title']='示例股份有限公司'+n['title']
     if fault=='H_title':capture['notices'][1]['title']='H股配股发行结果公告'
     if fault=='missing_scope_page':del records['result']['parameter_pages']['ordinary_share_scope']
     if fault=='missing_lock_page':del records['listing']['parameter_pages']['holder_scope']
@@ -66,7 +68,7 @@ def test_a_scope_requires_a_offering_identity_and_page_evidence(tmp_path,fault):
     config=dict(schema='ordinary_rights_evidence_v1',original_vintages_verified=False,
         result_preopen_timestamp_verified=False,events=[dict(terms=scoped_spec(),sources=records)])
     (project/'terms.json').write_text(json.dumps(config),encoding='utf8')
-    if fault:
+    if fault and fault!='issuer_prefix':
         with pytest.raises(ValueError):load_rights_evidence('terms.json',project,raw,CAL)
     else:
         events,proof=load_rights_evidence('terms.json',project,raw,CAL)
