@@ -139,3 +139,24 @@ def test_source_change_after_load_is_detected(tmp_path):
     args=fixture(tmp_path);book=load(args);book.verify_sources()
     (args[1]/'notice.PDF').write_bytes(b'%PDF-1.4 tampered after load')
     with pytest.raises(ValueError,match='changed after load'):book.verify_sources()
+
+
+@pytest.mark.parametrize('fault',[None,'no_review','bad_hash','bad_host','late_observation'])
+def test_captured_correction_is_also_bound_and_reviewed(tmp_path,fault):
+    def change(r,raw,source,capture):
+        extra=source.parent/'correction.PDF';extra.write_bytes(b'%PDF-1.4 synthetic correction')
+        notice=dict(raw['notices'][0],file=extra.name,sha256=digest(extra))
+        raw['notices'].append(notice)
+        r['reviewed_captured_notice_pages']={'notice.PDF':[1],'correction.PDF':[1,2]}
+        if fault=='no_review':del r['reviewed_captured_notice_pages']['correction.PDF']
+        if fault=='bad_hash':extra.write_bytes(b'%PDF-1.4 tampered correction')
+        if fault=='bad_host':notice['url']='https://untrusted.invalid/correction.PDF'
+        if fault=='late_observation':notice['observed_at_utc']='2099-01-01T00:00:00Z'
+        capture.write_text(json.dumps(raw));r['source_capture_sha256']=digest(capture)
+    args=fixture(tmp_path,change)
+    if fault:
+        with pytest.raises(ValueError):load(args)
+    else:
+        book=load(args);assert '@work/correction.PDF' in book.source_hashes
+        (args[1]/'correction.PDF').write_bytes(b'%PDF-1.4 changed later')
+        with pytest.raises(ValueError):book.verify_sources()

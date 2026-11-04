@@ -64,6 +64,23 @@ class OrdinaryListingBook:
             matches=[n for n in raw.get('notices',[]) if n.get('sha256')==r['source_sha256'] and n.get('url')==r['source_url']]
             if len(matches)!=1:raise ValueError('unique captured listing notice required')
             notice=matches[0]
+            # A retrieved correction must stay bound to the reviewed package;
+            # hashing only the primary PDF would leave the correction mutable.
+            if len(raw.get('notices',[]))>1:
+                reviewed=r.get('reviewed_captured_notice_pages',{})
+                if set(reviewed)!={n['file'] for n in raw['notices']}:raise ValueError('all captured notices need explicit review pages')
+                for extra in raw['notices']:
+                    ep=reviewed[extra['file']]
+                    if not isinstance(ep,list) or not ep or any(type(p) is not int or p<1 for p in ep):raise ValueError('captured notice review pages required')
+                    extra_file=(capture.parent/extra['file']).resolve()
+                    name=paths.name(extra_file)
+                    if sha256(paths.resolve(name))!=extra['sha256']:raise ValueError('captured supplementary notice changed')
+                    with extra_file.open('rb') as stream:
+                        if stream.read(5)!=b'%PDF-':raise ValueError('captured supplementary notice must be PDF')
+                    extra_url=urlparse(extra['url'])
+                    if extra_url.scheme!='https' or extra_url.hostname not in {'static.cninfo.com.cn','dataclouds.cninfo.com.cn','static.sse.com.cn','www.sse.com.cn','disc.static.szse.cn'}:raise ValueError('supplementary official notice required')
+                    if utc(extra['observed_at_utc'])>review:raise ValueError('supplementary notice observed after review')
+                    hashes[name]=extra['sha256']
             captured_file=(capture.parent/notice['file']).resolve()
             publication=pd.to_datetime(notice['source_announcement_time'],unit='ms',utc=True).tz_convert('Asia/Shanghai').tz_localize(None).normalize()
             if captured_file!=source or utc(notice['observed_at_utc'])!=observation or publication!=dates['announcement_date']:raise ValueError('listing notice path, clock or publication differs')
