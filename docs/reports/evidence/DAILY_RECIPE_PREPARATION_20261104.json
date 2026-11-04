@@ -1,0 +1,111 @@
+{
+  "schema": "guarded_daily_input_preparation_v1",
+  "status": "research_recipe_prepared_quote_issues_retained",
+  "created_at_utc": "2026-11-04T01:42:12.482710+00:00",
+  "signal_date": "2026-11-03",
+  "previous_signal_date": "2026-10-28",
+  "input_hashes": {
+    "@work/research/frozen_daily_research_20261028_v1/manifest.json": "419592677e33a0c1955089b4334098ac117005c51feed6b2c5c9f3a8ebdfcd92",
+    "@work/incoming-20261028/daily_inputs_20261028_v1/frozen_inputs.json": "6ddf3cdc4e2b63bddd1348b5cc1883ce858cc484f55634e6c4aa35c95fce4b6f",
+    "@work/incoming-20261103/close_capture_20261103_v1/capture.json": "7c1cc2a8bb588204f093cc63281d06bc911293559d941948a292ebf24b18b19d",
+    "@work/incoming-20261103/close_capture_20261103_v1/market/capture.json": "f57a5cc90d021af9bd73f64635f24afb2a5f6a814944b95d3db7ff1be3bbb1e8",
+    "@work/incoming-20261103/close_capture_20261103_v1/market/closed_market_observations.json": "4b98a15e1d24eb2ce9e2c838675b42182d1e1a2e8c49b184f3a41473d99b8ad7",
+    "@work/incoming-20261103/close_capture_20261103_v1/market/exchange_calendar.csv": "89dd25ed3c98641c8d9d7d1f36144e93d6f4ca97f22775a5b666fa858576174d",
+    "@work/incoming-20261103/close_capture_20261103_v1/reference/capture.json": "3d5993669ae06bb45d973719e2139ac95e60f5e75bf89cafd2d600d2e6adfe9f",
+    "@work/incoming-20261103/close_capture_20261103_v1/reference/csi300_20261030_20261103.csv": "6c4a445c68bc4fb5525424b190d8208f6db4fae390dc8a30138c222c44676c7f",
+    "@work/incoming-20261103/close_capture_20261103_v1/reference/industry_20261103.csv": "cd50adccf6b584b62ff5c07156dcd66998fbee52f392578c9c0c2f3692deaac6",
+    "@work/incoming-20261103/close_capture_20261103_v1/reference/stock_all_20261103.csv": "5668a831af6f69d7dbe044b87ba319a538dc2ef442326153e0121c78d07aa4e1",
+    "@work/incoming-20261103/close_capture_20261103_v1/market/latest/calendar.csv": "72ba034ef29b4f309fe9d7934519b947e97a81682b649571e9ad946ec7c27f1d",
+    "@work/incoming-20261103/close_capture_20261103_v1/market/latest/daily_20261103.csv": "528332916f39b8bf0610c616f42082180953184dec8380558a1c7f851ae162b5",
+    "@work/incoming-20261103/close_capture_20261103_v1/market/latest/manifest.json": "7b93bda62a12b3910070f55c28daa5410ff1212c880fcbbf7e0467ed007b3ec0",
+    "@work/incoming-20261028/market_capture_20261028_close/exchange_calendar.csv": "4ec1d92d71515e40f6607a2dcc66842c4d6ff85f6eb97f9542293fed9624f79e",
+    "artifacts/phase2/raw_feature_store_20261020/calendar.csv": "9b0b8d3576311d198ae4fc920cce06a33507dddcae856d57c83ed594b60fe683",
+    "config/same_issuer_code_changes.json": "0b274b682974d486dbb3e775c11359f9639070ed1cbe31544e94eb2696d860aa",
+    "@work/incoming-20261103/market_gap_20261029_20261030_v1/manifest.json": "6baf4e6f4132a80ff5fa4cc4cd090b218c53505537b98670c751ff4917a12b9a",
+    "@work/incoming-20261103/market_gap_20261029_20261030_v1/calendar.csv": "79b3642a3327450f9e25810e03cd7cd935fec18e12002df00e4d0ded3f0095f2",
+    "@work/incoming-20261103/market_gap_20261029_20261030_v1/daily_20261029.csv": "5aa749952c7788b7ec60c191621e48ba37af9457bc70a391058ff59e9e6cb1c1",
+    "@work/incoming-20261103/market_gap_20261029_20261030_v1/daily_20261030.csv": "fcea64f978cc6b2ea136777acd4b00f2ad5c0aff87ae22dd0e4b3e7cae57ebd8",
+    "@work/incoming-20261103/close_capture_20261102_observed_20261103_v1/market/latest/manifest.json": "7250f5265e0ef38b06f7d453813ed20b17ee0004897c775933754d6709d50d36",
+    "@work/incoming-20261103/close_capture_20261102_observed_20261103_v1/market/latest/calendar.csv": "4150cfccca0b006b2782a740d84eb894a9d819b061e7ca7bbc00444f4d79e253",
+    "@work/incoming-20261103/close_capture_20261102_observed_20261103_v1/market/latest/daily_20261102.csv": "7d6c1a44b152f0183214e3b75cddf486be45f3a8406349d101c12b4f8b6975ea",
+    "artifacts/phase2/raw/market_capture_20261021/latest/manifest.json": "83e34aa04467ae9cf75a61b7b684ccb33a8ab209685c944475d290a4280aec4a",
+    "artifacts/phase2/raw/market_capture_20261021_close/latest/manifest.json": "37a6ccc6740087d0b5074ee45cd35e4a26347994ade554a5f762160373855928",
+    "artifacts/phase2/raw/market_capture_20261022_close/latest/manifest.json": "4fdbb964166da244816a843df69a45c6e30b075cd9323c64018022fcb54e2a99",
+    "artifacts/phase2/raw/market_capture_20261023_close/latest/manifest.json": "3740444ef23a1eda12005ac60de248bad45b3de578c8e5139b0837d5bba7f686",
+    "artifacts/daily_20261026_inputs_v2/market_capture_20261026_close/latest/manifest.json": "c15091b93b558c5cfe8661ca8d338a6eb4bc61d0243c4442438e3ec0eb530bf1",
+    "artifacts/daily_20261027_inputs_v1/market_capture_20261027_close/latest/manifest.json": "28e21e6f67fb92f9ababaee3fadc3dff4c7beebe3f6c9227d3f9da96bd61515e",
+    "@work/incoming-20261028/market_capture_20261028_close/latest/manifest.json": "433af0394eacf5b864da2449cec3ee3da55816b8571438549f45b2bd1a6a1247",
+    "@work/incoming-20261028/market_capture_20261028_close/latest/calendar.csv": "cbbcf21bc53f03d8e44e4d35d9b39cb577605757836ad81f96947c927678eebc",
+    "@work/incoming-20261028/market_capture_20261028_close/latest/daily_20261028.csv": "5a496e44b318ce254b89895dc72ed17f3dc743f28ef8480c88ec3cb1b7c300d2",
+    "@work/incoming-20261103/financial_refresh_20261103_v1/refresh.json": "cf3fec99d715ac2b9c305e78090d36c036fa12befca57cb777e169be51a29cab",
+    "@work/research/financial_refresh_verification_20261103_v1.json": "431f4a71f1176faa060ba1efd41b176e50fdd8ca275e13c907550745fe4f61a7",
+    "@work/incoming-20261103/financial_refresh_20261103_v1/history/combined/summary.json": "9d1da787c731a52b7854e69c8835e1c193bd5f77fc7392df817716f191bd5309",
+    "@work/incoming-20261103/financial_refresh_20261103_v1/history/combined/financial_panel.csv": "094985470d4bdd01e15ab719b70c307c3d0d309b9b69a02cb2e5f46ac91030ca",
+    "@work/incoming-20261029/cash_events_staged_20261029_v2/summary.json": "8230c771d001be44db20060070c1633f4effd541bd0abdd5126b0b701a911673",
+    "@work/research/company_action_intake_verification_20261029_v2.json": "4e8a8030d8f2997f69222ed607ab2826fa76931a698fa2b330f10ef7fce783c4",
+    "@work/incoming-20261029/cash_events_staged_20261029_v2/actions.csv": "6e8f3f460e3b94440322c5bd4bc928eea8f6de2d00d22edaa5da147781825e21",
+    "@work/incoming-20261028/daily_inputs_20261028_v1/payments_reviewed/summary.json": "a1dd4a897d2c0dd765acf3f9cef7aacb4d084c5a67f28e332d92bb7472814957",
+    "@work/incoming-20261028/daily_inputs_20261028_v1/payments_reviewed/actions.csv": "6d3446b8bd0547b151aa95f217b855255ce1dee5130aa3c005e9fd1fb33aa4b5",
+    "@work/incoming-20261028/financial_history_20261028_v1/combined/summary.json": "096fcc7ef6a4e8b4dfaf47f528094569da29b00498fd73fd3f08763c033c0a91",
+    "@work/incoming-20261028/financial_history_20261028_v1/combined/financial_panel.csv": "b1ce6deb2bc9245b9bb6c20beba810a9f7f37db639733383a11b57e03be6cc2f",
+    "@work/incoming-20261029/financial_refresh_20261029_v1/history/combined/summary.json": "b5898e04f9c95802bccb6510a73efa5922bfe59a959bd074e711449cea29007d",
+    "@work/incoming-20261029/financial_refresh_20261029_v1/history/combined/financial_panel.csv": "0a7c8137f8ab1f706bb1aaf80a18a1a14c738220faabcbf62059f66ad1fbb35c"
+  },
+  "code_hashes": {
+    "daily_input_recipe.py": "83ef9f9c355fdbea5f2e588aa082cc9a030b5ddf1f76153f85c12ca9c41a0f78",
+    "workspace_paths.py": "f4d47c55bad49357b39dbdb847b533dfb222b932a234dfb57560833ccf272394",
+    "phase2_protocol.py": "325d6287a2aa2b4caed4fd2e469eecd11040d21e899551c4560f47ec313ac297",
+    "public_data.py": "f30b1601ca3e42cfcdb40f0a5668e9743090bd887b1177ec44c2461ee6406bef",
+    "security_identity.py": "38a704604d0426356738b5c92b2bcd7225ec854763afa88703f54521dbf90cbc",
+    "price_action_audit.py": "9400668c68b2464bb91698e50b9fe3d5d2d41b68a0b57028021c1261bbfc6a1b",
+    "price_reference.py": "f3740b4282ce6213541a3a24c73b6d7d69ee555c1b26af04f69cd93ff6ee68a2"
+  },
+  "new_sessions": [
+    "2026-10-29",
+    "2026-10-30",
+    "2026-11-02",
+    "2026-11-03"
+  ],
+  "quoted_ashares": 5223,
+  "quality": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 1,
+    "rows": 26111,
+    "symbols": 5223,
+    "affected_symbols": 18,
+    "issue_counts": {
+      "unreconciled_adjustment": 18
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+  },
+  "reviewed_cash_reference_checks": [
+    {
+      "symbol": "sz.000878",
+      "ex_date": "2026-10-29",
+      "reference_matches": true
+    },
+    {
+      "symbol": "sh.688563",
+      "ex_date": "2026-10-29",
+      "reference_matches": true
+    }
+  ],
+  "prior_cash_events_preserved": 4343,
+  "financial_observation_date": "2026-11-03",
+  "financial_records": 116278,
+  "security_status_observed_at_utc": "2026-11-03T10:10:19.575025+00:00",
+  "prospective_security_observation": true,
+  "model_ready": false,
+  "predictions_created": false,
+  "model_selection_performed": false,
+  "holdings_valued": false,
+  "output_hashes": {
+    "frozen_inputs.json": "09a37484d84225bfafba467b6514feeefe261e27a572a9214659f07cfa169522",
+    "quality_issues.csv": "53935380aebd80225db70440d278ac3e09f033b291e645c84624f24478f32b20"
+  },
+  "limitations": [
+    "Research input preparation only; unknown discontinuities remain segmented by the frozen inference policy.",
+    "Known reviewed cash references must match. This does not certify terminal values, original vintages or live execution."
+  ]
+}

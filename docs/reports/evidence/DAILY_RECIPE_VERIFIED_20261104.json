@@ -1,0 +1,48 @@
+{
+  "status": "actual_prior_recipe_reconstructed_exactly_and_current_preclose_refused",
+  "verified_at_utc": "2026-11-04T01:42:12.558863+00:00",
+  "preparation_manifest_sha256": "bac92ae4e381323631ae4467d3b587c2e28ab96024bc5f5cb02aeb280b68bbc8",
+  "original_input_sha256": "09a37484d84225bfafba467b6514feeefe261e27a572a9214659f07cfa169522",
+  "reconstructed_input_sha256": "09a37484d84225bfafba467b6514feeefe261e27a572a9214659f07cfa169522",
+  "json_configuration_exactly_equal": true,
+  "new_sessions": [
+    "2026-10-29",
+    "2026-10-30",
+    "2026-11-02",
+    "2026-11-03"
+  ],
+  "quoted_ashares": 5223,
+  "reviewed_cash_reference_checks": [
+    {
+      "symbol": "sz.000878",
+      "ex_date": "2026-10-29",
+      "reference_matches": true
+    },
+    {
+      "symbol": "sh.688563",
+      "ex_date": "2026-10-29",
+      "reference_matches": true
+    }
+  ],
+  "retained_quality": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 1,
+    "rows": 26111,
+    "symbols": 5223,
+    "affected_symbols": 18,
+    "issue_counts": {
+      "unreconciled_adjustment": 18
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+  },
+  "current_preclose_rejection": "signal has not passed the frozen 17:20 gate",
+  "current_probe_output_created": false,
+  "archive_unchanged": true,
+  "archive_sha256": "f798c96967d2ef3218c5daaf01b63bb0263026962a3cde43dd9509f1baec6757",
+  "original_model_snapshot_sha256": "8e4c2b3bd13c5d63f2059ca7cfcc75e0d109ec985325be41e6855e7f62d0c0ee",
+  "predictions_created": false,
+  "model_selection_performed": false,
+  "model_ready": false,
+  "verification_code_sha256": "8ab66e29577b20a84b20406817286203ea5d327af71cda57b90ad6dc0a78d173"
+}
