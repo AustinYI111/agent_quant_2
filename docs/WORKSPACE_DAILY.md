@@ -39,7 +39,7 @@ python -m ashare_mvp.frozen_daily_workspace `
   --work-root $env:PQR_WORK_ROOT `
   --inputs '@work/incoming-20261028/daily_inputs_20261028_v1/frozen_inputs.json' `
   --signal 2026-10-28 `
-  --out '@work/research/daily_example_new' --exploratory
+  --out '@work/research/daily_example_new' --exploratory --skip-ledger-copy
 ```
 
 真实输出已保存到`@work/research/frozen_daily_research_20261028_v1`。再次运行须用新输出目录；已有预测不能覆盖或重新设置创建时间，过了次日开盘才生成的回填会被标记为事后研究。
@@ -72,3 +72,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 ```
 
 需要本地已有相应原始数据、风险名单及预测档；Git中的轻量证据不能替代这些输入。上述校验是这段固定成本、开盘模拟的独立重建，不是任意交易引擎或所有历史税率的通用认证。
+
+可用`--skip-ledger-copy`跳过重复预测库副本；与`--archive`一起使用时，直接核对新生成的原库。调用`archive_daily_snapshot`导入这类快照时须传`expected_ledger_sha256`，值应来自原库的独立核验。[11月3日日更实际结果与边界](reports/DAILY_RESEARCH_20261103.md)。

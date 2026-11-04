@@ -15,10 +15,10 @@ from .streaming_feature_index import ExchangeCalendar
 from .workspace_paths import WorkspacePaths
 
 
-def _source_unchanged(snapshot,expected_manifest,expected_backup):
-    if sha256(snapshot/'manifest.json')!=expected_manifest or sha256(snapshot/'prediction_backup.sqlite')!=expected_backup:
+def _source_unchanged(snapshot,expected_manifest,expected_backup,database_name='prediction_backup.sqlite'):
+    if sha256(snapshot/'manifest.json')!=expected_manifest or sha256(snapshot/database_name)!=expected_backup:
         raise ValueError('daily snapshot changed or differs from expected hash')
-    wal=Path(str(snapshot/'prediction_backup.sqlite')+'-wal')
+    wal=Path(str(snapshot/database_name)+'-wal')
     if wal.exists() and wal.stat().st_size:raise ValueError('daily source must be a closed consistent backup, not a live WAL database')
 
 
@@ -38,7 +38,7 @@ def validate_archive_destination(target):
     except sqlite3.DatabaseError as error:raise ValueError('destination is not a prediction archive') from error
 
 
-def archive_daily_snapshot(snapshot,expected_manifest_sha256,archive,project,seal_directory,calendar,synthetic=False,work_root=None):
+def archive_daily_snapshot(snapshot,expected_manifest_sha256,archive,project,seal_directory,calendar,synthetic=False,work_root=None,expected_ledger_sha256=None):
     """Transactionally append all three horizons, preserving receipts verbatim.
 
     Identical imports are idempotent. Any revision of an existing forecast,
@@ -54,10 +54,19 @@ def archive_daily_snapshot(snapshot,expected_manifest_sha256,archive,project,sea
     manifest=json.loads((source/'manifest.json').read_text(encoding='utf8'))
     if manifest.get('schema')!='frozen_daily_research_snapshot_v1' or manifest.get('status')!='research_snapshot_saved' or manifest.get('model_selection_performed') is not False:
         raise ValueError('complete frozen daily inference snapshot required')
-    backup=manifest['ledger_backup'];expected_backup=backup['sha256']
-    if backup.get('schema')!='prediction_ledger_backup_v1' or not re.fullmatch('[0-9a-f]{64}',expected_backup):raise ValueError('sealed daily ledger backup required')
-    _source_unchanged(source,expected_manifest_sha256,expected_backup)
-    if (source/'prediction_backup.sqlite').stat().st_size!=backup['bytes']:raise ValueError('daily backup size differs')
+    backup=manifest['ledger_backup'];database_name='prediction_backup.sqlite'
+    direct=backup==dict(status='skipped_by_request',created=False)
+    if direct:
+        if not isinstance(expected_ledger_sha256,str) or not re.fullmatch('[0-9a-f]{64}',expected_ledger_sha256):raise ValueError('explicit verified original ledger SHA-256 required without a copy')
+        if (source/database_name).exists():raise ValueError('skipped-copy snapshot unexpectedly contains a backup')
+        database_name='predictions.sqlite';expected_backup=expected_ledger_sha256
+    else:
+        expected_backup=backup.get('sha256')
+        if expected_ledger_sha256 is not None:raise ValueError('original ledger hash is only valid for an explicitly skipped copy')
+        if backup.get('schema')!='prediction_ledger_backup_v1' or not isinstance(expected_backup,str) or not re.fullmatch('[0-9a-f]{64}',expected_backup):raise ValueError('sealed daily ledger backup required')
+    def unchanged():_source_unchanged(source,expected_manifest_sha256,expected_backup,database_name)
+    unchanged()
+    if not direct and (source/database_name).stat().st_size!=backup['bytes']:raise ValueError('daily backup size differs')
     cal=ExchangeCalendar(calendar).dates;protocol,seal=load_seal(seal_directory,root)
     if manifest['protocol_sha256']!=seal['protocol_sha256']:raise ValueError('daily source uses another frozen protocol')
     expected=manifest['receipts']
@@ -66,7 +75,7 @@ def archive_daily_snapshot(snapshot,expected_manifest_sha256,archive,project,sea
     started,completed=utc(manifest['started_at_utc']),utc(manifest['completed_at_utc'])
     now=datetime.now(timezone.utc)
     if started>completed or completed>utc(now):raise ValueError('daily completion clock is invalid or in the future')
-    database=source/'prediction_backup.sqlite'
+    database=source/database_name
     with sqlite3.connect(database.as_uri()+'?mode=ro',uri=True) as connection:
         if connection.execute('PRAGMA integrity_check').fetchall()!=[('ok',)] or connection.execute('PRAGMA foreign_key_check').fetchall():raise ValueError('daily backup integrity failed')
         stored=connection.execute('SELECT batch_id,identity_sha256,content_sha256,receipt_json FROM batches').fetchall()
@@ -84,7 +93,7 @@ def archive_daily_snapshot(snapshot,expected_manifest_sha256,archive,project,sea
         if scores['rank'].tolist()!=list(range(1,len(scores)+1)) or not scores.trading_symbol.map(is_ashare).all():raise ValueError('daily ranks or trading identities invalid')
         if synthetic and (receipt['role']!='synthetic_test' or receipt['prospective']):raise ValueError('synthetic source cannot impersonate a prospective forecast')
         incoming.append((receipt,scores,row[3]))
-    _source_unchanged(source,expected_manifest_sha256,expected_backup)
+    unchanged()
     validate_archive_destination(target)
     connection=_connect(target)
     try:
@@ -113,13 +122,13 @@ def archive_daily_snapshot(snapshot,expected_manifest_sha256,archive,project,sea
         cached=connection.execute('SELECT source_backup_sha256,receipt_json FROM archive_imports WHERE source_manifest_sha256=?',(expected_manifest_sha256,)).fetchone()
         if cached:
             if cached[0]!=expected_backup or new:raise ValueError('existing archive import is inconsistent')
-            _source_unchanged(source,expected_manifest_sha256,expected_backup);connection.rollback();return json.loads(cached[1])
+            unchanged();connection.rollback();return json.loads(cached[1])
         for receipt,scores,raw_receipt in new:
             batch_id=receipt['batch_id']
             connection.execute('INSERT INTO batches VALUES (?,?,?,?)',(batch_id,batch_id,receipt['content_sha256'],raw_receipt))
             connection.executemany('INSERT INTO scores VALUES (?,?,?,?,?)',[(batch_id,r.symbol,r.trading_symbol,float(r.score),int(r.rank)) for r in scores.itertuples()])
         result=dict(schema='daily_prediction_archive_import_v1',imported_at_utc=now.isoformat(),source_manifest_sha256=expected_manifest_sha256,source_backup_sha256=expected_backup,protocol_sha256=seal['protocol_sha256'],synthetic=synthetic,new_batches=len(new),new_scores=sum(len(x[1]) for x in new),duplicate_batches=len(duplicates),batch_ids=[r['batch_id'] for r,_,_ in incoming],original_clocks_preserved=True,forecast_roles_preserved=True,certified=False,model_ready=False)
-        _source_unchanged(source,expected_manifest_sha256,expected_backup)
+        unchanged()
         if connection.execute('PRAGMA foreign_key_check').fetchall():raise ValueError('archive contains orphan scores')
         connection.execute('INSERT INTO archive_imports VALUES (?,?,?)',(expected_manifest_sha256,expected_backup,_json(result)))
         connection.commit();return result

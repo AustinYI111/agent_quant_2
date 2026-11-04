@@ -28,7 +28,7 @@ from .financial_snapshot_history import FUND_COLUMNS,merge_observed_financial_hi
 def _utc_now():return datetime.now(timezone.utc).isoformat()
 
 
-def run_frozen_daily(project,work_root,inputs,signal,out,exploratory=False):
+def run_frozen_daily(project,work_root,inputs,signal,out,exploratory=False,skip_ledger_copy=False):
     if not exploratory:raise ValueError('explicit exploratory mode required for unverified source vintages')
     root=Path(project).resolve();paths=WorkspacePaths(root,work_root)
     path=paths.resolve
@@ -177,7 +177,8 @@ def run_frozen_daily(project,work_root,inputs,signal,out,exploratory=False):
             if roundtrip.symbol.tolist()!=scores.symbol.tolist():raise ValueError('saved score order differs')
             np.testing.assert_array_equal(roundtrip.score.to_numpy(),scores.score.to_numpy())
             receipts.append(saved)
-        backup=backup_ledger(target/'predictions.sqlite',target/'prediction_backup.sqlite')
+        backup=(dict(status='skipped_by_request',created=False) if skip_ledger_copy else
+                backup_ledger(target/'predictions.sqlite',target/'prediction_backup.sqlite'))
         proof.update(status='research_snapshot_saved',eligible=len(factors),quoted_ashares=len(universe),receipts=receipts,ledger_backup=backup,source_hashes=source_hashes,feature_receipt_sha256=sha256(target/'feature_receipt.json'),state_database_sha256=sha256(target/'states.sqlite'),completed_at_utc=_utc_now(),limitations=['Research baseline only; unresolved reference faults use original feature segmentation and native missing values.','Score is a ranking value, not an expected return.','Actual forecast timing is recorded; a backfill is never presented as a prospective paper forecast.','No portfolio tracking, return attribution, live daily service or factor optimization is verified by this run.'])
         save();print(json.dumps({k:proof[k] for k in ['status','signal_date','eligible','reference_faults']},ensure_ascii=False),flush=True)
         return proof
@@ -193,6 +194,7 @@ def main():
     p.add_argument('--project',default='.')
     for name in ['work-root','inputs','signal','out']:p.add_argument('--'+name,required=True)
     p.add_argument('--exploratory',action='store_true')
+    p.add_argument('--skip-ledger-copy',action='store_true',help='Keep the prediction ledger without making a duplicate SQLite copy.')
     p.add_argument('--archive')
     args=vars(p.parse_args());archive=args.pop('archive');paths=WorkspacePaths(args['project'],args['work_root'])
     if archive:
@@ -203,7 +205,7 @@ def main():
     if archive:
         from .workspace_prediction_archive import archive_daily_snapshot
         snapshot=paths.resolve(args['out']);config=json.loads(paths.resolve(args['inputs']).read_text(encoding='utf8'))
-        result=archive_daily_snapshot(snapshot,sha256(snapshot/'manifest.json'),paths.resolve(archive),paths.project,paths.resolve(config['seal']),pd.to_datetime(pd.read_csv(snapshot/'forecast_calendar.csv').date),work_root=paths.work)
+        result=archive_daily_snapshot(snapshot,sha256(snapshot/'manifest.json'),paths.resolve(archive),paths.project,paths.resolve(config['seal']),pd.to_datetime(pd.read_csv(snapshot/'forecast_calendar.csv').date),work_root=paths.work,expected_ledger_sha256=sha256(snapshot/'predictions.sqlite') if args['skip_ledger_copy'] else None)
         print(json.dumps(dict(archive_import=result),ensure_ascii=False),flush=True)
 
 
