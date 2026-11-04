@@ -82,3 +82,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 ## 准备下一日输入
 
 收盘行情、财务与现金核验完成后，可用`python -m ashare_mvp.daily_input_recipe`衔接上一份快照并生成下一份配方，不再手工拼接。缺日可显式补采；已复核现金参考价必须一致，其他断点留档。详见[日更输入配方](DAILY_INPUT_RECIPE.md)。它只准备研究输入，后续推理、名单和持仓校验仍需分别执行。
+
+[11月4日最新排名与五时点跟踪](reports/DAILY_RESEARCH_20261104.md)。旧跟踪证据与当时总档哈希绑定，不能直接拿旧收据校验追加后的总档。
