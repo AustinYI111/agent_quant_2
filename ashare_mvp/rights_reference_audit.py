@@ -41,6 +41,9 @@ def reconcile_cases(store, parent, events):
         if before is None or current is None:
             raise ValueError('missing raw prices for rights reconciliation')
         proof = rights_reference(before['close'], current['preclose'], event)
+        if 'reviewed_exchange_quote' in event:
+            from .exchange_rights_quote import reconcile_exchange_quote
+            proof = reconcile_exchange_quote(before['close'], current['preclose'], event, proof)
         if not proof['matches']:
             raise ValueError('rights reference does not match original raw quote')
         checks.append(dict(event_id=event['event_id'], symbol=symbol,
@@ -72,7 +75,8 @@ def build_rights_reference(store, parent_directory, config, project, evidence_ro
                         quote_database_sha256=store.manifest['database_sha256'],
                         config=config, events=[serialize_case(e) for e in events],
                         reconciliations=checks, **evidence,
-                        code_hashes=code_hashes(['rights_reference_audit.py','rights_terms.py']))
+                        code_hashes=code_hashes(['rights_reference_audit.py','rights_terms.py'] +
+                            (['exchange_rights_quote.py'] if any('reviewed_exchange_quote' in e for e in events) else [])))
         target.mkdir(parents=True)
         write_manifest(target/'manifest.json', manifest)
         return manifest

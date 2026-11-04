@@ -112,7 +112,13 @@ def reconstruct_rights_account(store, reference, folder, first, last, out, polic
                         if s not in bars or bars[s][2]!='1' or bars[s][0]<=0 or not bars[s][5 if sell else 4] or not sell and bars[s][3] is not None and date>=bars[s][3]:raise ValueError('unexecutable observed fill')
                         fee=amount*.0008;expected_tax=amount*taxrate
                         if abs(tax-expected_tax)>1e-12 or abs(cost-fee-expected_tax)>1e-12:raise ValueError('observed execution cost differs')
-                        sign=-1 if sell else 1;quantities[s]=quantities.get(s,0.)+sign*amount/bars[s][0];cash-=sign*amount+fee+expected_tax
+                        sign=-1 if sell else 1;quantities[s]=quantities.get(s,0.)+sign*amount/bars[s][0]
+                        # Preserve the declared gross settlement grouping. Summing
+                        # amount and fee separately leaves sub-ulp cash that can
+                        # invent extra subscriptions on a later cash-limited day.
+                        # Amounts and dated rates above are independently checked;
+                        # no reported cash/claim or producer wallet is imported.
+                        cash+=amount*(1-(.0008+taxrate)) if sell else -amount*(1+.0008)
                         stock_cost+=fee+expected_tax;day_costs.append(cost);day_amounts.append(amount);filled+=1;buys+=not sell
                         if quantities[s]<-1e-10:raise ValueError('negative reconstructed shares')
                     orders+=1

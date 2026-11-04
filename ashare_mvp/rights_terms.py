@@ -21,6 +21,7 @@ def next_session(date,calendar):
 
 
 def normalize_rights_case(spec,calendar):
+    if 'reviewed_exchange_quote' in spec:raise ValueError('exchange quotation must come from separately verified source evidence')
     cal=exchange_dates(calendar);e=dict(spec)
     if not e.get('event_id') or not is_ashare(e.get('symbol','')):raise ValueError('identified ordinary A-share rights case required')
     for name in ['record_date','subscription_start','subscription_end','expected_result_date']:
@@ -46,8 +47,8 @@ def normalize_rights_case(spec,calendar):
         if e[name] is not None and e[name] not in cal:raise ValueError('rights settlement date outside original exchange calendar')
     if e['outcome']=='success':
         if e['ex_date'] is None or e['ex_date']<=e['subscription_end']:raise ValueError('successful issue requires actual ex-date after payment window')
-        # Exchange ratio is the actual aggregate issue count, NOT the offered
-        # subscription ratio available to a fully participating ordinary holder.
+        # Capital-count formula diagnostic. An explicit reviewed exchange quote
+        # may supersede it for price reconciliation, never for holder economics.
         before=e['registered_ordinary_shares'];issued=e['issued_ordinary_shares']
         if any(isinstance(x,bool) or not isinstance(x,int) or x<=0 for x in [before,issued]) or Decimal(issued)>Decimal(before)*e['offer_ratio']:raise ValueError('invalid ordinary-share issue counts')
         eligible=e.get('eligible_ordinary_shares');treasury=e.get('treasury_ordinary_shares')
@@ -126,6 +127,11 @@ def load_rights_evidence(config,project,evidence_root,calendar):
             notices=[n for n in c.get('notices',[]) if n.get('url')==url and n.get('sha256')==item['source_sha256'] and utc(n['observed_at_utc'])==observed]
             if len(notices)!=1 or expected_title not in notices[0].get('title',''):raise ValueError('ordinary rights source role or observation identity differs')
             sources[pdf.relative_to(evidence).as_posix()]=item['source_sha256'];sources[capture.relative_to(evidence).as_posix()]=item['capture_sha256']
+        if record['sources'].get('exchange_quote') is not None:
+            from .exchange_rights_quote import load_exchange_quote
+            quote, quote_sources = load_exchange_quote(record['sources']['exchange_quote'], e, evidence)
+            e['reviewed_exchange_quote'] = quote
+            sources.update(quote_sources)
         events.append(e)
     if not events:raise ValueError('nonempty ordinary rights evidence required')
     for symbol in {e['symbol'] for e in events}:
