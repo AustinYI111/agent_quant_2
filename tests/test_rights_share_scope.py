@@ -73,3 +73,24 @@ def test_a_scope_requires_a_offering_identity_and_page_evidence(tmp_path,fault):
     else:
         events,proof=load_rights_evidence('terms.json',project,raw,CAL)
         assert len(events)==1 and len(proof['evidence_source_hashes'])==4
+
+
+@pytest.mark.parametrize('missing_basis_page',[False,True])
+def test_absent_source_literal_requires_explicit_count_basis_page(tmp_path,missing_basis_page):
+    project=tmp_path/'project';project.mkdir();raw=tmp_path/'raw';raw.mkdir()
+    records,capture=primary_sources(raw)
+    terms=scoped_spec();terms.pop('quoted_exchange_ratio_per_10')
+    terms['reference_ratio_basis']='issued_shares_over_preissue_total'
+    records['result']['parameter_pages'].pop('quoted_exchange_ratio_per_10')
+    if not missing_basis_page:records['result']['parameter_pages']['reference_ratio_basis']=1
+    (raw/'capture.json').write_text(json.dumps(capture),encoding='utf8')
+    for record in records.values():record['capture_sha256']=sha256(raw/'capture.json')
+    config=dict(schema='ordinary_rights_evidence_v1',original_vintages_verified=False,
+        result_preopen_timestamp_verified=False,events=[dict(terms=terms,sources=records)])
+    (project/'terms.json').write_text(json.dumps(config),encoding='utf8')
+    if missing_basis_page:
+        with pytest.raises(ValueError,match='page mapping'):load_rights_evidence('terms.json',project,raw,CAL)
+    else:
+        events,_=load_rights_evidence('terms.json',project,raw,CAL)
+        assert events[0].get('quoted_exchange_ratio_per_10') is None
+        assert str(events[0]['exchange_ratio'])=='0.1'

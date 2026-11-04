@@ -117,7 +117,7 @@ def load_rights_evidence(config,project,evidence_root,calendar):
             if not item.get('parameter_pages') or not set(item['parameter_pages'].values()).issubset(set(item['reviewed_pages'])):raise ValueError('rights parameter pages not among reviewed pages')
             required_pages={'offer':{'record_date','subscription_start','subscription_end','offer_ratio','subscription_price','expected_result_date'},'result':{'outcome','ex_date','registered_ordinary_shares','issued_ordinary_shares','aggregate_subscription_cash'} if e['outcome']=='success' else {'outcome'},'listing':{'tradable_from','post_issue_ordinary_shares'}}[role]
             if e.get('ordinary_share_scope')=='a_shares_only':
-                if role=='result':required_pages.update({'ordinary_share_scope','quoted_exchange_ratio_per_10'})
+                if role=='result':required_pages.update({'ordinary_share_scope', 'quoted_exchange_ratio_per_10' if e.get('quoted_exchange_ratio_per_10') is not None else 'reference_ratio_basis'})
                 if role=='listing':required_pages.update({'holder_scope','ordinary_share_scope','other_ordinary_shares','issuer_ordinary_shares_before','issuer_ordinary_shares_after'})
             if role=='offer' and e.get('subscription_fee_bps') is not None:required_pages.add('subscription_fee_bps')
             if role=='result' and e['outcome']=='success' and e.get('eligible_ordinary_shares') is not None:required_pages.update({'eligible_ordinary_shares','treasury_ordinary_shares'})
