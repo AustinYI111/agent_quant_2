@@ -1,0 +1,35 @@
+{
+  "schema": "execution_st_gate_and_cash_conservation_v1",
+  "status": "actual_paper_csvs_and_all_prior_cash_fields_preserved",
+  "verified_at_utc": "2026-11-04T01:13:17.400526+00:00",
+  "compared_paper_csvs": [
+    "paper/5d/asset_attribution.csv",
+    "paper/5d/benchmark_comparison.csv",
+    "paper/5d/open_account_attribution.csv",
+    "paper/5d/open_nav.csv",
+    "paper/5d/orders.csv",
+    "paper/5d/position_history.csv",
+    "paper/5d/positions.csv",
+    "paper/5d/scheduled_top20.csv"
+  ],
+  "prior_paper_manifest_sha256": "89ab8cb1a7401c05d6d48d57da3e0577d8d576a42cdd1066ba1150bf31ed9ae1",
+  "gated_paper_manifest_sha256": "12b4d74615c7fdb37cc4cd208f18fc79903fe6b1b6110bcce0fbf8137754dcde",
+  "independent_paper_audit_sha256": "08a44d2263901bcb61d7944ce66ddef61e60ca6efeb6e47d6197f31c3297d787",
+  "executed_prior_code_conserved": true,
+  "execution_st_policy": {
+    "first_gated_open": "2026-10-29",
+    "buy_requires_known_non_st": true,
+    "unknown_status_blocks_new_buys": true,
+    "sell_status_rule": "tradability only; old holdings remain valued"
+  },
+  "prior_cash_events_exactly_preserved": 4345,
+  "new_cash_events": 6,
+  "total_cash_events": 4351,
+  "prior_cash_sha256": "6e8f3f460e3b94440322c5bd4bc928eea8f6de2d00d22edaa5da147781825e21",
+  "new_cash_sha256": "e15541009e54112b36ceb2ef5d2a64bbe689bb1a87aa496c8f1b8132814e7c89",
+  "archive_sha256": "f798c96967d2ef3218c5daaf01b63bb0263026962a3cde43dd9509f1baec6757",
+  "archive_unchanged": true,
+  "tests_passed": 41,
+  "raw_quote_check_for_new_cash_completed": false,
+  "model_ready": false
+}

@@ -76,3 +76,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 可用`--skip-ledger-copy`跳过重复预测库副本；与`--archive`一起使用时，直接核对新生成的原库。调用`archive_daily_snapshot`导入这类快照时须传`expected_ledger_sha256`，值应来自原库的独立核验。[11月3日日更实际结果与边界](reports/DAILY_RESEARCH_20261103.md)。
 
 上述跟踪校验要求总档与该次跟踪收据中的哈希一致；后续追加新预测会改变总档哈希，应先生成新的跟踪收据再核对，不能只替换旧收据中的哈希。旧三时点证据对应当时21批总档，本次四时点证据对应24批。
+
+执行日买入还要求行情`isST`明确为0；ST、未知或缺失标记阻止新增买入，已有股票继续估值，卖出按可交易状态处理。门禁从风险政策信号日后的首个交易日开盘起生效。[实际重放及11月4日现金暂存](reports/EXECUTION_ST_CASH_20261104.md)。新现金暂存尚须4日收盘参考价核对。

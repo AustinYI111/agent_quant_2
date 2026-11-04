@@ -95,7 +95,7 @@ def test_prior_policy_paper_math_is_byte_identical(book):
 
 def test_risk_view_is_consumed_by_real_paper_order_generator(prepared):
     args,base,source,reference,names=prepared;m=risk.build_risk_selection(**args)
-    raw=pd.DataFrame([dict(date=d,symbol=s,open=10.,close=10.,preclose=10.,tradestatus='1') for d in base['calendar'] for s in base['scores'].symbol])
+    raw=pd.DataFrame([dict(date=d,symbol=s,open=10.,close=10.,preclose=10.,tradestatus='1',isST='0') for d in base['calendar'] for s in base['scores'].symbol])
     actions=pd.DataFrame(columns=['symbol','ex_date','available_date','pay_date','cash_per_share','share_multiplier'])
     views={'2026-10-20':dict(directory='@work/view',manifest_sha256=sha256(args['work_root']/'view/manifest.json'))}
     result=replay_paper_books(source/'predictions.sqlite',[r['batch_id'] for r in m['horizons'].values()],args['project'],base['seal_directory'],raw,actions,

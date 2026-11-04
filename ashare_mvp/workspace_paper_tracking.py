@@ -63,6 +63,11 @@ def replay_paper_books(database,batch_ids,project,seal_directory,raw_prices,acti
     target.mkdir(parents=True)
     proof=dict(schema='frozen_paper_tracking_v1',status='tracking_saved',asof=str(cutoff.date()),created_at_utc=datetime.now(timezone.utc).isoformat(),protocol_sha256=seal['protocol_sha256'],synthetic=synthetic,certified=False,model_ready=False,excluded=excluded,books={},valuation_basis='same-session raw open; dividends/receivables; fractional research shares',limitations=['No limit-up/down or lot-size fill certification.','No live deployment or strategy profitability proven.','Retrospective forecasts are never executed.'])
     proof['risk_policy_start']=str(day(risk_policy_start).date());proof['selection_views']=views
+    gate_index=cal.searchsorted(day(risk_policy_start),side='right')
+    gate_date=cal[gate_index] if gate_index<len(cal) else None
+    proof['execution_st_policy']=dict(first_gated_open=str(gate_date.date()) if gate_date is not None else None,
+                                     buy_requires_known_non_st=True,unknown_status_blocks_new_buys=True,
+                                     sell_status_rule='tradability only; old holdings remain valued')
     for horizon,forecasts in accepted.items():
         schedule=scheduled_signals(cal,protocol['independent_start'],horizon)
         eligible=[d for d in schedule if d in forecasts and cal.searchsorted(d,side='right')<len(cal) and cal[cal.searchsorted(d,side='right')]<=cutoff]
@@ -85,6 +90,10 @@ def replay_paper_books(database,batch_ids,project,seal_directory,raw_prices,acti
         dates=cal[cal<=last]
         tradable=quotes.tradestatus.astype(str).eq('1')&quotes.open.gt(0)
         prices=quotes.copy();prices['total_return_open']=quotes.open.where(tradable,quotes.preclose);prices['can_buy']=tradable;prices['can_sell']=tradable
+        gated=quotes.date.ge(gate_date) if gate_date is not None else pd.Series(False,index=quotes.index)
+        status=quotes.get('isST',pd.Series(np.nan,index=quotes.index))
+        known_non_st=pd.to_numeric(status,errors='coerce').eq(0)&~status.map(lambda value:isinstance(value,(bool,np.bool_)))
+        prices.loc[gated,'can_buy']&=known_non_st.loc[gated]
         events=a[a.symbol.isin(symbols)&a.ex_date.le(last)].copy()
         data=Dataset(prices,pd.DataFrame(),dates,dict(synthetic=synthetic,quality_policy={'schema':'causal_quality_research_v1'}))
         directory=target/horizon;directory.mkdir();picks.to_csv(directory/'scheduled_top20.csv',index=False)
