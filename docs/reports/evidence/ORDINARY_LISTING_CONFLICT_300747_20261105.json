@@ -1,0 +1,37 @@
+{
+  "schema": "ordinary_listing_original_conflict_review_v1",
+  "status": "original_literal_listing_date_rejected_no_account_admission",
+  "recorded_at_utc": "2026-11-05T01:04:51.756998+00:00",
+  "symbol": "sz.300747",
+  "ex_date": "2021-08-13",
+  "source_declared_record_date": "2021-08-12",
+  "source_declared_share_credit_date": "2021-08-13",
+  "source_declared_tradable_from": "2020-08-12",
+  "source_page": 2,
+  "visually_reviewed_pages": [
+    1,
+    2,
+    3
+  ],
+  "actual_gross_cash": 0.1,
+  "actual_share_multiplier": 1.5,
+  "source_url": "https://static.cninfo.com.cn/finalpage/2021-08-06/1210687157.PDF",
+  "source_sha256": "44da28b373ef08a34235fb64fbfc1d0774e58b9d7e77c65273bf77429189e59d",
+  "capture_sha256": "312fd575f5e1aba0832fe6e5e464efd2ca847473734b418a330482265ec2e945",
+  "original_observation_utc": "2026-11-04T10:18:04.281359+00:00",
+  "candidate_sha256": "ff73a270e14c169dfb88998b3f48f626a9f16934a316e3a1258a0e743a66c4c5",
+  "loader_rejected": true,
+  "rejection": "invalid ordinary listing chronology",
+  "guessed_2021_tradable_date_admitted": false,
+  "additional_sources": {
+    "capture": "@work/research/listing_300747_corroboration_20261105_v1/capture.json",
+    "capture_sha256": "07ce3b312689b860a2237eed3d8a69c32689d7f62ba6a645281b1da016b94d0e",
+    "old_guide_official_url_failed_404": true,
+    "guide_mirror_url_failed_404": true,
+    "cninfo_facts_is_credit_not_tradability": true,
+    "szse_monthly_is_ex_date_not_listing_date": true
+  },
+  "unchanged_source_book_sha256": "d445e5212a0fd9cca62b1ca40530fad6f7a383db149bdaac0d4e02d4358a9c33",
+  "prediction_archive_sha256": "91ce919e7ca87b9c4f4178ea60e36084c52a681bd4fd52b29494b551b3f04520",
+  "full_backtest_released": false
+}

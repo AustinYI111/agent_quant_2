@@ -1,0 +1,29 @@
+{
+  "schema": "independent_current_action_intake_audit_v1",
+  "status": "raw_intake_and_cash_extensions_independently_verified",
+  "audited_at_utc": "2026-11-05T01:03:17.566329+00:00",
+  "intake_manifest_sha256": "2b7eb595e6d057eedf12b9d3cff1f0e34d194bba2c688f83be6083fa772dad74",
+  "staged_summary_sha256": "c7cd557783235fd96f775baa85cdbf9bb551651395b68de2d60a43745a69be44",
+  "records": 4962,
+  "status_counts": {
+    "outside_review_window": 4204,
+    "excluded_instrument": 285,
+    "not_implemented": 421,
+    "new_event_needs_notice": 52
+  },
+  "maximum_provider_term_error": 2.7755575615628914e-17,
+  "notice_review_queue": 52,
+  "reviewed_current_cash_events": 6,
+  "remaining_unreviewed_candidates": 46,
+  "prior_events_preserved_exactly": 4351,
+  "staged_events": 4357,
+  "all_new_sources_observed_before_ex_open": true,
+  "raw_quote_check_completed": false,
+  "prediction_ready": false,
+  "prediction_archive_verified_unchanged": true,
+  "verification_code_sha256": "1cf0c9688a0a1f258fc2caaf7acfc3f06eb8426c165919f83d4f493d6e12b74d",
+  "limitations": [
+    "Checks this actual four-period capture and its uncomplicated unique cash keys; not a general independent verifier for all malformed or overlapping future inputs.",
+    "Unreviewed candidates remain pending. Rights, terminal events, original vintages and investor bank receipts remain unverified."
+  ]
+}
