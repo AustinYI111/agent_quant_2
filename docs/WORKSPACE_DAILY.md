@@ -92,3 +92,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 [2021年固定区间送转来源覆盖：15/16，300747冲突仍待解决](reports/ORDINARY_H2_SOURCE_COVERAGE_20261105.md)。
 
 [不确定上市日独立研究路径：六组核账至2022-03-22](reports/PENDING_LISTING_INVARIANCE_20261105.md)，严格路径原结果单独保留。
+
+[新增11项送转条款：等权基准六组独立核账至2022-04-15](reports/PENDING_LISTING_SOURCE_EXTENSION_20261105.md)，下一来源缺项300835。
