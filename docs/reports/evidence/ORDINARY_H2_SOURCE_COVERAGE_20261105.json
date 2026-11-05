@@ -1,0 +1,387 @@
+{
+  "schema": "reviewed_ordinary_2021h2_source_coverage_v1",
+  "status": "eighteen_contracts_loaded_fifteen_of_sixteen_fixed_window_actions_sourced",
+  "verified_at_utc": "2026-11-05T01:57:24.323894+00:00",
+  "source_hashes": {
+    "config/reviewed_ordinary_listings_20261105_v4.json": "ff28c139d49fa751cc31d6f3ed5980da221695b930bb2e47e4fc2412602eaab4",
+    "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+    "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab",
+    "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/issuer_search.json": "608ac05bd3d02a377b371561a8090222aaa8ef554a06699cba34871a88a7f00a",
+    "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/announcement_search.json": "9e225470cf8621c006d0a4c58523232b0e07ad3fd11528a67d51c2f18a601060",
+    "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/1210580882.PDF": "e537c69907d754e1c1051ac2338cb63efad8c946261938ade6113e70381f2d35",
+    "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/manifest.json": "32b7d1ce84e1e889db0f6fefafa8ad4d3f8c92e21e6375686a8a7249dae3bd99",
+    "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/issuer_search.json": "438cfb880e67abf207bc34f2eb1fa7c31e3af34bdffd047dab6e273dc3ef25a6",
+    "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/announcement_search.json": "9604ced42839603abc71303a0e594a43fd754e94fe21320edb26611df983a8ba",
+    "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210601538.PDF": "2c1fb3b44c0a16d04851bb11bf1696ebfca5e1a2c1ce74fb67935ef64797ac31",
+    "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/manifest.json": "958025a10489de2b5d5765c818f34e9edf7daf978fec54b75a3c06a2152a3e54",
+    "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/issuer_search.json": "8edd66d8fbfce66e2629ff13afd340edbc38c50059df9a792d1cf7da922525b5",
+    "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/announcement_search.json": "9eebfd31e341db068b2051f0cd114611d7bd2bc1c19b69caf127c446ec061635",
+    "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210638823.PDF": "703c614b904c8ca7b765fff9d2fc06fa1962c5ee90eabb54f2c5d6603c99ab59",
+    "@work/research/ordinary_listing_600277_sources_20261105_v1/600277_20210824_original/1210759230.PDF": "c3b681dc560081a0f693cc1d40109d7be1e70c3b46ea2a05f4da92c29d32cb45",
+    "@work/research/ordinary_listing_600277_sources_20261105_v1/600277_20210824_original/manifest.json": "355dc70ddffeb8947da3b1e10ed6dd29ebc602ea290d0c07618e134ac6c0c8d1",
+    "@work/research/ordinary_listing_600277_sources_20261105_v1/600277_20210824_original/issuer_search.json": "c028ed4b480e6afb0113a1bf3085c542f71beb1430df3ffc5ccdd96639a7819a",
+    "@work/research/ordinary_listing_600277_sources_20261105_v1/600277_20210824_original/announcement_search.json": "edf1e6d77f532afd14fe3b12ed0ce111fde2499f2a894b4888dd71ee950bba32",
+    "@work/research/ordinary_listing_000987_sources_20261105_v1/000987_20210825_original/1210781527.PDF": "4fa59ef275b5c6bd89ec92d0dae8a43dfea8d888a2989673680e1419cd09ab93",
+    "@work/research/ordinary_listing_000987_sources_20261105_v1/000987_20210825_original/manifest.json": "da007670444539f4919f504c1f7dc458b10698e67dae8f89040cfad46b9de356",
+    "@work/research/ordinary_listing_000987_sources_20261105_v1/000987_20210825_original/issuer_search.json": "0836f8171fa323d92e2405f4f7d27b5e255dc87103278e8bf52d222359d8b285",
+    "@work/research/ordinary_listing_000987_sources_20261105_v1/000987_20210825_original/announcement_search.json": "a826e2127bfe87ec7e95046b8622e4fedd925fb63d01e8b40126ef9d053b3f8f",
+    "@work/research/ordinary_listing_603181_sources_20261105_v1/603181_20210915_original/1210987713.PDF": "794d929fd3cdcce1f133ff8a5dce55d98c5dfc2fee7d43104c3c381f2e6f9e2b",
+    "@work/research/ordinary_listing_603181_sources_20261105_v1/603181_20210915_original/manifest.json": "e4a8b15c4572668af4e4392649d78178837c173b0a472574f892f4cb3623b1f7",
+    "@work/research/ordinary_listing_603181_sources_20261105_v1/603181_20210915_original/issuer_search.json": "3ba607235275cbc7bc35628b0fda9dc338fea3ad8f29a45d5cdad5202f3cef8b",
+    "@work/research/ordinary_listing_603181_sources_20261105_v1/603181_20210915_original/announcement_search.json": "84e781193279019fd818f207681bb25b318bb80a17826db908b695962d245098",
+    "@work/research/ordinary_listing_300642_sources_20261105_v1/300642_20210916_original/1210995024.PDF": "be54cbc00d476e3dd03c3b7ac6747287c7772fdf3eb83b9673ac71833e6f224f",
+    "@work/research/ordinary_listing_300642_sources_20261105_v1/300642_20210916_original/manifest.json": "caf467f21fdcf8b683cf8df2c3215745969dfae485d8ee32ae9420f1f3dcb4c3",
+    "@work/research/ordinary_listing_300642_sources_20261105_v1/300642_20210916_original/issuer_search.json": "dfb634578d54ac92835217b3d4f4fac93cf4045c5ee08b32dddea3c3bc191ab0",
+    "@work/research/ordinary_listing_300642_sources_20261105_v1/300642_20210916_original/announcement_search.json": "6ab4f619e8ebadaf917983ba1ede81c13be8427a4d18ba81bffbab93e4ef6793",
+    "@work/research/ordinary_listing_605100_sources_20261105_v1/605100_20210922_original/1211045501.PDF": "dd88b26220d9125412b8b8914038cb6cb222bda004b3f5d2557b9c9b769208b8",
+    "@work/research/ordinary_listing_605100_sources_20261105_v1/605100_20210922_original/manifest.json": "7ddff03188b0aa610c7c3f61150abaf4e6543d016d98e74ed263f09a682fa360",
+    "@work/research/ordinary_listing_605100_sources_20261105_v1/605100_20210922_original/issuer_search.json": "62a2d3f5269462b5d86db15b112493cc7c0a54f5b0141df882bc73d56eea501e",
+    "@work/research/ordinary_listing_605100_sources_20261105_v1/605100_20210922_original/announcement_search.json": "dddbc0af5e384fdbed795dd8b2c64e130a3af1443a0489b7cd0a12888d8090a4",
+    "@work/research/ordinary_listing_000951_sources_20261105_v1/000951_20210929_original_broader_title/1211130230.PDF": "e7e16e4a47cbb068d86757a023943cc5d2595b5a43157c056b760022b9774957",
+    "@work/research/ordinary_listing_000951_sources_20261105_v1/000951_20210929_original_broader_title/manifest.json": "4c738c3e46861d7438e5f93eef65f7a1499e201aa7161732c6b255308115804f",
+    "@work/research/ordinary_listing_000951_sources_20261105_v1/000951_20210929_original_broader_title/issuer_search.json": "14d1a0f7883177e4785e9c40bba7421c7402e3ae9e46153137127be100ad85dd",
+    "@work/research/ordinary_listing_000951_sources_20261105_v1/000951_20210929_original_broader_title/announcement_search.json": "026a77fb97b1866cab5fc58b4a165e529b1cfdb2738f58bf737b011cd2dc189f",
+    "@work/research/ordinary_listing_002408_sources_20261105_v1/002408_20210929_original/1211095624.PDF": "4a3f0ff18c2735e6a37340223c2e964e91bf6b6c308d0889886453937137bdc6",
+    "@work/research/ordinary_listing_002408_sources_20261105_v1/002408_20210929_original/manifest.json": "ef07d014e58174c4686d66f9caf8a204595342b38ee44cd8cb162bbe8937f490",
+    "@work/research/ordinary_listing_002408_sources_20261105_v1/002408_20210929_original/issuer_search.json": "d4d56c419a8b767cba5681a5ae612578091813ccc17c5ba7fbb2e1e3299d7e3b",
+    "@work/research/ordinary_listing_002408_sources_20261105_v1/002408_20210929_original/announcement_search.json": "eec3b4762251a9de734c24e26eed48630f4542f18b05c3d04a9928b2acc5fb9c",
+    "@work/research/ordinary_listing_300708_sources_20261105_v1/300708_20210929_original/1211094819.PDF": "b5bbac5a0b81aa27d2f7d415c24634873fec9610ccc707b712d36d815efedf31",
+    "@work/research/ordinary_listing_300708_sources_20261105_v1/300708_20210929_original/manifest.json": "4e69135670e1115657c433aeb350f071bc3018467c04e7d18b428dba446ed93e",
+    "@work/research/ordinary_listing_300708_sources_20261105_v1/300708_20210929_original/issuer_search.json": "e75d2dd494b52df0b6a8f7fbd4cbbd05c42408c53128288d2f2d8cb1d40c6e90",
+    "@work/research/ordinary_listing_300708_sources_20261105_v1/300708_20210929_original/announcement_search.json": "b8ee4b1628d8e0f255ca30410de03d876da7d133d65ca568473d242cfb0f2807",
+    "@work/research/ordinary_listing_300677_sources_20261105_v1/300677_20210930_original/1211136254.PDF": "c281d77f0a6b9a9ab2364d2b557d8aa552236525dfbca3a246747bfae29a7848",
+    "@work/research/ordinary_listing_300677_sources_20261105_v1/300677_20210930_original/manifest.json": "0e0258e103cf21dea6b940515afbbbac4a980c2c4889774447d2da1ba2f532b4",
+    "@work/research/ordinary_listing_300677_sources_20261105_v1/300677_20210930_original/issuer_search.json": "8e2c58e73c4be70ece5212f6e38f33fdccdba9a6f380fd8bedc718f84bdb4ac0",
+    "@work/research/ordinary_listing_300677_sources_20261105_v1/300677_20210930_original/announcement_search.json": "03bdba7f0a823701a728af8b5445220fe15ba64943518ad09c225521d64fdfaf",
+    "@work/research/ordinary_listing_002729_sources_20261105_v1/002729_20211013_original_broader_title/1211165147.PDF": "ea8222ae7c0180dfed91d35e94b68938a26b2f840733fe479061a8bfc0a1aa05",
+    "@work/research/ordinary_listing_002729_sources_20261105_v1/002729_20211013_original_broader_title/manifest.json": "7a2330a723212b9b13fc02323cdcac128eddb1734838b4310089cf1c7d3f9030",
+    "@work/research/ordinary_listing_002729_sources_20261105_v1/002729_20211013_original_broader_title/issuer_search.json": "7509d22767275d3a9b1d30abccbe6fd81e4ce71de0dcac3ce15fcae91ccc68aa",
+    "@work/research/ordinary_listing_002729_sources_20261105_v1/002729_20211013_original_broader_title/announcement_search.json": "9900f27bf6b7957793a6eef499518bebae21d48b22172510f6648f99a74556eb",
+    "@work/research/ordinary_listing_002088_sources_20261105_v1/002088_20211020_original_broader_title/1211244339.PDF": "0a9f56dbe83aa3aad47a2dafe3e30c1af1e6175100bf4f7d38f5e7e21285c1e5",
+    "@work/research/ordinary_listing_002088_sources_20261105_v1/002088_20211020_original_broader_title/manifest.json": "1af1ac238ef24478e6953d0d897e79638bdcebca064d2988408b7beb5ef7db42",
+    "@work/research/ordinary_listing_002088_sources_20261105_v1/002088_20211020_original_broader_title/issuer_search.json": "27b208e20afe575d9a847ad3bc923230702113d95f54141619e9acd49654c2fb",
+    "@work/research/ordinary_listing_002088_sources_20261105_v1/002088_20211020_original_broader_title/announcement_search.json": "2f9b404a1d30e4428bb628954e962988185aab3e57b796cca06e193cca90b113",
+    "@work/research/ordinary_listing_300758_sources_20261105_v1/300758_20211020_original/1211257116.PDF": "11996400d81dbe247028bc0de1b12734cb20217719b824dfe531aeea039792ce",
+    "@work/research/ordinary_listing_300758_sources_20261105_v1/300758_20211020_original/manifest.json": "775dc35e6e759264cb109186cc1c9f2083438c010f7f2538d83793c571f4abdd",
+    "@work/research/ordinary_listing_300758_sources_20261105_v1/300758_20211020_original/issuer_search.json": "e33af6b4935f1e37f4123d018bf5985d50f0bb743d2e9a0023ec88fbd2f7a036",
+    "@work/research/ordinary_listing_300758_sources_20261105_v1/300758_20211020_original/announcement_search.json": "95225c3d8a40692d5ac9e1af7572449e1ff8f4e067fb3951af8a09610c61222b",
+    "@work/research/ordinary_listing_300620_sources_20261105_v1/300620_20211101_original_broader_title/1211373188.PDF": "555c7c40538432706055849b5076e99fda271f0dd70e1e88aa0a4895a5a9231d",
+    "@work/research/ordinary_listing_300620_sources_20261105_v1/300620_20211101_original_broader_title/manifest.json": "87c1b36f3a9304f09174d530865bd7b7a66b876cbdc61543d48de815bb34319b",
+    "@work/research/ordinary_listing_300620_sources_20261105_v1/300620_20211101_original_broader_title/issuer_search.json": "5c7314db009fb2cc686968b6a66df9325db60bb6c524ae0cee167cbf58c960bf",
+    "@work/research/ordinary_listing_300620_sources_20261105_v1/300620_20211101_original_broader_title/announcement_search.json": "cee9bba841ebdc034f85334d1b3129b46181790dcd119c70ed0a03901e0382b5",
+    "@work/research/ordinary_listing_002873_sources_20261105_v1/002873_20211110_original/1211469833.PDF": "fa2a94a3a0e3a8f26732f6f42657f38e2e56807e7ada14b1017e49bd6e62652c",
+    "@work/research/ordinary_listing_002873_sources_20261105_v1/002873_20211110_original/manifest.json": "146ce18dfc793513d67001c175dd5d2af5936d8f3f603e01cbf5b84615e918a2",
+    "@work/research/ordinary_listing_002873_sources_20261105_v1/002873_20211110_original/issuer_search.json": "f626d785dde4d70580fd869d1b00e459dfc2bb0d4ae3f3f3966c55ec924344fe",
+    "@work/research/ordinary_listing_002873_sources_20261105_v1/002873_20211110_original/announcement_search.json": "ece887b9e447c89b049fc990ae12e71a972f7b06bbb5a80db7b0d4705d6963ca",
+    "@work/research/ordinary_listing_002936_sources_20261105_v1/002936_20211220_original/1211876337.PDF": "4147177c91f0fcd19aab38a00fdb5ffaf8d9fdc8e01bd5dbee5207f6af4e2899",
+    "@work/research/ordinary_listing_002936_sources_20261105_v1/002936_20211220_original/manifest.json": "aaf19da1e35d881793beecf6b9f7ba1a4475034cb87534dedac741c8fe8e4cc0",
+    "@work/research/ordinary_listing_002936_sources_20261105_v1/002936_20211220_original/issuer_search.json": "a21608dccaf691d5eb4e2d58cfe8a11850aac8df8930944a6bf343996a56d2ef",
+    "@work/research/ordinary_listing_002936_sources_20261105_v1/002936_20211220_original/announcement_search.json": "e99868fe4f8a92dd8ca67a54bd89f4af1ab3fdca9b8b96582ab03f2fa10d3116"
+  },
+  "prior_config_sha256": "daeec4db6fa07866f123266287155a010547b8fe03d3709f28045ae521e4f873",
+  "prior_eight_rows_unchanged": true,
+  "raw_queue_sha256": "62f4352b44632fc90f0426522f428e302bba63c8e34314554f2af9c23baa5f6b",
+  "queue_captures_immutable": true,
+  "existing_actions_sha256": "7feaec77fceaa4221b352cf4129e6d95f7a3aeb8a00e93ab8336d34cadf0ef19",
+  "existing_action_economics_match": true,
+  "new_visually_reviewed_pages": 37,
+  "new_cases": [
+    {
+      "symbol": "sz.000951",
+      "record_date": "2021-09-28",
+      "ex_date": "2021-09-29",
+      "tradable_from": "2021-09-29",
+      "physical_credit_date": "2021-09-29",
+      "expected_cash_per_share": 0.0,
+      "expected_share_multiplier": 1.4,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "share_multiplier": [
+          1,
+          2
+        ],
+        "cash_per_share": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "symbol": "sz.002408",
+      "record_date": "2021-09-28",
+      "ex_date": "2021-09-29",
+      "tradable_from": "2021-09-29",
+      "physical_credit_date": "2021-09-29",
+      "expected_cash_per_share": 0.0,
+      "expected_share_multiplier": 1.4,
+      "parameter_pages": {
+        "record_date": [
+          1
+        ],
+        "ex_date": [
+          1
+        ],
+        "tradable_from": [
+          2
+        ],
+        "share_multiplier": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ]
+      }
+    },
+    {
+      "symbol": "sz.300708",
+      "record_date": "2021-09-28",
+      "ex_date": "2021-09-29",
+      "tradable_from": "2021-09-29",
+      "physical_credit_date": "2021-09-29",
+      "expected_cash_per_share": 0.02,
+      "expected_share_multiplier": 1.8,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "share_multiplier": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ]
+      }
+    },
+    {
+      "symbol": "sz.300677",
+      "record_date": "2021-09-29",
+      "ex_date": "2021-09-30",
+      "tradable_from": "2021-09-30",
+      "physical_credit_date": "2021-09-30",
+      "expected_cash_per_share": 0.0,
+      "expected_share_multiplier": 1.5,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "share_multiplier": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ]
+      }
+    },
+    {
+      "symbol": "sz.002729",
+      "record_date": "2021-10-12",
+      "ex_date": "2021-10-13",
+      "tradable_from": "2021-10-13",
+      "physical_credit_date": "2021-10-13",
+      "expected_cash_per_share": 0.0,
+      "expected_share_multiplier": 1.4,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "share_multiplier": [
+          1,
+          2
+        ],
+        "cash_per_share": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "symbol": "sz.002088",
+      "record_date": "2021-10-19",
+      "ex_date": "2021-10-20",
+      "tradable_from": "2021-10-20",
+      "physical_credit_date": "2021-10-20",
+      "expected_cash_per_share": 0.0,
+      "expected_share_multiplier": 1.4,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "share_multiplier": [
+          1,
+          2
+        ],
+        "cash_per_share": [
+          2
+        ]
+      }
+    },
+    {
+      "symbol": "sz.300758",
+      "record_date": "2021-10-19",
+      "ex_date": "2021-10-20",
+      "tradable_from": "2021-10-20",
+      "physical_credit_date": "2021-10-20",
+      "expected_cash_per_share": 0.5,
+      "expected_share_multiplier": 1.7,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "share_multiplier": [
+          2
+        ],
+        "cash_per_share": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "symbol": "sz.300620",
+      "record_date": "2021-10-29",
+      "ex_date": "2021-11-01",
+      "tradable_from": "2021-11-01",
+      "physical_credit_date": "2021-11-01",
+      "expected_cash_per_share": 0.0,
+      "expected_share_multiplier": 1.5,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "share_multiplier": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ]
+      }
+    },
+    {
+      "symbol": "sz.002873",
+      "record_date": "2021-11-09",
+      "ex_date": "2021-11-10",
+      "tradable_from": "2021-11-10",
+      "physical_credit_date": "2021-11-10",
+      "expected_cash_per_share": 0.0,
+      "expected_share_multiplier": 1.4,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "share_multiplier": [
+          2
+        ],
+        "cash_per_share": [
+          2
+        ]
+      }
+    },
+    {
+      "symbol": "sz.002936",
+      "record_date": "2021-12-17",
+      "ex_date": "2021-12-20",
+      "tradable_from": "2021-12-20",
+      "physical_credit_date": "2021-12-20",
+      "expected_cash_per_share": 0.0,
+      "expected_share_multiplier": 1.1,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "share_multiplier": [
+          1,
+          2
+        ],
+        "cash_per_share": [
+          1
+        ]
+      }
+    }
+  ],
+  "window": {
+    "first": "2021-08-13",
+    "last": "2021-12-31",
+    "selection": "Every positive ordinary bonus in the existing action table in this fixed window; no rankings, holdings or returns used.",
+    "actions": 16,
+    "source_bound": 15,
+    "unresolved": [
+      {
+        "symbol": "sz.300747",
+        "ex_date": "2021-08-13",
+        "reason": "contradictory_original_listing_date"
+      }
+    ]
+  },
+  "historical_vintages_certified": false,
+  "full_market_event_completeness_proven": false,
+  "full_backtest_extended": false,
+  "default_rights_policy_confirmed": false,
+  "related_tests": {
+    "passed": 103,
+    "failed": 0,
+    "elapsed_seconds": 13.72,
+    "test_files": [
+      "test_ordinary_share_settlement.py",
+      "test_primary_notice_capture.py",
+      "test_settled_disk_account.py",
+      "test_settled_account_audit.py"
+    ]
+  },
+  "delivery_recorded_at_utc": "2026-11-05T01:59:13.576027+00:00"
+}

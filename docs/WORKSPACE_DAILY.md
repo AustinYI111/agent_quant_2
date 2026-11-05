@@ -88,3 +88,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 [原公告候选采集入口](PRIMARY_NOTICES.md)可保存指定发行人的实施及更正公告，仍需逐页复核后才能加入账户。
 
 [新增五项送转上市条款与查询证据校验](reports/ORDINARY_LISTINGS_SOURCE_BOUND_20261105.md)：完整回测仍止于300747日期冲突。
+
+[2021年固定区间送转来源覆盖：15/16，300747冲突仍待解决](reports/ORDINARY_H2_SOURCE_COVERAGE_20261105.md)。
