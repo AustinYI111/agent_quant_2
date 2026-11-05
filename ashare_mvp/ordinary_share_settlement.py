@@ -61,6 +61,38 @@ class OrdinaryListingBook:
             if observation>review or review>now:raise ValueError('actual ordered listing capture/review clocks required')
             raw=json.loads(capture.read_text(encoding='utf8'))
             if raw.get('schema')!='original_candidate_notice_capture_v1' or raw.get('code')!=symbol.split('.')[1] or raw.get('ex_date')!=str(dates['ex_date'].date()):raise ValueError('ordinary listing capture identity differs')
+            if raw.get('status')=='failed' or ('search_complete' in raw and raw['search_complete'] is not True):raise ValueError('incomplete ordinary listing capture')
+            # Bind the acquisition trail as well as the selected PDF. Legacy
+            # captures used one query; current captures retain every page.
+            records=[]
+            for field in ['issuer_search','query']:
+                if field in raw:records.append(raw[field])
+            query_pages=raw.get('query_pages',[])
+            if not isinstance(query_pages,list):raise ValueError('listing query pages must be a list')
+            records.extend(query_pages)
+            declared=raw.get('input_hashes',{})
+            if not isinstance(declared,dict):raise ValueError('listing input hashes must be a mapping')
+            package_hashes=dict(declared)
+            for record in records:
+                if not isinstance(record,dict):raise ValueError('listing acquisition record required')
+                name=record['file'];expected=record['sha256']
+                if name in package_hashes and package_hashes[name]!=expected:raise ValueError('listing acquisition hashes disagree')
+                package_hashes[name]=expected
+                if utc(record['observed_at_utc'])>review:raise ValueError('listing query observed after review')
+            if declared:
+                required={n['file']:n['sha256'] for n in raw.get('notices',[])}
+                required.update({record['file']:record['sha256'] for record in records})
+                if any(declared.get(name)!=expected for name,expected in required.items()):raise ValueError('listing input manifest omits captured evidence')
+            for name,expected in package_hashes.items():
+                # Files belong to this capture, never to another package or
+                # an arbitrary path named by an untrusted receipt.
+                if not isinstance(name,str) or not re.fullmatch(r'[A-Za-z0-9_.-]+',name) or name in {'.','..','manifest.json'}:raise ValueError('listing acquisition file must be a local filename')
+                if not isinstance(expected,str) or not re.fullmatch(r'[0-9a-f]{64}',expected):raise ValueError('listing acquisition SHA256 required')
+                item=(capture.parent/name).resolve()
+                if item.parent!=capture.parent.resolve():raise ValueError('listing acquisition file escapes capture')
+                item_name=paths.name(item)
+                if sha256(paths.resolve(item_name))!=expected:raise ValueError('listing acquisition evidence changed')
+                hashes[item_name]=expected
             matches=[n for n in raw.get('notices',[]) if n.get('sha256')==r['source_sha256'] and n.get('url')==r['source_url']]
             if len(matches)!=1:raise ValueError('unique captured listing notice required')
             notice=matches[0]

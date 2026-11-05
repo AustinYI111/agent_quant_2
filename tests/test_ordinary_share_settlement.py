@@ -141,6 +141,34 @@ def test_source_change_after_load_is_detected(tmp_path):
     with pytest.raises(ValueError,match='changed after load'):book.verify_sources()
 
 
+@pytest.mark.parametrize('layout',['legacy','paged'])
+@pytest.mark.parametrize('fault',[None,'tamper_before','tamper_after','escape','hash_disagreement','omitted_input','late_clock','failed_capture'])
+def test_query_evidence_is_bound_to_reviewed_capture(tmp_path,layout,fault):
+    def change(row,raw,source,capture):
+        query=source.parent/'query.json';query.write_text('{"announcements":[]}',encoding='utf8')
+        record=dict(file=query.name,sha256=digest(query),observed_at_utc=row['observed_at_utc'])
+        raw['query' if layout=='legacy' else 'query_pages']=record if layout=='legacy' else [record]
+        if layout=='paged':
+            raw['search_complete']=True
+            raw['input_hashes']={source.name:digest(source),query.name:digest(query)}
+        if fault=='tamper_before':query.write_text('changed',encoding='utf8')
+        if fault=='escape':record['file']='../query.json'
+        if fault=='hash_disagreement':raw['input_hashes']={query.name:'0'*64}
+        if fault=='omitted_input':raw['input_hashes']={source.name:digest(source)}
+        if fault=='late_clock':record['observed_at_utc']='2099-01-01T00:00:00Z'
+        if fault=='failed_capture':raw['status']='failed'
+        capture.write_text(json.dumps(raw),encoding='utf8');row['source_capture_sha256']=digest(capture)
+    args=fixture(tmp_path,change)
+    if fault and fault!='tamper_after':
+        with pytest.raises(ValueError):load(args)
+    else:
+        book=load(args);book.verify_sources()
+        assert '@work/query.json' in book.source_hashes
+        if fault=='tamper_after':
+            (args[1]/'query.json').write_text('changed',encoding='utf8')
+            with pytest.raises(ValueError,match='changed after load'):book.verify_sources()
+
+
 @pytest.mark.parametrize('fault',[None,'no_review','bad_hash','bad_host','late_observation'])
 def test_captured_correction_is_also_bound_and_reviewed(tmp_path,fault):
     def change(r,raw,source,capture):

@@ -86,3 +86,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 [11月4日最新排名与五时点跟踪](reports/DAILY_RESEARCH_20261104.md)。旧跟踪证据与当时总档哈希绑定，不能直接拿旧收据校验追加后的总档。
 
 [原公告候选采集入口](PRIMARY_NOTICES.md)可保存指定发行人的实施及更正公告，仍需逐页复核后才能加入账户。
+
+[新增五项送转上市条款与查询证据校验](reports/ORDINARY_LISTINGS_SOURCE_BOUND_20261105.md)：完整回测仍止于300747日期冲突。
