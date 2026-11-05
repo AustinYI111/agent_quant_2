@@ -90,3 +90,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 [新增五项送转上市条款与查询证据校验](reports/ORDINARY_LISTINGS_SOURCE_BOUND_20261105.md)：完整回测仍止于300747日期冲突。
 
 [2021年固定区间送转来源覆盖：15/16，300747冲突仍待解决](reports/ORDINARY_H2_SOURCE_COVERAGE_20261105.md)。
+
+[不确定上市日独立研究路径：六组核账至2022-03-22](reports/PENDING_LISTING_INVARIANCE_20261105.md)，严格路径原结果单独保留。

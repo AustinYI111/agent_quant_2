@@ -21,14 +21,14 @@ class OrdinaryListing:
     record_date: pd.Timestamp
     ex_date: pd.Timestamp
     available_date: pd.Timestamp
-    tradable_from: pd.Timestamp
+    tradable_from: pd.Timestamp | None
     share_multiplier: float
     cash_per_share: float
 
 
 class OrdinaryListingBook:
     """Load reviewed source contracts; never infer listing from share credit."""
-    def __init__(self, evidence, project, work_root, calendar):
+    def __init__(self, evidence, project, work_root, calendar, allow_unresolved_listing=False):
         paths=WorkspacePaths(project,work_root);file=paths.resolve(evidence)
         rows=json.loads(file.read_text(encoding='utf8'))
         if not isinstance(rows,list):raise ValueError('ordinary listing evidence must be a list')
@@ -39,10 +39,18 @@ class OrdinaryListingBook:
             if r.get('reviewed') is not True:raise ValueError('explicit ordinary listing review required')
             symbol=r['symbol']
             if not re.fullmatch(r'(sh|sz)\.\d{6}',symbol):raise ValueError('ordinary A-share symbol required')
-            dates={k:day(r[k]) for k in ['record_date','ex_date','announcement_date','available_date','tradable_from']}
-            if not dates['announcement_date']<dates['available_date']<=dates['record_date']<dates['ex_date']<=dates['tradable_from']:
+            dates={k:day(r[k]) for k in ['record_date','ex_date','announcement_date','available_date']}
+            unresolved=r.get('listing_status')=='unresolved_original_conflict'
+            if unresolved:
+                if allow_unresolved_listing is not True or r.get('tradable_from') is not None:raise ValueError('unresolved ordinary listing needs explicit separate profile')
+                literal=day(r['source_declared_tradable_from'])
+                if literal>=dates['ex_date'] or not isinstance(r.get('unresolved_reason'),str) or len(r['unresolved_reason'].strip())<20:raise ValueError('explicit contradictory original listing literal required')
+                dates['tradable_from']=None
+            else:
+                dates['tradable_from']=day(r['tradable_from'])
+            if not dates['announcement_date']<dates['available_date']<=dates['record_date']<dates['ex_date'] or dates['tradable_from'] is not None and dates['ex_date']>dates['tradable_from']:
                 raise ValueError('invalid ordinary listing chronology')
-            if any(dates[k] not in cal for k in ['record_date','ex_date','available_date','tradable_from']):raise ValueError('listing contract needs exchange sessions')
+            if any(dates[k] is not None and dates[k] not in cal for k in ['record_date','ex_date','available_date','tradable_from']):raise ValueError('listing contract needs exchange sessions')
             next_session=cal[cal>dates['announcement_date']]
             if not len(next_session) or dates['available_date']!=next_session[0]:raise ValueError('announcement availability must use next exchange session')
             multiplier=float(r['expected_share_multiplier']);cash=float(r['expected_cash_per_share'])
@@ -143,12 +151,19 @@ class OrdinaryShareWallet:
     All validation precedes mutation. Record-close holdings determine bonus
     entitlement. Existing sellable holdings are never multiplied on ex-date.
     """
-    def __init__(self,book):
+    def __init__(self,book,allow_unresolved_listing=False):
         if not isinstance(book,OrdinaryListingBook):raise ValueError('typed reviewed ordinary listing book required')
         self.book=book;self.claims={};self.registry={};self.applied=set();self.last_open=None;self.last_close=None
+        self.allow_unresolved_listing=allow_unresolved_listing is True
+
+    def fork(self):
+        other=OrdinaryShareWallet(self.book,self.allow_unresolved_listing)
+        other.claims=dict(self.claims);other.registry=dict(self.registry);other.applied=set(self.applied)
+        other.last_open=self.last_open;other.last_close=self.last_close
+        return other
 
     def snapshot(self):
-        return dict(registered={f'{s}/{d.date()}':q for (s,d),q in self.registry.items()},locked_claims={f'{s}/{d.date()}':dict(symbol=s,ex_date=str(d.date()),quantity=q,tradable_from=str(self.book.events[(s,d)].tradable_from.date())) for (s,d),q in self.claims.items()})
+        return dict(registered={f'{s}/{d.date()}':q for (s,d),q in self.registry.items()},locked_claims={f'{s}/{d.date()}':dict(symbol=s,ex_date=str(d.date()),quantity=q,tradable_from=None if self.book.events[(s,d)].tradable_from is None else str(self.book.events[(s,d)].tradable_from.date())) for (s,d),q in self.claims.items()})
 
     def valuation_symbols(self):return {s for (s,_),q in self.claims.items() if q>0}
 
@@ -161,6 +176,13 @@ class OrdinaryShareWallet:
         return values
 
     def value(self,prices):return math.fsum(self.locked_exposure(prices).values())
+
+    def unresolved_exposure(self,prices):
+        self.value(prices)
+        values={}
+        for (s,d),q in self.claims.items():
+            if self.book.events[(s,d)].tradable_from is None:values[s]=values.get(s,0.)+q*prices[s]
+        return values
 
     def open(self,date,holdings,prices,actions,other_locked_symbols=()):
         date=day(date)
@@ -182,6 +204,7 @@ class OrdinaryShareWallet:
             if mult<1:raise OrdinarySettlementStop('unsupported_ordinary_share_reduction',e.symbol,date)
             if mult==1:continue
             if term is None:raise OrdinarySettlementStop('ordinary_listing_unknown',e.symbol,date)
+            if term.tradable_from is None and not self.allow_unresolved_listing:raise OrdinarySettlementStop('ordinary_listing_unknown',e.symbol,date)
             if term.available_date>date or mult!=term.share_multiplier or float(e.cash_per_share)!=term.cash_per_share:raise OrdinarySettlementStop('ordinary_listing_economics_differ',e.symbol,date)
             if key in self.applied:raise ValueError('ordinary event already applied')
             if key not in self.registry or abs(self.registry[key]-shares)>1e-12:raise OrdinarySettlementStop('ordinary_registry_unknown_or_changed',e.symbol,date)
@@ -198,7 +221,7 @@ class OrdinaryShareWallet:
             self.applied.add(key);self.claims[key]=q
             rows.append(dict(date=str(date.date()),symbol=key[0],ex_date=str(key[1].date()),kind='bonus_claim_recognized',quantity=q))
         for key,q in list(self.claims.items()):
-            if date>=self.book.events[key].tradable_from:
+            if self.book.events[key].tradable_from is not None and date>=self.book.events[key].tradable_from:
                 holdings[key[0]]=holdings.get(key[0],0.)+q;del self.claims[key]
                 rows.append(dict(date=str(date.date()),symbol=key[0],ex_date=str(key[1].date()),kind='bonus_shares_unlocked',quantity=q))
         return rows
