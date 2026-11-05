@@ -1,0 +1,38 @@
+{
+  "schema": "primary_notice_capture_cli_validation_v1",
+  "verified_at_utc": "2026-11-05T01:22:25.648233+00:00",
+  "status": "live_capture_and_bounded_pagination_guard_tests_passed",
+  "local_tests": {
+    "passed": 194,
+    "failed": 0,
+    "elapsed_seconds": 41.71,
+    "new_capture_tests": 29
+  },
+  "code_hashes": {
+    "primary_notice_capture.py": "0927afc2a07ad14cb71d28d964c6c529cada2d893417e825fd913f2ee8b4fdee"
+  },
+  "test_file_sha256": "e39798ff36169019443fdfbf33ed74582c59e858d46bed07618bc47c60c96048",
+  "live_capture": {
+    "code": "000951",
+    "ex_date": "2021-09-29",
+    "status": "raw_captured_review_pending",
+    "query_rows": 1,
+    "search_complete": true,
+    "reviewed": false,
+    "candidates_applied": false,
+    "capture_manifest_sha256": "2fe24335496adb264e986afa436b42e48263c931c3a52b6e296840f47d291c95",
+    "source_observed_at_utc": "2026-11-05T01:21:05.282694+00:00",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2021-09-23/1211130230.PDF",
+    "source_sha256": "e7e16e4a47cbb068d86757a023943cc5d2595b5a43157c056b760022b9774957",
+    "identical_to_prior_original": true
+  },
+  "new_predictions_generated": false,
+  "prediction_archive_unchanged": true,
+  "original_listing_conflict_solved": false,
+  "model_retrained": false,
+  "limitations": [
+    "Query completion is not whole corporate-action coverage or verified terms.",
+    "The new candidate PDF was not admitted to accounts. The300747 listing conflict remains unresolved.",
+    "No new performance or profitability claim."
+  ]
+}
