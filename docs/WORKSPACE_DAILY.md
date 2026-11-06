@@ -104,3 +104,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 [11月6日：17项分红暂存及同主体代码迁移入账修复](reports/REVIEWED_CURRENT_CASH_20261106.md)。
 
 [等权基准六组独立核账至2022-04-29，并修复跨股票流水顺序误报](reports/PENDING_LISTING_V6_20261106.md)。
+
+[等权基准：固定19项送转补证，六组独立核账至2022-05-13](reports/PENDING_LISTING_V7_20261106.md)。
