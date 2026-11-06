@@ -20,6 +20,33 @@ def _schedule_digest(path):
     return value.hexdigest()
 
 
+def _check_ordinary_flows(observed, expected):
+    """Match independent event identities, preserving causality per claim.
+
+    Different issuers have no shared share ledger. Their row insertion order
+    may differ between the execution wallet and the independent reconstruction.
+    Each date/issuer/ex-date/kind must still occur exactly once as expected.
+    """
+    fields=('date','symbol','ex_date','kind')
+    actual={};wanted={};phases={}
+    for index,row in enumerate(observed):
+        key=tuple(row[name] for name in fields)
+        if key in actual:raise ValueError('duplicate ordinary flow identity')
+        actual[key]=row
+        phases.setdefault(key[:3],{})[row['kind']]=index
+    for row in expected:
+        key=tuple(row[name] for name in fields)
+        if key in wanted:raise ValueError('duplicate independent ordinary expectation')
+        wanted[key]=row
+    if set(actual)!=set(wanted):raise ValueError('missing or extra ordinary flow identity')
+    for order in phases.values():
+        if 'bonus_claim_recognized' in order and 'bonus_shares_unlocked' in order and order['bonus_claim_recognized']>order['bonus_shares_unlocked']:
+            raise ValueError('ordinary claim unlocked before recognition')
+    for key,row in wanted.items():
+        quantity=float(actual[key]['quantity'])
+        if not math.isfinite(quantity) or abs(quantity-row['quantity'])>1e-12:raise ValueError('ordinary flow differs: quantity')
+
+
 def _audit_schedule(path, calendar):
     """Independent bounded-memory schedule parser; no producer helpers."""
     previous=None
@@ -211,11 +238,7 @@ def reconstruct_pending_listing_account(store, reference, listing_book, folder, 
             observed_bonus=[]
             if bonus is not None and bonus[0]<key:raise ValueError('ordinary flow outside calendar')
             if bonus is not None and bonus[0]==key:observed_bonus=list(bonus[1]);bonus=next(bg,None)
-            if len(observed_bonus)!=len(bonus_expected):raise ValueError('missing or extra ordinary flow')
-            for actual,wanted in zip(observed_bonus,bonus_expected):
-                for name,value in wanted.items():
-                    equal=actual[name]==value if isinstance(value,str) else np.isfinite(float(actual[name])) and abs(float(actual[name])-value)<=1e-12
-                    if not equal:raise ValueError('ordinary flow differs: '+name)
+            _check_ordinary_flows(observed_bonus,bonus_expected)
             observed=[]
             if rights is not None and rights[0]<key:raise ValueError('rights flow outside calendar')
             if rights is not None and rights[0]==key:observed=list(rights[1]);rights=next(rg,None)
