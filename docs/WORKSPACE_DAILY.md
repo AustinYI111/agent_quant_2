@@ -96,3 +96,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 [新增11项送转条款：等权基准六组独立核账至2022-04-15](reports/PENDING_LISTING_SOURCE_EXTENSION_20261105.md)，下一来源缺项300835。
 
 [送转来源v4：等权基准六组独立核账至2022-04-25](reports/PENDING_LISTING_SOURCE_EXTENSION_V4_20261106.md)。
+
+[11月5日补采：事后排名与既有预测跟踪](reports/LATE_CLOSE_20261105_OBSERVED_20261106.md)。

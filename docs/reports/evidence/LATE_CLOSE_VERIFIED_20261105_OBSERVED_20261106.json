@@ -1,0 +1,140 @@
+{
+  "schema": "late_close_research_delivery_v1",
+  "verified_at_utc": "2026-11-06T03:20:13.602825+00:00",
+  "signal_date": "2026-11-05",
+  "observed_date": "2026-11-06",
+  "daily": {
+    "schema": "current_daily_independent_audit_v1",
+    "status": "retrospective_financial_factors_model_reload_and_archive_verified",
+    "verified_at_utc": "2026-11-06T03:17:02.725633+00:00",
+    "snapshot_manifest_sha256": "b1d53a8a9303689e07632f2b4e78eccdac804dcfd7d8fbfc7c7ae34b94d856b2",
+    "financial_factor_errors": {
+      "roe": 0.0,
+      "revenue_growth": 0.0,
+      "earnings_growth": 0.0,
+      "low_debt": 0.0,
+      "earnings_yield": 0.0,
+      "book_yield": 0.0
+    },
+    "forecasts": [
+      {
+        "horizon": "5d",
+        "candidates": 4940,
+        "batch_id": "e8abfbdfa83199d2f99432113aefc82da4919f8696d882c26b80bd2f57039baf",
+        "created_at_utc": "2026-11-06T03:15:29.752085+00:00",
+        "next_entry_open_utc": "2026-11-06T01:30:00+00:00",
+        "model_sha256": "70d76a7af37e47e0d2a99c0d88ec76f2dccb15b08d990945055cc8d66d5f0464",
+        "reload_max_absolute_error": 0.0
+      },
+      {
+        "horizon": "20d",
+        "candidates": 4940,
+        "batch_id": "fb68ea134536f07580b5220c0173d305af1daaf194a322ffcdad9010af390fa4",
+        "created_at_utc": "2026-11-06T03:15:30.339355+00:00",
+        "next_entry_open_utc": "2026-11-06T01:30:00+00:00",
+        "model_sha256": "49f9d547da3b916b557ac6dc897a1bb19279eef3ab4901a79d537a1333116dd5",
+        "reload_max_absolute_error": 0.0
+      },
+      {
+        "horizon": "12m",
+        "candidates": 4940,
+        "batch_id": "9287c6ba8e35f4e9b41b1becdd17005f67388feb847c7b8c4165f49ecbca550d",
+        "created_at_utc": "2026-11-06T03:15:30.698549+00:00",
+        "next_entry_open_utc": "2026-11-06T01:30:00+00:00",
+        "model_sha256": "5640734659445cf8df6d1d46f5657f7eb455f2c9d8d806193478f9e65febddf8",
+        "reload_max_absolute_error": 0.0
+      }
+    ],
+    "archive_before_sha256": "91ce919e7ca87b9c4f4178ea60e36084c52a681bd4fd52b29494b551b3f04520",
+    "archive_after_sha256": "cad72440320049c12a0ee43403b3ff553cf501d75ae192883488f6ea697dc8a0",
+    "archive_counts": {
+      "batches": 30,
+      "scores": 148110,
+      "archive_imports": 10
+    },
+    "prior_27_batches_and_scores_unchanged": true,
+    "archive_reimport_idempotent": true,
+    "risk_selection": {
+      "status": "not_created",
+      "reason": "Snapshot created after next-entry open; late security-state capture cannot authorize prospective execution."
+    },
+    "ledger_duplicate_created": false,
+    "quoted_ashares": 5223,
+    "eligible": 4940,
+    "reference_faults": 83,
+    "financial_snapshots": 10,
+    "source_validation": "Independent financial PIT selection, six factor calculations and frozen model score reload; technical features use unchanged frozen streaming implementation.",
+    "original_source_ledger_sha256": "7e0dd0209a1ca6982a657814f4fd2f6d9e463801ff7821981dbe4c1cfa86ffa2",
+    "executed_daily_source": "ashare_mvp/frozen_daily_workspace.py; unchanged source at d188198015fb283e21d9885d0538c797510063b8",
+    "late_cash_events_not_applied": true,
+    "model_retrained": false,
+    "whole_market_ready": false,
+    "verification_code_sha256": "db0e7de329e3203bd505b3544da007071af651ce5fba98201f8a41edbbe4e3f3"
+  },
+  "paper_independent_audit": {
+    "schema": "independent_archived_paper_followup_audit_v1",
+    "status": "saved_paper_followup_independently_verified",
+    "verified_at_utc": "2026-11-06T03:19:51.745862+00:00",
+    "followup_manifest_sha256": "68d67cc079c530419e0f138d83f2388d3fdabefccc195f46b27ecef0329cff28",
+    "accounts": [
+      {
+        "horizon": "5d",
+        "status": "all_saved_account_opens_independently_reconstructed",
+        "sessions": 6,
+        "orders": 50,
+        "filled_non_st_buy_keys": 33,
+        "first_valuation": "2026-10-29",
+        "last_valuation": "2026-11-05",
+        "last_nav": 0.9979720974881222,
+        "total_return_from_initial_wealth": -0.0020279025118777882,
+        "total_paid_cost_initial_wealth": 0.0018562661232454014,
+        "maximum_absolute_cash_share_error": 2.220446049250313e-16
+      },
+      {
+        "horizon": "20d",
+        "status": "all_saved_account_opens_independently_reconstructed",
+        "sessions": 1,
+        "orders": 20,
+        "filled_non_st_buy_keys": 20,
+        "first_valuation": "2026-11-05",
+        "last_valuation": "2026-11-05",
+        "last_nav": 0.9992006394884091,
+        "total_return_from_initial_wealth": -0.0007993605115909075,
+        "total_paid_cost_initial_wealth": 0.0007993605115907272,
+        "maximum_absolute_cash_share_error": 0.0
+      },
+      {
+        "horizon": "12m",
+        "status": "awaiting_entry_no_invented_nav",
+        "sessions": 0,
+        "orders": 0
+      }
+    ],
+    "archive_sha256": "cad72440320049c12a0ee43403b3ff553cf501d75ae192883488f6ea697dc8a0",
+    "archive_unchanged": true,
+    "new_predictions_created": false,
+    "filled_buy_forecast_authorization_checked": true,
+    "positive_holding_quote_references_checked": true,
+    "verification_code_sha256": "e6212ef288468de6aedb7552fb12009d0dafea7f05ac107d3cbafe919e455e00",
+    "limitations": [
+      "Research open-price simulation with fractional shares and frozen costs; not verified broker fills, preopen source vintages or after-tax performance.",
+      "Only the saved followup window is reconstructed; no claim of mature5d/20d/12m validation or causal alpha."
+    ]
+  },
+  "prior_five_nav_rows_and_prior_orders_byte_value_unchanged": true,
+  "nov5_retrospective_batches_not_executed": true,
+  "paper_followup_sha256": "68d67cc079c530419e0f138d83f2388d3fdabefccc195f46b27ecef0329cff28",
+  "benchmark": {
+    "total_return": -0.002392090615648046,
+    "arithmetic_return_difference": 0.0003641881037702577,
+    "source_hashes": {
+      "incoming-20261103/close_capture_20261102_observed_20261103_v1/reference/csi300_20261029_20261102.csv": "df10cb67ea70bf7476f40c9aed861d1e25be865c414b4ddf05a2d1c639892cc4",
+      "incoming-20261103/close_capture_20261103_v1/reference/csi300_20261030_20261103.csv": "6c4a445c68bc4fb5525424b190d8208f6db4fae390dc8a30138c222c44676c7f",
+      "incoming-20261106/close_capture_20261105_observed_20261106_v1/reference/csi300_20261103_20261105.csv": "8e7246ff8a922e9d710b3f33958cc08e4f5cff6d0f69909845d744a32b6bb25c"
+    }
+  },
+  "paper_nav_csv_sha256": "837e4315ea4c03b0b8a04268311dbacf69e99885902f7fdd99651c42a6c7840a",
+  "research_top20_csv_sha256": "2f58266cbf932937d32346a3698e0a205e30c02dffa694c67dc9c606e28f583b",
+  "full_strategy_validation_complete": false,
+  "profitability_proven": false
+}
