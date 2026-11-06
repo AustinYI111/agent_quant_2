@@ -100,3 +100,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 [11月5日补采：事后排名与既有预测跟踪](reports/LATE_CLOSE_20261105_OBSERVED_20261106.md)。
 
 [11月6日盘中输入：财务独立核验完成，17份分红原公告待审](reports/INTRADAY_INPUTS_20261106.md)。
+
+[11月6日：17项分红暂存及同主体代码迁移入账修复](reports/REVIEWED_CURRENT_CASH_20261106.md)。

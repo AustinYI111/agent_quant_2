@@ -30,7 +30,7 @@ def canonical(code):
     return code
 def regular(code):return bool(re.fullmatch(r'(?:sh\.(?:600|601|603|605|688)\d{3}|sz\.(?:000|001|002|003|300|301|302)\d{3})',code))
 calendar=pd.read_csv(paths.resolve(config['calendar']),dtype=str);cal=pd.DatetimeIndex(pd.to_datetime(calendar.loc[calendar.is_trading_day.eq('1'),'calendar_date']))
-raw=json.loads((source/'raw_plans/manifest.json').read_text(encoding='utf8'));counts=Counter();offset=0;queue_keys=[];seen=set();maximum_term_error=0.
+raw=json.loads((source/'raw_plans/manifest.json').read_text(encoding='utf8'));counts=Counter();offset=0;queue_keys=[];queue_providers={};seen=set();maximum_term_error=0.
 for period,info in raw['periods'].items():
     date=pd.Timestamp(period);file=source/'raw_plans'/f'{date.year}Q{date.quarter}'/'records.csv';frame=pd.read_csv(file,float_precision='round_trip');assert len(frame)==info['rows']
     for i,r in enumerate(frame.to_dict('records')):
@@ -38,6 +38,7 @@ for period,info in raw['periods'].items():
         assert got.source_file==paths.name(file) and got.source_row==i and got.source_period==period and got.source_security==r['SECUCODE']
         assert got.observed_at_utc==info['retrieved_at'] and not got.candidate_applied and not got.payment_date_supplied
         match=re.fullmatch(r'(\d{6})\.(SH|SZ|BJ)',str(r['SECUCODE']));provider=(match[2].lower()+'.'+match[1]) if match else '';symbol=canonical(provider)
+        if regular(symbol):assert got.symbol==symbol and got.provider_symbol==provider
         if not regular(symbol):status='excluded_instrument'
         elif r['ASSIGN_PROGRESS']!='实施分配':status='not_implemented'
         else:
@@ -46,6 +47,7 @@ for period,info in raw['periods'].items():
             else:
                 assert ex in cal and cal[cal.searchsorted(pd.Timestamp(r['NOTICE_DATE']),side='right')]<=ex
                 seen.add((symbol,ex));text=str(r['IMPL_PLAN_PROFILE']).split('(')[0].split('（')[0].replace('转增','转').strip()
+                queue_providers[(symbol,str(ex.date()))]=provider
                 assert re.fullmatch(r'10(?:(?:送|转|派)[0-9]+(?:\.[0-9]+)?(?:股|元)?)+',text)
                 literals={k:Decimal(v)/10 for k,v in re.findall(r'(送|转|派)([0-9]+(?:\.[0-9]+)?)',text)}
                 amounts={}
@@ -63,6 +65,7 @@ for period,info in raw['periods'].items():
         assert got.status==status;counts[status]+=1
 assert offset==len(coverage)==m['raw_rows'] and dict(counts)==m['status_counts']
 assert set(queue_keys)==set(zip(queue.symbol,queue.ex_date)) and len(queue_keys)==len(queue)==m['review_queue_rows']
+for q in queue.itertuples(index=False):assert q.provider_symbol==queue_providers[(q.symbol,q.ex_date)]
 new=pd.read_csv(staged/'actions.csv',float_precision='round_trip',low_memory=False)
 assert len(new)==len(old)+stage['new_events']==stage['events']
 for c in old:
@@ -70,18 +73,27 @@ for c in old:
     if c.endswith('date'):before=pd.to_datetime(before,format='mixed');after=pd.to_datetime(after,format='mixed')
     pd.testing.assert_series_equal(before,after,check_dtype=False,check_names=False,check_exact=True)
 review=json.loads(paths.resolve(args.review).read_text(encoding='utf8'))
+starts=dict(zip(identity.new_symbol,pd.to_datetime(identity.effective_date)));ends=dict(zip(identity.old_symbol,pd.to_datetime(identity.effective_date)))
 for e in review['events']:
     saved=new[new.symbol.eq(e['symbol'])&new.ex_date.eq(e['ex_date'])];assert len(saved)==1;saved=saved.iloc[0]
     for field in ['cash_per_share','share_multiplier','reference_cash_per_share','reference_share_multiplier']:assert saved[field]==e[field]
     for field in ['available_date','pay_date']:assert saved[field]==e[field]
     assert pd.Timestamp(saved.available_date)>=pd.Timestamp(e['first_observed_at_utc']).tz_convert('Asia/Shanghai').tz_localize(None).normalize()
+    provider=queue_providers[(e['symbol'],e['ex_date'])];ex=pd.Timestamp(e['ex_date'])
+    assert canonical(provider)==e['symbol'] and saved.provider_symbol==saved.payment_provider_symbol==provider
+    assert e.get('provider_symbol',provider)==provider
+    assert (provider not in starts or ex>=starts[provider]) and (provider not in ends or ex<ends[provider])
+    capture=json.loads(paths.resolve(e['capture_file']).read_text(encoding='utf8'))
+    assert capture['code']==provider.split('.')[1] and capture['ex_date']==e['ex_date']
+    matches=[n for n in capture['notices'] if n['sha256']==e['source_sha256'] and n['url']==e['source_url'] and n['observed_at_utc']==e['first_observed_at_utc']]
+    assert len(matches)==1
 observed_before_ex_open=all(e.get('observed_before_ex_open',False) for e in stage['event_audit'])
 archive=paths.resolve(args.archive)
 assert sha256(archive)==args.expected_archive_sha256
 result=dict(schema='independent_current_action_intake_audit_v1',status='raw_intake_and_cash_extensions_independently_verified',audited_at_utc=datetime.now(timezone.utc).isoformat(),
             intake_manifest_sha256=sha256(source/'intake.json'),staged_summary_sha256=sha256(staged/'summary.json'),records=len(coverage),status_counts=dict(counts),maximum_provider_term_error=maximum_term_error,
             notice_review_queue=len(queue),reviewed_current_cash_events=len(review['events']),remaining_unreviewed_candidates=len(queue)-len(review['events']),prior_events_preserved_exactly=len(old),staged_events=len(new),
-            all_new_sources_observed_before_ex_open=observed_before_ex_open,raw_quote_check_completed=False,prediction_ready=False,prediction_archive_verified_unchanged=True,verification_code_sha256=sha256(Path(__file__)),
+            all_new_sources_observed_before_ex_open=observed_before_ex_open,source_and_payment_trading_codes_independently_verified=True,primary_receipt_code_and_observation_verified=True,raw_quote_check_completed=False,prediction_ready=False,prediction_archive_verified_unchanged=True,verification_code_sha256=sha256(Path(__file__)),
             limitations=['Checks this actual four-period capture and its uncomplicated unique cash keys; not a general independent verifier for all malformed or overlapping future inputs.',
                          'Unreviewed candidates remain pending. Rights, terminal events, original vintages and investor bank receipts remain unverified.'])
 target.parent.mkdir(parents=True,exist_ok=True)

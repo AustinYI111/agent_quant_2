@@ -12,9 +12,10 @@ from .workspace_paths import WorkspacePaths
 from .phase2_protocol import sha256,utc,day
 from .disk_market import code_hashes,write_manifest
 from .reference_overrides import apply_reference_overrides
+from .security_identity import code_change_maps
 
 
-def extend(project,work_root,parent_actions,intake,review,calendar,out):
+def extend(project,work_root,parent_actions,intake,review,calendar,out,code_changes=None):
     paths=WorkspacePaths(project,work_root);parent,source,review_file,calfile,target=map(paths.resolve,[parent_actions,intake,review,calendar,out])
     if target.exists() or not target.is_relative_to(paths.work) or any(target.is_relative_to(p) or p.is_relative_to(target) for p in [parent,source,review_file,calfile]):raise ValueError('fresh separate external cash-event stage required')
     original=json.loads((parent/'summary.json').read_text(encoding='utf8'));m=json.loads((source/'intake.json').read_text(encoding='utf8'));r=json.loads(review_file.read_text(encoding='utf8'))
@@ -35,6 +36,12 @@ def extend(project,work_root,parent_actions,intake,review,calendar,out):
     if actions.duplicated(['symbol','ex_date']).any():raise ValueError('ambiguous prior events')
     c=pd.read_csv(calfile,dtype=str);cal=pd.DatetimeIndex(pd.to_datetime(c.loc[c.is_trading_day.eq('1'),'calendar_date']))
     if cal.empty or cal.hasnans or cal.has_duplicates or not cal.is_monotonic_increasing:raise ValueError('ordered known event calendar required')
+    roots={};starts={};ends={}
+    if code_changes is not None:
+        identity=paths.resolve(code_changes);identity_hash=m['source_hashes'].get(paths.name(identity))
+        if not identity_hash:raise ValueError('code changes must be bound to the candidate intake')
+        bind(identity,identity_hash)
+        roots,starts,ends=code_change_maps(pd.read_json(identity,convert_dates=False))
     queue=pd.read_csv(source/'notice_review_queue.csv',float_precision='round_trip');new=[];overrides=[];audits=[];seen=set()
     for event in r['events']:
         e=dict(event);key=(e['symbol'],str(day(e['ex_date']).date()))
@@ -55,7 +62,12 @@ def extend(project,work_root,parent_actions,intake,review,calendar,out):
         if url is None or day(url[1])!=day(e['announcement_date']):raise ValueError('primary publication identity differs')
         receipt=json.loads(capture.read_text(encoding='utf8'))
         matches=[n for n in receipt.get('notices',[]) if n.get('url')==e['source_url'] and n.get('sha256')==e['source_sha256'] and utc(n['observed_at_utc'])==observed]
-        if receipt.get('code')!=key[0].split('.')[1] or receipt.get('ex_date')!=key[1] or len(matches)!=1 or '实施' not in matches[0].get('title',''):raise ValueError('primary issuer/event/observation anchor differs')
+        provider=candidates.iloc[0].get('provider_symbol',key[0])
+        if not isinstance(provider,str) or roots.get(provider,provider)!=key[0]:raise ValueError('source trading code requires matching bound same-issuer evidence')
+        if e.get('provider_symbol',provider)!=provider:raise ValueError('review trading code differs from the candidate source')
+        ex=day(e['ex_date'])
+        if (provider in starts and ex<starts[provider]) or (provider in ends and ex>=ends[provider]):raise ValueError('source trading code inactive at the event date')
+        if receipt.get('code')!=provider.split('.')[1] or receipt.get('ex_date')!=key[1] or len(matches)!=1 or '实施' not in matches[0].get('title',''):raise ValueError('primary issuer/event/observation anchor differs')
         for field in ['record_date','ex_date','pay_date','announcement_date','available_date']:e[field]=day(e[field])
         ix=cal.get_indexer([e['ex_date']])[0]
         if ix<=0 or e['record_date']!=cal[ix-1] or e['pay_date']<e['ex_date']:raise ValueError('cash registry/ex/payment order invalid')
@@ -74,7 +86,7 @@ def extend(project,work_root,parent_actions,intake,review,calendar,out):
             old=existing.iloc[0]
             if old.cash_per_share!=e['cash_per_share'] or old.share_multiplier!=1. or day(old.pay_date)!=e['pay_date']:raise ValueError('cannot alter prior holder terms in an extension')
             audits.append(dict(symbol=key[0],ex_date=key[1],status='existing_event_not_rewritten'));continue
-        new.append(dict(symbol=e['symbol'],provider_symbol=e['symbol'],payment_provider_symbol=e['symbol'],ex_date=e['ex_date'],available_date=e['available_date'],pay_date=e['pay_date'],
+        new.append(dict(symbol=e['symbol'],provider_symbol=provider,payment_provider_symbol=provider,ex_date=e['ex_date'],available_date=e['available_date'],pay_date=e['pay_date'],
                         cash_per_share=e['cash_per_share'],share_multiplier=1.,source_period=e['source_period'],event_vintage_certified=False,
                         source_notice_url=e['source_url'],source_notice_sha256=e['source_sha256'],source_notice_page=parameters['cash_per_share'],source_payment_page=parameters['pay_date'],
                         event_evidence_type='reviewed_primary_implementation_notice',first_observed_at_utc=observed.isoformat(),independent_payment_confirmation=False))
@@ -84,7 +96,7 @@ def extend(project,work_root,parent_actions,intake,review,calendar,out):
         ex_open=(e['ex_date']+pd.Timedelta(hours=9,minutes=30)).tz_localize('Asia/Shanghai').tz_convert('UTC')
         supplied=candidates.iloc[0].get('provider_cash_per_share',np.nan)
         provider_cash=None if pd.isna(supplied) else float(supplied)
-        audits.append(dict(symbol=key[0],ex_date=key[1],status='cash_terms_staged_quote_pending',cash_per_share=e['cash_per_share'],reference_cash_per_share=e['reference_cash_per_share'],
+        audits.append(dict(symbol=key[0],provider_symbol=provider,ex_date=key[1],status='cash_terms_staged_quote_pending',cash_per_share=e['cash_per_share'],reference_cash_per_share=e['reference_cash_per_share'],
                            provider_cash_per_share=provider_cash,
                            primary_cash_differs_from_provider=None if provider_cash is None else not np.isclose(e['cash_per_share'],provider_cash,rtol=0,atol=1e-12),
                            observed_before_ex_open=observed<ex_open,bank_receipt_verified=False))
@@ -101,7 +113,7 @@ def extend(project,work_root,parent_actions,intake,review,calendar,out):
     target.mkdir(parents=True);updated.to_csv(target/'actions.csv',index=False)
     proof=dict(schema='reviewed_cash_extension_v1',status='cash_terms_staged_raw_quote_check_pending',created_at_utc=datetime.now(timezone.utc).isoformat(),events=len(updated),new_events=len(new),
                source_hashes=sources,output_hashes={'actions.csv':sha256(target/'actions.csv')},event_audit=audits,existing_holder_terms_changed=False,raw_quote_check_completed=False,
-               prediction_ready=False,bank_receipts_verified=False,original_vintages_verified=False,certified=False,code_hashes=code_hashes(['reviewed_cash_extension.py','reference_overrides.py','workspace_paths.py']),
+               prediction_ready=False,bank_receipts_verified=False,original_vintages_verified=False,certified=False,code_hashes=code_hashes(['reviewed_cash_extension.py','reference_overrides.py','workspace_paths.py','security_identity.py']),
                limitations=['Cash-only extension; no split/share-credit/paid-rights admission.','Primary notice review is not the completed raw quote gate, original-vintage certification or investor receipt.'])
     write_manifest(target/'summary.json',proof);return proof
 
@@ -109,4 +121,5 @@ def extend(project,work_root,parent_actions,intake,review,calendar,out):
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--project',default='.')
     for name in ['work-root','parent-actions','intake','review','calendar','out']:parser.add_argument('--'+name,required=True)
+    parser.add_argument('--code-changes',help='Same-issuer evidence already hash-bound to the candidate intake; required for migrated trading codes.')
     result=extend(**vars(parser.parse_args()));print(json.dumps(dict(status=result['status'],events=result['events'],new_events=result['new_events'],prediction_ready=False)))
