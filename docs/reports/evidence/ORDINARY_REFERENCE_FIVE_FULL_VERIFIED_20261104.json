@@ -1,0 +1,310 @@
+{
+  "schema": "ordinary_reference_five_full_audit_verification_v1",
+  "status": "five_ordinary_references_corrected_all_other_faults_preserved",
+  "verified_at_utc": "2026-11-04T08:55:12.972439+00:00",
+  "stage_manifest_sha256": "5af8182efa42a1a60a7669dc1568fdd5f9149b694121f028c1e9670bb0445171",
+  "old_parent": "research/disk_reference_audit_11_20261104_v1",
+  "old_parent_manifest_sha256": "c8a4e74cf9d7169102e24b1bfbeed31aa106ab161a1d041c9d54f96246b6bb63",
+  "new_parent": "research/disk_reference_audit_12_20261104_v1",
+  "new_parent_manifest_sha256": "1ebe375980573acd305cbd992d32c193d6b321e821f4ad4f2563c80ceace9371",
+  "rows": 8609196,
+  "issuers": 5401,
+  "old_reference_faults": 1542,
+  "new_reference_faults": 1537,
+  "removed_faults": [
+    {
+      "date": "2022-05-05",
+      "symbol": "sz.002404"
+    },
+    {
+      "date": "2022-05-10",
+      "symbol": "sh.603758"
+    },
+    {
+      "date": "2022-05-11",
+      "symbol": "sh.688350"
+    },
+    {
+      "date": "2022-05-13",
+      "symbol": "sh.600729"
+    },
+    {
+      "date": "2022-05-13",
+      "symbol": "sz.002649"
+    }
+  ],
+  "added_faults": [],
+  "source_reviews": [
+    {
+      "symbol": "sz.002404",
+      "ex_date": "2022-05-05",
+      "announcement_date": "2022-04-23",
+      "available_date": "2022-04-25",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-23/1213048247.PDF",
+      "source_sha256": "a05a792787a814de9a6cc67ab5a0955c0b69ddf7796366486e120f4a500a3b3e",
+      "source_page": 3,
+      "reviewed": true,
+      "source_file": "research/ordinary_action_002404_sources_20261104_v1/002404_20220505_original/1213048247.PDF",
+      "source_capture_file": "research/ordinary_action_002404_sources_20261104_v1/002404_20220505_original/manifest.json",
+      "source_capture_sha256": "9e2f33a520fcd52eb068a8d8ff661bf2cb1a230cc244f624ec299f9c145489b6",
+      "observed_at_utc": "2026-11-04T08:40:07.573924+00:00",
+      "reviewed_at_utc": "2026-11-04T08:49:34.401177+00:00",
+      "expected_cash_per_share": 0.2,
+      "expected_share_multiplier": 1.0,
+      "reference_cash_per_share": 0.194232,
+      "reference_share_multiplier": 1.0,
+      "reviewed_actual_entitlement_pages": [
+        1,
+        2,
+        3
+      ],
+      "source_payment_page": 2,
+      "review_scope": "All three pages visually reviewed. Actual cash.2, no share change; treasury16660004 excluded. Record29Apr/ex/payment5May p2, literal virtual cash.194232 p3. PublicationSaturday23Apr availableMonday25Apr. Original byte vintage and individual withholding uncertified."
+    },
+    {
+      "symbol": "sh.603758",
+      "ex_date": "2022-05-10",
+      "announcement_date": "2022-04-29",
+      "available_date": "2022-05-05",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-29/1213197297.PDF",
+      "source_sha256": "b1e76e198d7955e56883dd8d6b01af6bdee1e2364a2acd5825f16f01ed00e6b8",
+      "source_page": 2,
+      "reviewed": true,
+      "source_file": "research/ordinary_action_603758_sources_20261104_v1/603758_20220510_original/1213197297.PDF",
+      "source_capture_file": "research/ordinary_action_603758_sources_20261104_v1/603758_20220510_original/manifest.json",
+      "source_capture_sha256": "9fe38c6deca808a1e9a4b69cfb840feb132f7d22ea0768dd3f550872f1628160",
+      "observed_at_utc": "2026-11-04T08:40:09.989475+00:00",
+      "reviewed_at_utc": "2026-11-04T08:49:34.421954+00:00",
+      "expected_cash_per_share": 0.5,
+      "expected_share_multiplier": 1.0,
+      "reference_cash_per_share": 0.47,
+      "reference_share_multiplier": 1.0,
+      "reviewed_actual_entitlement_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "source_payment_page": 2,
+      "review_scope": "All four pages visually reviewed. Actual cash.5/share1, treasury24300274 excluded, record9May/ex/payment10May. Page2 literal virtual cash.47 and price formula; do not substitute a more precise computed fraction. Available next session5May after29Apr publication. Original byte vintage and individual tax uncertified."
+    },
+    {
+      "symbol": "sh.688350",
+      "ex_date": "2022-05-11",
+      "announcement_date": "2022-05-05",
+      "available_date": "2022-05-06",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-05-05/1213274418.PDF",
+      "source_sha256": "9f5eb35e328355ca66120512cd4b690df3d1eb582b5336f81a3a93e81a1b2312",
+      "source_page": 2,
+      "reviewed": true,
+      "source_file": "research/ordinary_action_688350_sources_20261104_v1/688350_20220511_original/1213274418.PDF",
+      "source_capture_file": "research/ordinary_action_688350_sources_20261104_v1/688350_20220511_original/manifest.json",
+      "source_capture_sha256": "0587dc97d504ee929533efc08847d7c2115733f8cdd616e361c416bd3e485c15",
+      "observed_at_utc": "2026-11-04T08:40:06.339684+00:00",
+      "reviewed_at_utc": "2026-11-04T08:49:34.440823+00:00",
+      "expected_cash_per_share": 0.41,
+      "expected_share_multiplier": 1.0,
+      "reference_cash_per_share": 0.4046,
+      "reference_share_multiplier": 1.0,
+      "reviewed_actual_entitlement_pages": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "source_payment_page": 3,
+      "review_scope": "All five pages visually reviewed. Actual cash.41/share1, treasury1601229 excluded; record10May/ex/payment11May. Page2 literal reference cash.4046 and formula, not inferred from price gap. No share issuance. Original byte vintage and actual bank receipt uncertified."
+    },
+    {
+      "symbol": "sh.600729",
+      "ex_date": "2022-05-13",
+      "announcement_date": "2022-05-06",
+      "available_date": "2022-05-09",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-05-06/1213284394.PDF",
+      "source_sha256": "28fce3ea2aa5609ef6a62d27dd88eeaaa222b4cd0e0c657e4aeb7a9732f5c95e",
+      "source_page": 2,
+      "reviewed": true,
+      "source_file": "research/ordinary_action_600729_sources_20261104_v1/600729_20220513_original/1213284394.PDF",
+      "source_capture_file": "research/ordinary_action_600729_sources_20261104_v1/600729_20220513_original/manifest.json",
+      "source_capture_sha256": "e260c1effba0c16765c0b418cf7fd7ce33f610695d3100ee1891a249ad349b80",
+      "observed_at_utc": "2026-11-04T08:40:08.577934+00:00",
+      "reviewed_at_utc": "2026-11-04T08:49:34.457160+00:00",
+      "expected_cash_per_share": 3.79,
+      "expected_share_multiplier": 1.0,
+      "reference_cash_per_share": 3.6934,
+      "reference_share_multiplier": 1.0,
+      "reviewed_actual_entitlement_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "source_payment_page": 2,
+      "review_scope": "All four pages visually reviewed. Actual cash3.79/share1, treasury10360094 excluded; record12May/ex/payment13May p1/2. Page2 literal reference cash3.6934 and formula. Original byte vintage and individual tax uncertified."
+    },
+    {
+      "symbol": "sz.002649",
+      "ex_date": "2022-05-13",
+      "announcement_date": "2022-05-06",
+      "available_date": "2022-05-09",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-05-06/1213284183.PDF",
+      "source_sha256": "e6c8f7026b348faed1ecc8a13906010627ec9f000837aeadc2d99b03095ca510",
+      "source_page": 3,
+      "reviewed": true,
+      "source_file": "research/ordinary_action_002649_sources_20261104_v1/002649_20220513_original/1213284183.PDF",
+      "source_capture_file": "research/ordinary_action_002649_sources_20261104_v1/002649_20220513_original/manifest.json",
+      "source_capture_sha256": "d28122e6c3aa740aeef0703af412580135ec7652400fd0748f76fd9ca5f30e55",
+      "observed_at_utc": "2026-11-04T08:45:24.657054+00:00",
+      "reviewed_at_utc": "2026-11-04T08:49:34.472289+00:00",
+      "expected_cash_per_share": 0.31,
+      "expected_share_multiplier": 1.0,
+      "reference_cash_per_share": 0.304017,
+      "reference_share_multiplier": 1.0,
+      "reviewed_actual_entitlement_pages": [
+        1,
+        2,
+        3
+      ],
+      "source_payment_page": 2,
+      "review_scope": "All three implementation pages visually reviewed. Actual cash.31/share1, treasury11418896 excluded, record12May/ex13May, literal reference cash.304017 p3. Source payment line p2 contains extraneous month text; original PDF preserved, not silently edited. Issuer2022 annual report PDF page46 published20Apr2023 explicitly confirms distribution completed13May2022 and179876245.12 cash. Bound separate retrospective corroboration, not claimed available in2022, no date changes, no personal bank receipt certification.",
+      "payment_corroboration": {
+        "source_file": "research/ordinary_action_002649_corroboration_20261104_v1/1216472761.PDF",
+        "source_sha256": "3896c925a4e376395fa71ebe092938ce48903771e92a20dea189ab1daf2c03ae",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2023-04-20/1216472761.PDF",
+        "capture_file": "research/ordinary_action_002649_corroboration_20261104_v1/capture.json",
+        "capture_sha256": "94db2ce66bd3cc1c572313675ca102c384262217ed638b75cf0e0cb2a34fc855",
+        "publication_date": "2023-04-20",
+        "observed_at_utc": "2026-11-04T08:48:24.740333+00:00",
+        "reviewed_page": 46,
+        "reviewed_at_utc": "2026-11-04T08:49:34.505501+00:00",
+        "retrospective_only": true,
+        "historical_availability_asserted": false,
+        "source_payment_line_has_extra_month": true,
+        "original_payment_date_unchanged": true
+      }
+    }
+  ],
+  "independent_quote_checks": [
+    {
+      "symbol": "sz.002404",
+      "raw_sql_rows": [
+        [
+          "2022-04-29",
+          5.15,
+          5.33,
+          5.03
+        ],
+        [
+          "2022-05-05",
+          5.2,
+          5.15,
+          5.14
+        ]
+      ],
+      "independent_virtual_formula": "5.135768",
+      "expected_half_up": "5.14"
+    },
+    {
+      "symbol": "sh.603758",
+      "raw_sql_rows": [
+        [
+          "2022-05-09",
+          7.22,
+          7.28,
+          7.25
+        ],
+        [
+          "2022-05-10",
+          6.6,
+          6.65,
+          6.81
+        ]
+      ],
+      "independent_virtual_formula": "6.81",
+      "expected_half_up": "6.81"
+    },
+    {
+      "symbol": "sh.688350",
+      "raw_sql_rows": [
+        [
+          "2022-05-10",
+          16.77,
+          17.06,
+          16.79
+        ],
+        [
+          "2022-05-11",
+          17.17,
+          16.6,
+          16.66
+        ]
+      ],
+      "independent_virtual_formula": "16.6554",
+      "expected_half_up": "16.66"
+    },
+    {
+      "symbol": "sh.600729",
+      "raw_sql_rows": [
+        [
+          "2022-05-12",
+          28.87,
+          28.74,
+          29.08
+        ],
+        [
+          "2022-05-13",
+          22.65,
+          22.86,
+          25.05
+        ]
+      ],
+      "independent_virtual_formula": "25.0466",
+      "expected_half_up": "25.05"
+    },
+    {
+      "symbol": "sz.002649",
+      "raw_sql_rows": [
+        [
+          "2022-05-12",
+          9.83,
+          9.96,
+          9.9
+        ],
+        [
+          "2022-05-13",
+          9.73,
+          9.64,
+          9.66
+        ]
+      ],
+      "independent_virtual_formula": "9.655983",
+      "expected_half_up": "9.66"
+    }
+  ],
+  "actual_holder_economics_and_credit_dates_exactly_conserved": true,
+  "all_unrelated_action_fields_exactly_conserved": true,
+  "original_quote_store_unchanged": true,
+  "rights_events_and_reconciliations_exactly_conserved": true,
+  "new_rights_reference": "research/eight_rights_parent12_reference_20261104_v1",
+  "new_rights_reference_sha256": "3c9351cfa0d72c48098e146128f3089e27e2696dd712dc030d4637fbe1762959",
+  "payment_corroboration": {
+    "source_file": "research/ordinary_action_002649_corroboration_20261104_v1/1216472761.PDF",
+    "source_sha256": "3896c925a4e376395fa71ebe092938ce48903771e92a20dea189ab1daf2c03ae",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2023-04-20/1216472761.PDF",
+    "capture_file": "research/ordinary_action_002649_corroboration_20261104_v1/capture.json",
+    "capture_sha256": "94db2ce66bd3cc1c572313675ca102c384262217ed638b75cf0e0cb2a34fc855",
+    "publication_date": "2023-04-20",
+    "observed_at_utc": "2026-11-04T08:48:24.740333+00:00",
+    "reviewed_page": 46,
+    "reviewed_at_utc": "2026-11-04T08:49:34.505501+00:00",
+    "retrospective_only": true,
+    "historical_availability_asserted": false,
+    "source_payment_line_has_extra_month": true,
+    "original_payment_date_unchanged": true
+  },
+  "payment_corroboration_checked_by_independent_audit_not_core_overlay": true,
+  "original_vintages_verified": false,
+  "new_accounts_run": false,
+  "complete_equal_benchmark_verified": false
+}

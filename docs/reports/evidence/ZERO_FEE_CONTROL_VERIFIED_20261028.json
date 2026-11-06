@@ -1,0 +1,113 @@
+{
+  "schema": "source_declared_rights_fee_checkpoint_v1",
+  "recorded_at_utc": "2026-10-28T10:32:09.454859+00:00",
+  "producer_manifest_sha256": "c96b1562f4cc87cc3093c674a6973162ef425d96a92c8c80940df0c1cf21fd68",
+  "verification_manifest_sha256": "c65382e83e8888a2ff65fddfbe2f7c15bc295c05e26b823e6b0bd6a407fe481a",
+  "code_hashes": {
+    "rights_disk_account.py": "2e3839d3ad6cf8352ce98f9daf6eec144cf92e7e94dac6f3fb887e8e8eb51613",
+    "rights_wallet.py": "178830e6d6ddad0ac06885895436ccf10cbc80b271c7ceaae8cc8a975024a9e9",
+    "rights_terms.py": "f0c826080cdb97c54c37db1a8fd970655d6d20a3d84666e375cf9cd3d1dab488",
+    "rights_reference_audit.py": "be1501d3d4b4fa1ed0b5820fadb5468b50cd562188643d386c7cf6e213d185dd",
+    "disk_account.py": "71e8a78d2b4050bce18542d3ae0a36b8c4a875986cfd5e8d62b35fa05f58fa18",
+    "disk_market.py": "cf5126abb454641043498481c4d700ed067e3262ae021807de3e9fb3188c019e",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e"
+  },
+  "independent_audit": {
+    "schema": "zero_declared_fee_control_verification_v1",
+    "status": "all_three_zero_fee_prefixes_reconciled_next_reference_rejected",
+    "started_at_utc": "2026-10-28T10:28:36.924428+00:00",
+    "source_manifest_sha256": "c96b1562f4cc87cc3093c674a6973162ef425d96a92c8c80940df0c1cf21fd68",
+    "old_assumed_fee_manifest_sha256": "ac448e6cd8939355864552125c6a5885b3f015842746ce7342c09332f837c37b",
+    "old_execution_code_git_revision": "8c42ea3",
+    "verification_code_hashes": {
+      "rights_account_audit.py": "77bcee29e0c06456b3fa5cb00c3e0fd5c58b3641d37afd6f34e4e7e9397d9008",
+      "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e",
+      "disk_account.py": "71e8a78d2b4050bce18542d3ae0a36b8c4a875986cfd5e8d62b35fa05f58fa18"
+    },
+    "accounts": [
+      {
+        "status": "valid_rights_prefix_reconciled",
+        "sessions": 94,
+        "orders_checked": 69702,
+        "max_absolute_reconciliation_error": 4.7187947993521107e-14,
+        "full_period_performance_verified": false,
+        "stopped_state_checked": true,
+        "audited_rights_event_ids": [
+          "sz.002142_20211123_rights"
+        ],
+        "horizon": "5d"
+      },
+      {
+        "status": "valid_rights_prefix_reconciled",
+        "sessions": 94,
+        "orders_checked": 18304,
+        "max_absolute_reconciliation_error": 3.6178850713886046e-14,
+        "full_period_performance_verified": false,
+        "stopped_state_checked": true,
+        "audited_rights_event_ids": [
+          "sz.002142_20211123_rights"
+        ],
+        "horizon": "20d"
+      },
+      {
+        "status": "valid_rights_prefix_reconciled",
+        "sessions": 96,
+        "orders_checked": 3537,
+        "max_absolute_reconciliation_error": 5.784261958297066e-14,
+        "full_period_performance_verified": false,
+        "stopped_state_checked": true,
+        "audited_rights_event_ids": [
+          "sz.002142_20211123_rights"
+        ],
+        "horizon": "12m"
+      }
+    ],
+    "fee_source_checks": [
+      {
+        "horizon": "5d",
+        "declared_subscription_fee": 0.0,
+        "old_hypothetical_fee": 4.5684787085078085e-09,
+        "registration_quantity_unchanged": true,
+        "pre_subscription_nav_exact": true,
+        "first_payment_wealth_difference": 4.568478706445944e-09,
+        "expected_fee_minus_stock_cost_difference": 4.5684787085078085e-09
+      },
+      {
+        "horizon": "20d",
+        "declared_subscription_fee": 0.0,
+        "old_hypothetical_fee": 4.4370203323293e-09,
+        "registration_quantity_unchanged": true,
+        "pre_subscription_nav_exact": true,
+        "first_payment_wealth_difference": 4.437020306724548e-09,
+        "expected_fee_minus_stock_cost_difference": 4.4370203323293e-09
+      },
+      {
+        "horizon": "12m",
+        "declared_subscription_fee": 0.0,
+        "old_hypothetical_fee": 5.278715367852995e-09,
+        "registration_quantity_unchanged": true,
+        "pre_subscription_nav_exact": true,
+        "first_payment_wealth_difference": 5.278715464740458e-09,
+        "expected_fee_minus_stock_cost_difference": 5.278715367852995e-09
+      }
+    ],
+    "complete_accounts": 0,
+    "two_case_reference_build": {
+      "status": "rejected_unexplained_quote",
+      "reason": "rights reference does not match original raw quote",
+      "no_reference_fault_waived": true,
+      "no_new_two_case_accounts_run": true
+    },
+    "completed_at_utc": "2026-10-28T10:28:52.020685+00:00",
+    "output_hashes": {
+      "12m/daily_reconstruction.csv": "1f385fc12cd5e0def552a036cb74e3b4adbdae1e08893752c713f18c012e93f1",
+      "20d/daily_reconstruction.csv": "039a7be8f44d5efa085c3e019ffb5907707f0043dd72e70a045d808035b64a71",
+      "5d/daily_reconstruction.csv": "0df0992609749ff92cd2bab574f47afa0e7a8aca70bb52c3f297c92291ee7fc2"
+    }
+  },
+  "related_tests_passed": 113,
+  "complete_equal_accounts": 0,
+  "today_prediction_and_archive_unchanged": true,
+  "old_assumed_fee_records_preserved": true,
+  "old_execution_git_revision": "8c42ea3"
+}

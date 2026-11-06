@@ -1,0 +1,83 @@
+{
+  "schema": "incoming_market_quality_v2",
+  "date": "2026-10-28",
+  "checked_at_utc": "2026-10-28T09:23:00.886949+00:00",
+  "grain": "one raw stock quote per exchange session and provider code",
+  "raw_rows": 5223,
+  "regular_ashare_rows": 5222,
+  "st_rows": 194,
+  "st_rate": 0.03715051704327844,
+  "suspended_rows": 6,
+  "invalid_numeric_rows": 6,
+  "invalid_active_price_rows": 0,
+  "invalid_active_ohlc_rows": 0,
+  "new_codes": [],
+  "missing_codes": [
+    "sz.301139"
+  ],
+  "prior_date": "2026-10-27",
+  "schema_added": [],
+  "schema_removed": [],
+  "preclose_disagreements": [
+    {
+      "symbol": "sh.601298",
+      "prior_close": 9.57,
+      "current_preclose": 9.43,
+      "difference": -0.14000000000000057
+    },
+    {
+      "symbol": "sh.601991",
+      "prior_close": 4.91,
+      "current_preclose": 4.84,
+      "difference": -0.07000000000000028
+    },
+    {
+      "symbol": "sh.603689",
+      "prior_close": 7.36,
+      "current_preclose": 7.31,
+      "difference": -0.05000000000000071
+    },
+    {
+      "symbol": "sh.688087",
+      "prior_close": 26.09,
+      "current_preclose": 25.99,
+      "difference": -0.10000000000000142
+    },
+    {
+      "symbol": "sz.300601",
+      "prior_close": 12.58,
+      "current_preclose": 12.55,
+      "difference": -0.02999999999999936
+    }
+  ],
+  "checks": {
+    "unique_same_session_raw_keys": true,
+    "raw_adjustment_flag": true,
+    "known_historical_status_flags": true,
+    "same_supplier_universe_equal": true,
+    "same_supplier_trade_state_equal": true,
+    "finite_active_numeric_fields": true,
+    "finite_suspended_price_fields": true,
+    "positive_active_prices": true,
+    "valid_active_ohlc": true,
+    "nonnegative_volume_amount": true,
+    "unchanged_schema": true,
+    "observed_after_close_gate": true
+  },
+  "source_sha256": {
+    "current": "5a496e44b318ce254b89895dc72ed17f3dc743f28ef8480c88ec3cb1b7c300d2",
+    "previous": "52b985387b00b35b4b81268a9da2092d41b24cc8a84b0edaa40bbcc4c51877cd",
+    "reference_capture": "9b4fe7a1182591a49c4043f59c92bea67d4838824fd6b9fd6b124ce826cd4db2"
+  },
+  "usable_for_raw_capture": true,
+  "prediction_ready": false,
+  "optional_industry_capture_status": "raw_acquired",
+  "certified": false,
+  "limitations": [
+    "Suspended volume and amount remain missing; acceptance checks require finite activity only for tradable rows and never replace missing values with zero.",
+    "Same-provider quote/list equality is not independent exchange coverage certification.",
+    "Preclose changes are review candidates, not automatically bad data or inferred dividends.",
+    "Raw capture does not establish adjusted feature continuity, financial timing or executable paper prices.",
+    "2026 data may feed frozen-model predictions and independent validation, never candidate parameter selection."
+  ]
+}

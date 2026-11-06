@@ -1,0 +1,66 @@
+{
+  "schema": "mixed_observation_dependency_history_preparation_v1",
+  "status": "dependencies_merged_before_join_and_clocks_verified",
+  "started_at_utc": "2026-10-28T09:31:01.132683+00:00",
+  "current_signal": "2026-10-28",
+  "families": {
+    "earnings": {
+      "schema": "observed_dependency_history_v1",
+      "built_at_utc": "2026-10-28T09:31:03.210724+00:00",
+      "partial_source": false,
+      "source_hashes": {
+        "prior": {
+          "panel_sha256": "29bf03fa477f21d624f1a779b1872a675109321c53dfbba5570d07e6d50065e7",
+          "summary_sha256": "365dae2b7d3c109498e393bf1839449ec4e498e1c6332e490b92e9a470d0ac1d"
+        },
+        "mixed_27_28": {
+          "panel_sha256": "fb5990d728e31626dbf02f92351ee4d448e52d68e6e05ba5102983597ccd3681",
+          "summary_sha256": "c7c79d90b747f0eb6fb82b1617c2e8cab46c81b4f89f8100d09c3b7059dc4c05"
+        }
+      },
+      "panel_sha256": "2bfc1c18b05c3e740fd59b0ea23f84da00a2b6b924f340802bbeaa25e6370868",
+      "records": 105432,
+      "source_records": [
+        86756,
+        31115
+      ],
+      "certified": false
+    },
+    "balances": {
+      "schema": "observed_dependency_history_v1",
+      "built_at_utc": "2026-10-28T09:31:04.281455+00:00",
+      "partial_source": false,
+      "source_hashes": {
+        "prior": {
+          "panel_sha256": "19c18bb106c5df8ebd2690d8e793b973e29f49fb8c3fc573134fd94397fe39e6",
+          "summary_sha256": "16989dadde9b2a3d54dd6aa15e5364d8ee86bf5a46f79977e6ca2f5b186cde99"
+        },
+        "mixed_27_28": {
+          "panel_sha256": "38527588e282b67fb7b99dd8e75b533e0203be98e1de38c85e4ebd8df74f6c6e",
+          "summary_sha256": "d59e0543a4543f7ace21ce24c98e7a9a4b875a8e5600bda82810a99c6b73511a"
+        }
+      },
+      "panel_sha256": "fa5204da0833982c47de4cdb38a13aa7761f0c5491f7a5e82388c44be42a7065",
+      "records": 97101,
+      "source_records": [
+        79548,
+        18173
+      ],
+      "certified": false
+    }
+  },
+  "old_prediction_database_unchanged": true,
+  "current_prediction_generated": false,
+  "completed_at_utc": "2026-10-28T09:31:12.564877+00:00",
+  "combined": {
+    "records": 107463,
+    "symbols": 5660,
+    "debt_records": 99471,
+    "panel_sha256": "b1ce6deb2bc9245b9bb6c20beba810a9f7f37db639733383a11b57e03be6cc2f",
+    "certified": false
+  },
+  "versions_visible_by_20261028": 106146,
+  "versions_not_visible_until_after_20261028": 1317,
+  "prediction_database_sha256": "da72396378218c99bc72fe59b5ff6a2aca7a3b73b0ec62171dec9111b23e4299",
+  "source_clock_policy": "Retain actual27/28 observation clocks, merge income/balance versions before same-report as-of joins; future-available rows cannot feed October28 forecast."
+}

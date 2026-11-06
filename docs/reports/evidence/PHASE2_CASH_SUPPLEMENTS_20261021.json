@@ -1,0 +1,93 @@
+{
+  "schema": "phase2_cash_supplements_evidence_v1",
+  "latest_market": {
+    "date": "2026-10-20",
+    "raw_rows": 5224,
+    "manifest_sha256": "83e34aa04467ae9cf75a61b7b684ccb33a8ab209685c944475d290a4280aec4a",
+    "observation_audit": {
+      "schema": "closed_market_observations_v1",
+      "created_at_utc": "2026-10-21T01:21:15.658914+00:00",
+      "sessions": 1,
+      "records": [
+        {
+          "date": "2026-10-20",
+          "observed_at_utc": "2026-10-21T01:21:15.268832+00:00",
+          "raw_sha256": "48f74bb30d0189181ba7d62cb9f13dcbcec37299be921890fe5ab0963ff4cdcc",
+          "source_manifest_sha256": "83e34aa04467ae9cf75a61b7b684ccb33a8ab209685c944475d290a4280aec4a"
+        }
+      ],
+      "latest_input_observed_at_utc": "2026-10-21T01:21:15.268832+00:00",
+      "certified": false,
+      "limitation": "Post-cutoff observation only; not original supplier vintage or execution certification."
+    }
+  },
+  "review_config_sha256": "fe2548285d8d96883de6287a48e5214815d6ad81cc4b8e612f2af9f71508c88c",
+  "payment_summary": {
+    "schema": "reviewed_cash_supplemented_payments_v1",
+    "status": "reviewed_cash_subset",
+    "events": 4335,
+    "supplements": 8,
+    "remaining_unmatched_payments": 0,
+    "input_hashes": {
+      "artifacts\\phase2\\normalized\\payments_reviewed_v2_20261020\\summary.json": "62ef069fe9ceb6fc6df161252a59d09f5c5d97f772a562d20216f0cdef106326",
+      "artifacts\\phase2\\raw\\market_capture_20261021\\exchange_calendar.csv": "4ec1d92d71515e40f6607a2dcc66842c4d6ff85f6eb97f9542293fed9624f79e",
+      "config\\reviewed_cash_supplements_20261021.json": "fe2548285d8d96883de6287a48e5214815d6ad81cc4b8e612f2af9f71508c88c",
+      "artifacts\\phase2\\normalized\\payments_reviewed_v2_20261020\\actions.csv": "80b0919dbfa2a6e42b6a8c8d3d944ab4772c1de99de7a628e8c1d4c2268dcd87",
+      "artifacts\\phase2\\normalized\\payments_reviewed_v2_20261020\\coverage.csv": "ece63b670486d9cd866138b87b5f04385fc0c23876f96ea8fc404a89f44c7d67",
+      "artifacts\\phase2\\normalized\\payments_reviewed_v2_20261020\\unmatched_accepted_payment_events.csv": "318667af59b423191b95c573b1c8143037ae7f8e00d86f6c2afd1b0b2a825e2e",
+      "artifacts\\phase2\\official_extra_payments_20261020\\600930_1224964356.PDF": "6e1471723bc71cc25ee1614273097d52ccef5dbd6a8dafef1543420670442e66",
+      "artifacts\\phase2\\official_extra_payments_20261020\\601918_1224955681.PDF": "4e99c26cd96d66b89195e1679cb4f306229168a01b13c223ab3e37f755e2bb87",
+      "artifacts\\phase2\\official_extra_payments_20261020\\601966_1225371939.PDF": "a4b3740ee871fdbcf1e5d0e1c0f53994f9ecf459d1e3c545932c9cf1035dd9b7",
+      "artifacts\\phase2\\official_extra_payments_20261020\\603288_1224960015.PDF": "c9d192d0d4283aa90f8882d935a8fb34961be8dd4c80ea2b885f07fcc1b21378",
+      "artifacts\\phase2\\official_extra_payments_20261020\\603727_1224956776.PDF": "5e87647b9fa170653e070cabaa848915d04859917820fcab5349fa10aac2d948",
+      "artifacts\\phase2\\official_extra_payments_20261020\\603998_1224928905.PDF": "d93aa7d2fd5322b7d574bb68a9f40dc535bcfe5e8faf66e6b1ae96652bf94722",
+      "artifacts\\phase2\\official_extra_payments_20261020\\688101_1225255281.PDF": "0b002860c392aeab8b76e56e9e413ed0877fc92f8400fd03c1eb0bf386cbd62b",
+      "artifacts\\phase2\\official_extra_payments_20261020\\000538_1225567703.PDF": "d034bf38ad28754aef99ec38e0591935d860387002d3c61c892c0b8f579ef2d2"
+    },
+    "output_hashes": {
+      "actions.csv": "cde1f7bc7fa8dda0676193fb3891b64bb68c3b2c10eedb749eea74bf12a51760",
+      "base_coverage.csv": "ece63b670486d9cd866138b87b5f04385fc0c23876f96ea8fc404a89f44c7d67",
+      "cash_supplement_audit.csv": "ca3793bddb6c491f2ac800ee000a147e9db91284ef2bde307b620966c98b6556",
+      "remaining_unmatched_payments.csv": "227a5bf527183347ef4dc457f9ac259bf6f525c522d5c69334e4d97cd398e2e1"
+    },
+    "certified": false,
+    "model_ready": false,
+    "limitations": [
+      "Quarterly-plan coverage is retained separately and does not count supplemental cash as a matched plan.",
+      "Rejected provider events and quote-reference faults remain unresolved; no full-market certification.",
+      "Original vintages, investor-specific taxes and account cent rounding remain unverified."
+    ]
+  },
+  "reference_diagnostic": {
+    "issuers": 5244,
+    "bars": 988159,
+    "reference_faults": 330,
+    "gap_breaks": 0,
+    "resolved_prior_events": 8,
+    "new_faults": [
+      {
+        "symbol": "sh.688016",
+        "date": "2026-10-20"
+      }
+    ],
+    "output_hashes": {
+      "calendar_gaps.csv": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "reference_faults.csv": "3a06d8a8770b1da4cd9aad5d63a14c233f86e0a2b2bda7c3c747863643a0087b"
+    }
+  },
+  "notice_capture": {
+    "initial_queries": 337,
+    "initial_found": 323,
+    "additional_title_variants": 13,
+    "remaining_missing": 1,
+    "reference_terms_reviewed": false
+  },
+  "validation": {
+    "related_tests": 24,
+    "full_suite": "GitHub CI for this commit"
+  },
+  "latest_rankings_published": false,
+  "paper_tracking_verified": false,
+  "prediction_ready": false,
+  "phase2_cloud_backup_completed": false
+}

@@ -1,0 +1,90 @@
+{
+  "schema": "frozen_paper_tracking_v1",
+  "status": "tracking_saved",
+  "asof": "2026-10-20",
+  "created_at_utc": "2026-10-21T08:34:43.767141+00:00",
+  "protocol_sha256": "d8a79ee894df5054c73289e101b9cf2bf77093c89b47b31e5551c5ffa7def04f",
+  "synthetic": false,
+  "certified": false,
+  "model_ready": false,
+  "excluded": [
+    {
+      "batch_id": "d749d8f120247f113d463e473ffcbd4cd21b57e544084f81f97ef616d9780d03",
+      "horizon": "5d",
+      "signal_date": "2026-10-20",
+      "reason": "retrospective_not_executable",
+      "role": "retrospective_independent_snapshot"
+    },
+    {
+      "batch_id": "c5f505b450a47ed7405f1d51fe79df24da2fe6ec2d405206ad38848b3b060e18",
+      "horizon": "20d",
+      "signal_date": "2026-10-20",
+      "reason": "retrospective_not_executable",
+      "role": "retrospective_independent_snapshot"
+    },
+    {
+      "batch_id": "613310c58e28684469295c517f6bf6caeae8e0585aa4a897f3ee865343c8d5eb",
+      "horizon": "12m",
+      "signal_date": "2026-10-20",
+      "reason": "retrospective_not_executable",
+      "role": "retrospective_independent_snapshot"
+    }
+  ],
+  "books": {
+    "5d": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 0
+    },
+    "20d": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 0
+    },
+    "12m": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 0
+    }
+  },
+  "valuation_basis": "same-session raw open; dividends/receivables; fractional research shares",
+  "limitations": [
+    "No limit-up/down or lot-size fill certification.",
+    "No live deployment or strategy profitability proven.",
+    "Retrospective forecasts are never executed."
+  ],
+  "prediction_database_sha256": "70d31a6f86e56703c97beb9ed0b95d37ce6a926fb2e3c40b26dd54db86ca5723",
+  "input_frame_sha256": {
+    "raw_quotes": "3593d90fe3e0744581abc42494c9dd941ce1b650bcbc25087e9461324c0924f8",
+    "actions": "94c62e76c62bfdc1dd9dad3b53333664a0fdca9249c41a3ca5d4988d3b5c4487",
+    "calendar": "712d9532f96f8263d9c34a7833130b4d459b2b3db3fec5c773de0f08778106fa"
+  },
+  "code_sha256": {
+    "paper_tracking.py": "2f0d90a45297aa71e7aa113b28b831e205506a649deca50c7988d6afc5f5358c",
+    "pipeline.py": "a0b848a6f4c3228e1875d0df7c8d4b931dac34c440daa6868ca40c5469822135",
+    "corporate_actions.py": "1dfa53f26ee7884b90905ce2da54b413bdd6775f966be161849477db5d808b6d",
+    "causal_quality.py": "cd4cecb6850a99a0c6333ec7005aa8c5eb07eef6160282c2c2459c85903ba369",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e"
+  },
+  "outputs_sha256": {},
+  "source_files_sha256": {
+    "artifacts/phase2/frozen_daily_research_20261020_v3/prediction_backup.sqlite": "70d31a6f86e56703c97beb9ed0b95d37ce6a926fb2e3c40b26dd54db86ca5723",
+    "artifacts/phase2/paper_inputs_20261020_v1/raw_quotes.csv": "3593d90fe3e0744581abc42494c9dd941ce1b650bcbc25087e9461324c0924f8",
+    "artifacts/phase2/paper_inputs_20261020_v1/actions.csv": "9264e4337f6c88ed3855a63c7998cd932e2a42f98a5b451f1cb1052efd79b6a7",
+    "artifacts/phase2/paper_inputs_20261020_v1/calendar.csv": "712d9532f96f8263d9c34a7833130b4d459b2b3db3fec5c773de0f08778106fa"
+  },
+  "snapshot": "artifacts/phase2/paper_tracking_20261020_v2",
+  "manifest_sha256": "a26b817fc6221a41f64518cd6d010c14bba615928938fcbae0804ccac24188b2",
+  "validation": {
+    "module_and_prediction_ledger_tests": 34,
+    "full_suite_passed": 671,
+    "full_suite_seconds": 161.43,
+    "real_forecasts_excluded": 3,
+    "real_orders": 0,
+    "real_nav_rows": 0,
+    "real_performance_verified": false
+  }
+}

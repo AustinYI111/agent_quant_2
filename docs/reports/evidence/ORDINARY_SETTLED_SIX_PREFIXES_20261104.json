@@ -1,0 +1,249 @@
+{
+  "schema": "ordinary_settled_prefix_verification_v1",
+  "status": "six_ordinary_settled_prefixes_independently_reconciled",
+  "started_at_utc": "2026-11-04T10:13:30.979139+00:00",
+  "source_manifest_sha256": "de71638f95e3f7370654a34168138da50399511cc952ecd65298d53bf398df7b",
+  "source_hashes": {
+    "config/reviewed_ordinary_listings_20261104_v2.json": "d445e5212a0fd9cca62b1ca40530fad6f7a383db149bdaac0d4e02d4358a9c33",
+    "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+    "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab",
+    "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/1210580882.PDF": "e537c69907d754e1c1051ac2338cb63efad8c946261938ade6113e70381f2d35",
+    "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/manifest.json": "32b7d1ce84e1e889db0f6fefafa8ad4d3f8c92e21e6375686a8a7249dae3bd99",
+    "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210601538.PDF": "2c1fb3b44c0a16d04851bb11bf1696ebfca5e1a2c1ce74fb67935ef64797ac31",
+    "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/manifest.json": "958025a10489de2b5d5765c818f34e9edf7daf978fec54b75a3c06a2152a3e54",
+    "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210638823.PDF": "703c614b904c8ca7b765fff9d2fc06fa1962c5ee90eabb54f2c5d6603c99ab59"
+  },
+  "verification_code_hashes": {
+    "settled_account_audit.py": "0774d472b6287e9475c2e9446d815c78b6a2b2e64971392b2f982cdf93a31db0",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e"
+  },
+  "accounts": [
+    {
+      "status": "valid_settled_prefix_reconciled",
+      "sessions": 7,
+      "orders_checked": 7105,
+      "max_absolute_reconciliation_error": 3.6178850713886046e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "ordinary_source_hashes": {
+        "config/reviewed_ordinary_listings_20261104_v2.json": "d445e5212a0fd9cca62b1ca40530fad6f7a383db149bdaac0d4e02d4358a9c33",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/1210580882.PDF": "e537c69907d754e1c1051ac2338cb63efad8c946261938ade6113e70381f2d35",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/manifest.json": "32b7d1ce84e1e889db0f6fefafa8ad4d3f8c92e21e6375686a8a7249dae3bd99",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210601538.PDF": "2c1fb3b44c0a16d04851bb11bf1696ebfca5e1a2c1ce74fb67935ef64797ac31",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/manifest.json": "958025a10489de2b5d5765c818f34e9edf7daf978fec54b75a3c06a2152a3e54",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210638823.PDF": "703c614b904c8ca7b765fff9d2fc06fa1962c5ee90eabb54f2c5d6603c99ab59"
+      },
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "5d",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2021-08-13",
+        "symbol": "sz.300747",
+        "reason": "ordinary_listing_unknown"
+      },
+      "ordinary_unlock_dates_verified": true
+    },
+    {
+      "status": "valid_settled_prefix_reconciled",
+      "sessions": 7,
+      "orders_checked": 3544,
+      "max_absolute_reconciliation_error": 3.6178850713886046e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "ordinary_source_hashes": {
+        "config/reviewed_ordinary_listings_20261104_v2.json": "d445e5212a0fd9cca62b1ca40530fad6f7a383db149bdaac0d4e02d4358a9c33",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/1210580882.PDF": "e537c69907d754e1c1051ac2338cb63efad8c946261938ade6113e70381f2d35",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/manifest.json": "32b7d1ce84e1e889db0f6fefafa8ad4d3f8c92e21e6375686a8a7249dae3bd99",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210601538.PDF": "2c1fb3b44c0a16d04851bb11bf1696ebfca5e1a2c1ce74fb67935ef64797ac31",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/manifest.json": "958025a10489de2b5d5765c818f34e9edf7daf978fec54b75a3c06a2152a3e54",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210638823.PDF": "703c614b904c8ca7b765fff9d2fc06fa1962c5ee90eabb54f2c5d6603c99ab59"
+      },
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "20d",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2021-08-13",
+        "symbol": "sz.300747",
+        "reason": "ordinary_listing_unknown"
+      },
+      "ordinary_unlock_dates_verified": true
+    },
+    {
+      "status": "valid_settled_prefix_reconciled",
+      "sessions": 9,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "ordinary_source_hashes": {
+        "config/reviewed_ordinary_listings_20261104_v2.json": "d445e5212a0fd9cca62b1ca40530fad6f7a383db149bdaac0d4e02d4358a9c33",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/1210580882.PDF": "e537c69907d754e1c1051ac2338cb63efad8c946261938ade6113e70381f2d35",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/manifest.json": "32b7d1ce84e1e889db0f6fefafa8ad4d3f8c92e21e6375686a8a7249dae3bd99",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210601538.PDF": "2c1fb3b44c0a16d04851bb11bf1696ebfca5e1a2c1ce74fb67935ef64797ac31",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/manifest.json": "958025a10489de2b5d5765c818f34e9edf7daf978fec54b75a3c06a2152a3e54",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210638823.PDF": "703c614b904c8ca7b765fff9d2fc06fa1962c5ee90eabb54f2c5d6603c99ab59"
+      },
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "12m",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2021-08-13",
+        "symbol": "sz.300747",
+        "reason": "ordinary_listing_unknown"
+      },
+      "ordinary_unlock_dates_verified": true
+    },
+    {
+      "status": "valid_settled_prefix_reconciled",
+      "sessions": 7,
+      "orders_checked": 7105,
+      "max_absolute_reconciliation_error": 3.6178850713886046e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "ordinary_source_hashes": {
+        "config/reviewed_ordinary_listings_20261104_v2.json": "d445e5212a0fd9cca62b1ca40530fad6f7a383db149bdaac0d4e02d4358a9c33",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/1210580882.PDF": "e537c69907d754e1c1051ac2338cb63efad8c946261938ade6113e70381f2d35",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/manifest.json": "32b7d1ce84e1e889db0f6fefafa8ad4d3f8c92e21e6375686a8a7249dae3bd99",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210601538.PDF": "2c1fb3b44c0a16d04851bb11bf1696ebfca5e1a2c1ce74fb67935ef64797ac31",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/manifest.json": "958025a10489de2b5d5765c818f34e9edf7daf978fec54b75a3c06a2152a3e54",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210638823.PDF": "703c614b904c8ca7b765fff9d2fc06fa1962c5ee90eabb54f2c5d6603c99ab59"
+      },
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "5d",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2021-08-13",
+        "symbol": "sz.300747",
+        "reason": "ordinary_listing_unknown"
+      },
+      "ordinary_unlock_dates_verified": true
+    },
+    {
+      "status": "valid_settled_prefix_reconciled",
+      "sessions": 7,
+      "orders_checked": 3544,
+      "max_absolute_reconciliation_error": 3.6178850713886046e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "ordinary_source_hashes": {
+        "config/reviewed_ordinary_listings_20261104_v2.json": "d445e5212a0fd9cca62b1ca40530fad6f7a383db149bdaac0d4e02d4358a9c33",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/1210580882.PDF": "e537c69907d754e1c1051ac2338cb63efad8c946261938ade6113e70381f2d35",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/manifest.json": "32b7d1ce84e1e889db0f6fefafa8ad4d3f8c92e21e6375686a8a7249dae3bd99",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210601538.PDF": "2c1fb3b44c0a16d04851bb11bf1696ebfca5e1a2c1ce74fb67935ef64797ac31",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/manifest.json": "958025a10489de2b5d5765c818f34e9edf7daf978fec54b75a3c06a2152a3e54",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210638823.PDF": "703c614b904c8ca7b765fff9d2fc06fa1962c5ee90eabb54f2c5d6603c99ab59"
+      },
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "20d",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2021-08-13",
+        "symbol": "sz.300747",
+        "reason": "ordinary_listing_unknown"
+      },
+      "ordinary_unlock_dates_verified": true
+    },
+    {
+      "status": "valid_settled_prefix_reconciled",
+      "sessions": 9,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "ordinary_source_hashes": {
+        "config/reviewed_ordinary_listings_20261104_v2.json": "d445e5212a0fd9cca62b1ca40530fad6f7a383db149bdaac0d4e02d4358a9c33",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+        "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/1210580882.PDF": "e537c69907d754e1c1051ac2338cb63efad8c946261938ade6113e70381f2d35",
+        "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/manifest.json": "32b7d1ce84e1e889db0f6fefafa8ad4d3f8c92e21e6375686a8a7249dae3bd99",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210601538.PDF": "2c1fb3b44c0a16d04851bb11bf1696ebfca5e1a2c1ce74fb67935ef64797ac31",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/manifest.json": "958025a10489de2b5d5765c818f34e9edf7daf978fec54b75a3c06a2152a3e54",
+        "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210638823.PDF": "703c614b904c8ca7b765fff9d2fc06fa1962c5ee90eabb54f2c5d6603c99ab59"
+      },
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "12m",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2021-08-13",
+        "symbol": "sz.300747",
+        "reason": "ordinary_listing_unknown"
+      },
+      "ordinary_unlock_dates_verified": true
+    }
+  ],
+  "full_period_performance_available": false,
+  "historical_byte_vintages_certified": false,
+  "completed_at_utc": "2026-11-04T10:13:42.005151+00:00",
+  "output_hashes": {
+    "cash_limited_subscribe/12m/daily_reconstruction.csv": "574a6ce8c750bdb5e608ea85ca2bc71766f59b2cdb3469cc98baf18aa8f117ab",
+    "cash_limited_subscribe/20d/daily_reconstruction.csv": "e04f458d4d7be5a96ea178153f76061d35261211c9b277c0a35fbdcf8bbeacf6",
+    "cash_limited_subscribe/5d/daily_reconstruction.csv": "f5d3d3693df6b05fe9d55339a69148b9931bb60d60db1e2db26bed6af787cf39",
+    "decline/12m/daily_reconstruction.csv": "574a6ce8c750bdb5e608ea85ca2bc71766f59b2cdb3469cc98baf18aa8f117ab",
+    "decline/20d/daily_reconstruction.csv": "e04f458d4d7be5a96ea178153f76061d35261211c9b277c0a35fbdcf8bbeacf6",
+    "decline/5d/daily_reconstruction.csv": "f5d3d3693df6b05fe9d55339a69148b9931bb60d60db1e2db26bed6af787cf39"
+  }
+}

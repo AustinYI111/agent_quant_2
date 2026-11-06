@@ -1,0 +1,33 @@
+{
+  "schema": "exchange_yearbook_local_source_review_v1",
+  "status": "source_table_visually_reviewed_reference_unresolved",
+  "source_url": "https://www.sse.com.cn/aboutus/publication/yearly/documents/c/10061072/files/dfca40e586304401b1f7a55c22684bc5.pdf",
+  "source_sha256": "cce82ab46b1897c22455c57bde4291e938d10543bec10e5d0ccb581871368966",
+  "bytes": 21867723,
+  "pdf_pages": 853,
+  "matching_pages": [
+    786
+  ],
+  "local_bytes_verified_at_utc": "2026-10-29T00:44:31.814699+00:00",
+  "download_timestamp_receipt_unavailable": true,
+  "full_book_text_scan_interrupted": true,
+  "original_vintages_verified": false,
+  "reference_formula_selected": false,
+  "limitation": "Original network download succeeded but the full-book extraction was interrupted before its receipt persisted; local byte verification clock is recorded without fabricating a network capture timestamp.",
+  "visually_reviewed_pages": [
+    786
+  ],
+  "printed_page": 775,
+  "reviewed_at_utc": "2026-10-29T00:46:53.520534+00:00",
+  "table_row": {
+    "symbol": "sh.601555",
+    "record_date": "2021-12-14",
+    "ex_date": "2021-12-23",
+    "tradable_from": "2021-12-31",
+    "subscription_price": "7.190",
+    "published_allotment_ratio": "0.3000"
+  },
+  "accepted_as_exchange_ex_reference_definition": false,
+  "reference_fault_waived": false,
+  "interpretation": "The table confirms dates, price and a published allotment ratio, not an explicit definition of the event-specific ex-reference input. Do not select its ratio because the price fits."
+}

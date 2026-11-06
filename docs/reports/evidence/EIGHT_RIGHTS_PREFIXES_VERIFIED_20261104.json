@@ -1,0 +1,357 @@
+{
+  "schema": "seven_rights_verification_v1",
+  "status": "six_eight_event_parent11_prefixes_reconciled",
+  "started_at_utc": "2026-11-04T08:39:27.513640+00:00",
+  "source_manifest_sha256": "b8cfc6111fc66a794a384622663d5a030d2d231e7de875925bb3be4207cd83a5",
+  "verification_code_hashes": {
+    "rights_account_audit.py": "617c98a5ffeeb5e8ce3cdee9b250895db4a8012a4ff357a7127b1c6444f05759",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e",
+    "disk_account.py": "71e8a78d2b4050bce18542d3ae0a36b8c4a875986cfd5e8d62b35fa05f58fa18"
+  },
+  "accounts": [
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 178,
+      "orders_checked": 130869,
+      "max_absolute_reconciliation_error": 4.7187947993521107e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "5d",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.002404",
+        "reason": "reference"
+      },
+      "sz.000065": {
+        "flow_kinds": [
+          "allocation_confirmed",
+          "registry_entitlement",
+          "rights_lapsed",
+          "shares_unlocked",
+          "subscribe"
+        ],
+        "paid_principal": 2.304485179446308e-05,
+        "paid_quantity": 4.46605654931455e-06,
+        "unlock_date": "2022-04-25"
+      },
+      "sh.601108": {
+        "flow_kinds": [
+          "allocation_confirmed",
+          "registry_entitlement",
+          "rights_lapsed",
+          "shares_unlocked",
+          "subscribe"
+        ],
+        "paid_principal": 2.797315833858578e-05,
+        "paid_quantity": 4.113699755674379e-06,
+        "unlock_date": "2022-04-25"
+      },
+      "sh.600958": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "subscribe"
+        ],
+        "paid_principal": 0.00016387796180719383,
+        "paid_quantity": 1.9370917471299504e-05,
+        "locked_quantity_preserved": 1.9370917471299504e-05
+      },
+      "pre_600958_payment_nav_exactly_conserved": true,
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 178,
+      "orders_checked": 33631,
+      "max_absolute_reconciliation_error": 4.740305370454223e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "20d",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.002404",
+        "reason": "reference"
+      },
+      "sz.000065": {
+        "flow_kinds": [
+          "allocation_confirmed",
+          "registry_entitlement",
+          "rights_lapsed",
+          "shares_unlocked",
+          "subscribe"
+        ],
+        "paid_principal": 2.4471255443241087e-05,
+        "paid_quantity": 4.7424913649692025e-06,
+        "unlock_date": "2022-04-25"
+      },
+      "sh.601108": {
+        "flow_kinds": [
+          "allocation_confirmed",
+          "registry_entitlement",
+          "rights_lapsed",
+          "shares_unlocked",
+          "subscribe"
+        ],
+        "paid_principal": 4.091039494201056e-05,
+        "paid_quantity": 6.016234550295671e-06,
+        "unlock_date": "2022-04-25"
+      },
+      "sh.600958": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "subscribe"
+        ],
+        "paid_principal": 5.772513306757835e-05,
+        "paid_quantity": 6.823301781037629e-06,
+        "locked_quantity_preserved": 6.823301781037629e-06
+      },
+      "pre_600958_payment_nav_exactly_conserved": true,
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 180,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "12m",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.002404",
+        "reason": "reference"
+      },
+      "sz.000065": {
+        "flow_kinds": [
+          "allocation_confirmed",
+          "registry_entitlement",
+          "shares_unlocked",
+          "subscribe"
+        ],
+        "paid_principal": 6.0352634831125054e-05,
+        "paid_quantity": 1.1696247060295553e-05,
+        "unlock_date": "2022-04-25"
+      },
+      "sh.601108": {
+        "flow_kinds": [
+          "allocation_confirmed",
+          "registry_entitlement",
+          "shares_unlocked",
+          "subscribe"
+        ],
+        "paid_principal": 5.944587423428564e-05,
+        "paid_quantity": 8.742040328571419e-06,
+        "unlock_date": "2022-04-25"
+      },
+      "sh.600958": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "subscribe"
+        ],
+        "paid_principal": 6.188201101790012e-05,
+        "paid_quantity": 7.3146585127541514e-06,
+        "locked_quantity_preserved": 7.3146585127541514e-06
+      },
+      "pre_600958_payment_nav_exactly_conserved": true,
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 178,
+      "orders_checked": 130867,
+      "max_absolute_reconciliation_error": 5.728750807065808e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "5d",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.002404",
+        "reason": "reference"
+      },
+      "sz.000065": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "rights_lapsed"
+        ],
+        "paid_principal": 0.0,
+        "paid_quantity": 0.0
+      },
+      "sh.601108": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "rights_lapsed"
+        ],
+        "paid_principal": 0.0,
+        "paid_quantity": 0.0
+      },
+      "sh.600958": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "rights_lapsed"
+        ],
+        "paid_principal": 0.0,
+        "paid_quantity": 0.0
+      },
+      "pre_600958_payment_nav_exactly_conserved": true,
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 178,
+      "orders_checked": 33631,
+      "max_absolute_reconciliation_error": 5.417888360170764e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "20d",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.002404",
+        "reason": "reference"
+      },
+      "sz.000065": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "rights_lapsed"
+        ],
+        "paid_principal": 0.0,
+        "paid_quantity": 0.0
+      },
+      "sh.601108": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "rights_lapsed"
+        ],
+        "paid_principal": 0.0,
+        "paid_quantity": 0.0
+      },
+      "sh.600958": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "rights_lapsed"
+        ],
+        "paid_principal": 0.0,
+        "paid_quantity": 0.0
+      },
+      "pre_600958_payment_nav_exactly_conserved": true,
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 180,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.600958_20220420_rights",
+        "sh.601108_20220330_rights",
+        "sh.601555_20211214_rights",
+        "sz.000065_20220401_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "horizon": "12m",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.002404",
+        "reason": "reference"
+      },
+      "sz.000065": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "rights_lapsed"
+        ],
+        "paid_principal": 0.0,
+        "paid_quantity": 0.0
+      },
+      "sh.601108": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "rights_lapsed"
+        ],
+        "paid_principal": 0.0,
+        "paid_quantity": 0.0
+      },
+      "sh.600958": {
+        "flow_kinds": [
+          "registry_entitlement",
+          "rights_lapsed"
+        ],
+        "paid_principal": 0.0,
+        "paid_quantity": 0.0
+      },
+      "pre_600958_payment_nav_exactly_conserved": true,
+      "subscription_fees_zero": true
+    }
+  ],
+  "complete_accounts": 0,
+  "default_policy_confirmed": false,
+  "historical_original_vintage_verified": false,
+  "full_period_performance_available": false,
+  "completed_at_utc": "2026-11-04T08:40:05.610830+00:00",
+  "output_hashes": {
+    "cash_limited_subscribe/12m/daily_reconstruction.csv": "668fdbf95b210be4c206b534bca29a0dd0514a1a918a2c94c84fd515287215bf",
+    "cash_limited_subscribe/20d/daily_reconstruction.csv": "f345a6742c56d027794eac452351a3e02dd4680aa8cdaa19a73318b4adb5ea14",
+    "cash_limited_subscribe/5d/daily_reconstruction.csv": "c80b2b15c32a5b39b3e3a1319e9ffb9adf8d2c1ca37834e84e2deaae2ea0a5fb",
+    "decline/12m/daily_reconstruction.csv": "a7be7ea72d8d223611c65f1e673bc5cd369014aabb67604124820da5992dc0d1",
+    "decline/20d/daily_reconstruction.csv": "1e11f7d140d8c6b97a42d850e6afa25f36b6ec73554d2c6ec6e9a1ddd10c434a",
+    "decline/5d/daily_reconstruction.csv": "c3be494b053318164507d6e201ca0f0021b497c60c0312c1fc1f817374c6b130"
+  }
+}

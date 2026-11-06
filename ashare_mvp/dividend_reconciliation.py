@@ -98,13 +98,13 @@ def reconcile_dividend_sources(market_data, payment_data, calendar_path, out, re
                 code = re.fullmatch(r"(\d{6})\.(SH|SZ|BJ)", str(row.SECUCODE))
                 provider_symbol = f"{code[2].lower()}.{code[1]}" if code else ""
                 symbol=roots.get(provider_symbol,provider_symbol)
-                if not is_ashare(symbol):
-                    raise ValueError("unsupported historical security identity/exchange")
                 execution = pd.Timestamp(row.EX_DIVIDEND_DATE)
                 if pd.notna(execution) and (execution < cal.min() or execution > cal.max()):
                     record.update(status="outside_evaluation_window", reason="execution outside supplied calendar interval")
                     classified.append(record)
                     continue
+                if not is_ashare(symbol):
+                    raise ValueError("unsupported historical security identity/exchange")
                 terms = _terms(pd.Series(dict(dividCashStock=row.IMPL_PLAN_PROFILE,
                     dividCashPsBeforeTax=row.PRETAX_BONUS_RMB / 10 if pd.notna(row.PRETAX_BONUS_RMB) else np.nan,
                     dividStocksPs=row.BONUS_RATIO / 10 if pd.notna(row.BONUS_RATIO) else np.nan,

@@ -1,0 +1,557 @@
+{
+  "schema": "independent_industry_training_verification_v1",
+  "verified_at_utc": "2026-10-26T01:00:46.249550+00:00",
+  "status": "sixty_models_verified_selection_pending",
+  "training_manifest_sha256": "69ea1eebf473364349ce1509db20cb694b942e4781930b9ad2a3739c1a708702",
+  "models": 60,
+  "reused_matched_controls": 30,
+  "independently_reloaded_scores": 1200,
+  "reload_max_absolute_error": 0.0,
+  "all_rankings_and_ordered_fold_keys_verified": true,
+  "strict_label_embargo_verified": true,
+  "independent_data_used": false,
+  "model_selection_performed": false,
+  "formal_model_promoted": false,
+  "checks": [
+    {
+      "horizon": "5d",
+      "group": "industry",
+      "trees": 30,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 159706
+    },
+    {
+      "horizon": "5d",
+      "group": "combined",
+      "trees": 30,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 159706
+    },
+    {
+      "horizon": "5d",
+      "group": "industry",
+      "trees": 60,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 159706
+    },
+    {
+      "horizon": "5d",
+      "group": "combined",
+      "trees": 60,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 159706
+    },
+    {
+      "horizon": "5d",
+      "group": "industry",
+      "trees": 30,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 197030
+    },
+    {
+      "horizon": "5d",
+      "group": "combined",
+      "trees": 30,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 197030
+    },
+    {
+      "horizon": "5d",
+      "group": "industry",
+      "trees": 60,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 197030
+    },
+    {
+      "horizon": "5d",
+      "group": "combined",
+      "trees": 60,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 197030
+    },
+    {
+      "horizon": "5d",
+      "group": "industry",
+      "trees": 30,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 210786
+    },
+    {
+      "horizon": "5d",
+      "group": "combined",
+      "trees": 30,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 210786
+    },
+    {
+      "horizon": "5d",
+      "group": "industry",
+      "trees": 60,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 210786
+    },
+    {
+      "horizon": "5d",
+      "group": "combined",
+      "trees": 60,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 210786
+    },
+    {
+      "horizon": "5d",
+      "group": "industry",
+      "trees": 30,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 220561
+    },
+    {
+      "horizon": "5d",
+      "group": "combined",
+      "trees": 30,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 220561
+    },
+    {
+      "horizon": "5d",
+      "group": "industry",
+      "trees": 60,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 220561
+    },
+    {
+      "horizon": "5d",
+      "group": "combined",
+      "trees": 60,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 220561
+    },
+    {
+      "horizon": "5d",
+      "group": "industry",
+      "trees": 30,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 125181
+    },
+    {
+      "horizon": "5d",
+      "group": "combined",
+      "trees": 30,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 125181
+    },
+    {
+      "horizon": "5d",
+      "group": "industry",
+      "trees": 60,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 125181
+    },
+    {
+      "horizon": "5d",
+      "group": "combined",
+      "trees": 60,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 125181
+    },
+    {
+      "horizon": "20d",
+      "group": "industry",
+      "trees": 30,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 41460
+    },
+    {
+      "horizon": "20d",
+      "group": "combined",
+      "trees": 30,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 41460
+    },
+    {
+      "horizon": "20d",
+      "group": "industry",
+      "trees": 60,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 41460
+    },
+    {
+      "horizon": "20d",
+      "group": "combined",
+      "trees": 60,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 41460
+    },
+    {
+      "horizon": "20d",
+      "group": "industry",
+      "trees": 30,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 53720
+    },
+    {
+      "horizon": "20d",
+      "group": "combined",
+      "trees": 30,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 53720
+    },
+    {
+      "horizon": "20d",
+      "group": "industry",
+      "trees": 60,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 53720
+    },
+    {
+      "horizon": "20d",
+      "group": "combined",
+      "trees": 60,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 53720
+    },
+    {
+      "horizon": "20d",
+      "group": "industry",
+      "trees": 30,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 52941
+    },
+    {
+      "horizon": "20d",
+      "group": "combined",
+      "trees": 30,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 52941
+    },
+    {
+      "horizon": "20d",
+      "group": "industry",
+      "trees": 60,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 52941
+    },
+    {
+      "horizon": "20d",
+      "group": "combined",
+      "trees": 60,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 52941
+    },
+    {
+      "horizon": "20d",
+      "group": "industry",
+      "trees": 30,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 55148
+    },
+    {
+      "horizon": "20d",
+      "group": "combined",
+      "trees": 30,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 55148
+    },
+    {
+      "horizon": "20d",
+      "group": "industry",
+      "trees": 60,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 55148
+    },
+    {
+      "horizon": "20d",
+      "group": "combined",
+      "trees": 60,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 55148
+    },
+    {
+      "horizon": "20d",
+      "group": "industry",
+      "trees": 30,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 28886
+    },
+    {
+      "horizon": "20d",
+      "group": "combined",
+      "trees": 30,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 28886
+    },
+    {
+      "horizon": "20d",
+      "group": "industry",
+      "trees": 60,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 28886
+    },
+    {
+      "horizon": "20d",
+      "group": "combined",
+      "trees": 60,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 28886
+    },
+    {
+      "horizon": "12m",
+      "group": "industry",
+      "trees": 30,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 44792
+    },
+    {
+      "horizon": "12m",
+      "group": "combined",
+      "trees": 30,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 44792
+    },
+    {
+      "horizon": "12m",
+      "group": "industry",
+      "trees": 60,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 44792
+    },
+    {
+      "horizon": "12m",
+      "group": "combined",
+      "trees": 60,
+      "start": "2021-07-30",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 44792
+    },
+    {
+      "horizon": "12m",
+      "group": "industry",
+      "trees": 30,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 50080
+    },
+    {
+      "horizon": "12m",
+      "group": "combined",
+      "trees": 30,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 50080
+    },
+    {
+      "horizon": "12m",
+      "group": "industry",
+      "trees": 60,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 50080
+    },
+    {
+      "horizon": "12m",
+      "group": "combined",
+      "trees": 60,
+      "start": "2022-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 50080
+    },
+    {
+      "horizon": "12m",
+      "group": "industry",
+      "trees": 30,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 54617
+    },
+    {
+      "horizon": "12m",
+      "group": "combined",
+      "trees": 30,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 54617
+    },
+    {
+      "horizon": "12m",
+      "group": "industry",
+      "trees": 60,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 54617
+    },
+    {
+      "horizon": "12m",
+      "group": "combined",
+      "trees": 60,
+      "start": "2023-07-03",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 54617
+    },
+    {
+      "horizon": "12m",
+      "group": "industry",
+      "trees": 30,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 57427
+    },
+    {
+      "horizon": "12m",
+      "group": "combined",
+      "trees": 30,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 57427
+    },
+    {
+      "horizon": "12m",
+      "group": "industry",
+      "trees": 60,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 57427
+    },
+    {
+      "horizon": "12m",
+      "group": "combined",
+      "trees": 60,
+      "start": "2024-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 57427
+    },
+    {
+      "horizon": "12m",
+      "group": "industry",
+      "trees": 30,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 24066
+    },
+    {
+      "horizon": "12m",
+      "group": "combined",
+      "trees": 30,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 24066
+    },
+    {
+      "horizon": "12m",
+      "group": "industry",
+      "trees": 60,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 24066
+    },
+    {
+      "horizon": "12m",
+      "group": "combined",
+      "trees": 60,
+      "start": "2025-07-01",
+      "reloaded_scores": 20,
+      "max_absolute_error": 0.0,
+      "prediction_rows": 24066
+    }
+  ]
+}

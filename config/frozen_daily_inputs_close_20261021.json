@@ -1,0 +1,28 @@
+{
+  "schema": "frozen_daily_inputs_v1",
+  "seal": "artifacts/phase2/protocol_20261020",
+  "baseline": "artifacts/market_ratios_causal_quality1",
+  "seed": "artifacts/phase2/streaming_baseline_seed_20261020",
+  "raw_store": "artifacts/phase2/raw_feature_store_20261020",
+  "markets": [
+    "artifacts/phase2/raw/market_capture_20261021/latest",
+    "artifacts/phase2/raw/market_capture_20261021_close/latest"
+  ],
+  "calendar": "artifacts/phase2/raw/market_capture_20261021_close/exchange_calendar.csv",
+  "financials": "artifacts/phase2/normalized/financial_dependency_history_20261021_v1/combined",
+  "actions": "artifacts/phase2/normalized/payments_recent_reference_20261021",
+  "code_changes": "config/same_issuer_code_changes.json",
+  "masters": [
+    {
+      "file": "artifacts/master_union2/security_master.csv",
+      "sha256": "1bba939f80207e972ef3b84615d6db987bcb480703f7ab34955f63f42e3b9401"
+    },
+    {
+      "file": "artifacts/phase2/raw/master_delta_capture_20261020/master/security_master.csv",
+      "sha256": "206d1b2a4390a88ac7644d9aef6a3ff6471e44f24142c13c4cffd2a17318b619"
+    }
+  ],
+  "financial_history": [
+    "artifacts/phase2/normalized/financials_observed_v2_20261020/combined"
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "schema": "close_snapshot_real_verification_v1",
+  "signal_date": "2026-10-23",
+  "snapshot": "artifacts/phase2/frozen_daily_research_20261023_v1",
+  "manifest_sha256": "3f9a13b88708cc5f42422f51ed2a5feece2a48f0b24b5b34bb24268fe88c94b5",
+  "started_at_utc": "2026-10-23T10:10:38.933088+00:00",
+  "completed_at_utc": "2026-10-24T20:09:10.789075+00:00",
+  "issuers": 5245,
+  "raw_bars": 1003829,
+  "quoted_ashares": 5223,
+  "eligible": 4937,
+  "reference_faults": 65,
+  "financial_snapshots": 4,
+  "checks": [
+    {
+      "horizon": "5d",
+      "candidates": 4937,
+      "batch_id": "a98a92c061c1f083d5d2115e8860012a028190b355ab5b6d79b09b4475e6f62b",
+      "created_at_utc": "2026-10-24T20:09:08.103814+00:00",
+      "next_entry_open_utc": "2026-10-26T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "70d76a7af37e47e0d2a99c0d88ec76f2dccb15b08d990945055cc8d66d5f0464",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    },
+    {
+      "horizon": "20d",
+      "candidates": 4937,
+      "batch_id": "449314565ed0fda2bc1e245703a3f32e63c2883c50fb7fec058297c6c2e334e5",
+      "created_at_utc": "2026-10-24T20:09:09.265375+00:00",
+      "next_entry_open_utc": "2026-10-26T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "49f9d547da3b916b557ac6dc897a1bb19279eef3ab4901a79d537a1333116dd5",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    },
+    {
+      "horizon": "12m",
+      "candidates": 4937,
+      "batch_id": "3e8f11c51decbc29f7eda5a07cc6cecf88bf56c968ebd384571a3e75175f5b91",
+      "created_at_utc": "2026-10-24T20:09:10.039392+00:00",
+      "next_entry_open_utc": "2026-10-26T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "5640734659445cf8df6d1d46f5657f7eb455f2c9d8d806193478f9e65febddf8",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    }
+  ],
+  "archive_counts": {
+    "batches": 12,
+    "scores": 59226,
+    "archive_imports": 4
+  },
+  "archive_retry_identical": true,
+  "archive_backup": {
+    "schema": "prediction_ledger_backup_v1",
+    "sha256": "ccbc97968b682f8971fb333cfda4f957067d1a32904330042de04f1c3c338d3d",
+    "bytes": 17317888
+  },
+  "paper_asof": "2026-10-23",
+  "paper_books": {
+    "5d": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 2
+    },
+    "20d": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 2
+    },
+    "12m": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 2
+    }
+  },
+  "excluded_retrospective_batches": 6,
+  "prospective_batches": 6,
+  "retrospective_batches": 6,
+  "delivery_note": "23 October close signals were actually created on 25 October at 04:09 China time, before the 26 October open; not delivered immediately on Friday.",
+  "formal_model_promoted": false
+}

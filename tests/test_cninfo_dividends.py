@@ -79,6 +79,20 @@ def test_irrelevant_history_classified_outside_calendar(tmp_path):
     assert result["outside_calendar"] == 1 and result["accepted"] == 0 and result["rejected"] == 0
 
 
+@pytest.mark.parametrize('changes',[
+    dict(F044V='重整转增',F007V='10转增9.08股',F011N=9.08,F012N=None,F023D=None),
+    dict(F044V='资本公积金转增',F007V='重整计划10转增9.08股',F011N=9.08,F012N=None),
+    dict(F044V='债权人转增',F007V='10转增9.08股',F011N=9.08,F012N=None),
+])
+def test_reorganization_cannot_award_investor_shares_to_original_holders(tmp_path,changes):
+    import pandas as pd
+    args=normalize_fixture(tmp_path,changes)
+    result=normalize_cninfo_dividends(*args)
+    assert result['accepted']==0 and result['rejected']==1
+    assert pd.read_csv(args[2]/'actions.csv').empty
+    assert 'original-holder entitlements' in pd.read_csv(args[2]/'rejected.csv').reason.iloc[0]
+
+
 def test_competing_same_date_events_all_quarantined_not_arbitrarily_selected(tmp_path):
     import pandas as pd
     data = payload("sh.600000")

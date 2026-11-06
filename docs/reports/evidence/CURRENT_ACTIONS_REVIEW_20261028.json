@@ -1,0 +1,197 @@
+{
+  "schema": "published_current_company_action_review_v1",
+  "evidence_root": "@work/incoming-20261028",
+  "original_review_sha256": "7ae711c20f5f56bb8d4aca696feb61c71d9af772ca1eea985c6608b1b15bd2cc",
+  "review": {
+    "schema": "current_primary_company_action_review_v1",
+    "status": "five_current_actions_reviewed_not_yet_applied",
+    "reviewed_at_utc": "2026-10-28T09:30:09.993229+00:00",
+    "events": [
+      {
+        "symbol": "sz.300601",
+        "ex_date": "2026-10-28",
+        "record_date": "2026-10-27",
+        "pay_date": "2026-10-28",
+        "announcement_date": "2026-10-20",
+        "available_date": "2026-10-21",
+        "cash_per_share": 0.027,
+        "share_multiplier": 1.0,
+        "reference_cash_per_share": 0.027,
+        "reference_share_multiplier": 1.0,
+        "source_file": "official_company_actions/300601_20261028_core_20261028/1225612376.PDF",
+        "source_sha256": "890ce304c598ea17d4594d676dc447feab272b5b75105744a0ee1c554de34e8a",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-10-20/1225612376.PDF",
+        "capture_file": "official_company_actions/300601_20261028_core_20261028/manifest.json",
+        "capture_sha256": "f017d48a26b19be4a85ccc9b16a87ee5a015a0228d8a00aba07cf71b60835e49",
+        "first_observed_at_utc": "2026-10-28T09:24:24.365382+00:00",
+        "reviewed_at_utc": "2026-10-28T09:30:09.956644+00:00",
+        "reviewed_pages": [
+          1,
+          2
+        ],
+        "reviewed": true,
+        "bank_receipt_verified": false,
+        "original_vintages_verified": false,
+        "differential_distribution": false,
+        "reference_basis": "ordinary primary-notice gross cash terms",
+        "raw_quote_check": {
+          "symbol": "sz.300601",
+          "prior_close": 12.58,
+          "current_preclose": 12.55,
+          "difference": -0.02999999999999936,
+          "expected_preclose": "12.55"
+        }
+      },
+      {
+        "symbol": "sh.601298",
+        "ex_date": "2026-10-28",
+        "record_date": "2026-10-27",
+        "pay_date": "2026-10-28",
+        "announcement_date": "2026-10-21",
+        "available_date": "2026-10-22",
+        "cash_per_share": 0.1399,
+        "share_multiplier": 1.0,
+        "reference_cash_per_share": 0.1399,
+        "reference_share_multiplier": 1.0,
+        "source_file": "official_company_actions/601298_20261028_core_20261028/1225612837.PDF",
+        "source_sha256": "375a1e244f7d9743bb427102ac55b54db166434f8dd3fce5700b8d5604e3a9a6",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-10-21/1225612837.PDF",
+        "capture_file": "official_company_actions/601298_20261028_core_20261028/manifest.json",
+        "capture_sha256": "cacef87334c47985eeac8df123b66248c614425fad7ab9170a28fe654f192fd6",
+        "first_observed_at_utc": "2026-10-28T09:24:05.948247+00:00",
+        "reviewed_at_utc": "2026-10-28T09:30:09.965268+00:00",
+        "reviewed_pages": [
+          1,
+          2
+        ],
+        "reviewed": true,
+        "bank_receipt_verified": false,
+        "original_vintages_verified": false,
+        "differential_distribution": false,
+        "reference_basis": "ordinary primary-notice gross cash terms",
+        "raw_quote_check": {
+          "symbol": "sh.601298",
+          "prior_close": 9.57,
+          "current_preclose": 9.43,
+          "difference": -0.14000000000000057,
+          "expected_preclose": "9.43"
+        }
+      },
+      {
+        "symbol": "sh.601991",
+        "ex_date": "2026-10-28",
+        "record_date": "2026-10-27",
+        "pay_date": "2026-10-28",
+        "announcement_date": "2026-10-22",
+        "available_date": "2026-10-23",
+        "cash_per_share": 0.068,
+        "share_multiplier": 1.0,
+        "reference_cash_per_share": 0.068,
+        "reference_share_multiplier": 1.0,
+        "source_file": "official_company_actions/601991_20261028_core_20261028/1225614327.PDF",
+        "source_sha256": "8d4e359f10952d29aea2db377e437688f2850a34a7f5f5c629994549acf7c04f",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-10-22/1225614327.PDF",
+        "capture_file": "official_company_actions/601991_20261028_core_20261028/manifest.json",
+        "capture_sha256": "97b4f0c02137695653593dd669d2b5d17537dacbc8d49214b50632abee3fc06e",
+        "first_observed_at_utc": "2026-10-28T09:24:09.615903+00:00",
+        "reviewed_at_utc": "2026-10-28T09:30:09.973872+00:00",
+        "reviewed_pages": [
+          1,
+          2
+        ],
+        "reviewed": true,
+        "bank_receipt_verified": false,
+        "original_vintages_verified": false,
+        "differential_distribution": false,
+        "reference_basis": "ordinary primary-notice gross cash terms",
+        "raw_quote_check": {
+          "symbol": "sh.601991",
+          "prior_close": 4.91,
+          "current_preclose": 4.84,
+          "difference": -0.07000000000000028,
+          "expected_preclose": "4.84"
+        }
+      },
+      {
+        "symbol": "sh.603689",
+        "ex_date": "2026-10-28",
+        "record_date": "2026-10-27",
+        "pay_date": "2026-10-28",
+        "announcement_date": "2026-10-20",
+        "available_date": "2026-10-21",
+        "cash_per_share": 0.05,
+        "share_multiplier": 1.0,
+        "reference_cash_per_share": 0.05,
+        "reference_share_multiplier": 1.0,
+        "source_file": "official_company_actions/603689_20261028_core_20261028/1225610563.PDF",
+        "source_sha256": "728c11423b0ff6dd7de3fc9ee9d1873c008a868848c60f27b73c48fd8837a4c1",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-10-20/1225610563.PDF",
+        "capture_file": "official_company_actions/603689_20261028_core_20261028/manifest.json",
+        "capture_sha256": "4a2747253b77a8103980a912e720f09c449fdc91b325e1779ed452746865d6e6",
+        "first_observed_at_utc": "2026-10-28T09:24:13.208772+00:00",
+        "reviewed_at_utc": "2026-10-28T09:30:09.982907+00:00",
+        "reviewed_pages": [
+          1,
+          2
+        ],
+        "reviewed": true,
+        "bank_receipt_verified": false,
+        "original_vintages_verified": false,
+        "differential_distribution": false,
+        "reference_basis": "ordinary primary-notice gross cash terms",
+        "raw_quote_check": {
+          "symbol": "sh.603689",
+          "prior_close": 7.36,
+          "current_preclose": 7.31,
+          "difference": -0.05000000000000071,
+          "expected_preclose": "7.31"
+        }
+      },
+      {
+        "symbol": "sh.688087",
+        "ex_date": "2026-10-28",
+        "record_date": "2026-10-27",
+        "pay_date": "2026-10-28",
+        "announcement_date": "2026-10-22",
+        "available_date": "2026-10-23",
+        "cash_per_share": 0.1,
+        "share_multiplier": 1.0,
+        "reference_cash_per_share": 0.1,
+        "reference_share_multiplier": 1.0,
+        "source_file": "official_company_actions/688087_20261028_core_20261028/1225613979.PDF",
+        "source_sha256": "ed087062a27107ffd542958a684eb180c2142f2d1ece0a13bfd770b2210a9b22",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2026-10-22/1225613979.PDF",
+        "capture_file": "official_company_actions/688087_20261028_core_20261028/manifest.json",
+        "capture_sha256": "85945f6908e581fd5c07551c3e06e22c049a5ca6958fe8d479e4873e09beee6c",
+        "first_observed_at_utc": "2026-10-28T09:24:21.086995+00:00",
+        "reviewed_at_utc": "2026-10-28T09:30:09.993229+00:00",
+        "reviewed_pages": [
+          1,
+          2
+        ],
+        "reviewed": true,
+        "bank_receipt_verified": false,
+        "original_vintages_verified": false,
+        "differential_distribution": true,
+        "reference_basis": "issuer page2 literal rounded differential reference",
+        "raw_quote_check": {
+          "symbol": "sh.688087",
+          "prior_close": 26.09,
+          "current_preclose": 25.99,
+          "difference": -0.10000000000000142,
+          "expected_preclose": "25.99"
+        }
+      }
+    ],
+    "current_predictions_generated": false,
+    "prior_forecasts_changed": false,
+    "missing_market_code": "sz.301139",
+    "missing_code_cause_verified": false,
+    "limitations": [
+      "Current after-close original notice captures; no historical original-vintage certification.",
+      "Gross ordinary cash; no certification of an individual investor bank receipt.",
+      "Missing current quote remains unresolved and must not zero any positive paper holding."
+    ]
+  },
+  "applied_input": "@work/incoming-20261028/daily_inputs_20261028_v1/payments_reviewed"
+}

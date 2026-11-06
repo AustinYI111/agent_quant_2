@@ -1,0 +1,87 @@
+{
+  "schema": "close_snapshot_real_verification_v1",
+  "signal_date": "2026-10-22",
+  "snapshot": "artifacts/phase2/frozen_daily_research_20261022_v1",
+  "manifest_sha256": "2a80d1d91d2b8a9a704543026f583ebc3558c8c177aace889083c6eb635154d4",
+  "started_at_utc": "2026-10-23T01:22:07.251122+00:00",
+  "completed_at_utc": "2026-10-23T01:26:51.751539+00:00",
+  "issuers": 5245,
+  "raw_bars": 998606,
+  "quoted_ashares": 5224,
+  "eligible": 4936,
+  "reference_faults": 65,
+  "suspended_missing_volume_bars": 2174,
+  "financial_snapshots": 3,
+  "checks": [
+    {
+      "horizon": "5d",
+      "candidates": 4936,
+      "batch_id": "a1ebb4706208a3e2ab80a1ce15311f791582f386519bd24a4bb029eb42c3d138",
+      "created_at_utc": "2026-10-23T01:26:50.601789+00:00",
+      "next_entry_open_utc": "2026-10-23T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "70d76a7af37e47e0d2a99c0d88ec76f2dccb15b08d990945055cc8d66d5f0464",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    },
+    {
+      "horizon": "20d",
+      "candidates": 4936,
+      "batch_id": "74529c9e5ec32b09bacc58a0c0d9127736cdde2e9898533cad5c89fbeef80698",
+      "created_at_utc": "2026-10-23T01:26:51.103529+00:00",
+      "next_entry_open_utc": "2026-10-23T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "49f9d547da3b916b557ac6dc897a1bb19279eef3ab4901a79d537a1333116dd5",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    },
+    {
+      "horizon": "12m",
+      "candidates": 4936,
+      "batch_id": "bc98f9053d9145add26b1b6ede5248ff48db68a030cda5600e2f4065d406aab5",
+      "created_at_utc": "2026-10-23T01:26:51.427379+00:00",
+      "next_entry_open_utc": "2026-10-23T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "5640734659445cf8df6d1d46f5657f7eb455f2c9d8d806193478f9e65febddf8",
+      "reload_max_absolute_error": 0.0,
+      "archive_and_backup_exact": true
+    }
+  ],
+  "archive_counts": {
+    "batches": 9,
+    "scores": 44415,
+    "archive_imports": 3
+  },
+  "archive_sha256": "c33f75b529cc5a5eda6a3011ee5a7841bc10e76d3f7bf8ecabe9364470a3c0b9",
+  "archive_retry_identical": true,
+  "archive_backup": {
+    "schema": "prediction_ledger_backup_v1",
+    "sha256": "5011566932943ebd8af182e5225fc79df05806a29fd77982c23cc791bd6961de",
+    "bytes": 12959744
+  },
+  "model_selection_performed": false,
+  "certified": false,
+  "model_ready": false,
+  "real_prospective_performance_verified": false,
+  "paper_tracking": {
+    "books": {
+      "5d": {
+        "status": "awaiting_prospective_scheduled_entry",
+        "orders": 0,
+        "nav_rows": 0
+      },
+      "20d": {
+        "status": "awaiting_prospective_scheduled_entry",
+        "orders": 0,
+        "nav_rows": 0
+      },
+      "12m": {
+        "status": "awaiting_prospective_scheduled_entry",
+        "orders": 0,
+        "nav_rows": 0
+      }
+    },
+    "excluded_retrospective_batches": 6,
+    "reason": "The signal is outside the pre-fixed rebalance grid; preserve the original schedule."
+  }
+}

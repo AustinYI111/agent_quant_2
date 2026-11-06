@@ -1,0 +1,184 @@
+{
+  "schema": "two_rights_scenario_verification_v1",
+  "status": "six_prefixes_independently_reconciled_next_stop_unresolved",
+  "started_at_utc": "2026-11-04T02:12:33.000931+00:00",
+  "source_manifest_sha256": "fd13ec9e7be75848afc67f83d4b1ab6bb9a8957086b949a6dfcd4b90601fb8ba",
+  "verification_code_hashes": {
+    "rights_account_audit.py": "617c98a5ffeeb5e8ce3cdee9b250895db4a8012a4ff357a7127b1c6444f05759",
+    "costs.py": "bdd248ead22913f70d4478f2f54c4ed069818d82d5d04ef6b493a41ba67db45e",
+    "disk_account.py": "71e8a78d2b4050bce18542d3ae0a36b8c4a875986cfd5e8d62b35fa05f58fa18"
+  },
+  "accounts": [
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 108,
+      "orders_checked": 81054,
+      "max_absolute_reconciliation_error": 4.7187947993521107e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights"
+      ],
+      "horizon": "5d",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2022-01-13",
+        "symbol": "sz.002948",
+        "reason": "reference"
+      },
+      "pre_601555_payment_nav_exactly_conserved": true,
+      "601555_flow_kinds": [
+        "allocation_confirmed",
+        "registry_entitlement",
+        "rights_lapsed",
+        "shares_unlocked",
+        "subscribe"
+      ],
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 108,
+      "orders_checked": 22090,
+      "max_absolute_reconciliation_error": 3.6178850713886046e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights"
+      ],
+      "horizon": "20d",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2022-01-13",
+        "symbol": "sz.002948",
+        "reason": "reference"
+      },
+      "pre_601555_payment_nav_exactly_conserved": true,
+      "601555_flow_kinds": [
+        "allocation_confirmed",
+        "registry_entitlement",
+        "rights_lapsed",
+        "shares_unlocked",
+        "subscribe"
+      ],
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 110,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights"
+      ],
+      "horizon": "12m",
+      "policy": "cash_limited_subscribe",
+      "next_stop": {
+        "date": "2022-01-13",
+        "symbol": "sz.002948",
+        "reason": "reference"
+      },
+      "pre_601555_payment_nav_exactly_conserved": true,
+      "601555_flow_kinds": [
+        "allocation_confirmed",
+        "registry_entitlement",
+        "shares_unlocked",
+        "subscribe"
+      ],
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 108,
+      "orders_checked": 81054,
+      "max_absolute_reconciliation_error": 4.7187947993521107e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights"
+      ],
+      "horizon": "5d",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2022-01-13",
+        "symbol": "sz.002948",
+        "reason": "reference"
+      },
+      "pre_601555_payment_nav_exactly_conserved": true,
+      "601555_flow_kinds": [
+        "registry_entitlement",
+        "rights_lapsed"
+      ],
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 108,
+      "orders_checked": 22090,
+      "max_absolute_reconciliation_error": 5.417888360170764e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights"
+      ],
+      "horizon": "20d",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2022-01-13",
+        "symbol": "sz.002948",
+        "reason": "reference"
+      },
+      "pre_601555_payment_nav_exactly_conserved": true,
+      "601555_flow_kinds": [
+        "registry_entitlement",
+        "rights_lapsed"
+      ],
+      "subscription_fees_zero": true
+    },
+    {
+      "status": "valid_rights_prefix_reconciled",
+      "sessions": 110,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "full_period_performance_verified": false,
+      "stopped_state_checked": true,
+      "audited_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights"
+      ],
+      "horizon": "12m",
+      "policy": "decline",
+      "next_stop": {
+        "date": "2022-01-13",
+        "symbol": "sz.002948",
+        "reason": "reference"
+      },
+      "pre_601555_payment_nav_exactly_conserved": true,
+      "601555_flow_kinds": [
+        "registry_entitlement",
+        "rights_lapsed"
+      ],
+      "subscription_fees_zero": true
+    }
+  ],
+  "complete_accounts": 0,
+  "default_policy_confirmed": false,
+  "historical_original_vintage_verified": false,
+  "full_period_performance_available": false,
+  "completed_at_utc": "2026-11-04T02:13:03.770642+00:00",
+  "output_hashes": {
+    "cash_limited_subscribe/12m/daily_reconstruction.csv": "23872ae3d7b027f03aaefe10e789cafc38cb0f72c39831eb8674685c60565bff",
+    "cash_limited_subscribe/20d/daily_reconstruction.csv": "2fe3513bf85aaa97de1afafaeebc824abd93e1d417c2a7af6eeec7fa749245e5",
+    "cash_limited_subscribe/5d/daily_reconstruction.csv": "1078ce402d0c1f2098b2a53a41e11bc5200d855cd92eefe7868968414ca85f31",
+    "decline/12m/daily_reconstruction.csv": "01ce569666ce2f7a6aff0f9cc12fef4155778e9f6eaed7118f33b5798b51071f",
+    "decline/20d/daily_reconstruction.csv": "f581fecdd0f64924631dceaf2bedcf2e27e6f77f95fd9ee8cfa16c35fad30136",
+    "decline/5d/daily_reconstruction.csv": "0e42ac16430278f1abc526d4ceae4db7dbf87a34dfa553152aec5df22013cd97"
+  }
+}

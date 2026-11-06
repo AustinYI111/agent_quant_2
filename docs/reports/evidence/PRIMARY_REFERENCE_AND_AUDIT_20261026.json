@@ -1,0 +1,22 @@
+{
+  "schema": "primary_reference_resumable_audit_checkpoint_v1",
+  "recorded_at_utc": "2026-10-26T02:53:58.657376+00:00",
+  "tests": 857,
+  "test_seconds": 424.434,
+  "failures": 0,
+  "valuation_manifest_sha256": "b6eff2ee8fa7f7f912a1d270af0bcd9793aece340d50a0179c8a4b0aa5c4a433",
+  "reference_review_sha256": "3d4622ffeabb2ec0a135e66f56b07ca7c2ab1448b9b5296723d5488424aa5e22",
+  "reference_terms_literal": false,
+  "pre_event_primary_source_derivation": true,
+  "monthly_corroboration_used_for_pre_event_availability": false,
+  "new_full_family_status_at_checkpoint": "evaluating",
+  "new_account_manifest_snapshot_sha256": "c3a9d60741fad377ebb2b04639fbc49c3a8383f0ee4cacaf820c31159c7a1c32",
+  "new_account_attempts_at_checkpoint": 11,
+  "new_complete_accounts_at_checkpoint": 11,
+  "previous_27_account_audit_status_at_checkpoint": "reconstructing",
+  "previous_audit_manifest_snapshot_sha256": "62082d1fdd9afe5572eb1b8b3a157fca4250a6937693e91511b380c92c63b2f9",
+  "previous_account_attempts_audited_at_checkpoint": 28,
+  "latest_artifacts_cloud_backed_up": false,
+  "formal_model_promoted": false,
+  "phase2_complete": false
+}

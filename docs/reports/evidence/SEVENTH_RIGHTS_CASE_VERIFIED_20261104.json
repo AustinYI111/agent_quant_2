@@ -1,0 +1,158 @@
+{
+  "schema": "seventh_rights_verification_v1",
+  "status": "seven_event_reference_complete",
+  "verified_at_utc": "2026-11-04T08:01:31.164672+00:00",
+  "config": "config/reviewed_rights_cases_20261104_v8.json",
+  "config_sha256": "16103fe0e0dc986710262e9eac1f8edeff9a4e60039fc5a03aaf09d08810789e",
+  "reviewed_case": {
+    "terms": {
+      "event_id": "sz.000065_20220401_rights",
+      "symbol": "sz.000065",
+      "offer_publication_date": "2022-03-30",
+      "record_date": "2022-04-01",
+      "subscription_start": "2022-04-06",
+      "subscription_end": "2022-04-12",
+      "expected_result_date": "2022-04-14",
+      "offer_ratio": "0.3",
+      "subscription_price": "5.16",
+      "subscription_fee_bps": 0.0,
+      "fee_basis": "Offer page8 explicitly waives shareholder subscription commission, transfer fee, stamp tax and issuance charges.",
+      "outcome": "success",
+      "result_publication_date": "2022-04-14",
+      "ex_date": "2022-04-14",
+      "registered_ordinary_shares": 774507031,
+      "issued_ordinary_shares": 227195934,
+      "post_issue_ordinary_shares": 1001702965,
+      "quoted_exchange_ratio_per_10": "2.933426",
+      "reference_ratio_basis": "issued_shares_over_preissue_total",
+      "aggregate_subscription_cash": "1172331019.44",
+      "listing_publication_date": "2022-04-22",
+      "tradable_from": "2022-04-25",
+      "refund_date": null,
+      "share_scope_note": "Ordinary A shares; listing page2 says all new shares unrestricted. Hong Kong connect holders hold A shares, not an H-share capital class. Fractional paper account does not certify actual individual allocation rounding."
+    },
+    "sources": {
+      "offer": {
+        "source_file": "research/rights_000065_sources_20261104_v1/000065_20220414_original/1212731276.PDF",
+        "source_sha256": "bf5ad33e4ea6f2ce70b5588bc73161f7aa241e6fa5c89f72bb8e389f274415b4",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2022-03-30/1212731276.PDF",
+        "capture_file": "research/rights_000065_sources_20261104_v1/000065_20220414_original/manifest.json",
+        "capture_sha256": "a5cc530cefecf540e29c220dfe04cf75c2e1272a308eee836083b1f2c275652e",
+        "observed_at_utc": "2026-11-04T07:59:18.524780+00:00",
+        "reviewed_at_utc": "2026-11-04T08:01:31.164672+00:00",
+        "reviewed": true,
+        "reviewed_pages": [
+          4,
+          5,
+          8
+        ],
+        "parameter_pages": {
+          "record_date": 5,
+          "subscription_start": 5,
+          "subscription_end": 5,
+          "expected_result_date": 5,
+          "offer_ratio": 4,
+          "subscription_price": 4,
+          "subscription_fee_bps": 8
+        }
+      },
+      "result": {
+        "source_file": "research/rights_000065_sources_20261104_v1/000065_20220414_original/1212912102.PDF",
+        "source_sha256": "fc660c89468988920f1ddde727b63da4f65560f19e8076249cffbce934384d22",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-14/1212912102.PDF",
+        "capture_file": "research/rights_000065_sources_20261104_v1/000065_20220414_original/manifest.json",
+        "capture_sha256": "a5cc530cefecf540e29c220dfe04cf75c2e1272a308eee836083b1f2c275652e",
+        "observed_at_utc": "2026-11-04T07:59:18.313840+00:00",
+        "reviewed_at_utc": "2026-11-04T08:01:31.164672+00:00",
+        "reviewed": true,
+        "reviewed_pages": [
+          1,
+          2,
+          3
+        ],
+        "parameter_pages": {
+          "outcome": 3,
+          "ex_date": 3,
+          "registered_ordinary_shares": 1,
+          "issued_ordinary_shares": 1,
+          "aggregate_subscription_cash": 1,
+          "quoted_exchange_ratio_per_10": 3
+        }
+      },
+      "listing": {
+        "source_file": "research/rights_000065_sources_20261104_v1/000065_20220414_original/1213017487.PDF",
+        "source_sha256": "7b96e89759f7c1caf389e7608356cdafb60e62bdc0e5a9c38d79778225753006",
+        "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-22/1213017487.PDF",
+        "capture_file": "research/rights_000065_sources_20261104_v1/000065_20220414_original/manifest.json",
+        "capture_sha256": "a5cc530cefecf540e29c220dfe04cf75c2e1272a308eee836083b1f2c275652e",
+        "observed_at_utc": "2026-11-04T07:59:17.884337+00:00",
+        "reviewed_at_utc": "2026-11-04T08:01:31.164672+00:00",
+        "reviewed": true,
+        "reviewed_pages": [
+          2
+        ],
+        "parameter_pages": {
+          "tradable_from": 2,
+          "post_issue_ordinary_shares": 2
+        }
+      }
+    }
+  },
+  "raw_sql_rows": [
+    [
+      "2022-04-01",
+      9.25,
+      9.32,
+      9.76
+    ],
+    [
+      "2022-04-06",
+      9.32,
+      9.32,
+      9.32
+    ],
+    [
+      "2022-04-07",
+      9.32,
+      9.32,
+      9.32
+    ],
+    [
+      "2022-04-08",
+      9.32,
+      9.32,
+      9.32
+    ],
+    [
+      "2022-04-11",
+      9.32,
+      9.32,
+      9.32
+    ],
+    [
+      "2022-04-12",
+      9.32,
+      9.32,
+      9.32
+    ],
+    [
+      "2022-04-13",
+      9.32,
+      9.32,
+      9.32
+    ],
+    [
+      "2022-04-14",
+      8.34,
+      8.23,
+      8.38
+    ]
+  ],
+  "capital_formula": "8.376471710214015389282590377",
+  "capital_formula_half_up": "8.38",
+  "first_six_events_and_reconciliations_exact": true,
+  "reference": "research/seven_rights_parent8_reference_20261104_v1",
+  "reference_sha256": "7def3d8125e3e49fa712b579678ee0ee04a96ea7441a8a9e6f46e7ef7ff63586",
+  "original_vintages_verified": false,
+  "complete_equal_benchmark_verified": false
+}

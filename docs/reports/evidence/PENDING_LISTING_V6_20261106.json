@@ -1,0 +1,1403 @@
+{
+  "schema": "pending_listing_v6_delivery_v1",
+  "verified_at_utc": "2026-11-06T04:17:46.931471+00:00",
+  "scope": "Eligible-pool equal-weight baselines, not LightGBM strategy portfolios.",
+  "source_manifest_sha256": "81507c1cf676ceec8f3255a28f7e5c8ed7e5ebc459d8621792cbae8695697549",
+  "independent_audit_manifest_sha256": "06cc7f8f04fee9884afbed1306f8aa13b808969e7510a664935227ff74b20a6b",
+  "source_admission_sha256": "246d376aa42dd0621be69aa78648558680eb9542bb7672b8c6006ff417727100",
+  "seals": [
+    {
+      "version": 5,
+      "sealed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "run_started_at_utc": "2026-11-06T04:03:58.444428+00:00",
+      "protocol_sha256": "75a8a853de67059b79e1fa346c7344ad111fa01a2ca2648052b4ba90dac6976e",
+      "config_sha256": "26d1e0cf26fec90612a58ada46b28f594601261d766dec08dad38483d102e6fd",
+      "seal_sha256": "d4103d95c47576360cc1793dbac80b79ae0608a0684e0b48d421e56f7aba4653",
+      "code_hashes": {
+        "ordinary_share_settlement.py": "ba00baa34c01d84d0140cffe75e20a34c92ce61452ecd1303f929a96c5c02a4b",
+        "pending_listing_account.py": "803e08674a9c764493fbc45de8b9215551d42dbb142a023c3dcc5312a46e5ce7",
+        "pending_listing_audit.py": "2084bd92693634927e5a7ac5458f8a7e50c5b8e345d9510986ea0e3b45ddbeeb"
+      }
+    },
+    {
+      "version": 6,
+      "sealed_at_utc": "2026-11-06T04:13:48.051929+00:00",
+      "run_started_at_utc": "2026-11-06T04:13:53.274213+00:00",
+      "protocol_sha256": "e5d2ece97aac889eb76a5fd40d50a6456860f4db2cb50b57e2cd57a71caa3c3a",
+      "config_sha256": "26d1e0cf26fec90612a58ada46b28f594601261d766dec08dad38483d102e6fd",
+      "seal_sha256": "8efe22dbb2680c77d673ec78fa50cfd3a7ff909416ab10368e92378c6504d1d2",
+      "code_hashes": {
+        "ordinary_share_settlement.py": "ba00baa34c01d84d0140cffe75e20a34c92ce61452ecd1303f929a96c5c02a4b",
+        "pending_listing_account.py": "803e08674a9c764493fbc45de8b9215551d42dbb142a023c3dcc5312a46e5ce7",
+        "pending_listing_audit.py": "550bc9f805ad0508e7b6c551fed712037199081600e90d938e7181dd9be723a7"
+      }
+    }
+  ],
+  "diagnosis": {
+    "date": "2022-04-27",
+    "actual": [
+      {
+        "date": "2022-04-27",
+        "symbol": "sh.600596",
+        "ex_date": "2022-04-27",
+        "kind": "bonus_claim_recognized",
+        "quantity": "8.896148219252431e-06"
+      },
+      {
+        "date": "2022-04-27",
+        "symbol": "sh.605111",
+        "ex_date": "2022-04-27",
+        "kind": "bonus_claim_recognized",
+        "quantity": "2.0201099648640906e-06"
+      },
+      {
+        "date": "2022-04-27",
+        "symbol": "sz.300824",
+        "ex_date": "2022-04-27",
+        "kind": "bonus_claim_recognized",
+        "quantity": "1.9355416821368796e-05"
+      },
+      {
+        "date": "2022-04-27",
+        "symbol": "sh.603601",
+        "ex_date": "2022-04-26",
+        "kind": "bonus_shares_unlocked",
+        "quantity": "2.9707499483295448e-05"
+      },
+      {
+        "date": "2022-04-27",
+        "symbol": "sz.300824",
+        "ex_date": "2022-04-27",
+        "kind": "bonus_shares_unlocked",
+        "quantity": "1.9355416821368796e-05"
+      }
+    ],
+    "expected": [
+      {
+        "date": "2022-04-27",
+        "symbol": "sh.600596",
+        "ex_date": "2022-04-27",
+        "kind": "bonus_claim_recognized",
+        "quantity": 8.896148219252431e-06
+      },
+      {
+        "date": "2022-04-27",
+        "symbol": "sz.300824",
+        "ex_date": "2022-04-27",
+        "kind": "bonus_claim_recognized",
+        "quantity": 1.9355416821368796e-05
+      },
+      {
+        "date": "2022-04-27",
+        "symbol": "sh.605111",
+        "ex_date": "2022-04-27",
+        "kind": "bonus_claim_recognized",
+        "quantity": 2.0201099648640906e-06
+      },
+      {
+        "date": "2022-04-27",
+        "symbol": "sh.603601",
+        "ex_date": "2022-04-26",
+        "kind": "bonus_shares_unlocked",
+        "quantity": 2.9707499483295448e-05
+      },
+      {
+        "date": "2022-04-27",
+        "symbol": "sz.300824",
+        "ex_date": "2022-04-27",
+        "kind": "bonus_shares_unlocked",
+        "quantity": 1.9355416821368796e-05
+      }
+    ],
+    "exception": "ordinary flow differs: symbol",
+    "status": "identical_event_keys_quantities_different_cross_issuer_order",
+    "max_quantity_error": 0.0,
+    "diagnosed_at_utc": "2026-11-06T04:10:24.150484+00:00",
+    "source_manifest_sha256": "949418a12ddbe77a3c9bf66d571c3ec81744d194dc4ebebd00e689e56fd041ad",
+    "execution_changed": false
+  },
+  "diagnosis_sha256": "e546b7e27c7827b72ebb0600cae07c1157a981423d5b2d872d5a8612f4c1a93d",
+  "known_listing_contracts": 52,
+  "pending_profile_contracts": 53,
+  "source_files_bound": 219,
+  "new_cases": [
+    {
+      "symbol": "sh.603179",
+      "record_date": "2022-04-25",
+      "ex_date": "2022-04-26",
+      "tradable_from": "2022-04-27",
+      "announcement_date": "2022-04-19",
+      "available_date": "2022-04-20",
+      "expected_cash_per_share": 0.3,
+      "expected_share_multiplier": 1.3,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603179_20220426/1212957683.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603179_20220426/manifest.json",
+      "source_sha256": "048e70f20cc93d4e8e38782ef9c72d08818c1adfc96f6cc193d421dffdecbd54",
+      "source_capture_sha256": "3a8a45c7e1a706f8a98e67ba7ffdf0db11cbb41a3e2e738612b1b3c7cca9b6b0",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-19/1212957683.PDF",
+      "observed_at_utc": "2026-11-05T02:46:52.167237+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          1
+        ],
+        "ex_date": [
+          1
+        ],
+        "tradable_from": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": null,
+      "reviewed_captured_notice_pages": {
+        "1212957683.PDF": [
+          1
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification."
+    },
+    {
+      "symbol": "sh.603601",
+      "record_date": "2022-04-25",
+      "ex_date": "2022-04-26",
+      "tradable_from": "2022-04-27",
+      "announcement_date": "2022-04-20",
+      "available_date": "2022-04-21",
+      "expected_cash_per_share": 0.105,
+      "expected_share_multiplier": 1.4,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603601_20220426/1212974095.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603601_20220426/manifest.json",
+      "source_sha256": "147b903037ce097011b91971116cac5fe4170e6e2aa5422b78f87df249fe1844",
+      "source_capture_sha256": "845896301e958e2fab5c7457bcba6bd3c6a074a68d1732a421c9b13768bbbec7",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-20/1212974095.PDF",
+      "observed_at_utc": "2026-11-05T02:46:52.965154+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          1
+        ],
+        "ex_date": [
+          1
+        ],
+        "tradable_from": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": null,
+      "reviewed_captured_notice_pages": {
+        "1212974095.PDF": [
+          1
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification."
+    },
+    {
+      "symbol": "sz.300650",
+      "record_date": "2022-04-25",
+      "ex_date": "2022-04-26",
+      "tradable_from": "2022-04-26",
+      "announcement_date": "2022-04-19",
+      "available_date": "2022-04-20",
+      "expected_cash_per_share": 0.2,
+      "expected_share_multiplier": 1.7,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300650_20220426/1212977986.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300650_20220426/manifest.json",
+      "source_sha256": "3084561be1a20f79cd2ede55ff95c6a821376e880cd90e6dd24a6afd8ae4cb62",
+      "source_capture_sha256": "da7f657cfdbf79309c740921ae597e23e105f08a65135d9e59ce5e477b526249",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-19/1212977986.PDF",
+      "observed_at_utc": "2026-11-05T02:46:53.681202+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          3
+        ],
+        "ex_date": [
+          3
+        ],
+        "tradable_from": [
+          4
+        ],
+        "cash_per_share": [
+          2
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "physical_credit_date": "2022-04-26",
+      "reviewed_captured_notice_pages": {
+        "1212977986.PDF": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "1213162434.PDF": [
+          1,
+          2
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification. Actual cash.2/mult1.7 from original Apr19 implementation; virtual reference cash rounded.199377 and bonus.697819 on primary p1 are not holder terms. Later Apr27/28 buyback-cap adjustment primary PDF retained as retrospective corroboration only; not available before ex-date."
+    },
+    {
+      "symbol": "sz.300786",
+      "record_date": "2022-04-25",
+      "ex_date": "2022-04-26",
+      "tradable_from": "2022-04-26",
+      "announcement_date": "2022-04-20",
+      "available_date": "2022-04-21",
+      "expected_cash_per_share": 0.15,
+      "expected_share_multiplier": 1.8,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300786_20220426/1212974888.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300786_20220426/manifest.json",
+      "source_sha256": "3c139b48605d5a3037bc5599a94b16b41603641a39505259de99387ab1daa784",
+      "source_capture_sha256": "17e23d04bb51d482d6ad9f3f4d964b73b59a2f38d3019b1320f0f82f37ccb3d4",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-20/1212974888.PDF",
+      "observed_at_utc": "2026-11-05T02:46:54.244283+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "physical_credit_date": "2022-04-26",
+      "reviewed_captured_notice_pages": {
+        "1212974888.PDF": [
+          1,
+          2,
+          3
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification."
+    },
+    {
+      "symbol": "sh.600596",
+      "record_date": "2022-04-26",
+      "ex_date": "2022-04-27",
+      "tradable_from": "2022-04-28",
+      "announcement_date": "2022-04-21",
+      "available_date": "2022-04-22",
+      "expected_cash_per_share": 0.5,
+      "expected_share_multiplier": 1.4,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/600596_20220427/1212997313.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/600596_20220427/manifest.json",
+      "source_sha256": "2ccdb46834eba7959a818fc6dfe720cdcbef5f4ecc3b64a7861543b3cb54cb7c",
+      "source_capture_sha256": "532a627b01530f8afb951012767b22402ac01a82d239af58723eb426ed6dd79b",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-21/1212997313.PDF",
+      "observed_at_utc": "2026-11-05T02:46:54.879066+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          1
+        ],
+        "ex_date": [
+          1
+        ],
+        "tradable_from": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": null,
+      "reviewed_captured_notice_pages": {
+        "1212997313.PDF": [
+          1
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification."
+    },
+    {
+      "symbol": "sh.605111",
+      "record_date": "2022-04-26",
+      "ex_date": "2022-04-27",
+      "tradable_from": "2022-04-28",
+      "announcement_date": "2022-04-20",
+      "available_date": "2022-04-21",
+      "expected_cash_per_share": 0.575,
+      "expected_share_multiplier": 1.4,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/605111_20220427/1212975788.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/605111_20220427/manifest.json",
+      "source_sha256": "9fc9c215adedd3d4866f51322f54904c368e00aad0c95c7c269a7ea1ef6eb230",
+      "source_capture_sha256": "b59ae18687073620f8c585ec415232c2ca616f492ac6d5a00c24a294d6663c0b",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-20/1212975788.PDF",
+      "observed_at_utc": "2026-11-05T02:46:57.173279+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          1
+        ],
+        "ex_date": [
+          1
+        ],
+        "tradable_from": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": null,
+      "reviewed_captured_notice_pages": {
+        "1212975788.PDF": [
+          1
+        ],
+        "1213497687.PDF": [
+          1,
+          2
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification. Original Apr20 implementation supplies all dates/terms. May25/26 later private-placement quantity adjustment corroborates completed bonus, never treated as an earlier observable feature or original-date source."
+    },
+    {
+      "symbol": "sz.300824",
+      "record_date": "2022-04-26",
+      "ex_date": "2022-04-27",
+      "tradable_from": "2022-04-27",
+      "announcement_date": "2022-04-21",
+      "available_date": "2022-04-22",
+      "expected_cash_per_share": 0.25,
+      "expected_share_multiplier": 1.5,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300824_20220427/1212997238.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300824_20220427/manifest.json",
+      "source_sha256": "ba53f1a57e7a0bcbb47e9e8a12996aef2adf20169aa611c184d00f291abe8923",
+      "source_capture_sha256": "ac960dd3b960515c3ffd344b059b6eeb7aa5b0ff443c92f4b58ff53dc694fded",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-21/1212997238.PDF",
+      "observed_at_utc": "2026-11-05T02:46:57.774680+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          2
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "physical_credit_date": "2022-04-27",
+      "reviewed_captured_notice_pages": {
+        "1212997238.PDF": [
+          1,
+          2,
+          3
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification."
+    },
+    {
+      "symbol": "sh.603305",
+      "record_date": "2022-04-27",
+      "ex_date": "2022-04-28",
+      "tradable_from": "2022-04-29",
+      "announcement_date": "2022-04-21",
+      "available_date": "2022-04-22",
+      "expected_cash_per_share": 0.12,
+      "expected_share_multiplier": 1.4,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603305_20220428/1213000931.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603305_20220428/manifest.json",
+      "source_sha256": "16294b7d0f8ac56ce27583088ba155818d6f9d63c089a7112c2c44334779d443",
+      "source_capture_sha256": "713391dbb9f16f16aa9a40604cbe106f7034af958a4e871665e5764ec964b864",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-21/1213000931.PDF",
+      "observed_at_utc": "2026-11-05T02:46:58.585376+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          1
+        ],
+        "ex_date": [
+          1
+        ],
+        "tradable_from": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": null,
+      "reviewed_captured_notice_pages": {
+        "1213000931.PDF": [
+          1
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification."
+    },
+    {
+      "symbol": "sz.300087",
+      "record_date": "2022-04-27",
+      "ex_date": "2022-04-28",
+      "tradable_from": "2022-04-28",
+      "announcement_date": "2022-04-21",
+      "available_date": "2022-04-22",
+      "expected_cash_per_share": 0.1,
+      "expected_share_multiplier": 1.5,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300087_20220428/1212998095.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300087_20220428/manifest.json",
+      "source_sha256": "7affff2d369f1267f0cb78a46a883e59399389b0866420708625dd9e1edcf998",
+      "source_capture_sha256": "3fcf13a427458d2341c419408d04accf2c92bf09879b76e16576e97e965e6155",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-21/1212998095.PDF",
+      "observed_at_utc": "2026-11-05T02:46:59.261497+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          3
+        ],
+        "ex_date": [
+          3
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          2
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "physical_credit_date": "2022-04-28",
+      "reviewed_captured_notice_pages": {
+        "1212998095.PDF": [
+          1,
+          2,
+          3
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification. Actual cash.1/mult1.5; p1 virtual cash.0980259/bonus.4901296 remains separate in existing reference table, not substituted for actual shares/cash."
+    },
+    {
+      "symbol": "sz.300458",
+      "record_date": "2022-04-27",
+      "ex_date": "2022-04-28",
+      "tradable_from": "2022-04-28",
+      "announcement_date": "2022-04-22",
+      "available_date": "2022-04-25",
+      "expected_cash_per_share": 0.5,
+      "expected_share_multiplier": 1.9,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300458_20220428/1213021682.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300458_20220428/manifest.json",
+      "source_sha256": "19756a24855305632b761edcec491c269fad3d39a6bf993677cb6e8ef323ce86",
+      "source_capture_sha256": "9ced30caaed8e0741c6879d00effb7d9d35778533e9131a2c3c53c0d3edb03e4",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-22/1213021682.PDF",
+      "observed_at_utc": "2026-11-05T02:46:59.760380+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": "2022-04-28",
+      "reviewed_captured_notice_pages": {
+        "1213021682.PDF": [
+          1,
+          2
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification."
+    },
+    {
+      "symbol": "sh.603288",
+      "record_date": "2022-04-28",
+      "ex_date": "2022-04-29",
+      "tradable_from": "2022-05-05",
+      "announcement_date": "2022-04-23",
+      "available_date": "2022-04-25",
+      "expected_cash_per_share": 0.76,
+      "expected_share_multiplier": 1.1,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603288_20220429/1213045968.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603288_20220429/manifest.json",
+      "source_sha256": "ab350aeb5823ef56ab4a8eb4909cc1f507bccb326110358e247c23e327970cf9",
+      "source_capture_sha256": "8f85301f6c59298158071bf7f7ac687c68ba8dc79c9ea6fd3707df7e7db9c36f",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-23/1213045968.PDF",
+      "observed_at_utc": "2026-11-05T02:47:00.321009+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          1
+        ],
+        "ex_date": [
+          1
+        ],
+        "tradable_from": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": null,
+      "reviewed_captured_notice_pages": {
+        "1213045968.PDF": [
+          1
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification. New shares are stock dividends, not capital-reserve transfer; gross holder cash retained, personal differential dividend tax not modeled. Explicit listing May5 after holiday, not Apr29."
+    },
+    {
+      "symbol": "sh.605358",
+      "record_date": "2022-04-28",
+      "ex_date": "2022-04-29",
+      "tradable_from": "2022-05-05",
+      "announcement_date": "2022-04-23",
+      "available_date": "2022-04-25",
+      "expected_cash_per_share": 0.55,
+      "expected_share_multiplier": 1.48,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/605358_20220429/1213047044.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/605358_20220429/manifest.json",
+      "source_sha256": "9781c9c835f75fc6a2fa1fa7b1d058e827531663c81b31322ec1a35730555492",
+      "source_capture_sha256": "e107873b7481e1d2c0f5c7d3b2b6e58a64e91dea0c92852153379839b2e8a12a",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-23/1213047044.PDF",
+      "observed_at_utc": "2026-11-05T02:47:01.065243+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          1
+        ],
+        "ex_date": [
+          1
+        ],
+        "tradable_from": [
+          1
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": null,
+      "reviewed_captured_notice_pages": {
+        "1213047044.PDF": [
+          1
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification. Explicit unrestricted listing May5 after holiday, not Apr29."
+    },
+    {
+      "symbol": "sz.002817",
+      "record_date": "2022-04-28",
+      "ex_date": "2022-04-29",
+      "tradable_from": "2022-04-29",
+      "announcement_date": "2022-04-22",
+      "available_date": "2022-04-25",
+      "expected_cash_per_share": 0.08,
+      "expected_share_multiplier": 1.4,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/002817_20220429/1213018511.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/002817_20220429/manifest.json",
+      "source_sha256": "3230c81e23ae953c506c4d461be00925b439a35b460926ebc120f1b710a621c6",
+      "source_capture_sha256": "2beb11573f191bc4da5b9488eacd4f603b02d8994363cee7d814232ba4cf80be",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-22/1213018511.PDF",
+      "observed_at_utc": "2026-11-05T02:47:01.674340+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "physical_credit_date": "2022-04-29",
+      "reviewed_captured_notice_pages": {
+        "1213018511.PDF": [
+          1,
+          2
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification."
+    },
+    {
+      "symbol": "sz.300639",
+      "record_date": "2022-04-28",
+      "ex_date": "2022-04-29",
+      "tradable_from": "2022-04-29",
+      "announcement_date": "2022-04-21",
+      "available_date": "2022-04-22",
+      "expected_cash_per_share": 0.35,
+      "expected_share_multiplier": 1.5,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300639_20220429/1213001627.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300639_20220429/manifest.json",
+      "source_sha256": "c7aba65973bcac987af7f5f0cd39ed48a3374d2d4601cb5949b3ab797ec44346",
+      "source_capture_sha256": "40a44445784d5804a1614d2b72d03c9c6b6f2b53fb7a79fee8d5dca28a769ccf",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-21/1213001627.PDF",
+      "observed_at_utc": "2026-11-05T02:47:02.485035+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          3
+        ],
+        "ex_date": [
+          3
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          2
+        ],
+        "share_multiplier": [
+          3
+        ]
+      },
+      "physical_credit_date": "2022-04-29",
+      "reviewed_captured_notice_pages": {
+        "1213001627.PDF": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification. Actual cash.35/mult1.5; virtual cash.3468450/bonus.4954929 remains separate in existing reference table. Company-specific shareholder minimum-sale-price compensation is not applied to general ordinary holders."
+    },
+    {
+      "symbol": "sz.300885",
+      "record_date": "2022-04-28",
+      "ex_date": "2022-04-29",
+      "tradable_from": "2022-04-29",
+      "announcement_date": "2022-04-21",
+      "available_date": "2022-04-22",
+      "expected_cash_per_share": 0.0,
+      "expected_share_multiplier": 1.65,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300885_20220429/1212996256.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300885_20220429/manifest.json",
+      "source_sha256": "89ce43967aff73375891ac5fc3f45919cd416c54c9b600d727f0a0a9e77a314b",
+      "source_capture_sha256": "99ff61bba7403ab4e720bbbb5b043528246e04f1959cad3aa70b0f02caabc14c",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-21/1212996256.PDF",
+      "observed_at_utc": "2026-11-05T02:47:03.049564+00:00",
+      "reviewed_at_utc": "2026-11-06T04:03:09.863995+00:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": "2022-04-29",
+      "reviewed_captured_notice_pages": {
+        "1212996256.PDF": [
+          1,
+          2,
+          3
+        ]
+      },
+      "review_scope": "Complete relevant rendered pages listed explicitly; remaining PDF pages are not represented as visually reviewed. Actual gross ordinary-holder cash/multiplier and explicit unrestricted first-trading day retained. Physical credit day only when expressly stated. No inferred same-day listing, individual fractional-share rounding, personal tax or historical original-byte-vintage certification."
+    }
+  ],
+  "new_reviewed_notice_count": 17,
+  "new_complete_relevant_pages_visually_reviewed": 36,
+  "new_original_pdf_pages": 64,
+  "all_original_pages_visually_reviewed": false,
+  "prior_v4_csv_prefix_checks": 36,
+  "prior_v4_csv_prefixes_byte_identical": true,
+  "v5_vs_v6_full_csv_hash_checks": 36,
+  "v5_vs_v6_full_csvs_byte_identical": true,
+  "accounts": [
+    {
+      "horizon": "5d",
+      "policy": "cash_limited_subscribe",
+      "sessions": 178,
+      "orders_checked": 130869,
+      "max_absolute_reconciliation_error": 4.741519676887407e-14,
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.000538",
+        "reason": "ordinary_listing_unknown"
+      },
+      "stopped_state_checked": true,
+      "original_schedule_sha256": "5ad3d59045a4225657dae76d433e2a361ff64d9f1d14864bafb4785655a60121",
+      "last_valid_session": "2022-04-29",
+      "new_bonus_claim_checks": [
+        {
+          "symbol": "sh.603601",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300786",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-26",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.600596",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.605111",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300824",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603305",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300087",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300458",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603288",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-05-05",
+          "status": "still_locked_at_last_completed_session"
+        },
+        {
+          "symbol": "sh.605358",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-05-05",
+          "status": "still_locked_at_last_completed_session"
+        },
+        {
+          "symbol": "sz.002817",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300639",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300885",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        }
+      ],
+      "unresolved300747_never_unlocked": true,
+      "daily_reconstruction_sha256": "cd3c6a748eec79127c04c89c57515c56c714d1a69ae4f52180096a5554fd0e63"
+    },
+    {
+      "horizon": "20d",
+      "policy": "cash_limited_subscribe",
+      "sessions": 178,
+      "orders_checked": 33631,
+      "max_absolute_reconciliation_error": 4.7406523151494184e-14,
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.000538",
+        "reason": "ordinary_listing_unknown"
+      },
+      "stopped_state_checked": true,
+      "original_schedule_sha256": "2f9dd18a99fc50b1bf389db83e677ef20854a724a711d83fbae7d431792fc762",
+      "last_valid_session": "2022-04-29",
+      "new_bonus_claim_checks": [
+        {
+          "symbol": "sh.603179",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603601",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300650",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-26",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300786",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-26",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.600596",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.605111",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300824",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603305",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300087",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300458",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603288",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-05-05",
+          "status": "still_locked_at_last_completed_session"
+        },
+        {
+          "symbol": "sh.605358",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-05-05",
+          "status": "still_locked_at_last_completed_session"
+        },
+        {
+          "symbol": "sz.002817",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300639",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300885",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        }
+      ],
+      "unresolved300747_never_unlocked": true,
+      "daily_reconstruction_sha256": "54b9e788f36d0a65b997d2292395c79f10f4d0d6c154924f4d85d09c50379921"
+    },
+    {
+      "horizon": "12m",
+      "policy": "cash_limited_subscribe",
+      "sessions": 180,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.000538",
+        "reason": "ordinary_listing_unknown"
+      },
+      "stopped_state_checked": true,
+      "original_schedule_sha256": "dbf1f93e1c8d3e1a97fd458f35308682af0f1d93c786a2cc4d695b4d513f01f1",
+      "last_valid_session": "2022-04-29",
+      "new_bonus_claim_checks": [
+        {
+          "symbol": "sh.603179",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603601",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300650",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-26",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300786",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-26",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.600596",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300824",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603305",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300087",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300458",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603288",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-05-05",
+          "status": "still_locked_at_last_completed_session"
+        },
+        {
+          "symbol": "sz.002817",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300639",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        }
+      ],
+      "unresolved300747_never_unlocked": true,
+      "daily_reconstruction_sha256": "88696fbb26848e2228b60cdca5ce42bd2fcd388e76fc8ce650a96ee690c266cc"
+    },
+    {
+      "horizon": "5d",
+      "policy": "decline",
+      "sessions": 178,
+      "orders_checked": 130867,
+      "max_absolute_reconciliation_error": 5.773159728050814e-14,
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.000538",
+        "reason": "ordinary_listing_unknown"
+      },
+      "stopped_state_checked": true,
+      "original_schedule_sha256": "5ad3d59045a4225657dae76d433e2a361ff64d9f1d14864bafb4785655a60121",
+      "last_valid_session": "2022-04-29",
+      "new_bonus_claim_checks": [
+        {
+          "symbol": "sh.603601",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300786",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-26",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.600596",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.605111",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300824",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603305",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300087",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300458",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603288",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-05-05",
+          "status": "still_locked_at_last_completed_session"
+        },
+        {
+          "symbol": "sh.605358",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-05-05",
+          "status": "still_locked_at_last_completed_session"
+        },
+        {
+          "symbol": "sz.002817",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300639",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300885",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        }
+      ],
+      "unresolved300747_never_unlocked": true,
+      "daily_reconstruction_sha256": "fe856106f6540e93e5d80996249bd9ed8c3b6fe1c74e7713023ddf45f81be919"
+    },
+    {
+      "horizon": "20d",
+      "policy": "decline",
+      "sessions": 178,
+      "orders_checked": 33631,
+      "max_absolute_reconciliation_error": 5.440092820663267e-14,
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.000538",
+        "reason": "ordinary_listing_unknown"
+      },
+      "stopped_state_checked": true,
+      "original_schedule_sha256": "2f9dd18a99fc50b1bf389db83e677ef20854a724a711d83fbae7d431792fc762",
+      "last_valid_session": "2022-04-29",
+      "new_bonus_claim_checks": [
+        {
+          "symbol": "sh.603179",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603601",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300650",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-26",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300786",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-26",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.600596",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.605111",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300824",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603305",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300087",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300458",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603288",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-05-05",
+          "status": "still_locked_at_last_completed_session"
+        },
+        {
+          "symbol": "sh.605358",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-05-05",
+          "status": "still_locked_at_last_completed_session"
+        },
+        {
+          "symbol": "sz.002817",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300639",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300885",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        }
+      ],
+      "unresolved300747_never_unlocked": true,
+      "daily_reconstruction_sha256": "12944ce72ac5fb8aec1594d247759360128c81900679132fa9e6293a424ffae0"
+    },
+    {
+      "horizon": "12m",
+      "policy": "decline",
+      "sessions": 180,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "next_stop": {
+        "date": "2022-05-05",
+        "symbol": "sz.000538",
+        "reason": "ordinary_listing_unknown"
+      },
+      "stopped_state_checked": true,
+      "original_schedule_sha256": "dbf1f93e1c8d3e1a97fd458f35308682af0f1d93c786a2cc4d695b4d513f01f1",
+      "last_valid_session": "2022-04-29",
+      "new_bonus_claim_checks": [
+        {
+          "symbol": "sh.603179",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603601",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300650",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-26",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300786",
+          "ex_date": "2022-04-26",
+          "tradable_from": "2022-04-26",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.600596",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300824",
+          "ex_date": "2022-04-27",
+          "tradable_from": "2022-04-27",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603305",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300087",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300458",
+          "ex_date": "2022-04-28",
+          "tradable_from": "2022-04-28",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sh.603288",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-05-05",
+          "status": "still_locked_at_last_completed_session"
+        },
+        {
+          "symbol": "sz.002817",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        },
+        {
+          "symbol": "sz.300639",
+          "ex_date": "2022-04-29",
+          "tradable_from": "2022-04-29",
+          "status": "unlocked_on_explicit_listing_day"
+        }
+      ],
+      "unresolved300747_never_unlocked": true,
+      "daily_reconstruction_sha256": "bc3a0d0004ada2280820a7bed265a1ce75127789fd18b46283bbb937b8d8284d"
+    }
+  ],
+  "tests": {
+    "passed": 77,
+    "failed": 0,
+    "elapsed_seconds": 11.86,
+    "new_integrated_flow_regressions": 7
+  },
+  "strict_profile_last_valid_session": "2021-08-12",
+  "listing_dates_certified": false,
+  "default_rights_policy_confirmed": false,
+  "full_backtest_complete": false,
+  "model_selection_performed": false,
+  "profitability_proven": false,
+  "next_source_capture": {
+    "manifest_sha256": "35f59901711303cbb286821743fd64261ce15f65a7d17dd5e78b53cbc7a35f23",
+    "events": 3,
+    "notices": 5,
+    "reviewed": false,
+    "admitted": false
+  }
+}

@@ -1,0 +1,488 @@
+{
+  "schema": "pending_listing_source_extension_v3_delivery_v1",
+  "verified_at_utc": "2026-11-05T02:39:02.611155+00:00",
+  "execution_profile": "unresolved_listing_target_invariant_v1",
+  "scope": "Original eligible-pool equal-weight baselines on unchanged 5d/20d/12m execution grids.",
+  "versions_sealed_before_real_runs": [
+    {
+      "version": 2,
+      "seal_sha256": "9ff6909360f9f4ee3f194dfe1bbb0867e7a2185ad1a8a62dd611331b4a65e0be",
+      "protocol_sha256": "0ac09a9e9f20cbcf04f3cbeb11989af654783f22af53dd0c221166b53786ed0c",
+      "source_config_sha256": "0156ad4f76dd91b5a6c9cf47b36fab8a3059a76e86e5b1fb9456134a2e11f7f3",
+      "sealed_before_real_run": true,
+      "execution_rule_unchanged": true
+    },
+    {
+      "version": 3,
+      "seal_sha256": "39a2feb0900bc37565c0fd00fc903c36a5823ab833373b4f61342ae97b6dabd0",
+      "protocol_sha256": "6d3b6bd8356fc0d6f1de8c9572378bab59d870d25c9b0963d99ceeabe0f514ac",
+      "source_config_sha256": "a13d066e409c7c42c74132084808c31342a18e3330115a6ac776053f3c30475b",
+      "sealed_before_real_run": true,
+      "execution_rule_unchanged": true
+    }
+  ],
+  "code_hashes": {
+    "ordinary_share_settlement.py": "ba00baa34c01d84d0140cffe75e20a34c92ce61452ecd1303f929a96c5c02a4b",
+    "pending_listing_account.py": "803e08674a9c764493fbc45de8b9215551d42dbb142a023c3dcc5312a46e5ce7",
+    "pending_listing_audit.py": "2084bd92693634927e5a7ac5458f8a7e50c5b8e345d9510986ea0e3b45ddbeeb"
+  },
+  "source_manifest_sha256": "744a392d56dbebf4fd15ca5f78cd9147a7087d0c642a2b7b5b373263ba2bb643",
+  "independent_audit_manifest_sha256": "fe1d35287faff7dad30497e381cf63f2cba6ff032a2c8ceeb87085fbe8620cae",
+  "source_admission_sha256": [
+    "5bd21f2c4cc5c0cf6ce8c39860ac519e7bf2cccaffcba5bc5f95965db8aac67a",
+    "2280a747065a362ef238386edbaba71e6fc340940cb6efcb44d58a017744ae5f"
+  ],
+  "new_cases": [
+    {
+      "symbol": "sz.002947",
+      "record_date": "2022-03-22",
+      "ex_date": "2022-03-23",
+      "tradable_from": "2022-03-23",
+      "expected_cash_per_share": 0.2,
+      "expected_share_multiplier": 1.3,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          2
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "source_sha256": "dabee8563fd85b33bcdbac79a42e99cbf3a3facb938d7a3d6d0001f6f421b894",
+      "source_capture_sha256": "1f82d8e5a3ad79e6df82ebbb46c866feb60fd76bc6d2e21279294e17919b3219"
+    },
+    {
+      "symbol": "sz.003038",
+      "record_date": "2022-03-28",
+      "ex_date": "2022-03-29",
+      "tradable_from": "2022-03-29",
+      "expected_cash_per_share": 0.3,
+      "expected_share_multiplier": 1.2,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          1,
+          2
+        ],
+        "share_multiplier": [
+          1,
+          2
+        ]
+      },
+      "source_sha256": "d1b2d0a6980c763fc2a8fb767dc88882f21bbcbe6e81d652b4157e42d3c08bad",
+      "source_capture_sha256": "854aba95f1f88e0880230225ed81954261fa33189440f1c7ae256dda43a27ce0"
+    },
+    {
+      "symbol": "sz.301047",
+      "record_date": "2022-03-29",
+      "ex_date": "2022-03-30",
+      "tradable_from": "2022-03-30",
+      "expected_cash_per_share": 10.0,
+      "expected_share_multiplier": 1.9,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1,
+          2
+        ]
+      },
+      "source_sha256": "3decde84c715cbb12ba51ce12f438f39bceb906279c2de4ae5778c154c4d9818",
+      "source_capture_sha256": "c81f93fcd0025cc964df65d8b5331b480004a0daee13486c20e146af8a80eaa1"
+    },
+    {
+      "symbol": "sz.300873",
+      "record_date": "2022-03-31",
+      "ex_date": "2022-04-01",
+      "tradable_from": "2022-04-01",
+      "expected_cash_per_share": 0.45,
+      "expected_share_multiplier": 1.6,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "source_sha256": "33d78b61673437c858256ad01c65ce44df2ea407f16a34778de68c50621f3ec9",
+      "source_capture_sha256": "03e6d1a5efb451941f7229e27fbd74c6a20acb768bf51799a040017f7eff161e"
+    },
+    {
+      "symbol": "sz.301003",
+      "record_date": "2022-03-31",
+      "ex_date": "2022-04-01",
+      "tradable_from": "2022-04-01",
+      "expected_cash_per_share": 1.0,
+      "expected_share_multiplier": 1.7,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          1,
+          2
+        ],
+        "share_multiplier": [
+          1,
+          2
+        ]
+      },
+      "source_sha256": "76e177c449c953151822544b178c67b66b50a3a3b27e7638749ed53fd63b136b",
+      "source_capture_sha256": "9fadabe36eb75b0ddc7cbc16b929edd1fd756f7a0b404bfb2998b285bbe346a4"
+    },
+    {
+      "symbol": "sz.300772",
+      "record_date": "2022-04-08",
+      "ex_date": "2022-04-11",
+      "tradable_from": "2022-04-11",
+      "expected_cash_per_share": 0.25,
+      "expected_share_multiplier": 1.6,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "source_sha256": "920f6f04455b5d22ecb59305dd3c3c4afbfec7a6e9e446f7ef88d579e808ae68",
+      "source_capture_sha256": "b2929eb2df53350a177c108e1771587a3876dbb725dc01e5f260f00ea587d752"
+    },
+    {
+      "symbol": "sz.000589",
+      "record_date": "2022-04-11",
+      "ex_date": "2022-04-12",
+      "tradable_from": "2022-04-12",
+      "expected_cash_per_share": 0.1,
+      "expected_share_multiplier": 1.2,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          1,
+          2
+        ],
+        "share_multiplier": [
+          1,
+          2
+        ]
+      },
+      "source_sha256": "74b102ee08a38d3fb28f7aeba752a8c425bcc2d49974288b4f09197e70092fb7",
+      "source_capture_sha256": "4709d19823cefb21cea1f13185504f383b89602b9496f218438c57a8253d6f16"
+    },
+    {
+      "symbol": "sz.000803",
+      "record_date": "2022-04-12",
+      "ex_date": "2022-04-13",
+      "tradable_from": "2022-04-13",
+      "expected_cash_per_share": 0.0,
+      "expected_share_multiplier": 1.4,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          1,
+          2
+        ],
+        "share_multiplier": [
+          1,
+          2
+        ]
+      },
+      "source_sha256": "93bfdaf210fa3242baadb2c519ac50cc940970e499baba06c4cdbbf986e02c6c",
+      "source_capture_sha256": "5d5a6fa632fc8369d97fcd4589877c44d1a6a3d0f7e4073f94bb70c484ca3aa9"
+    },
+    {
+      "symbol": "sz.002258",
+      "record_date": "2022-04-12",
+      "ex_date": "2022-04-13",
+      "tradable_from": "2022-04-13",
+      "expected_cash_per_share": 0.5,
+      "expected_share_multiplier": 1.4,
+      "parameter_pages": {
+        "record_date": [
+          1,
+          2
+        ],
+        "ex_date": [
+          2,
+          3
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          1,
+          2
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "source_sha256": "0d307fe762bd23fc5b22175ed49d2735e0c8b8ef1b3630f06a6940be666fd2e2",
+      "source_capture_sha256": "284ee5e1c3660cf89553cd8973d690da94426642dd1399b2bbcceb5189765164"
+    },
+    {
+      "symbol": "sz.002014",
+      "record_date": "2022-04-13",
+      "ex_date": "2022-04-14",
+      "tradable_from": "2022-04-14",
+      "expected_cash_per_share": 0.5,
+      "expected_share_multiplier": 1.2,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "source_sha256": "4c832d5c28b86c21d7a68299cc36173f92d5bd45e7c6a43e977daa68514e83e4",
+      "source_capture_sha256": "6abb4e46a4103436d0c7fdedc026662e64d44630f2815911efeb84a43523308f"
+    },
+    {
+      "symbol": "sz.300751",
+      "record_date": "2022-04-13",
+      "ex_date": "2022-04-14",
+      "tradable_from": "2022-04-14",
+      "expected_cash_per_share": 1.5,
+      "expected_share_multiplier": 1.6,
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          2
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "source_sha256": "cb02bb895d23ba235d696eaf400277db321c9519cfe6f099a8175f17965347b3",
+      "source_capture_sha256": "d54afbdb049baac6e23fccbd6063904b1d355b55e9a0407ac665f3617860735f"
+    }
+  ],
+  "new_visually_reviewed_pages": 47,
+  "new_reviewed_notices": 14,
+  "known_listing_contracts": 29,
+  "pending_profile_contracts": 30,
+  "source_files_bound": 125,
+  "prior_csv_prefix_checks": 72,
+  "prior_csv_prefixes_unchanged": true,
+  "accounts": [
+    {
+      "horizon": "5d",
+      "policy": "cash_limited_subscribe",
+      "sessions": 168,
+      "orders_checked": 127067,
+      "max_absolute_reconciliation_error": 4.741519676887407e-14,
+      "next_stop": {
+        "date": "2022-04-18",
+        "symbol": "sz.300835",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "5ad3d59045a4225657dae76d433e2a361ff64d9f1d14864bafb4785655a60121",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-15",
+      "bonus_events_recognized": 25,
+      "unresolved_bonus_never_unlocked": true,
+      "prior_two_versions_csv_prefix_byte_identical": true,
+      "daily_reconstruction_sha256": "2f2468b0f06551d55efe6255930b406572459700af43f91cf45e1df42cac2f6d"
+    },
+    {
+      "horizon": "20d",
+      "policy": "cash_limited_subscribe",
+      "sessions": 168,
+      "orders_checked": 33631,
+      "max_absolute_reconciliation_error": 4.7406523151494184e-14,
+      "next_stop": {
+        "date": "2022-04-18",
+        "symbol": "sz.300835",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "2f9dd18a99fc50b1bf389db83e677ef20854a724a711d83fbae7d431792fc762",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-15",
+      "bonus_events_recognized": 25,
+      "unresolved_bonus_never_unlocked": true,
+      "prior_two_versions_csv_prefix_byte_identical": true,
+      "daily_reconstruction_sha256": "aa9921bce6763936a2fedf7cad4b4f74b02654bebe07e4f44d18103bf193ad9b"
+    },
+    {
+      "horizon": "12m",
+      "policy": "cash_limited_subscribe",
+      "sessions": 170,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "next_stop": {
+        "date": "2022-04-18",
+        "symbol": "sz.300835",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "dbf1f93e1c8d3e1a97fd458f35308682af0f1d93c786a2cc4d695b4d513f01f1",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-15",
+      "bonus_events_recognized": 23,
+      "unresolved_bonus_never_unlocked": true,
+      "prior_two_versions_csv_prefix_byte_identical": true,
+      "daily_reconstruction_sha256": "e29b7b595cbceb25362699a4c165446d7ee4b09549e3d68695e9632ce2aa47cd"
+    },
+    {
+      "horizon": "5d",
+      "policy": "decline",
+      "sessions": 168,
+      "orders_checked": 127067,
+      "max_absolute_reconciliation_error": 4.741519676887407e-14,
+      "next_stop": {
+        "date": "2022-04-18",
+        "symbol": "sz.300835",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "5ad3d59045a4225657dae76d433e2a361ff64d9f1d14864bafb4785655a60121",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-15",
+      "bonus_events_recognized": 25,
+      "unresolved_bonus_never_unlocked": true,
+      "prior_two_versions_csv_prefix_byte_identical": true,
+      "daily_reconstruction_sha256": "9f9dd5ec560258d8ccafc32271ccbfdade6fa158a1f8dd97c37693c26ff669d1"
+    },
+    {
+      "horizon": "20d",
+      "policy": "decline",
+      "sessions": 168,
+      "orders_checked": 33631,
+      "max_absolute_reconciliation_error": 5.440092820663267e-14,
+      "next_stop": {
+        "date": "2022-04-18",
+        "symbol": "sz.300835",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "2f9dd18a99fc50b1bf389db83e677ef20854a724a711d83fbae7d431792fc762",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-15",
+      "bonus_events_recognized": 25,
+      "unresolved_bonus_never_unlocked": true,
+      "prior_two_versions_csv_prefix_byte_identical": true,
+      "daily_reconstruction_sha256": "0ed77b261e28ee5606017175d75b8111d57cc98c9e384b0b2f9dd25eb8897e5b"
+    },
+    {
+      "horizon": "12m",
+      "policy": "decline",
+      "sessions": 170,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "next_stop": {
+        "date": "2022-04-18",
+        "symbol": "sz.300835",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "dbf1f93e1c8d3e1a97fd458f35308682af0f1d93c786a2cc4d695b4d513f01f1",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-15",
+      "bonus_events_recognized": 23,
+      "unresolved_bonus_never_unlocked": true,
+      "prior_two_versions_csv_prefix_byte_identical": true,
+      "daily_reconstruction_sha256": "cdcd04600c513421ee7d4db600efee422eb5d9758d23c445fd45a01c63e8e37a"
+    }
+  ],
+  "tests": {
+    "passed": 122,
+    "failed": 0,
+    "elapsed_seconds": 22.94,
+    "runtime_code_unchanged_since_prior_229_test_pass": true
+  },
+  "strict_profile_last_valid_session": "2021-08-12",
+  "listing_dates_certified": false,
+  "default_rights_policy_confirmed": false,
+  "full_backtest_complete": false,
+  "model_selection_performed": false,
+  "independent_data_used": false,
+  "profitability_proven": false,
+  "next_stop_raw_capture": {
+    "manifest_sha256": "9f3928d2c2425e9ef0167d597f2d2d1a848dd147bc89886384e79eebcff1a7bd",
+    "notices": 1,
+    "reviewed": false,
+    "admitted": false
+  }
+}

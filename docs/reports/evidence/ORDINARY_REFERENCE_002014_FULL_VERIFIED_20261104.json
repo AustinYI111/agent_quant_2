@@ -1,0 +1,73 @@
+{
+  "schema": "ordinary_reference_full_audit_verification_v1",
+  "status": "one_ordinary_reference_corrected_all_other_faults_preserved",
+  "verified_at_utc": "2026-11-04T08:14:01.897669+00:00",
+  "stage_manifest_sha256": "ac982900b2c2b1c136eafed671ce6fdf5cd063379fe6aa79558c5868c316f631",
+  "old_parent": "research/disk_reference_audit_8_20261104_v1",
+  "old_parent_manifest_sha256": "35a5a31982268c0420ccca21dc193831e39c8fade73da92d4557d3d78f88be9d",
+  "new_parent": "research/disk_reference_audit_9_20261104_v1",
+  "new_parent_manifest_sha256": "910092b2855f06afeccf11a2887054c8374d9ac335d795c4a810ae5928cf563f",
+  "rows": 8609196,
+  "issuers": 5401,
+  "old_reference_faults": 1548,
+  "new_reference_faults": 1547,
+  "removed_faults": [
+    {
+      "date": "2022-04-14",
+      "symbol": "sz.002014"
+    }
+  ],
+  "added_faults": [],
+  "source_review": {
+    "symbol": "sz.002014",
+    "ex_date": "2022-04-14",
+    "announcement_date": "2022-04-07",
+    "available_date": "2022-04-08",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-07/1212824724.PDF",
+    "source_sha256": "4c832d5c28b86c21d7a68299cc36173f92d5bd45e7c6a43e977daa68514e83e4",
+    "source_page": 2,
+    "reviewed": true,
+    "source_file": "research/ordinary_action_002014_sources_20261104_v1/002014_20220414_original/1212824724.PDF",
+    "source_capture_file": "research/ordinary_action_002014_sources_20261104_v1/002014_20220414_original/manifest.json",
+    "source_capture_sha256": "1506d5fdae254f3a6eddaec253b7d7a42d3c83bfa335ddaf92755cec86849f72",
+    "observed_at_utc": "2026-11-04T08:06:44.383237+00:00",
+    "reviewed_at_utc": "2026-11-04T08:07:53.935611+00:00",
+    "expected_cash_per_share": 0.5,
+    "expected_share_multiplier": 1.2,
+    "reference_cash_per_share": 0.496492,
+    "reference_share_multiplier": 1.198596,
+    "reviewed_actual_entitlement_pages": [
+      1,
+      2,
+      3
+    ],
+    "source_payment_page": 3,
+    "source_share_tradable_page": 3,
+    "review_scope": "All four original pages visually reviewed. Actual cash .5 and share multiplier1.2, dividend payment/share credit/unrestricted tradable14Apr; treasury3606835 excluded. Pages1/2 explicitly state virtual cash.496492 and share increment.198596; only quote parameters change. Fractional/gross simulation, not individual tax/rounding/limited-holder certification. Retrospective source, historical byte vintage unverified."
+  },
+  "raw_sql_rows": [
+    [
+      "2022-04-13",
+      9.09,
+      8.92,
+      9.14
+    ],
+    [
+      "2022-04-14",
+      6.98,
+      6.77,
+      7.03
+    ]
+  ],
+  "independent_virtual_formula": "7.027812540672586926704243965",
+  "expected_half_up": "7.03",
+  "actual_holder_economics_and_credit_dates_exactly_conserved": true,
+  "all_unrelated_action_fields_exactly_conserved": true,
+  "original_quote_store_unchanged": true,
+  "rights_events_and_reconciliations_exactly_conserved": true,
+  "new_rights_reference": "research/seven_rights_parent9_reference_20261104_v1",
+  "new_rights_reference_sha256": "fabef4d4a4c12eb2d0d7da97dc183e26cfdef06d645a0dcef0dfcd96f993819f",
+  "original_vintages_verified": false,
+  "new_accounts_run": false,
+  "complete_equal_benchmark_verified": false
+}

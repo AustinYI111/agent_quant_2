@@ -1,0 +1,287 @@
+{
+  "schema": "chronological_ordinary_listing_capture_resolution_v1",
+  "status": "fifteen_raw_candidate_packages_captured_no_admission",
+  "verified_at_utc": "2026-11-05T01:04:00.274920+00:00",
+  "parent_queue": "@work/research/ordinary_listing_queue_2021h2_20261105_v1/manifest.json",
+  "parent_queue_sha256": "04a0fa3eccbfb6370256af9c857bbd925f0c3b01836f47bfd2200b2d3bdb1882",
+  "selection": "Every positive ordinary bonus in fixed2021Aug13-Dec31 window; sorted by ex-date and symbol, no returns or rankings read.",
+  "pdf_bytes": 3907152,
+  "events": [
+    {
+      "symbol": "sh.600277",
+      "ex_date": "2021-08-24",
+      "capture": "@work/research/ordinary_listing_600277_sources_20261105_v1/600277_20210824_original/manifest.json",
+      "capture_sha256": "355dc70ddffeb8947da3b1e10ed6dd29ebc602ea290d0c07618e134ac6c0c8d1",
+      "notices": [
+        {
+          "file": "1210759230.PDF",
+          "sha256": "c3b681dc560081a0f693cc1d40109d7be1e70c3b46ea2a05f4da92c29d32cb45",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-08-17/1210759230.PDF",
+          "observed_at_utc": "2026-11-05T00:56:13.633432+00:00",
+          "title": "亿利洁能 2020年年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    },
+    {
+      "symbol": "sz.000987",
+      "ex_date": "2021-08-25",
+      "capture": "@work/research/ordinary_listing_000987_sources_20261105_v1/000987_20210825_original/manifest.json",
+      "capture_sha256": "da007670444539f4919f504c1f7dc458b10698e67dae8f89040cfad46b9de356",
+      "notices": [
+        {
+          "file": "1210781527.PDF",
+          "sha256": "4fa59ef275b5c6bd89ec92d0dae8a43dfea8d888a2989673680e1419cd09ab93",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-08-19/1210781527.PDF",
+          "observed_at_utc": "2026-11-05T00:56:14.570375+00:00",
+          "title": "2020年年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    },
+    {
+      "symbol": "sh.603181",
+      "ex_date": "2021-09-15",
+      "capture": "@work/research/ordinary_listing_603181_sources_20261105_v1/603181_20210915_original/manifest.json",
+      "capture_sha256": "e4a8b15c4572668af4e4392649d78178837c173b0a472574f892f4cb3623b1f7",
+      "notices": [
+        {
+          "file": "1210987713.PDF",
+          "sha256": "794d929fd3cdcce1f133ff8a5dce55d98c5dfc2fee7d43104c3c381f2e6f9e2b",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-09-09/1210987713.PDF",
+          "observed_at_utc": "2026-11-05T00:56:15.378240+00:00",
+          "title": "皇马科技2021年半年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    },
+    {
+      "symbol": "sz.300642",
+      "ex_date": "2021-09-16",
+      "capture": "@work/research/ordinary_listing_300642_sources_20261105_v1/300642_20210916_original/manifest.json",
+      "capture_sha256": "caf467f21fdcf8b683cf8df2c3215745969dfae485d8ee32ae9420f1f3dcb4c3",
+      "notices": [
+        {
+          "file": "1210995024.PDF",
+          "sha256": "be54cbc00d476e3dd03c3b7ac6747287c7772fdf3eb83b9673ac71833e6f224f",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-09-09/1210995024.PDF",
+          "observed_at_utc": "2026-11-05T00:56:16.034021+00:00",
+          "title": "2021年半年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    },
+    {
+      "symbol": "sh.605100",
+      "ex_date": "2021-09-22",
+      "capture": "@work/research/ordinary_listing_605100_sources_20261105_v1/605100_20210922_original/manifest.json",
+      "capture_sha256": "7ddff03188b0aa610c7c3f61150abaf4e6543d016d98e74ed263f09a682fa360",
+      "notices": [
+        {
+          "file": "1211045501.PDF",
+          "sha256": "dd88b26220d9125412b8b8914038cb6cb222bda004b3f5d2557b9c9b769208b8",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-09-14/1211045501.PDF",
+          "observed_at_utc": "2026-11-05T00:56:16.813734+00:00",
+          "title": "华丰动力股份有限公司2021年半年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    },
+    {
+      "symbol": "sz.000951",
+      "ex_date": "2021-09-29",
+      "capture": "@work/research/ordinary_listing_000951_sources_20261105_v1/000951_20210929_original_broader_title/manifest.json",
+      "capture_sha256": "4c738c3e46861d7438e5f93eef65f7a1499e201aa7161732c6b255308115804f",
+      "notices": [
+        {
+          "file": "1211130230.PDF",
+          "sha256": "e7e16e4a47cbb068d86757a023943cc5d2595b5a43157c056b760022b9774957",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-09-23/1211130230.PDF",
+          "observed_at_utc": "2026-11-05T00:57:07.924469+00:00",
+          "title": "公司2021年半年度权益分派暨转增股本实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": true
+    },
+    {
+      "symbol": "sz.002408",
+      "ex_date": "2021-09-29",
+      "capture": "@work/research/ordinary_listing_002408_sources_20261105_v1/002408_20210929_original/manifest.json",
+      "capture_sha256": "ef07d014e58174c4686d66f9caf8a204595342b38ee44cd8cb162bbe8937f490",
+      "notices": [
+        {
+          "file": "1211095624.PDF",
+          "sha256": "4a3f0ff18c2735e6a37340223c2e964e91bf6b6c308d0889886453937137bdc6",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-09-18/1211095624.PDF",
+          "observed_at_utc": "2026-11-05T00:56:18.029009+00:00",
+          "title": "2021年半年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    },
+    {
+      "symbol": "sz.300708",
+      "ex_date": "2021-09-29",
+      "capture": "@work/research/ordinary_listing_300708_sources_20261105_v1/300708_20210929_original/manifest.json",
+      "capture_sha256": "4e69135670e1115657c433aeb350f071bc3018467c04e7d18b428dba446ed93e",
+      "notices": [
+        {
+          "file": "1211094819.PDF",
+          "sha256": "b5bbac5a0b81aa27d2f7d415c24634873fec9610ccc707b712d36d815efedf31",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-09-17/1211094819.PDF",
+          "observed_at_utc": "2026-11-05T00:56:18.839827+00:00",
+          "title": "2021年半年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    },
+    {
+      "symbol": "sz.300677",
+      "ex_date": "2021-09-30",
+      "capture": "@work/research/ordinary_listing_300677_sources_20261105_v1/300677_20210930_original/manifest.json",
+      "capture_sha256": "0e0258e103cf21dea6b940515afbbbac4a980c2c4889774447d2da1ba2f532b4",
+      "notices": [
+        {
+          "file": "1211136254.PDF",
+          "sha256": "c281d77f0a6b9a9ab2364d2b557d8aa552236525dfbca3a246747bfae29a7848",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-09-24/1211136254.PDF",
+          "observed_at_utc": "2026-11-05T00:56:19.523335+00:00",
+          "title": "2021年半年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    },
+    {
+      "symbol": "sz.002729",
+      "ex_date": "2021-10-13",
+      "capture": "@work/research/ordinary_listing_002729_sources_20261105_v1/002729_20211013_original_broader_title/manifest.json",
+      "capture_sha256": "7a2330a723212b9b13fc02323cdcac128eddb1734838b4310089cf1c7d3f9030",
+      "notices": [
+        {
+          "file": "1211165147.PDF",
+          "sha256": "ea8222ae7c0180dfed91d35e94b68938a26b2f840733fe479061a8bfc0a1aa05",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-09-28/1211165147.PDF",
+          "observed_at_utc": "2026-11-05T00:57:08.560821+00:00",
+          "title": "2021年半年度权益分派暨资本公积金转增股本实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": true
+    },
+    {
+      "symbol": "sz.002088",
+      "ex_date": "2021-10-20",
+      "capture": "@work/research/ordinary_listing_002088_sources_20261105_v1/002088_20211020_original_broader_title/manifest.json",
+      "capture_sha256": "1af1ac238ef24478e6953d0d897e79638bdcebca064d2988408b7beb5ef7db42",
+      "notices": [
+        {
+          "file": "1211244339.PDF",
+          "sha256": "0a9f56dbe83aa3aad47a2dafe3e30c1af1e6175100bf4f7d38f5e7e21285c1e5",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-10-13/1211244339.PDF",
+          "observed_at_utc": "2026-11-05T00:57:09.243839+00:00",
+          "title": "2021年半年度权益分派暨资本公积金转增股本实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": true
+    },
+    {
+      "symbol": "sz.300758",
+      "ex_date": "2021-10-20",
+      "capture": "@work/research/ordinary_listing_300758_sources_20261105_v1/300758_20211020_original/manifest.json",
+      "capture_sha256": "775dc35e6e759264cb109186cc1c9f2083438c010f7f2538d83793c571f4abdd",
+      "notices": [
+        {
+          "file": "1211257116.PDF",
+          "sha256": "11996400d81dbe247028bc0de1b12734cb20217719b824dfe531aeea039792ce",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-10-14/1211257116.PDF",
+          "observed_at_utc": "2026-11-05T00:56:21.204835+00:00",
+          "title": "2021年半年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    },
+    {
+      "symbol": "sz.300620",
+      "ex_date": "2021-11-01",
+      "capture": "@work/research/ordinary_listing_300620_sources_20261105_v1/300620_20211101_original_broader_title/manifest.json",
+      "capture_sha256": "87c1b36f3a9304f09174d530865bd7b7a66b876cbdc61543d48de815bb34319b",
+      "notices": [
+        {
+          "file": "1211373188.PDF",
+          "sha256": "555c7c40538432706055849b5076e99fda271f0dd70e1e88aa0a4895a5a9231d",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-10-26/1211373188.PDF",
+          "observed_at_utc": "2026-11-05T00:57:09.996093+00:00",
+          "title": "2021年半年度权益分派暨资本公积金转增股本实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": true
+    },
+    {
+      "symbol": "sz.002873",
+      "ex_date": "2021-11-10",
+      "capture": "@work/research/ordinary_listing_002873_sources_20261105_v1/002873_20211110_original/manifest.json",
+      "capture_sha256": "146ce18dfc793513d67001c175dd5d2af5936d8f3f603e01cbf5b84615e918a2",
+      "notices": [
+        {
+          "file": "1211469833.PDF",
+          "sha256": "fa2a94a3a0e3a8f26732f6f42657f38e2e56807e7ada14b1017e49bd6e62652c",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-11-03/1211469833.PDF",
+          "observed_at_utc": "2026-11-05T00:56:22.895228+00:00",
+          "title": "2021年半年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    },
+    {
+      "symbol": "sz.002936",
+      "ex_date": "2021-12-20",
+      "capture": "@work/research/ordinary_listing_002936_sources_20261105_v1/002936_20211220_original/manifest.json",
+      "capture_sha256": "aaf19da1e35d881793beecf6b9f7ba1a4475034cb87534dedac741c8fe8e4cc0",
+      "notices": [
+        {
+          "file": "1211876337.PDF",
+          "sha256": "4147177c91f0fcd19aab38a00fdb5ffaf8d9fdc8e01bd5dbee5207f6af4e2899",
+          "url": "https://static.cninfo.com.cn/finalpage/2021-12-13/1211876337.PDF",
+          "observed_at_utc": "2026-11-05T00:56:23.699287+00:00",
+          "title": "郑州银行股份有限公司2020年度权益分派实施公告"
+        }
+      ],
+      "reviewed": false,
+      "admitted": false,
+      "prior_empty_result_preserved": false
+    }
+  ],
+  "unresolved_current_stop": {
+    "symbol": "sz.300747",
+    "ex_date": "2021-08-13",
+    "reason": "Original PDF declares a new-share trading date in2020 before its2021record/ex/credit dates; no reviewed listing correction or applicable rule bound."
+  },
+  "model_or_account_changes": false
+}

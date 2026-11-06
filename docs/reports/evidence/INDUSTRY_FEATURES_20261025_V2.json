@@ -1,0 +1,43 @@
+{
+  "schema": "independent_real_industry_feature_verification_v1",
+  "verified_at_utc": "2026-10-25T11:07:38.378260+00:00",
+  "status": "industry_features_verified_research_only",
+  "cache_manifest_sha256": "c5aa3ddf716c5aee81660f9336d2cfbdcce75c7711afc81dd74dc547eec359fe",
+  "original_eligible_rows": 1509411,
+  "legacy_technical_feature_rows_exact": 1509411,
+  "original_eligibility_keys_exact": true,
+  "checks": [
+    {
+      "date": "2019-04-30",
+      "rows": 2927,
+      "published_release": "2019-04-19",
+      "raw_aggregation_exact_within_tolerance": true,
+      "independent_normalization_verified": true
+    },
+    {
+      "date": "2022-08-31",
+      "rows": 4114,
+      "published_release": "2021-11-10",
+      "raw_aggregation_exact_within_tolerance": true,
+      "independent_normalization_verified": true
+    },
+    {
+      "date": "2025-12-31",
+      "rows": 4827,
+      "published_release": "2025-09-30",
+      "raw_aggregation_exact_within_tolerance": true,
+      "independent_normalization_verified": true
+    }
+  ],
+  "numerical_feature_csv_unchanged_after_cdr_filter": true,
+  "missing_counts": {
+    "industry_relative_momentum_63": 60067,
+    "industry_relative_momentum_126": 61050,
+    "industry_breadth_50": 59741
+  },
+  "maximum_publication_age_days": 817,
+  "independent_data_used": false,
+  "models_trained": 0,
+  "formal_model_promoted": false,
+  "historical_original_vintages_certified": false
+}

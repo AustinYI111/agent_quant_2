@@ -1,0 +1,26 @@
+{
+  "schema": "settled_independent_audit_tests_v1",
+  "recorded_at_utc": "2026-11-04T10:16:54.668290+00:00",
+  "passed": 165,
+  "failed": 0,
+  "elapsed_seconds": 32.74,
+  "test_files": [
+    "test_settled_account_audit.py",
+    "test_ordinary_share_settlement.py",
+    "test_settled_disk_account.py",
+    "test_rights_account.py",
+    "test_rights_wallet.py",
+    "test_disk_account.py"
+  ],
+  "source_hashes": {
+    "ashare_mvp/ordinary_share_settlement.py": "0aeecbb10d7d892df49ec8bb6b0f4fd692015c7e7d5fd89d7afa07f97b2f5a53",
+    "ashare_mvp/settled_account_audit.py": "e242df4aef45e184bc6019939c6029a52874d1e5330d64859149c1cd990dbc2e",
+    "tests/test_ordinary_share_settlement.py": "be73773535072204834ff576087dc11afcdf9ed84cbc0e70ba26c47c92707ed3",
+    "tests/test_settled_account_audit.py": "acdc13dc62f6c485eff12ef69404fae54d5bd3d4aacddd98bc49b14687f3e8dc",
+    "config/reviewed_ordinary_listings_20261104_v2.json": "d445e5212a0fd9cca62b1ca40530fad6f7a383db149bdaac0d4e02d4358a9c33"
+  },
+  "independent_account_math": true,
+  "producer_wallet_called_by_auditor": false,
+  "full_historical_backtest_complete": false,
+  "profitability_proven": false
+}

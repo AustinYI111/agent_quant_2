@@ -1,0 +1,41 @@
+{
+  "schema": "missing_quote_primary_cause_review_v1",
+  "status": "delisting_cause_confirmed_not_a_terminal_cash_valuation",
+  "symbol": "sz.301139",
+  "last_trading_date": "2026-10-27",
+  "delisting_date": "2026-10-28",
+  "sources": [
+    {
+      "source_file": "incoming-20261028/coverage_notices/301139_20261028_coverage_20261028/1225629444.PDF",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-10-28/1225629444.PDF",
+      "source_sha256": "8025a2df17603df345975e66d33e7c9e845d49e57ce5c7fd96cb8faa994f47dc",
+      "observed_at_utc": "2026-10-28T09:40:03.734261+00:00",
+      "reviewed_pages": [
+        1,
+        2
+      ],
+      "reviewed": true
+    },
+    {
+      "source_file": "incoming-20261028/coverage_notices/301139_20261028_coverage_20261028/1225575962.PDF",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2026-09-21/1225575962.PDF",
+      "source_sha256": "e17d1c2cec3d539448be7460e073a88be78b580b0c3ed8788fdf3f43830d4c3c",
+      "observed_at_utc": "2026-10-28T09:40:03.845033+00:00",
+      "reviewed_pages": [
+        1,
+        3
+      ],
+      "reviewed": true
+    }
+  ],
+  "capture_sha256": "36a79f731dc19a62ce4e166bdc498272a9170fa774094f74f137744dfe1a6778",
+  "reviewed_at_utc": "2026-10-28T09:46:53.370356+00:00",
+  "source_observation_after_close": true,
+  "original_preopen_vintage_verified": false,
+  "missing_current_quote_fabricated": false,
+  "terminal_cash_value_known": false,
+  "unknown_holdings_may_be_zeroed": false,
+  "archived_score_rows_for_symbol": 18,
+  "paper_books_have_no_executed_positions": true,
+  "explanation": "Original issuer notice confirms final exchange trading October27 and removal October28. No inferred zero payoff, forced sale or transfer-market value."
+}

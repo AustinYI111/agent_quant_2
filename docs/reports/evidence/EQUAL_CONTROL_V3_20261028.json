@@ -1,0 +1,90 @@
+{
+  "schema": "equal_control_three_reference_checkpoint_v1",
+  "recorded_at_utc": "2026-10-28T01:02:45.775642+00:00",
+  "source_manifest_sha256": "31f726189359e9ec3b611257c856f108a6410c9a24bc3806e29fb11ad838cf74",
+  "reference_config_sha256": "4b2445e2b1858602bb436531c3bc39203b130729cab9d69d472242d42b224b13",
+  "reference_events": 3,
+  "actual_holder_terms_changed": false,
+  "accounts": [
+    {
+      "horizon": "5d",
+      "status": "incomplete_held_valuation",
+      "symbol": "sh.601318",
+      "date": "2021-10-25",
+      "reason": "reference",
+      "requested_end": "2025-12-25",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-08",
+          "rows": 269071,
+          "requested_full_endpoint": false
+        }
+      ]
+    },
+    {
+      "horizon": "20d",
+      "status": "incomplete_held_valuation",
+      "symbol": "sh.601318",
+      "date": "2021-10-25",
+      "reason": "reference",
+      "requested_end": "2025-12-18",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-08",
+          "rows": 269071,
+          "requested_full_endpoint": false
+        }
+      ]
+    },
+    {
+      "horizon": "12m",
+      "status": "incomplete_held_valuation",
+      "symbol": "sh.601318",
+      "date": "2021-10-25",
+      "reason": "reference",
+      "requested_end": "2025-09-02",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-04",
+          "rows": 268461,
+          "requested_full_endpoint": false
+        }
+      ]
+    }
+  ],
+  "complete_accounts": 0,
+  "baseline_exposure_check": {
+    "schema": "reference_overlay_prior_holding_check_v1",
+    "checked_at_utc": "2026-10-28T01:01:07.007799+00:00",
+    "source_account_audit_sha256": "ac30b5239c86977abc1e075c1f087f3ff17c4573181af6d6e3a013619991b543",
+    "reference_evidence_sha256": "4b2445e2b1858602bb436531c3bc39203b130729cab9d69d472242d42b224b13",
+    "accounts_checked": 30,
+    "events": [
+      {
+        "symbol": "sh.600208",
+        "ex_date": "2021-08-04",
+        "prior_session": "2021-08-03"
+      },
+      {
+        "symbol": "sh.600690",
+        "ex_date": "2021-08-23",
+        "prior_session": "2021-08-20"
+      },
+      {
+        "symbol": "sz.300758",
+        "ex_date": "2021-10-20",
+        "prior_session": "2021-10-19"
+      }
+    ],
+    "positive_prior_holdings": [],
+    "interpretation": "Checks recorded prior-open holdings only; not a new full ranking replay or certified live fill. Reference-only overlay does not change investor cash, shares or pay dates."
+  },
+  "baseline_exposure_receipt_sha256": "234e377c0837c9379afe6aa0a92e454a7c5b7a90c013b57c1484bd26394b2eac",
+  "previous_code_commit_ci_passed": "324558e",
+  "full_baseline_replayed_after_overlay": false,
+  "independent_data_used": false,
+  "model_selection_performed": false,
+  "formal_model_promoted": false,
+  "phase2_complete": false,
+  "backup_and_restore_deferred": true
+}

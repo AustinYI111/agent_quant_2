@@ -1,0 +1,182 @@
+{
+  "schema": "ordinary_reference_triple_full_audit_verification_v1",
+  "status": "three_ordinary_references_corrected_all_other_faults_preserved",
+  "verified_at_utc": "2026-11-04T08:37:44.614991+00:00",
+  "stage_manifest_sha256": "759e1c0a330beaeace0819ad65d19fb34cc8013b0e2fbce3401cf3c48ab680b4",
+  "old_parent": "research/disk_reference_audit_10_20261104_v1",
+  "old_parent_manifest_sha256": "90715ccf0d96f0f224ecdc900bf483b8d06f16938888fc8b204845b1c6a7d810",
+  "new_parent": "research/disk_reference_audit_11_20261104_v1",
+  "new_parent_manifest_sha256": "c8a4e74cf9d7169102e24b1bfbeed31aa106ab161a1d041c9d54f96246b6bb63",
+  "rows": 8609196,
+  "issuers": 5401,
+  "old_reference_faults": 1545,
+  "new_reference_faults": 1542,
+  "removed_faults": [
+    {
+      "date": "2022-04-28",
+      "symbol": "sz.300087"
+    },
+    {
+      "date": "2022-04-29",
+      "symbol": "sz.002597"
+    },
+    {
+      "date": "2022-04-29",
+      "symbol": "sz.300639"
+    }
+  ],
+  "added_faults": [],
+  "source_reviews": [
+    {
+      "symbol": "sz.300087",
+      "ex_date": "2022-04-28",
+      "announcement_date": "2022-04-21",
+      "available_date": "2022-04-22",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-21/1212998095.PDF",
+      "source_sha256": "7affff2d369f1267f0cb78a46a883e59399389b0866420708625dd9e1edcf998",
+      "source_page": 1,
+      "reviewed": true,
+      "source_file": "research/ordinary_action_300087_sources_20261104_v1/300087_20220428_original/1212998095.PDF",
+      "source_capture_file": "research/ordinary_action_300087_sources_20261104_v1/300087_20220428_original/manifest.json",
+      "source_capture_sha256": "c631f5fc29e829fc5a61103d80dda486d1377d8d3415d9e9a5956319fccd38ff",
+      "observed_at_utc": "2026-11-04T08:26:36.225970+00:00",
+      "reviewed_at_utc": "2026-11-04T08:31:49.975931+00:00",
+      "expected_cash_per_share": 0.1,
+      "expected_share_multiplier": 1.5,
+      "reference_cash_per_share": 0.0980259,
+      "reference_share_multiplier": 1.4901296,
+      "reviewed_actual_entitlement_pages": [
+        1,
+        2,
+        3
+      ],
+      "source_payment_page": 3,
+      "review_scope": "All four pages visually reviewed. Page1 literal reference cash.0980259/share multiplier1.4901296; actual cash.1/share1.5 p2, record27Apr/ex28Apr and payment/credit/unrestricted tradable28Apr p3. Treasury8964236 excluded. Only quote parameters change; fractional gross simulation, original-byte vintage uncertified.",
+      "source_share_tradable_page": 3
+    },
+    {
+      "symbol": "sz.002597",
+      "ex_date": "2022-04-29",
+      "announcement_date": "2022-04-23",
+      "available_date": "2022-04-25",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-23/1213057386.PDF",
+      "source_sha256": "450ddcc9ac5519f24e1633db6f0b24fe962e21b5f14326840a0cbcaf48d23d97",
+      "source_page": 3,
+      "reviewed": true,
+      "source_file": "research/ordinary_action_002597_sources_20261104_v1/002597_20220429_original/1213057386.PDF",
+      "source_capture_file": "research/ordinary_action_002597_sources_20261104_v1/002597_20220429_original/manifest.json",
+      "source_capture_sha256": "9020bd29f26924d733e349fef61671f81180cdcf1a5347b949ef57ba31d2fd3f",
+      "observed_at_utc": "2026-11-04T08:26:36.928104+00:00",
+      "reviewed_at_utc": "2026-11-04T08:31:49.997138+00:00",
+      "expected_cash_per_share": 0.65,
+      "expected_share_multiplier": 1.0,
+      "reference_cash_per_share": 0.6435282,
+      "reference_share_multiplier": 1.0,
+      "reviewed_actual_entitlement_pages": [
+        1,
+        2,
+        3
+      ],
+      "source_payment_page": 3,
+      "review_scope": "All four pages visually reviewed. Pages1/3 literal reference cash.6435282, actual cash.65/share1. Record28Apr/ex/payment29Apr. Treasury5584782 excluded, no share issuance. PublicationSaturday23Apr conservatively availableMonday25Apr. Original-byte vintage and individual tax uncertified."
+    },
+    {
+      "symbol": "sz.300639",
+      "ex_date": "2022-04-29",
+      "announcement_date": "2022-04-21",
+      "available_date": "2022-04-22",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-21/1213001627.PDF",
+      "source_sha256": "c7aba65973bcac987af7f5f0cd39ed48a3374d2d4601cb5949b3ab797ec44346",
+      "source_page": 2,
+      "reviewed": true,
+      "source_file": "research/ordinary_action_300639_sources_20261104_v1/300639_20220429_original_bonus/1213001627.PDF",
+      "source_capture_file": "research/ordinary_action_300639_sources_20261104_v1/300639_20220429_original_bonus/manifest.json",
+      "source_capture_sha256": "ae30a62415a74c4186fb5b762147708c60964c5745ff8ea894501d210b5f569b",
+      "observed_at_utc": "2026-11-04T08:27:23.485963+00:00",
+      "reviewed_at_utc": "2026-11-04T08:31:50.012137+00:00",
+      "expected_cash_per_share": 0.35,
+      "expected_share_multiplier": 1.5,
+      "reference_cash_per_share": 0.346845,
+      "reference_share_multiplier": 1.4954929,
+      "reviewed_actual_entitlement_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "source_payment_page": 3,
+      "review_scope": "All six pages visually reviewed. Pages1/2/4/5 literal reference cash.3468450/share multiplier1.4954929; actual cash.35/share1.5, record28Apr/ex/payment/credit/tradable29Apr p3. Treasury2649200 excluded. Exact alternative source title cash dividend and capital transfer implementation, not empty first-query inference. Original-byte vintage uncertified.",
+      "source_share_tradable_page": 3
+    }
+  ],
+  "independent_quote_checks": [
+    {
+      "symbol": "sz.300087",
+      "raw_sql_rows": [
+        [
+          "2022-04-27",
+          21.35,
+          22.35,
+          21.26
+        ],
+        [
+          "2022-04-28",
+          14.75,
+          14.1,
+          14.93
+        ]
+      ],
+      "independent_virtual_formula": "14.93291194269276981008900165",
+      "expected_half_up": "14.93"
+    },
+    {
+      "symbol": "sz.002597",
+      "raw_sql_rows": [
+        [
+          "2022-04-28",
+          37.1,
+          37.56,
+          37.33
+        ],
+        [
+          "2022-04-29",
+          37.21,
+          38.05,
+          36.92
+        ]
+      ],
+      "independent_virtual_formula": "36.9164718",
+      "expected_half_up": "36.92"
+    },
+    {
+      "symbol": "sz.300639",
+      "raw_sql_rows": [
+        [
+          "2022-04-28",
+          33.11,
+          32.3,
+          33.12
+        ],
+        [
+          "2022-04-29",
+          21.37,
+          21.96,
+          21.37
+        ]
+      ],
+      "independent_virtual_formula": "21.36630337730122289447178251",
+      "expected_half_up": "21.37"
+    }
+  ],
+  "actual_holder_economics_and_credit_dates_exactly_conserved": true,
+  "all_unrelated_action_fields_exactly_conserved": true,
+  "original_quote_store_unchanged": true,
+  "rights_events_and_reconciliations_exactly_conserved": true,
+  "new_rights_reference": "research/seven_rights_parent11_reference_20261104_v1",
+  "new_rights_reference_sha256": "32ff56687c6370b9ee9965fd34f931378de38cd46655b5d974ef5061885ba2d6",
+  "original_vintages_verified": false,
+  "new_accounts_run": false,
+  "complete_equal_benchmark_verified": false
+}

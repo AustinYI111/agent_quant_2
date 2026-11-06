@@ -1,0 +1,46 @@
+{
+  "schema": "official_missing_research_cash_v1",
+  "expected_parent_actions_sha256": "0fd7c38157cc08504dd5c06ab6f2c7dac1439307d7ec895d037034812adba2c8",
+  "events": [
+    {
+      "symbol": "sh.600519",
+      "ex_date": "2022-12-27",
+      "announcement_date": "2022-12-21",
+      "available_date": "2022-12-22",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-12-21/1215407396.PDF",
+      "source_sha256": "2686df87a57d91f7348cf58155963531e9731b7b8a966b191d081ac9493b0601",
+      "source_page": 1,
+      "reviewed": true,
+      "source_file": "artifacts/phase2/official_candidate_references_20261022/600519_20221227_industry_20261026_title2/1215407396.PDF",
+      "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/600519_20221227_industry_20261026_title2/manifest.json",
+      "source_capture_sha256": "1bf61ffb291a11b6417c69b467d5ca47eb0c3646e7b429ec7a175659e71bcfc1",
+      "observed_at_utc": "2026-10-26T01:14:18.180023+00:00",
+      "reviewed_at_utc": "2026-10-26T01:26:26.975542+00:00",
+      "payment_source_page": 2,
+      "pay_date": "2022-12-27",
+      "cash_per_share": 21.91,
+      "share_multiplier": 1.0,
+      "payout_scope": "ordinary_a_share_holders"
+    },
+    {
+      "symbol": "sz.000538",
+      "ex_date": "2024-11-25",
+      "announcement_date": "2024-11-19",
+      "available_date": "2024-11-20",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2024-11-19/1221767436.PDF",
+      "source_sha256": "4ab5e2be23e81810b271ce0e3398fbddfb04dbb932714ca5c485cc2d178407a9",
+      "source_page": 1,
+      "reviewed": true,
+      "source_file": "artifacts/phase2/official_candidate_references_20261022/000538_20241125_industry_20261026/1221767436.PDF",
+      "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/000538_20241125_industry_20261026/manifest.json",
+      "source_capture_sha256": "ac70d1c90e3b53446b731962199136e35ca193df77bcf767c35fc735e59bf494",
+      "observed_at_utc": "2026-10-26T01:17:36.156054+00:00",
+      "reviewed_at_utc": "2026-10-26T01:26:26.989885+00:00",
+      "payment_source_page": 2,
+      "pay_date": "2024-11-25",
+      "cash_per_share": 1.213,
+      "share_multiplier": 1.0,
+      "payout_scope": "ordinary_a_share_holders"
+    }
+  ]
+}

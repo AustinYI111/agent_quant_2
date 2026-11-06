@@ -1,0 +1,180 @@
+{
+  "schema": "pending_listing_target_invariance_delivery_v1",
+  "verified_at_utc": "2026-11-05T02:16:04.509370+00:00",
+  "execution_profile": "unresolved_listing_target_invariant_v1",
+  "protocol_sha256": "d659187dc7e921390f89d7ed2a0d0363049962e5799e92174501f1c53a3c8b13",
+  "protocol_sealed_before_real_run": true,
+  "original_protocol_resealed": false,
+  "originally_prespecified": false,
+  "source_config_sha256": "011b6e52f55a46fd1a1308fc08d7ae5454c2d36cb26792ac3ed185542e999f0b",
+  "code_hashes": {
+    "ordinary_share_settlement.py": "ba00baa34c01d84d0140cffe75e20a34c92ce61452ecd1303f929a96c5c02a4b",
+    "pending_listing_account.py": "803e08674a9c764493fbc45de8b9215551d42dbb142a023c3dcc5312a46e5ce7",
+    "pending_listing_audit.py": "2084bd92693634927e5a7ac5458f8a7e50c5b8e345d9510986ea0e3b45ddbeeb"
+  },
+  "source_manifest_sha256": "8e2b3b7345cebc50da11f99cd494df151104a0a346ed3467ec31e3d53d8220e4",
+  "independent_audit_manifest_sha256": "4cd81df199110b4c4ad341c7b97221a4c95804c0776d873dca67eabad17cbd6e",
+  "accounts": [
+    {
+      "horizon": "5d",
+      "policy": "cash_limited_subscribe",
+      "sessions": 152,
+      "orders_checked": 115428,
+      "max_absolute_reconciliation_error": 4.741519676887407e-14,
+      "next_stop": {
+        "date": "2022-03-23",
+        "symbol": "sz.002947",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "5ad3d59045a4225657dae76d433e2a361ff64d9f1d14864bafb4785655a60121",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-03-22",
+      "unresolved_target_days_in_audited_interval": 29,
+      "bonus_events_recognized": 16,
+      "unresolved_bonus_never_unlocked": true,
+      "actual_subscribed_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.601555_20211214_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "daily_reconstruction_sha256": "936a7135c3c621cb685454c44f12036d754c7249a46129d62422a21bfd47c528",
+      "source_summary_sha256": "5c796ca134a5bd33bd72629039a30b2d9eb1c7f46d8419227a8ba1a9d7546ece"
+    },
+    {
+      "horizon": "20d",
+      "policy": "cash_limited_subscribe",
+      "sessions": 152,
+      "orders_checked": 29747,
+      "max_absolute_reconciliation_error": 4.7406523151494184e-14,
+      "next_stop": {
+        "date": "2022-03-23",
+        "symbol": "sz.002947",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "2f9dd18a99fc50b1bf389db83e677ef20854a724a711d83fbae7d431792fc762",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-03-22",
+      "unresolved_target_days_in_audited_interval": 7,
+      "bonus_events_recognized": 16,
+      "unresolved_bonus_never_unlocked": true,
+      "actual_subscribed_rights_event_ids": [
+        "sh.601555_20211214_rights",
+        "sz.002142_20211123_rights"
+      ],
+      "daily_reconstruction_sha256": "b0b92b18b83c49282ebfc8a7fcd64220ef9717616262517be41870955f1fe6eb",
+      "source_summary_sha256": "7d967a573230b1b73c66085a06cfa867e4affdbc9013b1173d1637b87c414882"
+    },
+    {
+      "horizon": "12m",
+      "policy": "cash_limited_subscribe",
+      "sessions": 154,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "next_stop": {
+        "date": "2022-03-23",
+        "symbol": "sz.002947",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "dbf1f93e1c8d3e1a97fd458f35308682af0f1d93c786a2cc4d695b4d513f01f1",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-03-22",
+      "unresolved_target_days_in_audited_interval": 0,
+      "bonus_events_recognized": 16,
+      "unresolved_bonus_never_unlocked": true,
+      "actual_subscribed_rights_event_ids": [
+        "sh.600030_20220118_rights",
+        "sh.601555_20211214_rights",
+        "sz.000970_20220215_rights",
+        "sz.002142_20211123_rights",
+        "sz.002948_20220104_rights"
+      ],
+      "daily_reconstruction_sha256": "32e6600496ac785328c6d58a5e08f6f313ce9fbca7971de6ba2d7f7849c03041",
+      "source_summary_sha256": "50c5274b90d3c8b2bbbb8d65bfca067db0b44cf54cbd46d7fbcabd5f988f8143"
+    },
+    {
+      "horizon": "5d",
+      "policy": "decline",
+      "sessions": 152,
+      "orders_checked": 115428,
+      "max_absolute_reconciliation_error": 4.741519676887407e-14,
+      "next_stop": {
+        "date": "2022-03-23",
+        "symbol": "sz.002947",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "5ad3d59045a4225657dae76d433e2a361ff64d9f1d14864bafb4785655a60121",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-03-22",
+      "unresolved_target_days_in_audited_interval": 29,
+      "bonus_events_recognized": 16,
+      "unresolved_bonus_never_unlocked": true,
+      "actual_subscribed_rights_event_ids": [],
+      "daily_reconstruction_sha256": "2ee469f25fa56f633d47c97025299764109fb5c63cb821179a2b2dfd31861eae",
+      "source_summary_sha256": "8163ceeaf7a274df15be9a2e039e6376f43c975f5403bed17d7b7283181924cf"
+    },
+    {
+      "horizon": "20d",
+      "policy": "decline",
+      "sessions": 152,
+      "orders_checked": 29747,
+      "max_absolute_reconciliation_error": 5.440092820663267e-14,
+      "next_stop": {
+        "date": "2022-03-23",
+        "symbol": "sz.002947",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "2f9dd18a99fc50b1bf389db83e677ef20854a724a711d83fbae7d431792fc762",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-03-22",
+      "unresolved_target_days_in_audited_interval": 7,
+      "bonus_events_recognized": 16,
+      "unresolved_bonus_never_unlocked": true,
+      "actual_subscribed_rights_event_ids": [],
+      "daily_reconstruction_sha256": "53bed55d6148f69abc30e4bb4800a213221ba1191e619fedca7d19117ba3d349",
+      "source_summary_sha256": "43ed67043390860e68fcc854991c9e9908db363093f51cb150984489fa8ade43"
+    },
+    {
+      "horizon": "12m",
+      "policy": "decline",
+      "sessions": 154,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "next_stop": {
+        "date": "2022-03-23",
+        "symbol": "sz.002947",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "dbf1f93e1c8d3e1a97fd458f35308682af0f1d93c786a2cc4d695b4d513f01f1",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-03-22",
+      "unresolved_target_days_in_audited_interval": 0,
+      "bonus_events_recognized": 16,
+      "unresolved_bonus_never_unlocked": true,
+      "actual_subscribed_rights_event_ids": [],
+      "daily_reconstruction_sha256": "a7a2dc2a4c5e5529381c142dd71974e4986de9d9f0bbef8731737a99c2774263",
+      "source_summary_sha256": "5ce11660326f679f1d81ee138fd7f618388dad9bf1b933d33f54c52380beec02"
+    }
+  ],
+  "tests": {
+    "passed": 229,
+    "failed": 0,
+    "elapsed_seconds": 51.01,
+    "new_profile_cases": 19
+  },
+  "strict_profile_last_valid_session": "2021-08-12",
+  "strict_results_replaced": false,
+  "listing_dates_certified": false,
+  "default_rights_policy_confirmed": false,
+  "model_selection_performed": false,
+  "independent_validation_data_used": false,
+  "full_backtest_complete": false,
+  "profitability_proven": false,
+  "next_stop_raw_capture": {
+    "manifest_sha256": "1f82d8e5a3ad79e6df82ebbb46c866feb60fd76bc6d2e21279294e17919b3219",
+    "notices": 2,
+    "reviewed": false,
+    "admitted": false
+  }
+}

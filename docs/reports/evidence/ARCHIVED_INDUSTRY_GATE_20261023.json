@@ -1,0 +1,108 @@
+{
+  "schema": "real_archived_industry_availability_gate_check_v1",
+  "verified_at_utc": "2026-10-23T02:27:27.415772+00:00",
+  "source_hashes": {
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2025-09-30/article.js": "b408b41fd2c932c74e9704211ad82117458035483c933f722fca3ba85d0e1b8b",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2025-09-30/industry_by_stock_code.pdf": "b622b76b96d59611db36b01888cf6afd8cd711c5753a19ab8547e74bb0bb8228",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/2025-09-30.csv": "33f538997c53540a872a2daaeacbd0c5e9b771ab05a70f9d75e961d1b9cb1064",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2025-04-18/article.js": "13e7f63c8afb966c2d9e2688501cdd96263c99d54d0935fa576775258c618337",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2025-04-18/industry_by_stock_code.pdf": "e373ad9173b69c65291569c7d36679ee3e0cf85d03a03be61138f46692f41fa5",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/2025-04-18.csv": "bc4f3ad1eff0a8471d46df19f9e2120697654f1418b1a99559d20fcbcfdb3c23",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-09-30/article.js": "df652fadaa8b76a8450d3a98cb020eb02932865457ae491337ed279b884c32dd",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-09-30/industry_by_stock_code.pdf": "6f77eae4471d87715d62f388785f7a914615ae87fa7f394a851a2e86d1af28a3",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/2024-09-30.csv": "487b65f02dbc800e80e4fc9bb716e83b59e945a1fb128d80ac163e3fa9e3b31f",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-04-03/article.js": "f2a9d52d43fd411d86c89afd9bd9682bef0839eae8bbaccd9039da90aee2706c",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-04-03/industry_by_stock_code.pdf": "759a6b11a6b1d5e757ae9b726d956210c1649c6cd7ffa8789d524fd235037b05",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/2024-04-03.csv": "625a9aab7a084e5c2ce1a09bcef436b8e8034d351418248ffc44990b4f57c2db",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-02-08/article.js": "f458046e8e13195092cdaffc1ed1284923e860113421356643416738e08793a1",
+    "artifacts/phase2/raw/capco_industry_archives_20261023_v1/2024-02-08/industry_by_stock_code.pdf": "8202be2cb68ff2668d9efeb9f57ea3f98486e9ef50bb64870931715c0ca759ca",
+    "artifacts/phase2/normalized/capco_industry_tables_20261023_v1/2024-02-08.csv": "f5e9eabd63b3e07b7cb0b54de9f9e0ca1cd09764e718269a297475c9475fb226"
+  },
+  "source_counts": [
+    {
+      "published_date": "2025-09-30",
+      "original_rows": 5413,
+      "a_share_rows": 5138,
+      "excluded_b_or_beijing_or_other_codes": 275
+    },
+    {
+      "published_date": "2025-04-18",
+      "original_rows": 5384,
+      "a_share_rows": 5114,
+      "excluded_b_or_beijing_or_other_codes": 270
+    },
+    {
+      "published_date": "2024-09-30",
+      "original_rows": 5334,
+      "a_share_rows": 5076,
+      "excluded_b_or_beijing_or_other_codes": 258
+    },
+    {
+      "published_date": "2024-04-03",
+      "original_rows": 5332,
+      "a_share_rows": 5084,
+      "excluded_b_or_beijing_or_other_codes": 248
+    },
+    {
+      "published_date": "2024-02-08",
+      "original_rows": 5178,
+      "a_share_rows": 4967,
+      "excluded_b_or_beijing_or_other_codes": 211
+    }
+  ],
+  "checks": [
+    {
+      "signal": "2023-12-29",
+      "visible_release_published_date": null,
+      "members": 0
+    },
+    {
+      "signal": "2024-02-08",
+      "visible_release_published_date": null,
+      "members": 0
+    },
+    {
+      "signal": "2024-02-19",
+      "visible_release_published_date": "2024-02-08",
+      "members": 4967
+    },
+    {
+      "signal": "2024-04-03",
+      "visible_release_published_date": "2024-02-08",
+      "members": 4967
+    },
+    {
+      "signal": "2024-04-08",
+      "visible_release_published_date": "2024-04-03",
+      "members": 5084
+    },
+    {
+      "signal": "2025-04-18",
+      "visible_release_published_date": "2024-09-30",
+      "members": 5076
+    },
+    {
+      "signal": "2025-04-21",
+      "visible_release_published_date": "2025-04-18",
+      "members": 5114
+    },
+    {
+      "signal": "2025-09-30",
+      "visible_release_published_date": "2025-04-18",
+      "members": 5114
+    },
+    {
+      "signal": "2025-10-09",
+      "visible_release_published_date": "2025-09-30",
+      "members": 5138
+    }
+  ],
+  "passed": true,
+  "full_membership_review_complete": false,
+  "models_trained": 0,
+  "admitted_to_candidate_training": false,
+  "current_membership_backfilled": false,
+  "observed_clocks_backdated": false,
+  "historical_original_bytes_certified": false,
+  "limitation": "Availability gate test on five migrated official releases; it does not certify complete original historical vintages or all extracted classifications."
+}

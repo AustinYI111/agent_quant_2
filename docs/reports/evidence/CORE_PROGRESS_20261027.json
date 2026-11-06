@@ -1,0 +1,172 @@
+{
+  "schema": "core_research_progress_v1",
+  "recorded_at_utc": "2026-10-28T00:54:41.875308+00:00",
+  "signal_date": "2026-10-27",
+  "snapshot": "artifacts/frozen_daily_research_20261027_v1",
+  "snapshot_manifest_sha256": "320284c8bb775a77a7f14c99ed91fd7cdc5280a0b622a9baa976bc263ef387c3",
+  "verification_sha256": "8726212386401971e6c5efd0da6ffbb789e81aa41d3fe412aadac7d756df6b58",
+  "eligible": 4936,
+  "raw_bars": 1014275,
+  "reference_faults": 65,
+  "financial_observation_used": "2026-10-26",
+  "financial_refresh": {
+    "financials": {
+      "status": "partial",
+      "saved": 3,
+      "requested": 4,
+      "manifest_sha256": "701d2be1a6365b1a44cdebe8c47ee0754c34d8f225d96453a1554ec17f677b18"
+    },
+    "balances": {
+      "status": "partial",
+      "saved": 2,
+      "requested": 4,
+      "manifest_sha256": "65b09d5afba101b602e06af14ed9f6b21a31f05d2da2fef2c77a90bdd8a14c6e"
+    },
+    "dividend_plans": {
+      "status": "partial",
+      "saved": 3,
+      "requested": 4,
+      "manifest_sha256": "4a0892a65315e175c86178b74d41bb9ae13a20a6f54cac9a20e8f03233f6c449"
+    }
+  },
+  "checks": [
+    {
+      "horizon": "5d",
+      "candidates": 4936,
+      "batch_id": "028676a49c8a58ccf9dadf6d1bba7d6a23906e77eb2a0555a57c35bde91e51bd",
+      "created_at_utc": "2026-10-27T10:07:49.788884+00:00",
+      "next_entry_open_utc": "2026-10-28T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "70d76a7af37e47e0d2a99c0d88ec76f2dccb15b08d990945055cc8d66d5f0464",
+      "reload_max_absolute_error": 0.0,
+      "archive_exact": true
+    },
+    {
+      "horizon": "20d",
+      "candidates": 4936,
+      "batch_id": "02a078aaeaa16d0b95ef57e1bcaf482be2615cc57bba47da4baa03510490a99e",
+      "created_at_utc": "2026-10-27T10:07:50.179373+00:00",
+      "next_entry_open_utc": "2026-10-28T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "49f9d547da3b916b557ac6dc897a1bb19279eef3ab4901a79d537a1333116dd5",
+      "reload_max_absolute_error": 0.0,
+      "archive_exact": true
+    },
+    {
+      "horizon": "12m",
+      "candidates": 4936,
+      "batch_id": "d8f07ded7f5d3fece1e186191fa165f1e8d46d9593d6cd2fcc0596aff91cdddb",
+      "created_at_utc": "2026-10-27T10:07:50.531480+00:00",
+      "next_entry_open_utc": "2026-10-28T01:30:00+00:00",
+      "role": "prospective_paper_forecast",
+      "model_sha256": "5640734659445cf8df6d1d46f5657f7eb455f2c9d8d806193478f9e65febddf8",
+      "reload_max_absolute_error": 0.0,
+      "archive_exact": true
+    }
+  ],
+  "archive_counts": {
+    "batches": 18,
+    "scores": 88842,
+    "archive_imports": 6
+  },
+  "archive_retry_identical": true,
+  "previous_15_batches_unchanged": true,
+  "paper_books": {
+    "5d": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 4
+    },
+    "20d": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 4
+    },
+    "12m": {
+      "status": "awaiting_prospective_scheduled_entry",
+      "nav_rows": 0,
+      "orders": 0,
+      "accepted_forecasts": 4
+    }
+  },
+  "retrospective_batches_excluded": 6,
+  "equal_control_manifest_sha256": "59c5212521341693252aedb1ad4ccfb6332e00f059e6b3b8a1d37103c129f983",
+  "equal_reference_overlay": {
+    "schema": "reviewed_candidate_valuation_reference_overlay_v1",
+    "events": 2,
+    "source_hashes": {
+      "config/reviewed_equal_weight_refs_20261027_v1.json": "ebfc0a00f148bd09631990cfc9c8619a3b5c757b66674a08524a3b899fc3e1bd",
+      "artifacts/reviewed_equal_weight_notices_20261027/600208_20210804_core_20261027/1210590622.PDF": "b69222e4dbac9cad3e877d17475091e9ec5873829b3989859760cd7b7383c351",
+      "artifacts/reviewed_equal_weight_notices_20261027/600208_20210804_core_20261027/manifest.json": "efc32fe5ba9650aac5b43c10f80edf507a97f21409c930d4f41a950760090fb5",
+      "artifacts/reviewed_equal_weight_notices_20261027/600690_20210823_core_20261027/1210760602.PDF": "a1d20792bbac13ed719ea4f3005f882925b28260996cab60ea26e19f2451757f",
+      "artifacts/reviewed_equal_weight_notices_20261027/600690_20210823_core_20261027/manifest.json": "d23720c067331d73098b7089ed2c0bfe86d9e05fcf64dddf2086d6f018745526"
+    },
+    "actual_holder_economics_changed": false,
+    "training_features_or_labels_changed": false,
+    "first_observed_clocks_preserved": true,
+    "historical_vintages_certified": false
+  },
+  "equal_control_accounts": [
+    {
+      "horizon": "5d",
+      "status": "incomplete_held_valuation",
+      "symbol": "sz.300758",
+      "date": "2021-10-20",
+      "reason": "reference",
+      "requested_end": "2025-12-25",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-08",
+          "rows": 269071,
+          "requested_full_endpoint": false
+        }
+      ]
+    },
+    {
+      "horizon": "20d",
+      "status": "incomplete_held_valuation",
+      "symbol": "sz.300758",
+      "date": "2021-10-20",
+      "reason": "reference",
+      "requested_end": "2025-12-18",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-08",
+          "rows": 269071,
+          "requested_full_endpoint": false
+        }
+      ]
+    },
+    {
+      "horizon": "12m",
+      "status": "incomplete_held_valuation",
+      "symbol": "sz.300758",
+      "date": "2021-10-20",
+      "reason": "reference",
+      "requested_end": "2025-09-02",
+      "evaluation_windows": [
+        {
+          "end": "2021-11-04",
+          "rows": 268461,
+          "requested_full_endpoint": false
+        }
+      ]
+    }
+  ],
+  "equal_control_complete_accounts": 0,
+  "potential_reference_audit": {
+    "manifest_sha256": "fdb989c0844f306a18307bed0f99de43d503388f052cad60e9d767019ae754a2",
+    "symbols": 5049,
+    "risks": 1080,
+    "semantics": "potential planned exposure, not 1080 actual-filled-account failures"
+  },
+  "related_tests_passed": 38,
+  "previous_commit_ci": "719d5c9 passed",
+  "source_code_full_regression_rerun": false,
+  "independent_data_used_for_selection": false,
+  "formal_model_promoted": false,
+  "phase2_complete": false,
+  "backup_and_restore_work_deferred_by_user": true
+}

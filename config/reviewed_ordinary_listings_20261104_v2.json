@@ -1,0 +1,138 @@
+[
+  {
+    "symbol": "sh.603578",
+    "record_date": "2022-05-18",
+    "ex_date": "2022-05-19",
+    "tradable_from": "2022-05-20",
+    "announcement_date": "2022-05-12",
+    "available_date": "2022-05-13",
+    "expected_cash_per_share": 0.22,
+    "expected_share_multiplier": 1.3,
+    "reviewed": true,
+    "source_file": "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF",
+    "source_capture_file": "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2022-05-12/1213323962.PDF",
+    "source_sha256": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+    "source_capture_sha256": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab",
+    "observed_at_utc": "2026-11-04T08:57:08.116901+00:00",
+    "reviewed_at_utc": "2026-11-04T09:54:26.218691+00:00",
+    "parameter_pages": {
+      "record_date": [
+        1,
+        2
+      ],
+      "ex_date": [
+        1,
+        2
+      ],
+      "tradable_from": [
+        1,
+        2
+      ],
+      "share_multiplier": [
+        2
+      ],
+      "cash_per_share": [
+        2
+      ]
+    },
+    "physical_credit_date": null,
+    "review_scope": "All four original pages visually reviewed during this session. Ex-date19May and ordinary new shares listed20May are distinct. Actual cash.22 and multiplier1.3; virtual reference cash.2177/multiplier1.2968 is NOT holder economics. Physical share credit date not stated and not inferred. Review attestation recorded now; original observation clock retained. No historical byte-vintage certification."
+  },
+  {
+    "symbol": "sh.603966",
+    "record_date": "2021-08-02",
+    "ex_date": "2021-08-03",
+    "tradable_from": "2021-08-04",
+    "announcement_date": "2021-07-28",
+    "available_date": "2021-07-29",
+    "expected_cash_per_share": 0.3,
+    "expected_share_multiplier": 1.4,
+    "reviewed": true,
+    "source_file": "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/1210580882.PDF",
+    "source_capture_file": "@work/research/ordinary_listing_603966_sources_20261104_v1/603966_20210803_original/manifest.json",
+    "source_sha256": "e537c69907d754e1c1051ac2338cb63efad8c946261938ade6113e70381f2d35",
+    "source_capture_sha256": "32b7d1ce84e1e889db0f6fefafa8ad4d3f8c92e21e6375686a8a7249dae3bd99",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2021-07-28/1210580882.PDF",
+    "observed_at_utc": "2026-11-04T10:07:45.008317+00:00",
+    "reviewed_at_utc": "2026-11-04T10:11:48.408227+00:00",
+    "parameter_pages": {
+      "record_date": [
+        1,
+        2
+      ],
+      "ex_date": [
+        1,
+        2
+      ],
+      "tradable_from": [
+        1,
+        2
+      ],
+      "share_multiplier": [
+        1,
+        2
+      ],
+      "cash_per_share": [
+        1,
+        2
+      ]
+    },
+    "physical_credit_date": null,
+    "review_scope": "All four original pages visually reviewed. Actual gross cash.30/share1.4; record2Aug/ex3Aug/new-share listing4Aug p1/2. Treasury exclusion and rounded virtual reference formula p2 remain distinct from actual holder entitlement. Physical credit date unspecified; original observed clock retained; no historical byte-vintage certification."
+  },
+  {
+    "symbol": "sh.603127",
+    "record_date": "2021-08-04",
+    "ex_date": "2021-08-05",
+    "tradable_from": "2021-08-06",
+    "announcement_date": "2021-07-30",
+    "available_date": "2021-08-02",
+    "expected_cash_per_share": 0.35,
+    "expected_share_multiplier": 1.4,
+    "reviewed": true,
+    "source_file": "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/1210601538.PDF",
+    "source_capture_file": "@work/research/ordinary_listing_603127_sources_20261104_v1/603127_20210805_original/manifest.json",
+    "source_sha256": "2c1fb3b44c0a16d04851bb11bf1696ebfca5e1a2c1ce74fb67935ef64797ac31",
+    "source_capture_sha256": "958025a10489de2b5d5765c818f34e9edf7daf978fec54b75a3c06a2152a3e54",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2021-07-30/1210601538.PDF",
+    "observed_at_utc": "2026-11-04T10:07:46.201002+00:00",
+    "reviewed_at_utc": "2026-11-04T10:11:48.408227+00:00",
+    "parameter_pages": {
+      "record_date": [
+        1,
+        2
+      ],
+      "ex_date": [
+        1,
+        2
+      ],
+      "tradable_from": [
+        1,
+        2
+      ],
+      "share_multiplier": [
+        1,
+        2
+      ],
+      "cash_per_share": [
+        1,
+        2
+      ]
+    },
+    "physical_credit_date": null,
+    "reviewed_captured_notice_pages": {
+      "1210601538.PDF": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "1210638823.PDF": [
+        1,
+        2
+      ]
+    },
+    "review_scope": "Original four pages plus correction two pages visually reviewed. Gross cash.35/share1.4 and dates unchanged. Correction captured publication3Aug (signed2Aug) changes only Shanghai-HongKong connect net dividend.316 to.315; this gross-dividend research account does not model individual withholding. All captured primary/correction PDF hashes are enforced by loader; no historical byte vintage or physical credit date inferred."
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "symbol": "sh.603578",
+    "record_date": "2022-05-18",
+    "ex_date": "2022-05-19",
+    "tradable_from": "2022-05-20",
+    "announcement_date": "2022-05-12",
+    "available_date": "2022-05-13",
+    "expected_cash_per_share": 0.22,
+    "expected_share_multiplier": 1.3,
+    "reviewed": true,
+    "source_file": "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/1213323962.PDF",
+    "source_capture_file": "@work/research/ordinary_action_603578_sources_20261104_v1/603578_20220519_original/manifest.json",
+    "source_url": "https://static.cninfo.com.cn/finalpage/2022-05-12/1213323962.PDF",
+    "source_sha256": "7e0d1ac880b6028767e9a1727af20ad62a1dba00ff670f365ef243eee3a54bbf",
+    "source_capture_sha256": "26c2df9b283e9f5b7d8b1a2c10ae849a39dbadb540842d79eb379c8f84db69ab",
+    "observed_at_utc": "2026-11-04T08:57:08.116901+00:00",
+    "reviewed_at_utc": "2026-11-04T09:54:26.218691+00:00",
+    "parameter_pages": {
+      "record_date": [
+        1,
+        2
+      ],
+      "ex_date": [
+        1,
+        2
+      ],
+      "tradable_from": [
+        1,
+        2
+      ],
+      "share_multiplier": [
+        2
+      ],
+      "cash_per_share": [
+        2
+      ]
+    },
+    "physical_credit_date": null,
+    "review_scope": "All four original pages visually reviewed during this session. Ex-date19May and ordinary new shares listed20May are distinct. Actual cash.22 and multiplier1.3; virtual reference cash.2177/multiplier1.2968 is NOT holder economics. Physical share credit date not stated and not inferred. Review attestation recorded now; original observation clock retained. No historical byte-vintage certification."
+  }
+]

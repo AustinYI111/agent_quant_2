@@ -1,0 +1,35 @@
+{
+  "schema": "raw_feature_store_v1",
+  "status": "raw_indexed",
+  "created_at_utc": "2026-10-20T06:49:24.965825+00:00",
+  "synthetic": false,
+  "certified": false,
+  "prediction_ready": false,
+  "baseline_metadata_sha256": "e6a58c95483a3bb654465d5ca724bb8314a68ccff61beb054eeb5b446e1ff0e7",
+  "baseline_raw_sha256": "327e392dd61a4674156c567a31df38f377be8af4ebc918c95fada2aaf1450785",
+  "code_changes_sha256": "0b274b682974d486dbb3e775c11359f9639070ed1cbe31544e94eb2696d860aa",
+  "sources": [
+    {
+      "manifest_sha256": "8b1f374ea5dd7732913bd3cf3d82cf2d860446759d718012a271665e2ba5a829",
+      "sessions": 188,
+      "raw_rows": 977901
+    },
+    {
+      "manifest_sha256": "550cf6022225aa9006b1e2293cee0b480ec86ade12c43d78eb91562941e8bbbc",
+      "sessions": 1,
+      "raw_rows": 5224
+    }
+  ],
+  "old_rows": 8609196,
+  "new_rows": 982936,
+  "excluded_rows": 189,
+  "limitations": [
+    "Raw inputs only; causal reconstruction and baseline equivalence must pass before scoring.",
+    "Original financial vintages, terminal values and execution are not certified.",
+    "Missing historical volume and trading aliases remain null, never fabricated."
+  ],
+  "symbols": 5464,
+  "calendar_sha256": "9b0b8d3576311d198ae4fc920cce06a33507dddcae856d57c83ed594b60fe683",
+  "excluded_sha256": "d3c7ebd0d428156d162a1cee37988db185dc9f11390f8af3f8ad95e9811e29ca",
+  "database_sha256": "22446e46f0047886b5217b05cd1f7098ae94d256c3fa7223aa9eba40ba5d145f"
+}

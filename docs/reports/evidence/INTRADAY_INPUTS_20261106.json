@@ -1,0 +1,500 @@
+{
+  "schema": "intraday_inputs_delivery_v1",
+  "verified_at_utc": "2026-11-06T03:27:47.843587+00:00",
+  "signal_date": "2026-11-06",
+  "observed_before_open": false,
+  "financial_independent_audit": {
+    "schema": "independent_observed_financial_refresh_audit_v1",
+    "status": "all_combined_versions_independently_selected",
+    "audited_at_utc": "2026-11-06T03:25:33.638286+00:00",
+    "refresh_manifest_sha256": "1a40310086f9b93de1b8418e7e44dca44c0bc2b5d67405c6802d56d6a432fadb",
+    "records": 133229,
+    "symbols": 5661,
+    "debt_records": 123249,
+    "versions_without_balance_dependency": 9968,
+    "maximum_factor_value_error": 4.440892098500626e-16,
+    "raw_requests": {
+      "earnings": {
+        "2026-09-30": {
+          "rows": 5771,
+          "pages": 12,
+          "observed_at_utc": "2026-11-06T03:24:18.301605+00:00"
+        }
+      },
+      "balances": {
+        "2026-09-30": {
+          "rows": 5222,
+          "pages": 11,
+          "observed_at_utc": "2026-11-06T03:24:24.859197+00:00"
+        }
+      }
+    },
+    "versions_visible_by_signal": 133228,
+    "versions_available_after_signal": 1,
+    "verification_code_sha256": "0afc8ee3375d6b78ebba995f77718ce9470e790d1686e1b76c19e757cdcc0bc1",
+    "prediction_generated": false,
+    "model_selection_performed": false,
+    "limitations": [
+      "Checks all four financial factor values, exact same-period version keys and dependency/observation clocks; not every descriptive source column.",
+      "Does not independently certify original supplier vintages, audited accounting figures or all-issuer reporting coverage."
+    ]
+  },
+  "financial_audit_sha256": "37c942d058d7582278ba908c856cdecfa108f1298948d7325fe501fd347d5fba",
+  "intake_manifest_sha256": "715e080af6a8098d0c0b6526dbfe939ceaef866e8031652231d2c29b2f3fd758",
+  "raw_plans": 4962,
+  "candidate_queue": 54,
+  "candidate_status_counts": {
+    "outside_review_window": 4210,
+    "not_implemented": 413,
+    "excluded_instrument": 285,
+    "new_event_needs_notice": 54
+  },
+  "notice_capture": {
+    "schema": "current_company_notice_raw_capture_v1",
+    "status": "raw_captures_finished_review_pending",
+    "started_at_utc": "2026-11-06T03:26:03.736711+00:00",
+    "queue_sha256": "c9de41061f3f471140cdcde99f38f747ed74b922e3390c88c8efcda2638ee6e1",
+    "selection": "Every unique candidate ex-date2026Nov6 in the current actual-observation intake; not based on returns or holdings.",
+    "observed_before_ex_open": false,
+    "reviewed": false,
+    "admitted": false,
+    "events": [
+      {
+        "symbol": "sh.600459",
+        "provider_symbol": "sh.600459",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.06701,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/600459_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "3a92e4e0951152c23e46a7be944386995e088df6127aa2a86b828963993606de",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-29/1225637424.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-29/1225637424.PDF",
+            "file": "1225637424.PDF",
+            "sha256": "e2d0cc7269393d8b135e78d59e07290b520348e76bcbd55a23d1c8d21d574d92",
+            "bytes": 143699,
+            "observed_at_utc": "2026-11-06T03:26:04.413783+00:00",
+            "title": "云南省贵金属新材料控股集团股份有限公司2026年半年度权益分派实施公告",
+            "source_announcement_time": 1793203200000
+          }
+        ]
+      },
+      {
+        "symbol": "sh.600516",
+        "provider_symbol": "sh.600516",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.0328,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/600516_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "2fec3072ebcaceb38ebb1483ad94013810defd0994622f0dbc4deca8dc0b766f",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-29/1225637283.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-29/1225637283.PDF",
+            "file": "1225637283.PDF",
+            "sha256": "7f83fda9e7cf4a9c5e3010bfae985ee45d54b85b9b07d6d10b5f16b47f1b9a75",
+            "bytes": 140700,
+            "observed_at_utc": "2026-11-06T03:26:05.004781+00:00",
+            "title": "方大炭素2026年半年度权益分派实施公告",
+            "source_announcement_time": 1793203200000
+          }
+        ]
+      },
+      {
+        "symbol": "sh.600551",
+        "provider_symbol": "sh.600551",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.1,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/600551_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "164f68d179393d05573f4ee720fbe8a11b80cfd9a11f047b6bf076f1fb26e97f",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225643212.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225643212.PDF",
+            "file": "1225643212.PDF",
+            "sha256": "11bb741d80ed37c3807da9e6413cf47c3c827c4f86a5c94254bc49d55cd41070",
+            "bytes": 144681,
+            "observed_at_utc": "2026-11-06T03:26:05.573997+00:00",
+            "title": "时代出版2026年半年度权益分派实施公告",
+            "source_announcement_time": 1793289600000
+          }
+        ]
+      },
+      {
+        "symbol": "sh.601319",
+        "provider_symbol": "sh.601319",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.11,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/601319_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "8210efa929ec008d3d8a56d63236cfce393f665df723cb7c69852b6341c59675",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225644704.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225644704.PDF",
+            "file": "1225644704.PDF",
+            "sha256": "5264e1a4d08f3cdf61c9e08f92c4cc2dc1823495288ce24ba25e53eb3bc03155",
+            "bytes": 151156,
+            "observed_at_utc": "2026-11-06T03:26:06.121718+00:00",
+            "title": "中国人保2026年半年度权益分派实施公告",
+            "source_announcement_time": 1793289600000
+          }
+        ]
+      },
+      {
+        "symbol": "sh.601696",
+        "provider_symbol": "sh.601696",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.0295999999999999,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/601696_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "3ddc0f363202cd4337c648391917149efec7907c4af8caa1f173f9b925d1af7c",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225644666.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225644666.PDF",
+            "file": "1225644666.PDF",
+            "sha256": "8f37f48d5392d21e8675c8eab2927fada0b6f3c69ca46033b5ae231c7c41fee9",
+            "bytes": 162342,
+            "observed_at_utc": "2026-11-06T03:26:06.546110+00:00",
+            "title": "2026年半年度权益分派实施公告",
+            "source_announcement_time": 1793289600000
+          }
+        ]
+      },
+      {
+        "symbol": "sh.603881",
+        "provider_symbol": "sh.603881",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.02,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/603881_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "ea974db362a284f0db9c1f52eebfb708ab548e2b5cef5017e6079224d6a1e791",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-31/1225650152.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-31/1225650152.PDF",
+            "file": "1225650152.PDF",
+            "sha256": "fef00fd3407c20ce419bad23c9a733236aec7eda3c186a7f256e0765d83f805a",
+            "bytes": 123670,
+            "observed_at_utc": "2026-11-06T03:26:07.000269+00:00",
+            "title": "上海数据港股份有限公司2026年半年度权益分派实施公告",
+            "source_announcement_time": 1793376000000
+          }
+        ]
+      },
+      {
+        "symbol": "sh.688336",
+        "provider_symbol": "sh.688336",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.0419999999999999,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/688336_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "57e0ba6ff201ae513397acf215ce246cdfea8656a03d05bc92ec8e06c37636cf",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-31/1225647604.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-31/1225647604.PDF",
+            "file": "1225647604.PDF",
+            "sha256": "ca6113b3a8473a9eb59a4061e1bc49ea03cd41ea3429e4f5aeeaed9b1f06c5d8",
+            "bytes": 124770,
+            "observed_at_utc": "2026-11-06T03:26:07.494801+00:00",
+            "title": "三生国健：2026年半年度权益分派实施公告",
+            "source_announcement_time": 1793376000000
+          }
+        ]
+      },
+      {
+        "symbol": "sz.000022",
+        "provider_symbol": "sz.001872",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.2,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/001872_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "dfa2909a0f11fc4c0f948b98b38a3b433b1a6bfd58e1223a4323553ebe8bc229",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225642381.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225642381.PDF",
+            "file": "1225642381.PDF",
+            "sha256": "14eed41cec1defe51cb3bb395ccb1b80f01c1805491dfa428bc3290ece53779c",
+            "bytes": 225993,
+            "observed_at_utc": "2026-11-06T03:26:07.978491+00:00",
+            "title": "2026年半年度分红派息实施公告",
+            "source_announcement_time": 1793289600000
+          }
+        ]
+      },
+      {
+        "symbol": "sz.000815",
+        "provider_symbol": "sz.000815",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.026,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/000815_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "728c9bcb61a66e0b4c615cd9b1b3d07508f4449ccaa54964626cb7c00e62b73f",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225640679.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225640679.PDF",
+            "file": "1225640679.PDF",
+            "sha256": "5aee54587f683d5c77530e12666f4e72fe9bc35125d6b47fc8750d79824afc0a",
+            "bytes": 146441,
+            "observed_at_utc": "2026-11-06T03:26:08.466784+00:00",
+            "title": "中冶美利云产业投资股份有限公司2026年半年度分红派息实施公告",
+            "source_announcement_time": 1793289600000
+          }
+        ]
+      },
+      {
+        "symbol": "sz.001366",
+        "provider_symbol": "sz.001366",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.05,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/001366_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "a2b8e0df8141e02039d90c92f9c086f953c84514305221d8e3ca65c24d15be24",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225644335.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225644335.PDF",
+            "file": "1225644335.PDF",
+            "sha256": "0fc20ce57d38ffe1e91878a6b088e321b85c478ebe452f6c7bd05d8f614d5885",
+            "bytes": 130856,
+            "observed_at_utc": "2026-11-06T03:26:12.120003+00:00",
+            "title": "2026年中期权益分派预案实施公告",
+            "source_announcement_time": 1793289600000
+          }
+        ]
+      },
+      {
+        "symbol": "sz.001379",
+        "provider_symbol": "sz.001379",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.1,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/001379_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "e28e79feb45f57144472ab035f79259a42dacfc06ba33ca3c944f4d9d1945038",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-31/1225647158.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-31/1225647158.PDF",
+            "file": "1225647158.PDF",
+            "sha256": "63c301caf67a7e8ed7906f2f93751fa07283eac2c15622e18abcdc2dcc7f8cd4",
+            "bytes": 110685,
+            "observed_at_utc": "2026-11-06T03:26:12.564680+00:00",
+            "title": "2026年中期权益分派实施公告",
+            "source_announcement_time": 1793376000000
+          }
+        ]
+      },
+      {
+        "symbol": "sz.002075",
+        "provider_symbol": "sz.002075",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.025,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/002075_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "4cf772e8e9a2d6ad882284c610354ae16332a814eca6580aa56980ee54d849fa",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-11-02/1225647731.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-11-02/1225647731.PDF",
+            "file": "1225647731.PDF",
+            "sha256": "7b9170edd64533de5999b70978a9bd2ec03d5e21a228c987d0d80f01a29a73e3",
+            "bytes": 72808,
+            "observed_at_utc": "2026-11-06T03:26:13.003833+00:00",
+            "title": "2026年半年度权益分派实施公告",
+            "source_announcement_time": 1793548800000
+          }
+        ]
+      },
+      {
+        "symbol": "sz.002651",
+        "provider_symbol": "sz.002651",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.028,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/002651_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "26f10c4ec8f1d62f172e041e282b5cfef980f6a0d89707c11a6525137fc0ce5d",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-29/1225633924.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-29/1225633924.PDF",
+            "file": "1225633924.PDF",
+            "sha256": "b48064413f4f72a0386a9c327ce37c89d051fa2c8937ce53e38f554767bb329a",
+            "bytes": 100510,
+            "observed_at_utc": "2026-11-06T03:26:13.480939+00:00",
+            "title": "2026年半年度权益分派实施公告",
+            "source_announcement_time": 1793203200000
+          }
+        ]
+      },
+      {
+        "symbol": "sz.002736",
+        "provider_symbol": "sz.002736",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.1,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/002736_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "a77e2dac509c1d1a4f024d59c31aedcfeea31cb39861946e4b086573aab5dd03",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225642365.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-30/1225642365.PDF",
+            "file": "1225642365.PDF",
+            "sha256": "06d9a68f8bc1626abfd576203de7e413790140c8023c8cebb483da025e2ebec8",
+            "bytes": 158888,
+            "observed_at_utc": "2026-11-06T03:26:14.022873+00:00",
+            "title": "2026年中期分红派息实施公告",
+            "source_announcement_time": 1793289600000
+          }
+        ]
+      },
+      {
+        "symbol": "sz.003008",
+        "provider_symbol": "sz.003008",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.18,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/003008_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "61d83705f07a517f5142d73009da355bf9c7537d0fdc24b8ffb38a992fb6afaf",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-29/1225635605.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-29/1225635605.PDF",
+            "file": "1225635605.PDF",
+            "sha256": "241ee5eeec2adb2ad1b362c6960a9de959d36de7960135fd0d9556d7e9ceb703",
+            "bytes": 164037,
+            "observed_at_utc": "2026-11-06T03:26:14.528509+00:00",
+            "title": "2026年前三季度权益分派实施公告",
+            "source_announcement_time": 1793203200000
+          }
+        ]
+      },
+      {
+        "symbol": "sz.300622",
+        "provider_symbol": "sz.300622",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.08,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/300622_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "af5cdd5109dda65e7965670e3bf8fec3107512b5ba5173066fb85c5181569459",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-11-02/1225652596.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-11-02/1225652596.PDF",
+            "file": "1225652596.PDF",
+            "sha256": "8605ee3d4b63522b161fe106f76290dad0e85458fe59f147e4c11c54d6614fb5",
+            "bytes": 135199,
+            "observed_at_utc": "2026-11-06T03:26:15.027403+00:00",
+            "title": "2026年第三季度权益分派实施公告",
+            "source_announcement_time": 1793611041000
+          }
+        ]
+      },
+      {
+        "symbol": "sz.301149",
+        "provider_symbol": "sz.301149",
+        "ex_date": "2026-11-06",
+        "provider_cash_per_share": 0.0699999999999999,
+        "provider_share_multiplier": 1.0,
+        "reviewed": false,
+        "admitted": false,
+        "status": "raw_captured_review_pending",
+        "search_complete": true,
+        "capture": "@work/incoming-20261106/company_action_notice_capture_v1/301149_20261106_observed_intraday_20261106/manifest.json",
+        "capture_sha256": "283e313f72e3206b964c237e9b6d839201b54d8460410988cdfc91d447a7e042",
+        "notices": [
+          {
+            "url": "https://static.cninfo.com.cn/finalpage/2026-10-29/1225638291.PDF",
+            "response_url": "https://static.cninfo.com.cn/finalpage/2026-10-29/1225638291.PDF",
+            "file": "1225638291.PDF",
+            "sha256": "b92ca541d0df2c4bd7071ad34c45f96188fb3569ff69d5f07ae277ed3a7737ec",
+            "bytes": 117633,
+            "observed_at_utc": "2026-11-06T03:26:15.539485+00:00",
+            "title": "2026年前三季度利润分配实施公告",
+            "source_announcement_time": 1793203200000
+          }
+        ]
+      }
+    ],
+    "completed_at_utc": "2026-11-06T03:26:15.584567+00:00",
+    "failed": 0,
+    "notices": 17
+  },
+  "notice_capture_sha256": "d01cbcee96c309ca653599238376fd37e41c2d3402443437a5ab667965a77abc",
+  "notice_files_and_capture_receipts_hash_checked": true,
+  "primary_notices_visually_reviewed": false,
+  "new_cash_events_admitted": false,
+  "prediction_generated": false,
+  "prediction_archive_sha256": "cad72440320049c12a0ee43403b3ff553cf501d75ae192883488f6ea697dc8a0",
+  "prior_forecasts_unchanged": true,
+  "raw_quotes_for_today_captured": false
+}

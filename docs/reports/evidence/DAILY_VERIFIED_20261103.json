@@ -1,0 +1,149 @@
+{
+  "schema": "current_daily_independent_audit_v1",
+  "status": "financial_selection_valuation_factors_model_reload_archive_and_risk_view_verified",
+  "verified_at_utc": "2026-11-04T00:56:11.083535+00:00",
+  "snapshot_manifest_sha256": "8e4c2b3bd13c5d63f2059ca7cfcc75e0d109ec985325be41e6855e7f62d0c0ee",
+  "financial_factor_errors": {
+    "roe": 0.0,
+    "revenue_growth": 0.0,
+    "earnings_growth": 0.0,
+    "low_debt": 0.0,
+    "earnings_yield": 0.0,
+    "book_yield": 0.0
+  },
+  "forecasts": [
+    {
+      "horizon": "5d",
+      "candidates": 4938,
+      "batch_id": "a346f7a7c21a73a498780f210e7d80f3cec7dd7098467f720579dd3f77fdb804",
+      "created_at_utc": "2026-11-04T00:49:35.738851+00:00",
+      "next_entry_open_utc": "2026-11-04T01:30:00+00:00",
+      "model_sha256": "70d76a7af37e47e0d2a99c0d88ec76f2dccb15b08d990945055cc8d66d5f0464",
+      "reload_max_absolute_error": 0.0
+    },
+    {
+      "horizon": "20d",
+      "candidates": 4938,
+      "batch_id": "e16415d5c9f807f9bd5263338fc0f2802b302ff55e90684e4a27f6edabe5aec5",
+      "created_at_utc": "2026-11-04T00:49:36.689232+00:00",
+      "next_entry_open_utc": "2026-11-04T01:30:00+00:00",
+      "model_sha256": "49f9d547da3b916b557ac6dc897a1bb19279eef3ab4901a79d537a1333116dd5",
+      "reload_max_absolute_error": 0.0
+    },
+    {
+      "horizon": "12m",
+      "candidates": 4938,
+      "batch_id": "20f9dd062c428368111f57c7066b8b24cc4f2065360cfc8d66721b44ba6416ed",
+      "created_at_utc": "2026-11-04T00:49:37.361115+00:00",
+      "next_entry_open_utc": "2026-11-04T01:30:00+00:00",
+      "model_sha256": "5640734659445cf8df6d1d46f5657f7eb455f2c9d8d806193478f9e65febddf8",
+      "reload_max_absolute_error": 0.0
+    }
+  ],
+  "archive_before_sha256": "177275fc49c17cef865db04f6e42b6117531aca84ad59416f7f33e0cae382852",
+  "archive_after_sha256": "f798c96967d2ef3218c5daaf01b63bb0263026962a3cde43dd9509f1baec6757",
+  "archive_counts": {
+    "batches": 24,
+    "scores": 118473,
+    "archive_imports": 8
+  },
+  "prior_21_batches_and_scores_unchanged": true,
+  "archive_reimport_idempotent": true,
+  "risk_selection": {
+    "schema": "frozen_risk_filtered_selection_v1",
+    "status": "selection_saved",
+    "signal_date": "2026-11-03",
+    "created_at_utc": "2026-11-04T00:51:42.139835+00:00",
+    "snapshot": "@work/research/frozen_daily_research_20261103_v1",
+    "parent_manifest_sha256": "8e4c2b3bd13c5d63f2059ca7cfcc75e0d109ec985325be41e6855e7f62d0c0ee",
+    "reference_capture": "@work/incoming-20261103/close_capture_20261103_v1/reference",
+    "reference_manifest_sha256": "3d5993669ae06bb45d973719e2139ac95e60f5e75bf89cafd2d600d2e6adfe9f",
+    "latest_status_observed_at_utc": "2026-11-03T10:10:19.575025+00:00",
+    "protocol_sha256": "d8a79ee894df5054c73289e101b9cf2bf77093c89b47b31e5551c5ffa7def04f",
+    "policy": "original ranking order; reject current security names containing ST or退; no rescore; new buys only",
+    "originally_prespecified": false,
+    "old_holdings_deleted": false,
+    "original_scores_changed": false,
+    "model_selection_performed": false,
+    "code_hashes": {
+      "risk_selection.py": "f4ca2a893deb1d1546203bca6468232667afaeb397a51d4700d21a7ee9986bd4",
+      "workspace_paths.py": "f4d47c55bad49357b39dbdb847b533dfb222b932a234dfb57560833ccf272394"
+    },
+    "horizons": {
+      "5d": {
+        "batch_id": "a346f7a7c21a73a498780f210e7d80f3cec7dd7098467f720579dd3f77fdb804",
+        "parent_content_sha256": "d930666a756ee33f4b4163abd2c93bcfa735d080d6718775003f27c5beaa6b91",
+        "parent_candidates": 4938,
+        "selected_candidates": 4937,
+        "excluded_candidates": 1,
+        "excluded_symbols": [
+          "sz.002731"
+        ],
+        "role": "prospective_paper_forecast",
+        "signal_date": "2026-11-03",
+        "created_at_utc": "2026-11-04T00:51:42.139835+00:00",
+        "latest_input_observed_at_utc": "2026-11-04T00:49:35.738851+00:00",
+        "next_entry_open_utc": "2026-11-04T01:30:00+00:00",
+        "prospective": true,
+        "certified": false
+      },
+      "20d": {
+        "batch_id": "e16415d5c9f807f9bd5263338fc0f2802b302ff55e90684e4a27f6edabe5aec5",
+        "parent_content_sha256": "27229b4509e1c736ad696692d12bc5ccdc0f39098694a7ea1624ee396ec8951d",
+        "parent_candidates": 4938,
+        "selected_candidates": 4937,
+        "excluded_candidates": 1,
+        "excluded_symbols": [
+          "sz.002731"
+        ],
+        "role": "prospective_paper_forecast",
+        "signal_date": "2026-11-03",
+        "created_at_utc": "2026-11-04T00:51:42.139835+00:00",
+        "latest_input_observed_at_utc": "2026-11-04T00:49:36.689232+00:00",
+        "next_entry_open_utc": "2026-11-04T01:30:00+00:00",
+        "prospective": true,
+        "certified": false
+      },
+      "12m": {
+        "batch_id": "20f9dd062c428368111f57c7066b8b24cc4f2065360cfc8d66721b44ba6416ed",
+        "parent_content_sha256": "6abf5e6fd84b21b584b82da2bb72b4b4039717336d0124f3f4624796ee53adeb",
+        "parent_candidates": 4938,
+        "selected_candidates": 4937,
+        "excluded_candidates": 1,
+        "excluded_symbols": [
+          "sz.002731"
+        ],
+        "role": "prospective_paper_forecast",
+        "signal_date": "2026-11-03",
+        "created_at_utc": "2026-11-04T00:51:42.139835+00:00",
+        "latest_input_observed_at_utc": "2026-11-04T00:49:37.361115+00:00",
+        "next_entry_open_utc": "2026-11-04T01:30:00+00:00",
+        "prospective": true,
+        "certified": false
+      }
+    },
+    "output_hashes": {
+      "excluded_12m.csv": "8829106e52c715f72ffb6eafb5cbb10c1fb2d1d24ce51457d2d4c8b9c70de676",
+      "excluded_20d.csv": "ed5939c2336439b6216bd25b031022502d3445af71f74de7ac3cae22c972806d",
+      "excluded_5d.csv": "35f8fff0f5b1f3bca54eead6c8dfc0f26b2c5fa4b8b90c1da7a40dfa5c2d656b",
+      "selected_12m.csv": "f53f21211cbcf251622b138d8404fd25e12f2a8ac6c40f32b9faab81bac074cc",
+      "selected_20d.csv": "72843a1614b52d82b430ab4c099081170a9c42b4f3cee4658535dd46748ecee3",
+      "selected_5d.csv": "a82a2bacacbdb26244f7429b231bab7a884a395dae63b92b0cc01638d9003c86",
+      "top20_12m.csv": "ec7c06ded761e7bfe5c8555ef36bb9901d0921d55e72eecd3fb07c595bfdbc77",
+      "top20_20d.csv": "c32ddc3f55e9d8116e2c7e32b52feb90e8c79acc11c0cddd7e63abc18a64b77e",
+      "top20_5d.csv": "6dcf3f2df132e67f6cf8845dfa5ec17e48007ce6f8ee1d8530130f6d38972fc6"
+    }
+  },
+  "ledger_duplicate_created": false,
+  "quoted_ashares": 5223,
+  "eligible": 4938,
+  "reference_faults": 83,
+  "financial_snapshots": 8,
+  "source_validation": "Independent financial PIT selection, six factor calculations and frozen model score reload; technical features use unchanged frozen streaming implementation.",
+  "original_source_ledger_sha256": "926cbcd05586b9d83d7af3f4bc262f8c0928a16d81bae61542eb58c1eb3c984b",
+  "executed_daily_source": "@work/research/executed_daily_code_20261103_v1/frozen_daily_workspace.py",
+  "late_cash_events_not_applied": true,
+  "model_retrained": false,
+  "whole_market_ready": false,
+  "verification_code_sha256": "9390309844e13939c98a468d27fb2e66302f381e0c5ed45b95e8096559853a32"
+}

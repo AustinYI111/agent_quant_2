@@ -1,0 +1,78 @@
+{
+  "status": "raw_fields_and_same_provider_security_scope_checked_not_prediction_ready",
+  "created_at_utc": "2026-11-03T11:02:01.003382+00:00",
+  "date": "2026-11-03",
+  "rows": 5224,
+  "regular_ashares": 5223,
+  "st_rows": 194,
+  "suspended_rows": 8,
+  "suspended_missing_volume_rows": 8,
+  "new_codes": [
+    "sz.001381"
+  ],
+  "missing_previous_codes": [],
+  "new_code_names": [
+    {
+      "code": "sz.001381",
+      "tradeStatus": "1",
+      "code_name": "皇冠新材"
+    }
+  ],
+  "price_audit": {
+    "reference_tick_size": 0.01,
+    "rounded_reference_matches": 0,
+    "rows": 10445,
+    "symbols": 5223,
+    "affected_symbols": 4,
+    "issue_counts": {
+      "unreconciled_adjustment": 4
+    },
+    "model_ready": false,
+    "limitation": "Audit from first observed quote; listing dates, event vintages, rights and terminal settlements require separate validation"
+  },
+  "current_reference_issues": [
+    {
+      "symbol": "sh.605179",
+      "date": "2026-11-03T00:00:00.000",
+      "issue": "unreconciled_adjustment",
+      "count": 1,
+      "observed_preclose": 23.34,
+      "expected_preclose": 23.37
+    },
+    {
+      "symbol": "sh.605300",
+      "date": "2026-11-03T00:00:00.000",
+      "issue": "unreconciled_adjustment",
+      "count": 1,
+      "observed_preclose": 9.46,
+      "expected_preclose": 9.5
+    },
+    {
+      "symbol": "sz.000788",
+      "date": "2026-11-03T00:00:00.000",
+      "issue": "unreconciled_adjustment",
+      "count": 1,
+      "observed_preclose": 5.34,
+      "expected_preclose": 5.36
+    },
+    {
+      "symbol": "sz.300735",
+      "date": "2026-11-03T00:00:00.000",
+      "issue": "unreconciled_adjustment",
+      "count": 1,
+      "observed_preclose": 14.45,
+      "expected_preclose": 14.53
+    }
+  ],
+  "source_hashes": {
+    "incoming-20261103/close_capture_20261102_observed_20261103_v1/market/latest/daily_20261102.csv": "7d6c1a44b152f0183214e3b75cddf486be45f3a8406349d101c12b4f8b6975ea",
+    "incoming-20261103/close_capture_20261103_v1/market/latest/daily_20261103.csv": "528332916f39b8bf0610c616f42082180953184dec8380558a1c7f851ae162b5",
+    "incoming-20261103/close_capture_20261103_v1/reference/stock_all_20261103.csv": "5668a831af6f69d7dbe044b87ba319a538dc2ef442326153e0121c78d07aa4e1",
+    "incoming-20261029/cash_events_staged_20261029_v2/actions.csv": "6e8f3f460e3b94440322c5bd4bc928eea8f6de2d00d22edaa5da147781825e21"
+  },
+  "prediction_ready": false,
+  "limitations": [
+    "Same-provider raw/security parity, not independent exchange certification.",
+    "A first quote has no prior-price comparison; IPO date and ranking eligibility remain separately checked."
+  ]
+}

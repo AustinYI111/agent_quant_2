@@ -147,6 +147,9 @@ def normalize_cninfo_dividends(data, calendar_path, out):
                     continue
                 if ex_date not in cal:
                     raise ValueError("execution not an exchange session")
+                context=' '.join(str(row.get(field,'')) for field in ['F044V','F007V'])
+                if any(term in context for term in ['重整','破产','债权','抵债','出资人权益调整']):
+                    raise ValueError("reorganization terms require reviewed original-holder entitlements; not an ordinary distribution")
                 def per_share(field):
                     return float(row[field]) / 10 if pd.notna(row[field]) else float("nan")
                 terms = _terms(pd.Series(dict(dividCashStock=row.F007V, dividCashPsBeforeTax=per_share("F012N"),

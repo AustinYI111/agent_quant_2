@@ -1,0 +1,81 @@
+{
+  "schema": "phase2_private_recovery_delivery_v1",
+  "published_at_utc": "2026-10-23T03:07:48.794986+00:00",
+  "repository": "AustinYI111/agent_quant_2-backups",
+  "repository_verified_private": true,
+  "uploaded": {
+    "repository": "AustinYI111/agent_quant_2-backups",
+    "tag": "backup-phase2-research-20261023-v1",
+    "asset": "pqr-phase2-research-20261023-v1.pqr",
+    "sha256": "8632c556295d82dcf6dfef0cda9d00ff8e227b999ea7f3c41c55623b026cbe60",
+    "url": "https://github.com/AustinYI111/agent_quant_2-backups/releases/tag/backup-phase2-research-20261023-v1",
+    "schema": "phase2_private_release_upload_v1",
+    "uploaded_at_utc": "2026-10-23T02:42:19.230367+00:00",
+    "server_digest_and_size_verified": true,
+    "password_or_token_uploaded": false,
+    "archive_bytes": 948279235,
+    "compatible_code_commit": "80f0639f025893f90e505a4bc27876db1b13a16e"
+  },
+  "fresh_phase2_cloud_download": {
+    "schema": "phase2_fresh_cloud_download_v1",
+    "downloaded_at_utc": "2026-10-23T02:59:34.567731+00:00",
+    "repository": "AustinYI111/agent_quant_2-backups",
+    "tag": "backup-phase2-research-20261023-v1",
+    "asset": "pqr-phase2-research-20261023-v1.pqr",
+    "sha256": "8632c556295d82dcf6dfef0cda9d00ff8e227b999ea7f3c41c55623b026cbe60",
+    "bytes": 948279235,
+    "fresh_download": true,
+    "server_digest_verified": true,
+    "password_or_token_saved": false
+  },
+  "fresh_clone_restore": {
+    "schema": "fresh_clone_research_layers_restore_verification_v1",
+    "verified_at_utc": "2026-10-23T03:03:14.330276+00:00",
+    "clone_commit": "6935f29d96aafdeee78123ef0f23bc2c4771b297",
+    "archive_compatible_code_commit": "80f0639f025893f90e505a4bc27876db1b13a16e",
+    "restore": {
+      "schema": "verified_research_layers_restore_v1",
+      "archives": 2,
+      "verified_files": 15959,
+      "installed_files": 15959,
+      "identical_files_preserved": 0,
+      "code_or_credentials_modified": false,
+      "archive_sha256": [
+        "3dc6606fb7a5fd2b728896e3945382659b318c6d38081e09ddefb965ce014ff7",
+        "8632c556295d82dcf6dfef0cda9d00ff8e227b999ea7f3c41c55623b026cbe60"
+      ],
+      "verified": true
+    },
+    "frozen_models": 3,
+    "frozen_predictions": 14808,
+    "candidate_models": 90,
+    "candidate_predictions": 1800,
+    "reload_max_absolute_error": 0.0,
+    "ledger_counts": {
+      "batches": 9,
+      "scores": 44415,
+      "archive_imports": 3
+    },
+    "all_original_receipts_exact": true,
+    "retrained": false,
+    "tracked_code_modified": false,
+    "source": "local authenticated encrypted archives; private upload is recorded separately",
+    "fresh_cloud_download_verified": false,
+    "clean_windows_install_verified": false,
+    "whole_phase2_complete": false
+  },
+  "base_fresh_cloud_download_verified": false,
+  "clean_windows_install_verified": false,
+  "full_one_command_cloud_restore_on_clean_pc_verified": false,
+  "tests": {
+    "passed": 773,
+    "seconds": 231.82
+  },
+  "password_or_github_token_included": false,
+  "whole_phase2_complete": false,
+  "excluded_after_checkpoint": [
+    "subsequent CSRC 2012 standard capture",
+    "corrected CSRC extraction v2",
+    "subsequent industry research prototypes and experiments"
+  ]
+}

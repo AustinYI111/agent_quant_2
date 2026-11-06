@@ -1,0 +1,107 @@
+{
+  "schema": "primary_exchange_rights_quote_verification_v1",
+  "verified_at_utc": "2026-11-04T02:07:15.357349+00:00",
+  "status": "primary_exchange_quote_matches_raw_two_event_typed_reference_built",
+  "config": "config/reviewed_rights_cases_20261104_v3.json",
+  "config_sha256": "85c7b6bfa096e714f4da8bd43d4eeeb37b9469a17954eda4698f730a303d3904",
+  "source": {
+    "schema": "reviewed_sse_monthly_rights_quote_v1",
+    "reviewed": true,
+    "retrospective_reference_only": true,
+    "historical_availability_asserted": false,
+    "source_file": "research/sse_rights_monthly_20261104_v1/sse_monthly_202112.pdf",
+    "source_sha256": "2519894133664ff2ed88b75221c5713bca72d6a15a6fb459f6589f7ab7845e35",
+    "source_url": "https://www.sse.com.cn/aboutus/publication/monthly/documents/c/10061118/files/2e31b357ff4641f1956279cd7decc195.pdf",
+    "capture_file": "research/sse_rights_monthly_20261104_v1/capture.json",
+    "capture_sha256": "f5bd48a3dcbd688ea68f8d12e11da1b7a57372df1f2486ee3419bd47b63e3b1f",
+    "observed_at_utc": "2026-11-04T02:01:44.291408+00:00",
+    "reviewed_at_utc": "2026-11-04T02:07:13.488741+00:00",
+    "reviewed_pages": [
+      29,
+      30
+    ]
+  },
+  "raw_sql_rows": [
+    [
+      "2021-12-22",
+      8.87,
+      8.87,
+      8.87
+    ],
+    [
+      "2021-12-23",
+      8.55,
+      8.68,
+      8.48
+    ]
+  ],
+  "published_previous_close": "8.87",
+  "published_ex_reference": "8.48",
+  "independent_capital_formula": "8.491900811602785509938215309",
+  "independent_capital_formula_rounded": "8.49",
+  "capital_formula_is_exchange_definition_verified": false,
+  "typed_reference": "research/rights_exchange_reference_20261104_v1",
+  "typed_reference_sha256": "00a4a73f8e9bcd05cd66cba934d50d29ff2105057f438bba6c4834e87a16b2aa",
+  "reconciliations": [
+    {
+      "event_id": "sz.002142_20211123_rights",
+      "symbol": "sz.002142",
+      "date": "2021-12-02",
+      "previous_session": "2021-12-01",
+      "previous_close": 38.88,
+      "parent_fault_present": true,
+      "matches": true,
+      "expected_unrounded": "37.174516685966691559345792969904547047227150473621",
+      "expected_half_up": "37.17",
+      "observed_preclose": "37.17",
+      "exact_exchange_ratio": "0.099129975294477755348747734736083902819167557762509",
+      "reference_role": "retrospective quote reconciliation only; not an input to offer subscription or earlier ranking"
+    },
+    {
+      "event_id": "sh.601555_20211214_rights",
+      "symbol": "sh.601555",
+      "date": "2021-12-23",
+      "previous_session": "2021-12-22",
+      "previous_close": 8.87,
+      "parent_fault_present": true,
+      "matches": true,
+      "observed_preclose": "8.48",
+      "reference_basis": "reviewed_primary_exchange_quotation",
+      "exchange_quote": {
+        "symbol": "sh.601555",
+        "event_id": "sh.601555_20211214_rights",
+        "ex_date": "2021-12-23",
+        "previous_close": "8.87",
+        "ex_reference": "8.48",
+        "source_sha256": "2519894133664ff2ed88b75221c5713bca72d6a15a6fb459f6589f7ab7845e35",
+        "source_url": "https://www.sse.com.cn/aboutus/publication/monthly/documents/c/10061118/files/2e31b357ff4641f1956279cd7decc195.pdf",
+        "reviewed_pages": [
+          29,
+          30
+        ],
+        "row_number": 3,
+        "observed_at_utc": "2026-11-04T02:01:44.291408+00:00",
+        "reviewed_at_utc": "2026-11-04T02:07:13.488741+00:00",
+        "retrospective_reference_only": true,
+        "historical_availability_asserted": false
+      },
+      "capital_count_formula_diagnostic": {
+        "matches": false,
+        "expected_unrounded": "8.4919008116027855099382153077965489827955360177802",
+        "expected_half_up": "8.49",
+        "observed_preclose": "8.48",
+        "exact_exchange_ratio": "0.29042088692742429487474101491995616375952986337053",
+        "reference_role": "retrospective quote reconciliation only; not an input to offer subscription or earlier ranking"
+      },
+      "reference_role": "retrospective quote reconciliation only; not an input to offer subscription or earlier ranking"
+    }
+  ],
+  "investor_offer_ratio_unchanged": true,
+  "issue_counts_unchanged": true,
+  "ordinary_reference_unchanged": true,
+  "used_for_ranking_or_training": false,
+  "historical_original_vintage_verified": false,
+  "new_accounts_executed": false,
+  "complete_equal_benchmark_verified": false,
+  "tests_passed": 125
+}

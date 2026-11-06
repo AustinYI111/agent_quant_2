@@ -1,0 +1,155 @@
+{
+  "schema": "phase2_research_protocol_v1",
+  "frozen_at_utc": "2026-10-20T03:10:59.242283+00:00",
+  "research_start": "2018-01-01",
+  "research_end": "2025-12-31",
+  "independent_start": "2026-01-01",
+  "prospective_start": "2026-10-20",
+  "timezone": "Asia/Shanghai",
+  "daily_release_not_before": "17:20",
+  "horizons": [
+    "5d",
+    "20d",
+    "12m"
+  ],
+  "models": {
+    "5d": {
+      "relative_path": "artifacts/portable_real_horizons_20261020/5d/20250211",
+      "trained_asof": "2025-02-11",
+      "files_sha256": {
+        "feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+        "metadata.json": "c61b7e90fef846601c4c0bf36735dbd96c4338bbbb56ae9bb5bb1f76453ade4c",
+        "model.txt": "70d76a7af37e47e0d2a99c0d88ec76f2dccb15b08d990945055cc8d66d5f0464",
+        "training_dataset_metadata.json": "e6a58c95483a3bb654465d5ca724bb8314a68ccff61beb054eeb5b446e1ff0e7"
+      }
+    },
+    "20d": {
+      "relative_path": "artifacts/portable_real_horizons_20261020/20d/20250325",
+      "trained_asof": "2025-03-25",
+      "files_sha256": {
+        "feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+        "metadata.json": "e836fab768ba3b42ff350a4176d6ee9187da8a7c8bc5dda0dc49a887f4646079",
+        "model.txt": "49f9d547da3b916b557ac6dc897a1bb19279eef3ab4901a79d537a1333116dd5",
+        "training_dataset_metadata.json": "e6a58c95483a3bb654465d5ca724bb8314a68ccff61beb054eeb5b446e1ff0e7"
+      }
+    },
+    "12m": {
+      "relative_path": "artifacts/portable_real_horizons_20261020/12m/20250228",
+      "trained_asof": "2025-02-28",
+      "files_sha256": {
+        "feature_input_policy.json": "94214205c4d001b452406085f4e01377136febe2f15214a7e31b71c3be2655ef",
+        "metadata.json": "33ded958f3008939a276212f495bb4df84adfe814b3c8ffd6eab84ec461bbf6b",
+        "model.txt": "5640734659445cf8df6d1d46f5657f7eb455f2c9d8d806193478f9e65febddf8",
+        "training_dataset_metadata.json": "e6a58c95483a3bb654465d5ca724bb8314a68ccff61beb054eeb5b446e1ff0e7"
+      }
+    }
+  },
+  "status": "prespecified_before_phase2_downloads_or_performance_inspection",
+  "candidates_are_not_formal_models": true,
+  "data_roles": {
+    "research": "2018-2025 previously inspected; allowed for training and selection",
+    "independent": "2026 not used to select parameters; retrospective provider vintages are not certified historical PIT",
+    "prospective": "actual immutable predictions created after freeze and before next exchange open only",
+    "financial_and_industry_vintages": "retain first-observed UTC and revisions; do not backdate current membership or updated financials",
+    "originals": "phase1 dataset, models, factor code and outcomes remain immutable"
+  },
+  "candidate_groups": [
+    {
+      "id": "industry",
+      "features": [
+        "industry_relative_momentum_63",
+        "industry_relative_momentum_126",
+        "industry_breadth_50"
+      ],
+      "minimum_members": 10,
+      "membership": "dated and visible at signal; no current-membership historical backfill"
+    },
+    {
+      "id": "market_state",
+      "features": [
+        "index_above_ma200",
+        "index_volatility_63",
+        "momentum_63_times_market_on"
+      ],
+      "normalization": "market-wide state is not demeaned to zero within each cross-section",
+      "timing": "entry only when prior decision CSI300 close exceeds trailing200-session average; exit at next open after state switches off"
+    },
+    {
+      "id": "oneil_box",
+      "features": [
+        "box_width_20",
+        "box_width_60",
+        "close_to_prior_box_high20",
+        "breakout_volume_ratio50"
+      ],
+      "definition": "operational ONeil-style consolidation proxy, not a canonical named formula",
+      "bounds": "previous20/60-session maximum and minimum causal closes excluding signal; width high/low-1",
+      "timing": "enter if close exceeds previous20 high, width<=0.25, volume>=1.5*previous50 mean; exit below previous20 low, next tradable open; unknown inputs do not open a position"
+    },
+    {
+      "id": "combined",
+      "features": "union of three groups",
+      "timing": "market_state and oneil_box entry conditions; either exit condition"
+    }
+  ],
+  "validation": {
+    "train_months": 60,
+    "min_train_dates": 12,
+    "embargo_sessions": 1,
+    "candidate_estimators": [
+      30,
+      60
+    ],
+    "seed": 42,
+    "research_validation_windows": [
+      [
+        "2021-07-30",
+        "2022-06-30"
+      ],
+      [
+        "2022-07-01",
+        "2023-06-30"
+      ],
+      [
+        "2023-07-03",
+        "2024-06-28"
+      ],
+      [
+        "2024-07-01",
+        "2025-06-30"
+      ],
+      [
+        "2025-07-01",
+        "2025-12-31"
+      ]
+    ],
+    "independent_data_may_select_parameters": false,
+    "independent_data_may_train_candidates": false,
+    "selection": "research-only mature labels, purged before each fold; paired net excess vs identically retrained baseline; tie -> fewer trees",
+    "controls": [
+      "original frozen baseline",
+      "matched retrained baseline with original factors and same training cutoff",
+      "CSI300 price index",
+      "eligible equal-weight raw-share reference with dividends and same costs"
+    ],
+    "claims": "four groups x three horizons x ranking/timing =24 prespecified comparisons; Bonferroni familywise alpha0.05/24",
+    "uncertainty": "paired calendar-block bootstrap,63 sessions,2000 repetitions,seed42; insufficient independent history yields insufficient evidence",
+    "unknown_outcomes": "unmatured_or_unresolved_never_zero",
+    "selection_and_attribution": "report sector/market/exposure/cost contributions separately; no causal single-stock explanation from global feature importance"
+  },
+  "execution": {
+    "top_k": 20,
+    "commission_bps": 3,
+    "slippage_bps": 5,
+    "sell_stamp_duty": "dated existing schedule",
+    "daily_predictions": "all horizons every observed session; next exchange session open execution only",
+    "baseline_rebalances": "5/20-session grid anchored first2026 session;12 calendar months, no hold-period shortening",
+    "held_valuation": "raw shares,cash,receivables; unresolved positive holdings stop, never delete or zero",
+    "scopes": "historical ST/*ST and Beijing excluded from new candidates; existing blocked positions remain in account"
+  },
+  "acceptance": {
+    "no_automatic_promotion": true,
+    "no_main_merge_without_owner": true,
+    "long_horizon": "12-month independent outcomes remain pending until actually mature; no short-horizon proxy presented as12m evidence"
+  }
+}

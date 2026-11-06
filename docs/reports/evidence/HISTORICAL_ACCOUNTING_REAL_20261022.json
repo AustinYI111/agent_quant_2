@@ -1,0 +1,106 @@
+{
+  "schema": "historical_real_accounting_attribution_v1",
+  "status": "all_three_historical_accounts_reconciled",
+  "started_at_utc": "2026-10-22T07:01:46.879276+00:00",
+  "source_replay": "artifacts/three_horizon_valuation_replay5",
+  "source_replay_audit_sha256": "f2af9c29256b9a6707c5cde0416d56e2e00a08627749e243fb053e2e5ba2f2cd",
+  "source_raw_sha256": "327e392dd61a4674156c567a31df38f377be8af4ebc918c95fada2aaf1450785",
+  "actions_sha256": "fcf7fca07b4bedf495318a96bb4c5f6df71d2f3ee253b7430e598e3deea18ca2",
+  "benchmark_sha256": "e783866da38bc3e81855b026402a7141d18e18780c6728e4f9c93b54cda281e8",
+  "accounting_code_sha256": "7141ea867bb3ed7711c01333630fa087c04414899aa365b5bd5872f63f35d341",
+  "source_files_sha256": {
+    "artifacts/three_horizon_valuation_replay5/portfolios/5d/daily_nav.csv": "87109aca57552b6b99b9b33f910454baaeb02d1889d889c1a888d153951942bd",
+    "artifacts/three_horizon_valuation_replay5/portfolios/5d/orders.csv": "f6204e5f6cf538997142b6703714d9718a32972502542b99d2654925edb75f85",
+    "artifacts/three_horizon_valuation_replay5/portfolios/5d/summary.json": "9a22991b5c436568f07ada636ec45d9abd0a63cdd55cc335bfbd8ef02340e47e",
+    "artifacts/three_horizon_valuation_replay5/portfolios/20d/daily_nav.csv": "a6fe227afc703146e31af9264bb8fa62af6ef3f5524676fed1671bf865967029",
+    "artifacts/three_horizon_valuation_replay5/portfolios/20d/orders.csv": "670224c47d443d20e10596854a2c7b27de7a8a41d6c1ebefce21d21b6dd915d6",
+    "artifacts/three_horizon_valuation_replay5/portfolios/20d/summary.json": "8cc39e164634a856bfe7886fba8bc0a3abfa014c04ee43ad184c5354a4ebcdf0",
+    "artifacts/three_horizon_valuation_replay5/portfolios/12m/daily_nav.csv": "667112e7872e0e2765920c85ee3c43bd922f40c180be1fd3153724aee7815a50",
+    "artifacts/three_horizon_valuation_replay5/portfolios/12m/orders.csv": "18cd01294e07787bee431cc645515b478904afede4dbc3b3d9011841ad5c5bca",
+    "artifacts/three_horizon_valuation_replay5/portfolios/12m/summary.json": "e0ccab385896bda31365721e4bcb32714a59885481fa1506df473a59ab869893"
+  },
+  "books": {
+    "5d": {
+      "sessions": 711,
+      "first": "2023-02-01",
+      "last": "2025-12-31",
+      "position_rows": 14200,
+      "asset_rows": 15290,
+      "net_total_return": -0.1380244123655019,
+      "accounting_sum": -0.1380244123655109,
+      "max_daily_reconciliation_error": 6.565928356572215e-16,
+      "contributions_in_initial_capital_units": {
+        "price_pnl": -0.04471497591759252,
+        "gross_dividend_entitlement": 0.014454324934256364,
+        "dividends_paid_cash": 0.014454324934256366,
+        "commission_cost": 0.029341456024039904,
+        "slippage_cost": 0.048902426706733164,
+        "stamp_duty_cost": 0.029519878651401703,
+        "total_execution_cost": 0.10776376138217476,
+        "unit_beta_market_reference": 0.06745723599202483,
+        "price_residual_after_market": -0.11217221190961729
+      }
+    },
+    "20d": {
+      "sessions": 711,
+      "first": "2023-02-01",
+      "last": "2025-12-31",
+      "position_rows": 14240,
+      "asset_rows": 14693,
+      "net_total_return": 0.4036600824124916,
+      "accounting_sum": 0.4036600824124863,
+      "max_daily_reconciliation_error": 8.049116928532385e-16,
+      "contributions_in_initial_capital_units": {
+        "price_pnl": 0.4197592060481233,
+        "gross_dividend_entitlement": 0.033739750919745085,
+        "dividends_paid_cash": 0.033739750919745085,
+        "commission_cost": 0.01374183414407625,
+        "slippage_cost": 0.022903056906793753,
+        "stamp_duty_cost": 0.013193983504512077,
+        "total_execution_cost": 0.04983887455538208,
+        "unit_beta_market_reference": 0.1468288616613273,
+        "price_residual_after_market": 0.2729303443867959
+      }
+    },
+    "12m": {
+      "sessions": 711,
+      "first": "2023-02-01",
+      "last": "2025-12-31",
+      "position_rows": 14220,
+      "asset_rows": 14257,
+      "net_total_return": 0.2732280314320945,
+      "accounting_sum": 0.27322803143209373,
+      "max_daily_reconciliation_error": 8.72565908416334e-16,
+      "contributions_in_initial_capital_units": {
+        "price_pnl": 0.26493403554710415,
+        "gross_dividend_entitlement": 0.01276730143167705,
+        "dividends_paid_cash": 0.01276730143167705,
+        "commission_cost": 0.001350085179217986,
+        "slippage_cost": 0.0022501419653633095,
+        "stamp_duty_cost": 0.0008730784021061637,
+        "total_execution_cost": 0.004473305546687459,
+        "unit_beta_market_reference": 0.12385680940792002,
+        "price_residual_after_market": 0.14107722613918428
+      }
+    }
+  },
+  "certified": false,
+  "model_ready": false,
+  "models_retrained": false,
+  "forecast_or_account_modified": false,
+  "industry_attribution_status": "pending_dated_source",
+  "market_reference_method": "unit-beta invested exposure times CSI300 price-index same-open return; not causal alpha",
+  "completed_at_utc": "2026-10-22T07:02:04.829407+00:00",
+  "output_hashes": {
+    "12m/asset_attribution.csv": "293f57707d36abc317c580bb5d5ff4e362f5013cbc2fccf6f14acc2eb2218cd0",
+    "12m/daily_accounting.csv": "333388d7505a761502b2ebbe4994a798aa601f752b5f484af234b3cb095a15e3",
+    "12m/position_history.csv": "22ef06217df6d81c9dba6817cb1fad90985746297cfe13cbaabc4aab9de758ae",
+    "20d/asset_attribution.csv": "f4eb8d0e5b285dacdac15e2869912ca93e280bb8774fc919b0072cbee75d1e32",
+    "20d/daily_accounting.csv": "18611f9823606ddcb62c5e462abf42029bbaf1868ef850dc24c15c4ad59504ef",
+    "20d/position_history.csv": "055298b4ad5a6725dd894f86677a19739fd12d48edc9195542aa1e1b6c7bd02d",
+    "5d/asset_attribution.csv": "0b7c2e83b8f17f319f257ec57139f2c86e5a7637b11825a38faeae6352bbce88",
+    "5d/daily_accounting.csv": "20297d2f59443661bfa36e8864ebd3bc6f24c3b559e159a0a74b6f0bad824b33",
+    "5d/position_history.csv": "cc1a26bb5fc332115363e78994c78f145e3907822d65b356bfd6ce539493ddba"
+  },
+  "cli_csv_outputs_reproduce_exactly": true
+}

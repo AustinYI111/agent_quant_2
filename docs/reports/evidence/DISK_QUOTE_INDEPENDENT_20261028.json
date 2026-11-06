@@ -1,0 +1,23 @@
+{
+  "schema": "independent_all_row_quote_store_fingerprint_v1",
+  "verified_at_utc": "2026-10-28T04:03:07.370739+00:00",
+  "source_sha256": "327e392dd61a4674156c567a31df38f377be8af4ebc918c95fada2aaf1450785",
+  "quote_database_sha256": "60ed6ec12b87dc5aaa90182fafafbb592bfb43b4a2d4e17045703e3aba3f6bad",
+  "source_manifest_sha256": "f9347a2464036754a3429b80353fe445e58f6b974546cf21fc514971fbfc45cf",
+  "original_fingerprint": {
+    "rows": 8609196,
+    "issuers": 5401,
+    "sha256_sum_mod_2pow256": "05e133c6586ebad8190e064df779b8a8129de7f8cce7afd8896e1ff59b0084bd",
+    "sha256_xor": "4cdcb7892a3414ec6cb514a1988019ce746bd49cf0cb4cdc60e0ed48ee4a708b"
+  },
+  "database_fingerprint": {
+    "rows": 8609196,
+    "issuers": 5401,
+    "sha256_sum_mod_2pow256": "05e133c6586ebad8190e064df779b8a8129de7f8cce7afd8896e1ff59b0084bd",
+    "sha256_xor": "4cdcb7892a3414ec6cb514a1988019ce746bd49cf0cb4cdc60e0ed48ee4a708b"
+  },
+  "all_numeric_and_execution_fields_match": true,
+  "method": "Independent original CSV and SQLite readers; row SHA256 sum modulo2^256 plus XOR, row count and issuer count; includes dates, issuer, all three prices, trading status, terminal date and both execution flags. Order-independent, no sorting or full-history materialization.",
+  "models_retrained": false,
+  "backup_or_restore_performed": false
+}

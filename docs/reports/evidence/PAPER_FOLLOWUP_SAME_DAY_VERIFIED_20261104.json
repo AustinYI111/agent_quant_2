@@ -1,0 +1,57 @@
+{
+  "schema": "independent_archived_paper_followup_audit_v1",
+  "status": "saved_paper_followup_independently_verified",
+  "verified_at_utc": "2026-11-04T09:44:07.884563+00:00",
+  "followup_manifest_sha256": "815deaa9a55d58f7da9d50b2cb373ce38a851b41e5490f0b4b0330230918c94e",
+  "accounts": [
+    {
+      "horizon": "5d",
+      "status": "all_saved_account_opens_independently_reconstructed",
+      "sessions": 5,
+      "orders": 20,
+      "filled_non_st_buy_keys": 20,
+      "first_valuation": "2026-10-29",
+      "last_valuation": "2026-11-04",
+      "last_nav": 0.9895233217457263,
+      "total_return_from_initial_wealth": -0.010476678254273675,
+      "total_paid_cost_initial_wealth": 0.0007993605115907272,
+      "maximum_absolute_cash_share_error": 2.220446049250313e-16
+    },
+    {
+      "horizon": "20d",
+      "status": "awaiting_entry_no_invented_nav",
+      "sessions": 0,
+      "orders": 0
+    },
+    {
+      "horizon": "12m",
+      "status": "awaiting_entry_no_invented_nav",
+      "sessions": 0,
+      "orders": 0
+    }
+  ],
+  "archive_sha256": "91ce919e7ca87b9c4f4178ea60e36084c52a681bd4fd52b29494b551b3f04520",
+  "archive_unchanged": true,
+  "new_predictions_created": false,
+  "filled_buy_forecast_authorization_checked": true,
+  "positive_holding_quote_references_checked": true,
+  "verification_code_sha256": "e6212ef288468de6aedb7552fb12009d0dafea7f05ac107d3cbafe919e455e00",
+  "limitations": [
+    "Research open-price simulation with fractional shares and frozen costs; not verified broker fills, preopen source vintages or after-tax performance.",
+    "Only the saved followup window is reconstructed; no claim of mature5d/20d/12m validation or causal alpha."
+  ],
+  "previous_four_nav_rows_bitexact": true,
+  "previous_orders_sha256_unchanged": true,
+  "ordinary_share_changing_events_in_window": 0,
+  "benchmark": {
+    "total_return": -0.016715140798268524,
+    "arithmetic_return_difference": 0.006238462543994849,
+    "original_index_opens_recomputed": true,
+    "source_hashes": {
+      "incoming-20261103/close_capture_20261102_observed_20261103_v1/reference/csi300_20261029_20261102.csv": "df10cb67ea70bf7476f40c9aed861d1e25be865c414b4ddf05a2d1c639892cc4",
+      "incoming-20261103/close_capture_20261103_v1/reference/csi300_20261030_20261103.csv": "6c4a445c68bc4fb5525424b190d8208f6db4fae390dc8a30138c222c44676c7f",
+      "incoming-20261104/close_capture_20261104_v1/reference/csi300_20261102_20261104.csv": "aa4c6959a427b2c4d701fcc88f7141d58f4ec50e6771897557b4d7c4136c7d20"
+    }
+  },
+  "nav_summary_sha256": "68fa9ea6987f9220875ad80c0000cfeca687aa01e3d555f152065be6b8f8e6e9"
+}

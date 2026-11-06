@@ -1,0 +1,138 @@
+{
+  "schema": "primary_cash_completion_checkpoint_v1",
+  "recorded_at_utc": "2026-10-26T01:42:25.894913+00:00",
+  "tests": 826,
+  "failures": 0,
+  "test_seconds": 318.832,
+  "valuation_manifest_sha256": "a105440641563a298093112467dc0dd56c3f7309efd096298abe6b77a900e341",
+  "valuation_actions_sha256": "67961a308a2b1fc3a3957c6f7bf581f85a221f137a0fd66a3c214d207bd93ec4",
+  "valuation_rows": 27659,
+  "source_configs_sha256": {
+    "config/reviewed_industry_missing_cash_20261026_v1.json": "ea66e2f88bfe798c6b18c6af68fe8b96fcdf6e77a323185893e1b5f28b58ac85",
+    "config/reviewed_industry_cash_components_20261026_v1.json": "11cddbaaa9ccb647dd91f30e337d246ff3a42f96e3eb2812f1a819ab94479803",
+    "config/reviewed_industry_valuation_refs_20261026_v1.json": "ec4a3176d8ea27115a6db3bc9074296c6f716660605eca9665f97fca70dfaa9d"
+  },
+  "missing_cash_events": 2,
+  "partial_cash_completions": 1,
+  "reference_only_events": 16,
+  "training_features_or_labels_changed": false,
+  "independent_payment_confirmation": false,
+  "full_family_requested_accounts": 30,
+  "reused_baseline_accounts": 0,
+  "job_status_at_checkpoint": "evaluating",
+  "account_manifest_snapshot_sha256": "d4340b016ed98cc3e0347ca29c93ad5f9b3786fedc4b3ccdbdc6ce87b572132a",
+  "accounts_at_checkpoint": [
+    {
+      "horizon": "5d",
+      "n_estimators": 30,
+      "group": "baseline",
+      "status": "complete_calendar_mature_ranking_account",
+      "previous_baseline_max_absolute_nav_difference": 0.0
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 30,
+      "group": "market_state",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 30,
+      "group": "oneil_box",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 30,
+      "group": "industry",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 30,
+      "group": "combined",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 60,
+      "group": "baseline",
+      "status": "complete_calendar_mature_ranking_account",
+      "previous_baseline_max_absolute_nav_difference": 0.0
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 60,
+      "group": "market_state",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 60,
+      "group": "oneil_box",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 60,
+      "group": "industry",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "5d",
+      "n_estimators": 60,
+      "group": "combined",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 30,
+      "group": "baseline",
+      "status": "complete_calendar_mature_ranking_account",
+      "previous_baseline_max_absolute_nav_difference": 0.0
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 30,
+      "group": "market_state",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 30,
+      "group": "oneil_box",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 30,
+      "group": "industry",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 30,
+      "group": "combined",
+      "status": "complete_calendar_mature_ranking_account"
+    },
+    {
+      "horizon": "20d",
+      "n_estimators": 60,
+      "group": "baseline",
+      "status": "complete_calendar_mature_ranking_account",
+      "previous_baseline_max_absolute_nav_difference": 0.0
+    }
+  ],
+  "independent_complete_account_reconstruction": "pending whole-family terminal output",
+  "unresolved": [
+    {
+      "symbol": "sz.000157",
+      "ex_date": "2023-07-21",
+      "reason": "no explicit reference parameters in implementation notice; not inferred from observed prices"
+    }
+  ],
+  "public_reproduction_actions_identical": true,
+  "latest_artifacts_cloud_backed_up": false,
+  "formal_model_promoted": false,
+  "phase2_complete": false
+}

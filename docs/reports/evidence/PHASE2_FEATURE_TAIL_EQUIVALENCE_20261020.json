@@ -1,0 +1,35 @@
+{
+  "schema": "real_feature_tail_equivalence_v1",
+  "created_at_utc": "2026-10-20T03:48:38.044361+00:00",
+  "protocol_sha256": "d8a79ee894df5054c73289e101b9cf2bf77093c89b47b31e5551c5ffa7def04f",
+  "asof": "2025-12-31",
+  "retained_bars": 1678892,
+  "eligible": 4827,
+  "feature_count": 10,
+  "max_feature_error": 5.275224701506431e-13,
+  "records": [
+    {
+      "horizon": "5d",
+      "predictions": 4827,
+      "max_prediction_error": 0.0,
+      "historical_top20_exact": true
+    },
+    {
+      "horizon": "20d",
+      "predictions": 4827,
+      "max_prediction_error": 0.0,
+      "historical_top20_exact": true
+    },
+    {
+      "horizon": "12m",
+      "predictions": 4827,
+      "max_prediction_error": 0.0,
+      "historical_top20_exact": true
+    }
+  ],
+  "indicators_recomputed": true,
+  "retrained": false,
+  "synthetic": false,
+  "certified": false,
+  "scope": "Historical raw feature recomputation and three frozen model equivalence; not latest 2026 data or live/paper tracking validation."
+}

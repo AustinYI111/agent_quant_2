@@ -1,0 +1,78 @@
+{
+  "schema": "phase2_primary_cash_review_evidence_v1",
+  "review_sha256": "c48a956a6f1e7c23676d3be3503dc4903582bd2a7e97b6aeb198495b28959b8e",
+  "payment_review": {
+    "schema": "reviewed_cash_supplemented_payments_v1",
+    "status": "official_notice_cash_supplemented",
+    "events": 4337,
+    "supplements": 2,
+    "existing_entitlements_unchanged": true,
+    "input_hashes": {
+      "artifacts/phase2/normalized/payments_share_references_20261021/summary.json": "832b2b6213910d5e86434d269a5e2240f575a96ab76cd87e300e7d5adbb2a26f",
+      "artifacts/phase2/raw/payment_capture_20261020/histories/manifest.json": "60da5051ea914f6a227ef14c244c663985b22d7c9f77a9ae762ce0af3ed03a05",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/manifest.json": "7a2174a1bbd64599ddda5049b53c5c6165236ab02e255df25b438e1b18414a32",
+      "artifacts/phase2/raw/market_capture_20261021/exchange_calendar.csv": "4ec1d92d71515e40f6607a2dcc66842c4d6ff85f6eb97f9542293fed9624f79e",
+      "config/reviewed_notice_only_cash_20261021.json": "c48a956a6f1e7c23676d3be3503dc4903582bd2a7e97b6aeb198495b28959b8e",
+      "artifacts/phase2/normalized/payments_share_references_20261021/actions.csv": "a29582f6f48080a30d25d77fda7609f89f147759956c2ee10fcd46f37195910f",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q2/page_001.json": "f59d6495ed7ab0afe835d8a101bcbcc648cb0e604acf0a5faeb72433924973a4",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q2/page_002.json": "137d221192cceb58a8cca9ed2c7c3d032e6299d65fb52ba5fa900e8e1c320363",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q2/records.csv": "370107ad64f328407e11c55093a6b8d3a616f503c47da05e258321af7c671050",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q3/page_001.json": "ed8eb40626c092bdf40bd2bbe131d636ee0e04d37031489b66c8cd1a24d56892",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q3/records.csv": "942390ca9520fbbb62cad3a5a281364901e83a787df0de01a3a119648328a98f",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q4/page_001.json": "d2e5694b04b17a963f9945b80380f5d293d40f90e87f3a0d17fe71e404e1bb26",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q4/page_002.json": "f86a98aec71409a2f0c84fbd8040ab05210d28ae5cba2e14a6fd3c26caa7eefc",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q4/page_003.json": "537340adcd39dec0eee579a767b5b9e9ed8bf70a8168607a9a7fc00589c6d167",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q4/page_004.json": "33b0c9d893320f38cb47348298186b57e65931fb6517b3b1ba5d9450c33a3805",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q4/page_005.json": "c78a32da78c17fe643c3345342a2d025f5610d49d411ec456ff144ba71368bea",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q4/page_006.json": "06286d29b502c0d2e8bfd927d9d6fccc8863ebebba82209de67d54783c2a44a4",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q4/page_007.json": "61d365e80bfdea8c6f8322b2a53cc34617f8fa200a70bca666d3c6f7783b6af6",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q4/page_008.json": "94eb59fb876e38efa03c873493e1132887e1e76f5ce4c0d731841bbb1bd4d631",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2025Q4/records.csv": "bad26860870643abee29321e6c8cb60e5dd18f16eb05c2a18f67305ea797f0b5",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2026Q1/page_001.json": "0d502dec81e7bc140ea64fe1164b6b10727e75c0317b170363801004689a215c",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2026Q1/records.csv": "d0bc8562c9fcf720cd202aec6258b5cd5f3780fa72545bbe85bd31dfa4cd7a54",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2026Q2/page_001.json": "fd0afa63c93f460b92a5ce710624bcd5107b173a9f981c300d8dfbba8a177c9e",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2026Q2/page_002.json": "4f54f22b6a64c11490501e17bd624808b5d6ad88655e9f2a2d045e947921bda3",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2026Q2/page_003.json": "d84de5458558364e96c0f5d3a6bad6e53526c0bb76bc79eca000414969ad5927",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2026Q2/records.csv": "5fb1195de8a280cd69a2bcbeb9fc8269861accf815d42707376119266afed9b3",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2026Q3/page_001.json": "c9ce178afd7bfbf69e9abd8ed8483bc3d5f57de25fd9eaa7c4a2d7f5953b8538",
+      "artifacts/phase2/raw/dividend_six_quarters_20261020/2026Q3/records.csv": "dbd0f94c19f32fa8ed84f57528a09c17cf43a8d0693ffea615ebddf2f3c60893",
+      "artifacts/phase2/official_reference_faults_20261020/601059_1225435864.PDF": "768e6bfe027b4e8395a2693e3025640891549dd4966f40fd8b258be49c087aa1",
+      "artifacts/phase2/official_reference_faults_20261020/601198_1225431398.PDF": "694e9f6ef77f6f5568553e61f1157f3c8d40978917c92a31da6d5f3c836bfea8",
+      "artifacts/phase2/raw/payment_capture_20261020/histories/sh.601059.json": "c3eafa7ef96b7f4bd4c5030dfb4a5913c09a1754245725b0d93a89a3f3f48c1b",
+      "artifacts/phase2/raw/payment_capture_20261020/histories/sh.601059.csv": "6059d2e4af385a1a50d59495bbee9bba1e35a36eff1d3518fa4b052ce9ee86e6",
+      "artifacts/phase2/raw/payment_capture_20261020/histories/sh.601198.json": "c3eafa7ef96b7f4bd4c5030dfb4a5913c09a1754245725b0d93a89a3f3f48c1b",
+      "artifacts/phase2/raw/payment_capture_20261020/histories/sh.601198.csv": "6059d2e4af385a1a50d59495bbee9bba1e35a36eff1d3518fa4b052ce9ee86e6"
+    },
+    "output_hashes": {
+      "actions.csv": "9264e4337f6c88ed3855a63c7998cd932e2a42f98a5b451f1cb1052efd79b6a7",
+      "notice_cash_audit.csv": "43fe873250a4418682829f2469faa84c3b6d0649787bb10d392e8dee7b770f5a"
+    },
+    "independent_payment_confirmation": false,
+    "certified": false,
+    "model_ready": false,
+    "limitations": [
+      "Primary notices document these new events; vendor empty replies are omissions, not confirmation of absence.",
+      "Missing quarterly labels remain unknown; no synthetic vendor records are created.",
+      "Remaining raw-reference faults, original vintages and execution remain unverified."
+    ]
+  },
+  "full_quote_diagnostic": {
+    "issuers": 5244,
+    "bars": 988159,
+    "previous_faults": 67,
+    "remaining_faults": 65,
+    "resolved": 2,
+    "new_faults": 0,
+    "resolved_keys_equal_reviewed_keys": true,
+    "output_hashes": {
+      "calendar_gaps.csv": "7eb70257593da06f682a3ddda54a9d260d4fc514f645237f5ca74b08f8da61a6",
+      "reference_faults.csv": "e233c19f4574bb6a2e24d407fd299ec094105cbcfc496e3c508298ba38a80f97"
+    }
+  },
+  "validation": {
+    "related_tests": 38,
+    "full_suite": "GitHub CI for this commit"
+  },
+  "prediction_ready": false,
+  "phase2_cloud_backup_completed": false
+}

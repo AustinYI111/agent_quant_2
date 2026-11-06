@@ -1,0 +1,16 @@
+{
+  "schema": "executed_rights_source_compatibility_v1",
+  "verified_at_utc": "2026-11-04T07:55:33.081814+00:00",
+  "executed_source": "research/executed_rights_terms_20261104_v1/rights_terms.py",
+  "executed_source_raw_sha256": "9d1f5f7ddcc94c9b874548015bb1b9e2b28900ce96e789bd00d7a9378c9dca02",
+  "executed_normalized_code_sha256": "a2fc8723f519e56de561871f6461b4645e975bfe04083d94fe8e3f8a4fc1c64f",
+  "delivered_normalized_code_sha256": "00a43b742dea1690c6ad3d999e674f10faa98a260a54a980affba4d63600bd88",
+  "only_change": "Remove one extra trailing LF; exact executed source retained separately.",
+  "ast_exact": true,
+  "executed_reference": "research/six_rights_parent8_reference_20261104_v1",
+  "executed_reference_sha256": "f5a981a28f39ccb35f58633222ea309e4511178b906f307d38316b8effaed68c",
+  "compatible_reference": "research/six_rights_parent8_reference_20261104_v2",
+  "compatible_reference_sha256": "fac574e7e55e2d57a38857cab6b2ef3cea77dbc0f803a2e8c71edfb4b85270cc",
+  "events_reconciliations_and_source_hashes_exact": true,
+  "accounts_not_rerun_for_whitespace_only": true
+}

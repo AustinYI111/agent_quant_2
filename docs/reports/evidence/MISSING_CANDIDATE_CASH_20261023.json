@@ -1,0 +1,51 @@
+{
+  "schema": "candidate_reviewed_valuation_events_v1",
+  "status": "two_missing_cash_and_six_reference_events_verified",
+  "payments": {
+    "schema": "official_missing_valuation_cash_supplement_v1",
+    "added_events": 2,
+    "source_hashes": {
+      "artifacts/three_horizon_valuation_replay5/effective_valuation_actions.csv": "fcf7fca07b4bedf495318a96bb4c5f6df71d2f3ee253b7430e598e3deea18ca2",
+      "config/reviewed_candidate_missing_cash_20261023_v1.json": "1c8f4626d3b70b25382cbafa36df146b2e38686f0a3b4958a1d2051c9a3fda09",
+      "artifacts/phase2/official_candidate_references_20261022/000538_20250924/1224663922.PDF": "8658b2d0a01f6d51d64a03bbaae9a28515594e9572bbb773275284e80b6b3eec",
+      "artifacts/phase2/official_candidate_references_20261022/000538_20250924/manifest.json": "49ae69b247526411fe97c0b732140ba9a9494215f046998b3ba8db39ef2d4d5e",
+      "artifacts/phase2/official_candidate_references_20261022/002911_20250220/1222524319.PDF": "cf7f1688fa558a5a83087915031face253958db0c445723f9d72da9f55a9e87a",
+      "artifacts/phase2/official_candidate_references_20261022/002911_20250220/manifest.json": "1405117c3a654a71c424b6c46446c91fde6c25acfd8fea3ebb4097233ad2d746"
+    },
+    "existing_entitlements_unchanged": true,
+    "missing_entitlements_corrected": true,
+    "training_features_or_labels_changed": false,
+    "independent_payment_confirmation": false,
+    "historical_vintages_certified": false,
+    "limitation": "Missing from the sealed valuation event input, not a claim that all vendor responses were empty. Announced primary cash and dates; no bank-payment confirmation."
+  },
+  "references": {
+    "schema": "reviewed_candidate_valuation_reference_overlay_v1",
+    "events": 6,
+    "source_hashes": {
+      "config/reviewed_candidate_valuation_refs_20261022_v1.json": "93849ebc899af0c0513d71b2fede42326a8efcbeaaa13e83bb688e21d7a82e09",
+      "artifacts/phase2/official_candidate_references_20261022/300308_20240606/1220213405.PDF": "43776bd0a4bd26d2b5660fedd1724041103f4bee1505844dfc61de15a4658a1b",
+      "artifacts/phase2/official_candidate_references_20261022/300308_20240606/manifest.json": "1a5731666b884c83d02e7f98a7384ce5a25ec634902ea91a39f51d889223fb78",
+      "artifacts/phase2/official_candidate_references_20261022/600873_20220726/1214060539.PDF": "345e482d7a55d423646267479e4c90fe5d7ab4b3ca9ef97eb94cbe4e19080b86",
+      "artifacts/phase2/official_candidate_references_20261022/600873_20220726/manifest.json": "a74c83b42c33c1209db496d77ff2d6cf6fb48c79f60f3eb982d94a3c220774b4",
+      "artifacts/phase2/official_candidate_references_20261022/600694_20230607/1216944428.PDF": "74785df5af1746a658ea00fc8f3fba16c4e6d8df6d7a802313f692407b9b8a7b",
+      "artifacts/phase2/official_candidate_references_20261022/600694_20230607/manifest.json": "820993bfb3a81d365dbc78e4dac18a0ab2fbafe5413eb0e99d375fa15656d76e",
+      "artifacts/phase2/official_candidate_references_20261022/300760_20220519/1213323180.PDF": "c1c1447f63bbc9d6d7cbc25a70ef80b83b33faa4734a34218aac1df2e1eb623a",
+      "artifacts/phase2/official_candidate_references_20261022/300760_20220519/manifest.json": "331ee6e7ae4534f24143782faf4ac719825f1cf375e9ad79552091b87ce5be1d",
+      "artifacts/phase2/official_candidate_references_20261022/002432_20240604/1220185644.PDF": "331ef61c31b383ea980ddb62bfc053b5bd2d235b3d6f2b276b0f278df91dc365",
+      "artifacts/phase2/official_candidate_references_20261022/002432_20240604/manifest.json": "f7bec820b6d9d96487832f2155c04b4de52a99d569890517848b1521f8eed1f0",
+      "artifacts/phase2/official_candidate_references_20261022/600104_20230719/1217273560.PDF": "aa9749ed7a3040202ff626e18dd1f1e51845ce1aa468a7140696ae54f6bfaaf8",
+      "artifacts/phase2/official_candidate_references_20261022/600104_20230719/manifest.json": "812ddec79121e84f5c09d6e6d2b229de20c641bcffc8774a517707e82866b454"
+    },
+    "actual_holder_economics_changed": false,
+    "training_features_or_labels_changed": false,
+    "first_observed_clocks_preserved": true,
+    "historical_vintages_certified": false
+  },
+  "events": 27657,
+  "output_sha256": "772740b7d83342c93071c566d87c0f1e7b97b7377eefe4a8280da0292a0388f8",
+  "models_retrained": false,
+  "original_files_changed": false,
+  "independent_data_used": false,
+  "certified": false
+}

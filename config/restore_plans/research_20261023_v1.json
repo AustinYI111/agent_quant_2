@@ -1,0 +1,23 @@
+{
+  "schema": "private_research_restore_plan_v1",
+  "repository": "AustinYI111/agent_quant_2-backups",
+  "layers": [
+    {
+      "tag": "backup-real-research-20261020",
+      "asset": "pqr-real-research-20261020.pqr",
+      "sha256": "3dc6606fb7a5fd2b728896e3945382659b318c6d38081e09ddefb965ce014ff7",
+      "bytes": 1503141560
+    },
+    {
+      "tag": "backup-phase2-research-20261023-v1",
+      "asset": "pqr-phase2-research-20261023-v1.pqr",
+      "sha256": "8632c556295d82dcf6dfef0cda9d00ff8e227b999ea7f3c41c55623b026cbe60",
+      "bytes": 948279235
+    }
+  ],
+  "verified_restore_code_commit": "6935f29d96aafdeee78123ef0f23bc2c4771b297",
+  "artifact_compatible_code_commit": "80f0639f025893f90e505a4bc27876db1b13a16e",
+  "created_at_utc": "2026-10-23T03:07:48.793760+00:00",
+  "snapshot_scope": "Base real-research state plus phase2 checkpoint sealed before subsequent industry extraction v2; candidates remain research-only.",
+  "password_included": false
+}

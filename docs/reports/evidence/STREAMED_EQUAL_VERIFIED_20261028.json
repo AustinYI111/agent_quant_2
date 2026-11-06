@@ -1,0 +1,88 @@
+{
+  "schema": "streamed_equal_seven_reference_checkpoint_v1",
+  "recorded_at_utc": "2026-10-28T04:20:37.405950+00:00",
+  "producer_manifest_sha256": "855e9bb045445356b0d7e6d3f7595876ba336293c7ac03599b3ac8e331ce43d3",
+  "independent_manifest_sha256": "64c1ba40f6be3cdc5c32a2eb39243fff344cd4c50928a3b494e08929479e4011",
+  "quote_independent_receipt_sha256": "502e95ab8c10ed664573b0faf2926f6e04baebe3a50988d4364b286673783794",
+  "reference_events": 7,
+  "actual_holder_terms_changed": false,
+  "accounts": [
+    {
+      "horizon": "5d",
+      "status": "incomplete_held_valuation",
+      "first_signal": "2021-08-03",
+      "requested_end": "2025-12-25",
+      "symbol": "sz.002142",
+      "date": "2021-12-02",
+      "reason": "reference",
+      "valid_sessions": 79,
+      "orders": 58465,
+      "positive_holdings_at_stop": 3728
+    },
+    {
+      "horizon": "20d",
+      "status": "incomplete_held_valuation",
+      "first_signal": "2021-08-03",
+      "requested_end": "2025-12-18",
+      "symbol": "sz.002142",
+      "date": "2021-12-02",
+      "reason": "reference",
+      "valid_sessions": 79,
+      "orders": 14569,
+      "positive_holdings_at_stop": 3709
+    },
+    {
+      "horizon": "12m",
+      "status": "incomplete_held_valuation",
+      "first_signal": "2021-07-30",
+      "requested_end": "2025-09-02",
+      "symbol": "sz.002142",
+      "date": "2021-12-02",
+      "reason": "reference",
+      "valid_sessions": 81,
+      "orders": 3537,
+      "positive_holdings_at_stop": 3535
+    }
+  ],
+  "independent_prefix_checks": [
+    {
+      "status": "valid_prefix_independently_reconciled",
+      "sessions": 79,
+      "orders_checked": 58465,
+      "max_absolute_reconciliation_error": 4.7187947993521107e-14,
+      "max_day_quotes": 4559,
+      "holdings_at_stop_checked": true,
+      "full_period_performance_verified": false,
+      "horizon": "5d"
+    },
+    {
+      "status": "valid_prefix_independently_reconciled",
+      "sessions": 79,
+      "orders_checked": 14569,
+      "max_absolute_reconciliation_error": 3.6178850713886046e-14,
+      "max_day_quotes": 4559,
+      "holdings_at_stop_checked": true,
+      "full_period_performance_verified": false,
+      "horizon": "20d"
+    },
+    {
+      "status": "valid_prefix_independently_reconciled",
+      "sessions": 81,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066e-14,
+      "max_day_quotes": 4559,
+      "holdings_at_stop_checked": true,
+      "full_period_performance_verified": false,
+      "horizon": "12m"
+    }
+  ],
+  "complete_accounts": 0,
+  "full_period_performance_available": false,
+  "peak_replay_working_set_mb": 233.74609375,
+  "all_quote_reference_faults_not_actual_holding_errors": 1549,
+  "model_selection_performed": false,
+  "formal_model_promoted": false,
+  "independent_data_used": false,
+  "phase2_complete": false,
+  "backup_and_restore_deferred": true
+}

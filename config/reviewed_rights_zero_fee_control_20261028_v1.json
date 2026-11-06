@@ -1,0 +1,104 @@
+{
+  "schema": "ordinary_rights_evidence_v1",
+  "recorded_at_utc": "2026-10-28T10:22:36.839726+00:00",
+  "original_vintages_verified": false,
+  "result_preopen_timestamp_verified": false,
+  "events": [
+    {
+      "terms": {
+        "event_id": "sz.002142_20211123_rights",
+        "symbol": "sz.002142",
+        "offer_publication_date": "2021-11-19",
+        "record_date": "2021-11-23",
+        "subscription_start": "2021-11-24",
+        "subscription_end": "2021-11-30",
+        "expected_result_date": "2021-12-02",
+        "offer_ratio": "0.10",
+        "subscription_price": "19.97",
+        "outcome": "success",
+        "result_publication_date": "2021-12-02",
+        "ex_date": "2021-12-02",
+        "registered_ordinary_shares": 6008016286,
+        "issued_ordinary_shares": 595574506,
+        "quoted_exchange_ratio_per_10": "0.991299",
+        "aggregate_subscription_cash": "11893622884.82",
+        "listing_publication_date": "2021-12-13",
+        "tradable_from": "2021-12-15",
+        "post_issue_ordinary_shares": 6603590792,
+        "refund_date": null,
+        "subscription_fee_bps": 0.0,
+        "reference_ratio_basis": "issued_shares_over_preissue_total",
+        "fee_basis": "Issuer offer page12: no shareholder subscription commission, transfer fee, stamp duty or issuance handling fee."
+      },
+      "sources": {
+        "offer": {
+          "source_file": "research/rights_002142_sources_20261028_v1/1211627064.PDF",
+          "source_sha256": "eeb07c5bac99234b7453815cc92b3d49fb780fd25dce2f96ae3ba36280ef9079",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2021-11-19/1211627064.PDF",
+          "capture_file": "research/rights_002142_sources_20261028_v1/manifest.json",
+          "capture_sha256": "81db39f01818201a0695242967c8822eb09650e4826050d87618a10a3aa9cfa8",
+          "observed_at_utc": "2026-10-28T04:25:25.286870+00:00",
+          "reviewed_at_utc": "2026-10-28T10:22:36.805174+00:00",
+          "reviewed": true,
+          "reviewed_pages": [
+            2,
+            3,
+            8,
+            9,
+            12
+          ],
+          "parameter_pages": {
+            "record_date": 2,
+            "subscription_start": 8,
+            "subscription_end": 9,
+            "offer_ratio": 2,
+            "subscription_price": 3,
+            "expected_result_date": 8,
+            "subscription_fee_bps": 12
+          }
+        },
+        "result": {
+          "source_file": "research/rights_002142_sources_20261028_v1/1211763892.PDF",
+          "source_sha256": "4375dadafc13620b5069c538b488c4f90f41bddabd6afa71d3aa1bd42e8eff80",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2021-12-02/1211763892.PDF",
+          "capture_file": "research/rights_002142_sources_20261028_v1/manifest.json",
+          "capture_sha256": "81db39f01818201a0695242967c8822eb09650e4826050d87618a10a3aa9cfa8",
+          "observed_at_utc": "2026-10-28T04:25:23.177865+00:00",
+          "reviewed_at_utc": "2026-10-28T08:59:25.844487+00:00",
+          "reviewed": true,
+          "reviewed_pages": [
+            2,
+            4
+          ],
+          "parameter_pages": {
+            "outcome": 4,
+            "ex_date": 4,
+            "registered_ordinary_shares": 2,
+            "issued_ordinary_shares": 2,
+            "aggregate_subscription_cash": 2
+          }
+        },
+        "listing": {
+          "source_file": "research/rights_002142_sources_20261028_v1/1211875623.PDF",
+          "source_sha256": "e939a7dac8221372fb98cc05fa9b990deae6b4d4a49a81d331b877229853754d",
+          "source_url": "https://static.cninfo.com.cn/finalpage/2021-12-13/1211875623.PDF",
+          "capture_file": "research/rights_002142_sources_20261028_v1/manifest.json",
+          "capture_sha256": "81db39f01818201a0695242967c8822eb09650e4826050d87618a10a3aa9cfa8",
+          "observed_at_utc": "2026-10-28T04:25:20.985211+00:00",
+          "reviewed_at_utc": "2026-10-28T08:59:25.855485+00:00",
+          "reviewed": true,
+          "reviewed_pages": [
+            1,
+            2
+          ],
+          "parameter_pages": {
+            "tradable_from": 1,
+            "post_issue_ordinary_shares": 2
+          }
+        }
+      }
+    }
+  ],
+  "scope": "Single bank zero-declared-fee control; isolates fee-source correction from adding the second rights event.",
+  "parent_config_sha256": "d2a7beeed8a158f9ddc67dc7a2b14192454c301ddfec9b34c2b9c68898b2627b"
+}

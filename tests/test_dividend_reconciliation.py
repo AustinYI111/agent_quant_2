@@ -81,3 +81,20 @@ def test_future_execution_is_separately_audited_not_missing_payment(tmp_path):
     result=reconcile_dividend_sources(*args)
     assert result["status_counts"]["outside_evaluation_window"]==1 and result["in_scope_records"]==2
     assert "unresolved" not in result["status_counts"] and result["matched_events"]==1
+
+
+def test_outside_window_cdr_is_not_an_in_window_payment_gap(tmp_path):
+    args=inputs(tmp_path)
+    file=args[0]/"2017Q4/records.csv"
+    frame=pd.read_csv(file)
+    frame.loc[1,"SECUCODE"]="689009.SH"
+    frame.loc[1,"EX_DIVIDEND_DATE"]="2018-06-29"
+    frame.to_csv(file,index=False)
+    path=args[0]/"manifest.json"
+    manifest=json.loads(path.read_text(encoding="utf-8"))
+    manifest["periods"]["2017-12-31"]["hashes"]["records.csv"]=hashlib.sha256(file.read_bytes()).hexdigest()
+    path.write_text(json.dumps(manifest),encoding="utf-8")
+    result=reconcile_dividend_sources(*args)
+    assert result["status_counts"]["outside_evaluation_window"]==1
+    assert result["matched_events"]==1
+    assert "unresolved" not in result["status_counts"]

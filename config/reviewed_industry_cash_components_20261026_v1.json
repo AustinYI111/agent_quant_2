@@ -1,0 +1,45 @@
+{
+  "schema": "official_research_cash_completion_v1",
+  "expected_parent_actions_sha256": "0fd7c38157cc08504dd5c06ab6f2c7dac1439307d7ec895d037034812adba2c8",
+  "events": [
+    {
+      "symbol": "sh.601898",
+      "ex_date": "2024-08-20",
+      "announcement_date": "2024-08-13",
+      "available_date": "2024-08-14",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2024-08-13/1220848913.PDF",
+      "source_sha256": "a4f0ab455d78f3ff1681b5de6583a8957cc6127eb455a57168b5e8f835a575cc",
+      "source_page": 1,
+      "reviewed": true,
+      "source_file": "artifacts/phase2/official_candidate_references_20261022/601898_20240820_industry_20261026_title2/1220848913.PDF",
+      "source_capture_file": "artifacts/phase2/official_candidate_references_20261022/601898_20240820_industry_20261026_title2/manifest.json",
+      "source_capture_sha256": "8c05b4b89c568ed5d2f15a9057450b4028c4e97a4cb264ae161e99ebc73fa88a",
+      "observed_at_utc": "2026-10-26T01:17:53.555536+00:00",
+      "reviewed_at_utc": "2026-10-26T01:26:27.000706+00:00",
+      "payment_source_page": 2,
+      "pay_date": "2024-08-20",
+      "cash_per_share": 0.555,
+      "share_multiplier": 1.0,
+      "reference_cash_per_share": 0.555,
+      "payout_scope": "ordinary_a_share_holders",
+      "components": [
+        {
+          "id": "annual_2023",
+          "cash_per_share": 0.442
+        },
+        {
+          "id": "special_2023",
+          "cash_per_share": 0.113
+        }
+      ],
+      "expected_existing": {
+        "cash_per_share": 0.442,
+        "share_multiplier": 1.0,
+        "pay_date": "2024-08-20",
+        "available_date": "2024-08-14",
+        "reference_cash_per_share": null,
+        "reference_share_multiplier": null
+      }
+    }
+  ]
+}

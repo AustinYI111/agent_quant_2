@@ -96,7 +96,9 @@ def restore(archive, out, password):
     target=Path(out).resolve()
     if target.exists() and any(target.iterdir()): raise ValueError('restore output must be empty')
     target.parent.mkdir(parents=True,exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="pqr-private-",dir=target.parent) as temporary:
+    # Keep authenticated staging out of the destination tree: nesting long
+    # Windows project paths can exceed MAX_PATH before installation.
+    with tempfile.TemporaryDirectory(prefix="pqr-private-") as temporary:
         plain=Path(temporary)/'private.zip'; crypt(archive,plain,password,decrypt=True)
         with zipfile.ZipFile(plain) as zipped:
             names=zipped.namelist()
