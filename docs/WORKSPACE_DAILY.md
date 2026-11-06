@@ -98,3 +98,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 [送转来源v4：等权基准六组独立核账至2022-04-25](reports/PENDING_LISTING_SOURCE_EXTENSION_V4_20261106.md)。
 
 [11月5日补采：事后排名与既有预测跟踪](reports/LATE_CLOSE_20261105_OBSERVED_20261106.md)。
+
+[11月6日盘中输入：财务独立核验完成，17份分红原公告待审](reports/INTRADAY_INPUTS_20261106.md)。
