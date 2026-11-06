@@ -94,3 +94,5 @@ python scripts/audit_archived_paper_followup.py --project . --work-root $WorkRoo
 [不确定上市日独立研究路径：六组核账至2022-03-22](reports/PENDING_LISTING_INVARIANCE_20261105.md)，严格路径原结果单独保留。
 
 [新增11项送转条款：等权基准六组独立核账至2022-04-15](reports/PENDING_LISTING_SOURCE_EXTENSION_20261105.md)，下一来源缺项300835。
+
+[送转来源v4：等权基准六组独立核账至2022-04-25](reports/PENDING_LISTING_SOURCE_EXTENSION_V4_20261106.md)。

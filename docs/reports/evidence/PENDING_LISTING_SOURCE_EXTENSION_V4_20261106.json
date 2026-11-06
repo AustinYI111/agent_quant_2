@@ -1,0 +1,510 @@
+{
+  "schema": "pending_listing_source_extension_v4_delivery_v1",
+  "verified_at_utc": "2026-11-06T11:08:24.808886+08:00",
+  "scope": "Eligible-pool equal-weight baselines; not LightGBM strategy portfolios.",
+  "source_manifest_sha256": "ac84b45e0bf1751e554c9975ca86b1ef1078f2776c064606b0a0775e3807fb0d",
+  "independent_audit_manifest_sha256": "8176c1b029192cc15698b749e96953a8f8b7234b703562000739286b69aa56be",
+  "admission_sha256": "c45bed9d6bbcc86ca9ee98d671b008da9c292c82adeb2a9243551e027624b4e3",
+  "seal_sha256": "7de8c63f9e18d4914b92baee8190e240c22ceb7b6f69fb56088deea66d6fe4eb",
+  "protocol_sha256": "80015da615793a0d33614da9a6478260f70677a93bd5f84cbe02937c38012ee7",
+  "code_hashes": {
+    "ordinary_share_settlement.py": "ba00baa34c01d84d0140cffe75e20a34c92ce61452ecd1303f929a96c5c02a4b",
+    "pending_listing_account.py": "803e08674a9c764493fbc45de8b9215551d42dbb142a023c3dcc5312a46e5ce7",
+    "pending_listing_audit.py": "2084bd92693634927e5a7ac5458f8a7e50c5b8e345d9510986ea0e3b45ddbeeb"
+  },
+  "sealed_before_real_run": true,
+  "known_listing_contracts": 37,
+  "pending_profile_contracts": 38,
+  "source_files_bound": 157,
+  "new_reviewed_notices": 8,
+  "new_visually_reviewed_pages": 29,
+  "prior_v3_csv_prefix_checks": 36,
+  "prior_v3_csv_prefixes_byte_identical": true,
+  "accounts": [
+    {
+      "horizon": "5d",
+      "policy": "cash_limited_subscribe",
+      "sessions": 174,
+      "orders_checked": 128596,
+      "max_absolute_reconciliation_error": 4.741519676887407E-14,
+      "next_stop": {
+        "date": "2022-04-26",
+        "symbol": "sh.603601",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "5ad3d59045a4225657dae76d433e2a361ff64d9f1d14864bafb4785655a60121",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-25",
+      "unresolved_bonus_never_unlocked": true,
+      "daily_reconstruction_sha256": "76eca0ed84064b711a1a14489a69a9623dbb3b290b10b98943ffa53f62414f1a"
+    },
+    {
+      "horizon": "20d",
+      "policy": "cash_limited_subscribe",
+      "sessions": 174,
+      "orders_checked": 33631,
+      "max_absolute_reconciliation_error": 4.7406523151494184E-14,
+      "next_stop": {
+        "date": "2022-04-26",
+        "symbol": "sh.603179",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "2f9dd18a99fc50b1bf389db83e677ef20854a724a711d83fbae7d431792fc762",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-25",
+      "unresolved_bonus_never_unlocked": true,
+      "daily_reconstruction_sha256": "95955853d4fc4075efce1cf1cac8e910a683ad11f2be346f21ace9be9563d17d"
+    },
+    {
+      "horizon": "12m",
+      "policy": "cash_limited_subscribe",
+      "sessions": 176,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066E-14,
+      "next_stop": {
+        "date": "2022-04-26",
+        "symbol": "sh.603179",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "dbf1f93e1c8d3e1a97fd458f35308682af0f1d93c786a2cc4d695b4d513f01f1",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-25",
+      "unresolved_bonus_never_unlocked": true,
+      "daily_reconstruction_sha256": "455bdd66a7546864d4b98572ee726adc716c3bb002b383b2c5e8062401aa2fc1"
+    },
+    {
+      "horizon": "5d",
+      "policy": "decline",
+      "sessions": 174,
+      "orders_checked": 128596,
+      "max_absolute_reconciliation_error": 4.741519676887407E-14,
+      "next_stop": {
+        "date": "2022-04-26",
+        "symbol": "sh.603601",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "5ad3d59045a4225657dae76d433e2a361ff64d9f1d14864bafb4785655a60121",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-25",
+      "unresolved_bonus_never_unlocked": true,
+      "daily_reconstruction_sha256": "7148488397cb043af7eca21178666470bf67a01fda2cb1f3e15c607d54c795a3"
+    },
+    {
+      "horizon": "20d",
+      "policy": "decline",
+      "sessions": 174,
+      "orders_checked": 33631,
+      "max_absolute_reconciliation_error": 5.440092820663267E-14,
+      "next_stop": {
+        "date": "2022-04-26",
+        "symbol": "sh.603179",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "2f9dd18a99fc50b1bf389db83e677ef20854a724a711d83fbae7d431792fc762",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-25",
+      "unresolved_bonus_never_unlocked": true,
+      "daily_reconstruction_sha256": "726811e211398975bb7d28e20f73e2fbce9607afb1c8717bc0bf1626da96be0b"
+    },
+    {
+      "horizon": "12m",
+      "policy": "decline",
+      "sessions": 176,
+      "orders_checked": 3537,
+      "max_absolute_reconciliation_error": 5.784261958297066E-14,
+      "next_stop": {
+        "date": "2022-04-26",
+        "symbol": "sh.603179",
+        "reason": "ordinary_listing_unknown"
+      },
+      "original_schedule_sha256": "dbf1f93e1c8d3e1a97fd458f35308682af0f1d93c786a2cc4d695b4d513f01f1",
+      "stopped_state_checked": true,
+      "last_valid_session": "2022-04-25",
+      "unresolved_bonus_never_unlocked": true,
+      "daily_reconstruction_sha256": "e5cfaaf387943f03a8b9160fc386b09ce50883148a5765f7db933f9064d54e83"
+    }
+  ],
+  "new_cases": [
+    {
+      "symbol": "sz.001205",
+      "record_date": "2022-04-15",
+      "ex_date": "2022-04-18",
+      "tradable_from": "2022-04-18",
+      "announcement_date": "2022-04-08",
+      "available_date": "2022-04-11",
+      "expected_cash_per_share": 0.13,
+      "expected_share_multiplier": 1.4,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/001205_20220418/1212837735.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/001205_20220418/manifest.json",
+      "source_sha256": "58fd30bc81c0b28c65c7cf6b527953993f243b0619882e5eb32ca66d5ae6fdfc",
+      "source_capture_sha256": "694d634d89cdcdf08270f441401e216d935aeff7de423050591f7cc4c2c36ad8",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-08/1212837735.PDF",
+      "observed_at_utc": "2026-11-05T10:46:47.655124+08:00",
+      "reviewed_at_utc": "2026-11-05T10:53:28.704169+08:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          2
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "physical_credit_date": "2022-04-18",
+      "reviewed_captured_notice_pages": {
+        "1212837735.PDF": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "review_scope": "All 4 original pages visually reviewed. Actual gross ordinary-holder cash and total share multiplier are separate from legal tradability. Explicit new unrestricted listing date retained; physical credit date recorded only when expressly dated. Actual observation and review clocks retained; no historical byte-vintage certification."
+    },
+    {
+      "symbol": "sz.300835",
+      "record_date": "2022-04-15",
+      "ex_date": "2022-04-18",
+      "tradable_from": "2022-04-18",
+      "announcement_date": "2022-04-11",
+      "available_date": "2022-04-12",
+      "expected_cash_per_share": 0.2,
+      "expected_share_multiplier": 1.7,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_listing_300835_sources_20261105_v1/300835_20220418_original/1212885623.PDF",
+      "source_capture_file": "@work/research/ordinary_listing_300835_sources_20261105_v1/300835_20220418_original/manifest.json",
+      "source_sha256": "02d833bb4fe125dc14c3e9ade7e5360dec0d61fb065b47088d2fac1ead2244f3",
+      "source_capture_sha256": "9f3928d2c2425e9ef0167d597f2d2d1a848dd147bc89886384e79eebcff1a7bd",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-11/1212885623.PDF",
+      "observed_at_utc": "2026-11-05T10:35:51.709707+08:00",
+      "reviewed_at_utc": "2026-11-05T10:53:28.704169+08:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          2
+        ]
+      },
+      "physical_credit_date": "2022-04-18",
+      "reviewed_captured_notice_pages": {
+        "1212885623.PDF": [
+          1,
+          2,
+          3
+        ]
+      },
+      "review_scope": "All 3 original pages visually reviewed. Actual gross ordinary-holder cash and total share multiplier are separate from legal tradability. Explicit new unrestricted listing date retained; physical credit date recorded only when expressly dated. Actual observation and review clocks retained; no historical byte-vintage certification."
+    },
+    {
+      "symbol": "sz.300059",
+      "record_date": "2022-04-19",
+      "ex_date": "2022-04-20",
+      "tradable_from": "2022-04-20",
+      "announcement_date": "2022-04-13",
+      "available_date": "2022-04-14",
+      "expected_cash_per_share": 0.08,
+      "expected_share_multiplier": 1.2,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300059_20220420/1212898607.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300059_20220420/manifest.json",
+      "source_sha256": "303b5fe916b3b53904431d4b14fb1fda7e78be2cb2cde4543ac16c138955e2af",
+      "source_capture_sha256": "7c38ff4ac09040a7f094dc0f5a33b939d42bc40becf84e1d17eb680b6b8148e4",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-13/1212898607.PDF",
+      "observed_at_utc": "2026-11-05T10:46:48.221556+08:00",
+      "reviewed_at_utc": "2026-11-05T10:53:28.704169+08:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": "2022-04-20",
+      "reviewed_captured_notice_pages": {
+        "1212898607.PDF": [
+          1,
+          2,
+          3
+        ]
+      },
+      "review_scope": "All 3 original pages visually reviewed. Actual gross ordinary-holder cash and total share multiplier are separate from legal tradability. Explicit new unrestricted listing date retained; physical credit date recorded only when expressly dated. Actual observation and review clocks retained; no historical byte-vintage certification."
+    },
+    {
+      "symbol": "sz.300688",
+      "record_date": "2022-04-19",
+      "ex_date": "2022-04-20",
+      "tradable_from": "2022-04-20",
+      "announcement_date": "2022-04-13",
+      "available_date": "2022-04-14",
+      "expected_cash_per_share": 0.06,
+      "expected_share_multiplier": 1.5,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300688_20220420/1212899442.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300688_20220420/manifest.json",
+      "source_sha256": "97e6c89176afed652bb51a65351555a17a3cf7176551e53e08af4aea35aa2501",
+      "source_capture_sha256": "daf3efd36cdbb855f10e45f620e18a0620f55506bf6af9c22139040627d871f9",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-13/1212899442.PDF",
+      "observed_at_utc": "2026-11-05T10:46:48.906177+08:00",
+      "reviewed_at_utc": "2026-11-05T10:53:28.704169+08:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": "2022-04-20",
+      "reviewed_captured_notice_pages": {
+        "1212899442.PDF": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "review_scope": "All 4 original pages visually reviewed. Actual gross ordinary-holder cash and total share multiplier are separate from legal tradability. Explicit new unrestricted listing date retained; physical credit date recorded only when expressly dated. Actual observation and review clocks retained; no historical byte-vintage certification."
+    },
+    {
+      "symbol": "sh.603392",
+      "record_date": "2022-04-20",
+      "ex_date": "2022-04-21",
+      "tradable_from": "2022-04-22",
+      "announcement_date": "2022-04-15",
+      "available_date": "2022-04-18",
+      "expected_cash_per_share": 0.2,
+      "expected_share_multiplier": 1.45,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603392_20220421/1212921735.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603392_20220421/manifest.json",
+      "source_sha256": "0ee03e64cad8b1b2ed6a2164f212f3d0ece474a99efa52f0dbcde2b021ecc7d1",
+      "source_capture_sha256": "56da3d06042d0be5200e33e2ddccbfe66205ebac2c6eca181949bf0e8bf54f59",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-15/1212921735.PDF",
+      "observed_at_utc": "2026-11-05T10:46:49.453263+08:00",
+      "reviewed_at_utc": "2026-11-05T10:53:28.704169+08:00",
+      "parameter_pages": {
+        "record_date": [
+          1,
+          2
+        ],
+        "ex_date": [
+          1,
+          2
+        ],
+        "tradable_from": [
+          1,
+          2
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": null,
+      "reviewed_captured_notice_pages": {
+        "1212921735.PDF": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "review_scope": "All 4 original pages visually reviewed. Actual gross ordinary-holder cash and total share multiplier are separate from legal tradability. Explicit new unrestricted listing date retained; physical credit date recorded only when expressly dated. Actual observation and review clocks retained; no historical byte-vintage certification. Total ordinary multiplier1.45 combines .2 stock dividend and .25 capital-reserve bonus per original share. Cash.2 is gross; personal dividend taxation is not modeled."
+    },
+    {
+      "symbol": "sz.300568",
+      "record_date": "2022-04-20",
+      "ex_date": "2022-04-21",
+      "tradable_from": "2022-04-21",
+      "announcement_date": "2022-04-14",
+      "available_date": "2022-04-15",
+      "expected_cash_per_share": 0.0498357,
+      "expected_share_multiplier": 1.4983573,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300568_20220421/1212919236.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300568_20220421/manifest.json",
+      "source_sha256": "e69289c37b6d7204cb32383a723c62a170f32c075efa9e55a258a5fabdaaef4c",
+      "source_capture_sha256": "fccff2ca4d33ae799ec554efa799f57865c7b41224b686b6f9925ec8a2c755cd",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-14/1212919236.PDF",
+      "observed_at_utc": "2026-11-05T10:46:49.999715+08:00",
+      "reviewed_at_utc": "2026-11-05T10:53:28.704169+08:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          3
+        ],
+        "cash_per_share": [
+          1,
+          2
+        ],
+        "share_multiplier": [
+          1,
+          2
+        ]
+      },
+      "physical_credit_date": "2022-04-21",
+      "reviewed_captured_notice_pages": {
+        "1212919236.PDF": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "review_scope": "All 4 original pages visually reviewed. Actual gross ordinary-holder cash and total share multiplier are separate from legal tradability. Explicit new unrestricted listing date retained; physical credit date recorded only when expressly dated. Actual observation and review clocks retained; no historical byte-vintage certification. Pages1/2 explicitly change actual holder terms after share-capital changes under fixed aggregate payout/bonus totals: 0.498357 yuan cash and4.983573 bonus shares per10. These are actual implementation terms, NOT virtual quote-only references. Proposal cash .05/multiplier1.5 is superseded, never substituted. Original base768408503, implementation base770941353; original proposal .5yuan/5bonus per10; published implementation decimals retained without inventing a rounding policy."
+    },
+    {
+      "symbol": "sh.603866",
+      "record_date": "2022-04-21",
+      "ex_date": "2022-04-22",
+      "tradable_from": "2022-04-25",
+      "announcement_date": "2022-04-16",
+      "available_date": "2022-04-18",
+      "expected_cash_per_share": 0.6,
+      "expected_share_multiplier": 1.4,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603866_20220422/1212939654.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/603866_20220422/manifest.json",
+      "source_sha256": "d4bd0e71e788eee525711845bc76ef156f2a99660e67dd8870b489fce34676a5",
+      "source_capture_sha256": "e23a670dc1561e5a1174c445d8d75e8575b313946083121193eb3f0726005d86",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-16/1212939654.PDF",
+      "observed_at_utc": "2026-11-05T10:46:50.820757+08:00",
+      "reviewed_at_utc": "2026-11-05T10:53:28.704169+08:00",
+      "parameter_pages": {
+        "record_date": [
+          1,
+          2
+        ],
+        "ex_date": [
+          1,
+          2
+        ],
+        "tradable_from": [
+          1,
+          2
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": null,
+      "reviewed_captured_notice_pages": {
+        "1212939654.PDF": [
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "review_scope": "All 4 original pages visually reviewed. Actual gross ordinary-holder cash and total share multiplier are separate from legal tradability. Explicit new unrestricted listing date retained; physical credit date recorded only when expressly dated. Actual observation and review clocks retained; no historical byte-vintage certification."
+    },
+    {
+      "symbol": "sz.300848",
+      "record_date": "2022-04-21",
+      "ex_date": "2022-04-22",
+      "tradable_from": "2022-04-22",
+      "announcement_date": "2022-04-15",
+      "available_date": "2022-04-18",
+      "expected_cash_per_share": 0.2,
+      "expected_share_multiplier": 1.5,
+      "reviewed": true,
+      "source_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300848_20220422/1212919470.PDF",
+      "source_capture_file": "@work/research/ordinary_lateapr2022_sources_20261105_v1/300848_20220422/manifest.json",
+      "source_sha256": "4834bbdf2d0378d9ca4f7e776be9dbdf17fda76c20d670893b0609d0b2ad0f9b",
+      "source_capture_sha256": "73d0dcafd2486fb0ae02cb6476efc9c91b11911bcb7344d44df9702f92ab489f",
+      "source_url": "https://static.cninfo.com.cn/finalpage/2022-04-15/1212919470.PDF",
+      "observed_at_utc": "2026-11-05T10:46:51.54808+08:00",
+      "reviewed_at_utc": "2026-11-05T10:53:28.704169+08:00",
+      "parameter_pages": {
+        "record_date": [
+          2
+        ],
+        "ex_date": [
+          2
+        ],
+        "tradable_from": [
+          2
+        ],
+        "cash_per_share": [
+          1
+        ],
+        "share_multiplier": [
+          1
+        ]
+      },
+      "physical_credit_date": "2022-04-22",
+      "reviewed_captured_notice_pages": {
+        "1212919470.PDF": [
+          1,
+          2,
+          3
+        ]
+      },
+      "review_scope": "All 3 original pages visually reviewed. Actual gross ordinary-holder cash and total share multiplier are separate from legal tradability. Explicit new unrestricted listing date retained; physical credit date recorded only when expressly dated. Actual observation and review clocks retained; no historical byte-vintage certification."
+    }
+  ],
+  "runtime_code_changed": false,
+  "listing_dates_certified": false,
+  "default_rights_policy_confirmed": false,
+  "strict_profile_last_valid_session": "2021-08-12",
+  "full_backtest_complete": false,
+  "model_selection_performed": false,
+  "profitability_proven": false,
+  "related_tests": {
+    "files": [
+      "tests/test_pending_listing_account.py",
+      "tests/test_ordinary_share_settlement.py"
+    ],
+    "failed": 0,
+    "elapsed_seconds": 20.48,
+    "passed": 70
+  }
+}
